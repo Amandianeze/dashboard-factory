@@ -11,7 +11,7 @@ The runtime (`src/renderers/vegaLiteSpec.ts`) wraps each panel spec with `$schem
 `params`, and optional `config` overrides. Validate with `npm run spec:validate` (it compiles every
 VL panel). For current docs, use the Context7 MCP (`vega-lite`).
 
-## Patterns (block-style YAML)
+## Patterns (compact; switch to block style when a line gets long)
 
 Time series, aggregated per week:
 

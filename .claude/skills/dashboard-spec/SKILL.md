@@ -24,39 +24,37 @@ datasets:
       region: nominal
       revenue: quantitative
 filters:
-  - {
-      id: region,
-      label: Region,
-      type: multiselect,
-      dataset: sales,
-      field: region,
-      appliesTo: [trend],
-    }
+  - id: region
+    label: Region
+    type: multiselect
+    dataset: sales
+    field: region
+    appliesTo: [revenue_total]
 layout:
   rows:
     - height: 132 # px; 132 for KPI rows, 300–380 for charts
       cells:
-        - { panel: revenue_total, span: 4 } # spans per row ≤ 12
+        - panel: revenue_total
+          span: 4 # spans per row ≤ 12
 panels:
   revenue_total:
-    {
-      title: Revenue,
-      dataset: sales,
-      renderer: kpi,
-      field: revenue,
-      aggregate: sum,
-      format: '$,.0f',
-    }
+    title: Revenue
+    dataset: sales
+    renderer: kpi
+    field: revenue
+    aggregate: sum
+    format: '$,.0f'
 ```
 
 ## Renderers
 
-| renderer    | required keys                                                    | notes                                               |
-| ----------- | ---------------------------------------------------------------- | --------------------------------------------------- |
-| `kpi`       | `field`, `aggregate` (sum mean min max count distinct), `format` | sum/mean need a quantitative field                  |
-| `vega-lite` | `spec` (Vega-Lite without data/width/height)                     | default for charts; see `vega-lite` skill           |
-| `d3`        | `component` (catalog name), `props`                              | props validated by the catalog propsSchema          |
-| `plotly`    | `trace: {type: scatter                                           | bar, x, y, groupBy?, aggregate?, mode?}`, `layout?` | basic bundle only |
+- **`kpi`** — `field`, `aggregate` (sum, mean, min, max, count, distinct), `format`. sum and mean
+  need a quantitative field.
+- **`vega-lite`** — `spec`: a Vega-Lite spec without data, width or height. The default for
+  charts; see the `vega-lite` skill.
+- **`d3`** — `component` (a catalog name) and `props`, validated by that entry's propsSchema.
+- **`plotly`** — `trace` with `type` (scatter or bar), `x`, `y`, and optional `groupBy`,
+  `aggregate`, `mode`; optional `layout`. Basic bundle only; see the `plotly` skill.
 
 ## Validation errors you will see
 
