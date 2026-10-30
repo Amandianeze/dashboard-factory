@@ -15,6 +15,8 @@ The dashboard id. Read `dashboards/<id>.dashboard.yaml`, then generate screensho
 
 ## Check
 
+Apply the rubric in the `chart-choice` skill; the list below is a summary.
+
 - **Purpose**: each panel answers a question implied by the spec description. Flag orphans.
 - **Chart choice**: trends over time → line; ranking → sorted bars; part-to-whole with ≤5 parts →
   stacked bar, not pie; correlation → scatter; two categorical dims × one measure → heatmap.

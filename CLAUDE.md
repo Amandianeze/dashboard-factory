@@ -15,20 +15,20 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 | `npm run new:dashboard -- <id> "<Title>"` | Scaffold a new spec (always use this; never start from a blank)     |
 | `npm run spec:schema`                     | Regenerate `dashboards/dashboard.schema.json` after schema changes  |
 | `npm run data:fixtures`                   | Regenerate deterministic fixture data in `public/data/`             |
+| `npm run data:profile`                    | Check every fixture row against declared field types; stats         |
+| `npm run panel:render -- <dash> <panel>`  | Render one panel in Chromium: screenshot, console, compiled VL spec |
 
 ## Architecture
 
-```
-dashboards/*.dashboard.yaml   ← specs (source of truth)
-src/spec/schema.ts            ← Zod schema + cross-reference checks (the contract)
-src/spec/validate.ts          ← schema + D3 catalog validation, YAML parsing
-src/components/d3/catalog.ts  ← D3 chart contracts (props schema, field props), no React
-src/components/d3/registry.tsx← catalog name → React component (TS enforces completeness)
-src/renderers/                ← PanelRenderer switch; one adapter per renderer
-src/theme/tokens.ts           ← design tokens; every renderer derives its look from here
-src/data/transforms.ts        ← pure filter/aggregate helpers (unit-tested)
-scripts/                      ← deterministic codegen + validation (no model judgment)
-```
+    dashboards/*.dashboard.yaml   ← specs (source of truth)
+    src/spec/schema.ts            ← Zod schema + cross-reference checks (the contract)
+    src/spec/validate.ts          ← schema + D3 catalog validation, YAML parsing
+    src/components/d3/catalog.ts  ← D3 chart contracts (props schema, field props), no React
+    src/components/d3/registry.tsx← catalog name → React component (TS enforces completeness)
+    src/renderers/                ← PanelRenderer switch; one adapter per renderer
+    src/theme/tokens.ts           ← design tokens; every renderer derives its look from here
+    src/data/transforms.ts        ← pure filter/aggregate helpers (unit-tested)
+    scripts/                      ← deterministic codegen + validation (no model judgment)
 
 ## Choosing a renderer (in this order)
 
@@ -62,7 +62,9 @@ scripts/                      ← deterministic codegen + validation (no model j
 - Subagents (`.claude/agents/`): `spec-author` (brief → spec), `chart-builder` (implements panels
   and D3 components), `design-reviewer` (chart choice, tokens, layout), `verifier` (runs everything,
   inspects screenshots, reports).
-- Skills (`.claude/skills/`): `dashboard-spec`, `vega-lite`, `d3-react`, `plotly`.
+- Skills (`.claude/skills/`): `dashboard-spec`, `vega-lite`, `d3-react`, `plotly` (how to write);
+  `chart-choice` (what to build); `debug-panel`, `visual-baselines` (when it breaks);
+  `datasets-and-fixtures`, `render-performance` (data); `harness-maintenance` (changing `.claude/`).
 - Commands: `/new-dashboard <brief>`, `/add-panel <dashboard-id> <what>`, `/verify`.
 - MCP (`.mcp.json`): Playwright (look at the running app), Context7 (current library docs).
 

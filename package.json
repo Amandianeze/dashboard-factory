@@ -19,7 +19,9 @@
     "spec:schema": "tsx scripts/export-schema.ts",
     "new:dashboard": "tsx scripts/new-dashboard.ts",
     "data:fixtures": "tsx scripts/generate-fixtures.ts",
-    "verify": "npm run typecheck && npm run lint && npm run spec:validate && npm run test"
+    "verify": "npm run typecheck && npm run lint && npm run spec:validate && npm run test",
+    "panel:render": "tsx scripts/render-panel.ts",
+    "data:profile": "tsx scripts/profile-fixture.ts"
   },
   "dependencies": {
     "d3": "^7.9.0",

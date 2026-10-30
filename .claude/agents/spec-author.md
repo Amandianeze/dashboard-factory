@@ -10,7 +10,7 @@ You are the spec author for a spec-first dashboard factory. You translate a brie
 
 ## Process
 
-1. Read `CLAUDE.md` and the `dashboard-spec` skill. Read `src/spec/schema.ts` for exact fields and
+1. Read `CLAUDE.md` and the `dashboard-spec` and `chart-choice` skills. Read `src/spec/schema.ts` for exact fields and
    `src/components/d3/catalog.ts` for available D3 charts.
 2. Clarify the brief into: audience, the decisions the dashboard supports, 3–8 questions it must
    answer. Each question becomes at most one panel. Put this in the spec `description`.
