@@ -1,0 +1,407 @@
+{
+  "$ref": "#/definitions/DashboardSpec",
+  "definitions": {
+    "DashboardSpec": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "number",
+          "const": 1
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "datasets": {
+          "type": "object",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "source": {
+                    "type": "string",
+                    "const": "fixture"
+                  },
+                  "path": {
+                    "type": "string",
+                    "pattern": "\\.json$"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "fields": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string",
+                      "enum": [
+                        "quantitative",
+                        "temporal",
+                        "nominal",
+                        "ordinal"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "source",
+                  "path",
+                  "fields"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "source": {
+                    "type": "string",
+                    "const": "api"
+                  },
+                  "endpoint": {
+                    "type": "string",
+                    "pattern": "^\\/"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "fields": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string",
+                      "enum": [
+                        "quantitative",
+                        "temporal",
+                        "nominal",
+                        "ordinal"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "source",
+                  "endpoint",
+                  "fields"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "select",
+                  "multiselect"
+                ]
+              },
+              "dataset": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "field": {
+                "type": "string",
+                "minLength": 1
+              },
+              "appliesTo": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "type",
+              "dataset",
+              "field",
+              "appliesTo"
+            ],
+            "additionalProperties": false
+          },
+          "default": []
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "rows": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "height": {
+                    "type": "integer",
+                    "minimum": 80,
+                    "maximum": 900,
+                    "default": 320
+                  },
+                  "cells": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "panel": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "span": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 12
+                        }
+                      },
+                      "required": [
+                        "panel",
+                        "span"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "cells"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "rows"
+          ],
+          "additionalProperties": false
+        },
+        "panels": {
+          "type": "object",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "dataset": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "renderer": {
+                    "type": "string",
+                    "const": "kpi"
+                  },
+                  "field": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "aggregate": {
+                    "type": "string",
+                    "enum": [
+                      "sum",
+                      "mean",
+                      "min",
+                      "max",
+                      "count",
+                      "distinct"
+                    ]
+                  },
+                  "format": {
+                    "type": "string",
+                    "default": ",.0f"
+                  }
+                },
+                "required": [
+                  "title",
+                  "dataset",
+                  "renderer",
+                  "field",
+                  "aggregate"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "dataset": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "renderer": {
+                    "type": "string",
+                    "const": "vega-lite"
+                  },
+                  "spec": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  }
+                },
+                "required": [
+                  "title",
+                  "dataset",
+                  "renderer",
+                  "spec"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "dataset": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "renderer": {
+                    "type": "string",
+                    "const": "d3"
+                  },
+                  "component": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "props": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "default": {}
+                  }
+                },
+                "required": [
+                  "title",
+                  "dataset",
+                  "renderer",
+                  "component"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "dataset": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "renderer": {
+                    "type": "string",
+                    "const": "plotly"
+                  },
+                  "trace": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "scatter",
+                          "bar"
+                        ]
+                      },
+                      "x": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "y": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "groupBy": {
+                        "type": "string"
+                      },
+                      "aggregate": {
+                        "type": "string",
+                        "enum": [
+                          "sum",
+                          "mean"
+                        ]
+                      },
+                      "mode": {
+                        "type": "string",
+                        "enum": [
+                          "markers",
+                          "lines",
+                          "lines+markers"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "x",
+                      "y"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "layout": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "default": {}
+                  }
+                },
+                "required": [
+                  "title",
+                  "dataset",
+                  "renderer",
+                  "trace"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "version",
+        "id",
+        "title",
+        "datasets",
+        "layout",
+        "panels"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

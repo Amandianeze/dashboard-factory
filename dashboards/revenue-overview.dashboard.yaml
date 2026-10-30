@@ -1,0 +1,158 @@
+# yaml-language-server: $schema=./dashboard.schema.json
+version: 1
+id: revenue-overview
+title: Revenue overview
+description: Daily revenue and orders by region and product, for the weekly commercial review.
+
+datasets:
+  sales:
+    source: fixture
+    path: sales_daily.json
+    description: One row per day × region × product.
+    fields:
+      date: temporal
+      region: nominal
+      product: nominal
+      orders: quantitative
+      revenue: quantitative
+
+filters:
+  - id: region
+    label: Region
+    type: multiselect
+    dataset: sales
+    field: region
+    appliesTo:
+      [revenue_total, orders_total, products_active, trend, by_product, orders_vs_revenue, heatmap]
+
+layout:
+  rows:
+    - height: 132
+      cells:
+        - { panel: revenue_total, span: 4 }
+        - { panel: orders_total, span: 4 }
+        - { panel: products_active, span: 4 }
+    - height: 340
+      cells:
+        - { panel: trend, span: 8 }
+        - { panel: by_product, span: 4 }
+    - height: 340
+      cells:
+        - { panel: orders_vs_revenue, span: 6 }
+        - { panel: heatmap, span: 6 }
+
+panels:
+  revenue_total:
+    title: Revenue
+    dataset: sales
+    renderer: kpi
+    field: revenue
+    aggregate: sum
+    format: '$,.0f'
+
+  orders_total:
+    title: Orders
+    dataset: sales
+    renderer: kpi
+    field: orders
+    aggregate: sum
+
+  products_active:
+    title: Products sold
+    dataset: sales
+    renderer: kpi
+    field: product
+    aggregate: distinct
+
+  trend:
+    title: Weekly revenue by region
+    dataset: sales
+    renderer: vega-lite
+    spec:
+      mark:
+        type: line
+      encoding:
+        x:
+          field: date
+          timeUnit: utcyearweek
+          type: temporal
+          title: null
+        y:
+          field: revenue
+          aggregate: sum
+          type: quantitative
+          title: Revenue
+          axis:
+            format: '$~s'
+        color:
+          field: region
+          type: nominal
+          title: null
+        tooltip:
+          - field: date
+            timeUnit: utcyearweek
+            type: temporal
+            title: Week
+          - field: region
+            type: nominal
+          - field: revenue
+            aggregate: sum
+            type: quantitative
+            format: '$,.0f'
+
+  by_product:
+    title: Revenue by product
+    description: Bespoke D3 chart from the component catalog.
+    dataset: sales
+    renderer: d3
+    component: RankedBars
+    props:
+      category: product
+      value: revenue
+      aggregate: sum
+      valueFormat: '$.3~s'
+
+  orders_vs_revenue:
+    title: Orders vs revenue per product-day
+    dataset: sales
+    renderer: plotly
+    trace:
+      type: scatter
+      x: orders
+      y: revenue
+      groupBy: region
+      mode: markers
+
+  heatmap:
+    title: Revenue by region and product
+    dataset: sales
+    renderer: vega-lite
+    spec:
+      mark: rect
+      encoding:
+        x:
+          field: product
+          type: nominal
+          title: null
+          axis:
+            labelAngle: 0
+        y:
+          field: region
+          type: nominal
+          title: null
+        color:
+          field: revenue
+          aggregate: sum
+          type: quantitative
+          title: Revenue
+          legend:
+            format: '$~s'
+        tooltip:
+          - field: region
+            type: nominal
+          - field: product
+            type: nominal
+          - field: revenue
+            aggregate: sum
+            type: quantitative
+            format: '$,.0f'
