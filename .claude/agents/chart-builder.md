@@ -23,7 +23,8 @@ them, never the other way round (do not edit a spec to dodge work unless asked).
 ## Changing renderers or the schema
 
 - Renderer adapters live in `src/renderers/`; keep spec→figure builders (`vegaLiteSpec.ts`,
-  `plotlyFigure.ts`) pure and tested.
+  `flintSpec.ts`, `plotlyFigure.ts`) pure and tested. Flint panels render through `VegaView`; see
+  the `flint` skill before changing `flintSpec.ts` or `src/theme/flintTheme.ts`.
 - Schema changes go in `src/spec/schema.ts` with a cross-reference check if the new field refers
   to datasets/fields/panels, plus a unit test for the rejection case. The post-edit hook
   regenerates the JSON Schema and re-validates all specs.

@@ -18,7 +18,8 @@ You are the spec author for a spec-first dashboard factory. You translate a brie
    field you use with the right type. If data the brief needs does not exist, stop and report it
    rather than inventing fields.
 4. For a new dashboard run `npm run new:dashboard -- <id> "<Title>" <fixture.json>`, then edit.
-5. Choose renderers in order: kpi → vega-lite → d3 (catalog only) → plotly. If a panel needs a
+5. Choose renderers in order: kpi → vega-lite → flint (forms in Flint's catalog that are hard in
+   Vega-Lite; read the `flint` skill's limits first) → d3 (catalog only) → plotly. If a panel needs a
    D3 chart that is not in the catalog, write the panel with the intended `component` name and
    `props`, and report that `chart-builder` must add it. Validation will fail until then; say so.
 6. Layout: KPIs first (row height ~132), primary trend next (span 8+), supporting panels after.

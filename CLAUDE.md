@@ -1,22 +1,22 @@
 # Dashboard Factory
 
 Spec-first dashboards. Every dashboard is a YAML spec in `dashboards/` validated by a Zod schema;
-the React app renders specs with Vega-Lite, D3 or Plotly. **The spec is the source of truth.**
+the React app renders specs with Vega-Lite, Flint, D3 or Plotly. **The spec is the source of truth.**
 Never build a dashboard by hand-writing a page; write or change its spec.
 
 ## Commands
 
-| Command                                   | What it does                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------- |
-| `npm run dev`                             | Vite dev server (index lists every dashboard; `#/d/<id>` opens one) |
-| `npm run verify`                          | typecheck + lint + spec validation + unit tests (the "done" gate)   |
-| `npm run spec:validate [-- file]`         | Schema, cross-refs, catalog props, fixture fields, VL compile       |
-| `npm run test:e2e`                        | Builds, renders every dashboard in Chromium, per-panel screenshots  |
-| `npm run new:dashboard -- <id> "<Title>"` | Scaffold a new spec (always use this; never start from a blank)     |
-| `npm run spec:schema`                     | Regenerate `dashboards/dashboard.schema.json` after schema changes  |
-| `npm run data:fixtures`                   | Regenerate deterministic fixture data in `public/data/`             |
-| `npm run data:profile`                    | Check every fixture row against declared field types; stats         |
-| `npm run panel:render -- <dash> <panel>`  | Render one panel in Chromium: screenshot, console, compiled VL spec |
+| Command                                   | What it does                                                         |
+| ----------------------------------------- | -------------------------------------------------------------------- |
+| `npm run dev`                             | Vite dev server (index lists every dashboard; `#/d/<id>` opens one)  |
+| `npm run verify`                          | typecheck + lint + spec validation + unit tests (the "done" gate)    |
+| `npm run spec:validate [-- file]`         | Schema, cross-refs, catalog props, fixture fields, VL + Flint checks |
+| `npm run test:e2e`                        | Builds, renders every dashboard in Chromium, per-panel screenshots   |
+| `npm run new:dashboard -- <id> "<Title>"` | Scaffold a new spec (always use this; never start from a blank)      |
+| `npm run spec:schema`                     | Regenerate `dashboards/dashboard.schema.json` after schema changes   |
+| `npm run data:fixtures`                   | Regenerate deterministic fixture data in `public/data/`              |
+| `npm run data:profile`                    | Check every fixture row against declared field types; stats          |
+| `npm run panel:render -- <dash> <panel>`  | Render one panel in Chromium: screenshot, console, compiled VL spec  |
 
 ## Architecture
 
@@ -27,6 +27,7 @@ Never build a dashboard by hand-writing a page; write or change its spec.
     src/components/d3/registry.tsx← catalog name → React component (TS enforces completeness)
     src/renderers/                ← PanelRenderer switch; one adapter per renderer
     src/theme/tokens.ts           ← design tokens; every renderer derives its look from here
+    src/theme/flintTheme.ts       ← Flint theme derived from tokens (panels never name presets)
     src/data/transforms.ts        ← pure filter/aggregate helpers (unit-tested)
     scripts/                      ← deterministic codegen + validation (no model judgment)
 
@@ -35,9 +36,12 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 1. **kpi** for single numbers.
 2. **vega-lite** for anything the grammar expresses: line, bar, area, scatter, heatmap, faceting.
    Default choice. Specs omit `data`, `width`, `height`; the runtime injects them.
-3. **d3** only for bespoke visuals Vega-Lite can't express. Must be a catalog component.
+3. **flint** for forms in Flint's chart catalog that are long or fiddly in Vega-Lite (calendar
+   heatmap, bullet, waterfall, bump, slope, ridgeline, …). Compiles to Vega-Lite; formats come
+   from the dataset's `semantics`. Read the `flint` skill's known limits first.
+4. **d3** only for bespoke visuals Vega-Lite and Flint can't express. Must be a catalog component.
    Adding one = catalog entry (propsSchema + fieldProps) + component + registry entry + test.
-4. **plotly** only for scientific/interactive needs (zoom/pan on dense scatter). Limited to the
+5. **plotly** only for scientific/interactive needs (zoom/pan on dense scatter). Limited to the
    basic bundle (`scatter`, `bar`); asking for more trace types is an architecture decision.
 
 ## Rules
@@ -62,7 +66,7 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 - Subagents (`.claude/agents/`): `spec-author` (brief → spec), `chart-builder` (implements panels
   and D3 components), `design-reviewer` (chart choice, tokens, layout), `verifier` (runs everything,
   inspects screenshots, reports).
-- Skills (`.claude/skills/`): `dashboard-spec`, `vega-lite`, `d3-react`, `plotly` (how to write);
+- Skills (`.claude/skills/`): `dashboard-spec`, `vega-lite`, `flint`, `d3-react`, `plotly` (how to write);
   `chart-choice` (what to build); `debug-panel`, `visual-baselines` (when it breaks);
   `datasets-and-fixtures`, `render-performance` (data); `harness-maintenance` (changing `.claude/`).
 - Commands: `/new-dashboard <brief>`, `/add-panel <dashboard-id> <what>`, `/verify`.

@@ -15,6 +15,12 @@ datasets:
       product: nominal
       orders: quantitative
       revenue: quantitative
+    semantics:
+      date: Date
+      region: Region
+      product: Category
+      orders: Count
+      revenue: { semanticType: Amount, unit: USD }
 
 filters:
   - id: region
@@ -125,34 +131,16 @@ panels:
 
   heatmap:
     title: Revenue by region and product
+    description: Flint chart; formats and colors come from the dataset semantics.
     dataset: sales
-    renderer: vega-lite
-    spec:
-      mark: rect
-      encoding:
-        x:
-          field: product
-          type: nominal
-          title: null
-          axis:
-            labelAngle: 0
-        y:
-          field: region
-          type: nominal
-          title: null
+    renderer: flint
+    chart:
+      chartType: Heatmap
+      encodings:
+        x: product
+        y: region
         color:
           field: revenue
           aggregate: sum
-          type: quantitative
           title: Revenue
-          legend:
-            format: '$~s'
-        tooltip:
-          - field: region
-            type: nominal
-          - field: product
-            type: nominal
-          - field: revenue
-            aggregate: sum
-            type: quantitative
-            format: '$,.0f'
+          bins: 0

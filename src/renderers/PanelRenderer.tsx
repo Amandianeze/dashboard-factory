@@ -1,13 +1,22 @@
 import { Component, type ReactNode } from 'react';
 import type { Row } from '../data/transforms';
-import type { PanelSpec } from '../spec/types';
+import type { DatasetSpec, PanelSpec } from '../spec/types';
 import { D3Chart } from './D3Chart';
+import { FlintChart } from './FlintChart';
 import { KpiCard } from './KpiCard';
 import { PlotlyChart } from './PlotlyChart';
 import { VegaLiteChart } from './VegaLiteChart';
 
 /** The one place that maps `renderer` → component. Add new renderers here and in schema.ts. */
-export function PanelRenderer({ panel, rows }: { panel: PanelSpec; rows: Row[] }) {
+export function PanelRenderer({
+  panel,
+  dataset,
+  rows,
+}: {
+  panel: PanelSpec;
+  dataset: DatasetSpec | undefined;
+  rows: Row[];
+}) {
   switch (panel.renderer) {
     case 'kpi':
       return <KpiCard panel={panel} rows={rows} />;
@@ -17,6 +26,8 @@ export function PanelRenderer({ panel, rows }: { panel: PanelSpec; rows: Row[] }
       return <D3Chart panel={panel} rows={rows} />;
     case 'plotly':
       return <PlotlyChart panel={panel} rows={rows} />;
+    case 'flint':
+      return <FlintChart panel={panel} rows={rows} semantics={dataset?.semantics} />;
   }
 }
 

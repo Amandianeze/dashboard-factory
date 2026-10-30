@@ -59,7 +59,11 @@ export function DashboardView({ spec }: { spec: DashboardSpec }) {
                     </h2>
                     <div className="panel-body">
                       <PanelErrorBoundary>
-                        <PanelRenderer panel={panel} rows={panelRows[id] ?? []} />
+                        <PanelRenderer
+                          panel={panel}
+                          dataset={spec.datasets[panel.dataset]}
+                          rows={panelRows[id] ?? []}
+                        />
                       </PanelErrorBoundary>
                     </div>
                   </section>

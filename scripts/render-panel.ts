@@ -1,6 +1,6 @@
 /**
  * Render ONE panel in a real browser and print what an agent needs to debug it: screenshot path,
- * console errors, panel size, alerts, and (for Vega-Lite) the compiled Vega spec.
+ * console errors, panel size, alerts, and (for Vega-Lite and Flint) the compiled Vega spec.
  * Usage: npm run panel:render -- <dashboard-id> <panel-id> [--filter id=value,value]
  * Output: test-results/render-panel/<dashboard>--<panel>.{png,vega.json}
  */
@@ -9,6 +9,7 @@ import { join } from 'node:path';
 import { chromium } from '@playwright/test';
 import { compile } from 'vega-lite';
 import { createServer } from 'vite';
+import { buildFlintSpec } from '../src/renderers/flintSpec';
 import { buildVegaLiteSpec } from '../src/renderers/vegaLiteSpec';
 import { checkSpecFile, listSpecFiles, loadFixture, ROOT } from './lib/specs';
 import type { Row } from '../src/data/transforms';
@@ -78,6 +79,14 @@ try {
 
   const box = await el.boundingBox();
   const body = await el.locator('.panel-body').boundingBox();
+  if (panel.renderer === 'flint' && body) {
+    // Flint lays out for an exact size, so compile at the size the browser gave the panel body.
+    const ds = found.spec.datasets[panel.dataset];
+    const rows = ds?.source === 'fixture' ? loadFixture(ds.path) : [];
+    const vl = buildFlintSpec(panel, Array.isArray(rows) ? rows : [], ds?.semantics, body);
+    writeFileSync(`${base}.vl.json`, JSON.stringify(vl, null, 2));
+    writeFileSync(`${base}.vega.json`, JSON.stringify(compile(vl).spec, null, 2));
+  }
   const alerts = await el.getByRole('alert').allTextContents();
   const svgEl = el.locator('svg').first();
   const svg = (await svgEl.count()) ? await svgEl.boundingBox() : null;
@@ -86,6 +95,8 @@ try {
   console.log(`panel      ${dashboardId}/${panelId} (${panel.renderer})`);
   console.log(`screenshot ${base}.png`);
   if (panel.renderer === 'vega-lite') console.log(`vega spec  ${base}.vega.json`);
+  if (panel.renderer === 'flint')
+    console.log(`vega spec  ${base}.vega.json (Flint output as Vega-Lite: ${base}.vl.json)`);
   console.log(`panel box  ${JSON.stringify(box)}`);
   console.log(`body box   ${JSON.stringify(body)}`);
   console.log(`svg box    ${JSON.stringify(svg)}`);

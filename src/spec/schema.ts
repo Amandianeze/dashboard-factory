@@ -26,6 +26,19 @@ const DatasetCommon = {
   description: z.string().optional(),
   /** Every field a panel may reference. Panels referencing undeclared fields fail validation. */
   fields: Fields,
+  /**
+   * Flint semantic types per field: a name (date: Date) or an annotation
+   * ({ semanticType: Amount, unit: USD }). Flint derives scales, formats and colors from them.
+   * Names are checked against Flint's registry by spec:validate.
+   */
+  semantics: z
+    .record(
+      z.union([
+        z.string().min(1),
+        z.object({ semanticType: z.string().min(1), unit: z.string().optional() }).passthrough(),
+      ]),
+    )
+    .optional(),
 };
 
 export const DatasetSpec = z.discriminatedUnion('source', [
@@ -129,11 +142,37 @@ export const PlotlyPanel = z
   })
   .strict();
 
+const FlintEncoding = z.union([z.string().min(1), z.record(z.unknown())]);
+
+export const FlintPanel = z
+  .object({
+    ...PanelCommon,
+    renderer: z.literal('flint'),
+    /**
+     * A Flint chart_spec WITHOUT data, size or title — the runtime injects rows, sizes the chart to
+     * its layout cell and the panel header shows the title. Compiled to Vega-Lite.
+     */
+    chart: z
+      .object({
+        /** A Flint Vega-Lite template, e.g. "Line Chart", "Heatmap", "Bar Chart". */
+        chartType: z.string().min(1),
+        /** Channel → field name, or { field, aggregate, sortOrder, … }. Arrays fold measures. */
+        encodings: z
+          .record(z.union([FlintEncoding, z.array(FlintEncoding).min(1)]))
+          .refine((e) => Object.keys(e).length > 0, 'declare at least one encoding'),
+        /** Template-specific options (see getChartOptions in flint-chart). */
+        chartProperties: z.record(z.unknown()).optional(),
+      })
+      .strict(),
+  })
+  .strict();
+
 export const PanelSpec = z.discriminatedUnion('renderer', [
   KpiPanel,
   VegaLitePanel,
   D3Panel,
   PlotlyPanel,
+  FlintPanel,
 ]);
 export type PanelSpec = z.infer<typeof PanelSpec>;
 export type Renderer = PanelSpec['renderer'];
@@ -195,12 +234,27 @@ export function vegaLiteFieldRefs(spec: Record<string, unknown>): {
   return { used: [...used], derived: [...derived] };
 }
 
+/** Field names referenced by Flint encodings (bare strings, `{ field }`, or arrays of either). */
+export function flintFieldRefs(encodings: Record<string, unknown>): string[] {
+  const refs = (e: unknown): string[] => {
+    if (typeof e === 'string') return [e];
+    if (Array.isArray(e)) return e.flatMap(refs);
+    if (e && typeof e === 'object' && 'field' in e && typeof e.field === 'string') return [e.field];
+    return [];
+  };
+  return [...new Set(Object.values(encodings).flatMap(refs))];
+}
+
 function crossReferences(d: DashboardShape, ctx: z.RefinementCtx) {
   const issue = (path: (string | number)[], message: string) =>
     ctx.addIssue({ code: z.ZodIssueCode.custom, path, message });
 
-  for (const key of Object.keys(d.datasets))
+  for (const [key, ds] of Object.entries(d.datasets)) {
     if (!ID_PATTERN.test(key)) issue(['datasets', key], `invalid dataset id "${key}"`);
+    for (const f of Object.keys(ds.semantics ?? {}))
+      if (!(f in ds.fields))
+        issue(['datasets', key, 'semantics', f], `field "${f}" is not declared in "${key}".fields`);
+  }
   for (const key of Object.keys(d.panels))
     if (!ID_PATTERN.test(key)) issue(['panels', key], `invalid panel id "${key}"`);
 
@@ -251,6 +305,9 @@ function crossReferences(d: DashboardShape, ctx: z.RefinementCtx) {
         used.filter((f) => !derived.includes(f)).forEach((f) => need(['spec'], f));
         break;
       }
+      case 'flint':
+        flintFieldRefs(p.chart.encodings).forEach((f) => need(['chart', 'encodings'], f));
+        break;
       case 'd3':
         break; // props are checked against the chart catalog in validate.ts
     }

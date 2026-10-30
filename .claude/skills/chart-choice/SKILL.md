@@ -10,16 +10,19 @@ by region", not "Revenue chart"), then pick.
 
 ## Question → form
 
-| The question is…                          | Use                                             | Renderer                                 |
-| ----------------------------------------- | ----------------------------------------------- | ---------------------------------------- |
-| One headline number                       | KPI card                                        | `kpi`                                    |
-| How does it change over time?             | Line (area only for a single cumulative series) | `vega-lite`                              |
-| Which is biggest / smallest? (top-N)      | Sorted horizontal bars                          | VL or `d3` RankedBars                    |
-| How do parts make up a whole (≤ 5 parts)? | Stacked bar (100% if only shares matter)        | `vega-lite`                              |
-| How do two measures relate?               | Scatter                                         | VL; `plotly` only if dense + zoom needed |
-| Two categories × one measure              | Heatmap (`rect`)                                | `vega-lite`                              |
-| Compare many small groups                 | Facets / small multiples                        | `vega-lite`                              |
-| Something Vega-Lite genuinely cannot draw | A catalog D3 chart                              | `d3`                                     |
+| The question is…                           | Use                                             | Renderer                                 |
+| ------------------------------------------ | ----------------------------------------------- | ---------------------------------------- |
+| One headline number                        | KPI card                                        | `kpi`                                    |
+| How does it change over time?              | Line (area only for a single cumulative series) | `vega-lite`                              |
+| Which is biggest / smallest? (top-N)       | Sorted horizontal bars                          | VL or `d3` RankedBars                    |
+| How do parts make up a whole (≤ 5 parts)?  | Stacked bar (100% if only shares matter)        | `vega-lite`                              |
+| How do two measures relate?                | Scatter                                         | VL; `plotly` only if dense + zoom needed |
+| Two categories × one measure               | Heatmap (`rect`)                                | `vega-lite` or `flint` Heatmap           |
+| Compare many small groups                  | Facets / small multiples                        | `vega-lite`                              |
+| Daily pattern over a season                | Calendar heatmap                                | `flint`                                  |
+| Progress vs target; contributions to a net | Bullet; waterfall                               | `flint`                                  |
+| Rank changes over time; before vs after    | Bump; slope                                     | `flint`                                  |
+| Something Vega-Lite genuinely cannot draw  | A Flint chart type, else a catalog D3 chart     | `flint`, then `d3`                       |
 
 Never: pie/donut beyond 3 slices, 3D, dual y-axes, unsorted categorical bars (unless ordinal),
 truncated bar baselines.

@@ -55,6 +55,9 @@ panels:
 - **`d3`** — `component` (a catalog name) and `props`, validated by that entry's propsSchema.
 - **`plotly`** — `trace` with `type` (scatter or bar), `x`, `y`, and optional `groupBy`,
   `aggregate`, `mode`; optional `layout`. Basic bundle only; see the `plotly` skill.
+- **`flint`** — `chart` with `chartType` (a Flint template, e.g. `Calendar Heatmap`) and
+  `encodings` (channel → field or `{ field, aggregate, … }`). Reads the dataset's optional
+  `semantics` map (field → Flint semantic type). See the `flint` skill for when to use it.
 
 ## Validation errors you will see
 
@@ -67,6 +70,8 @@ panels:
 - `unknown D3 chart` → use a catalog name or ask chart-builder to add one.
 - `Vega-Lite compile failed` → the VL spec is invalid; read the message, check the `vega-lite` skill.
 - `missing from fixture rows` → declared field does not exist in the data.
+- `Flint warning/error (code)` → the Flint panel is invalid or will draw badly; see the `flint`
+  skill. `semantics: … not registered` → misspelled semantic type.
 
 ## Style
 

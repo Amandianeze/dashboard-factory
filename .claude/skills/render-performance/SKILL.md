@@ -15,9 +15,10 @@ Fixtures are ~2k rows, which hides cost. Check budgets before real data arrives.
 | `vega-lite` | ~5k         | Pre-aggregate (`groupAggregate`) or add `transform: aggregate`; avoid raw-row marks |
 | `d3`        | ~5k         | Aggregate in the component's `useMemo`; SVG nodes ≈ rows, keep top-N                |
 | `plotly`    | ~2k         | Basic bundle has no `scattergl`; dense scatter needs an architecture decision       |
+| `flint`     | unmeasured  | Treat like `vega-lite`; Flint aggregates and re-lays out on every filter or resize  |
 
 `npm run data:profile` prints row counts against the 5,000 budget. Measure before optimizing:
-`npm run build` reports chunk sizes; Vega and Plotly are lazy chunks and must stay out of the main bundle.
+`npm run build` reports chunk sizes; Vega, Plotly and Flint are lazy chunks and must stay out of the main bundle.
 
 ## Known hot spots in this repo
 
