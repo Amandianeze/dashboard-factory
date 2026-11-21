@@ -36,7 +36,8 @@ export const vegaLiteConfig: Record<ThemeName, Config> = {
       titleColor: '#6b6b66',
       labelFontSize: 11,
       titleFontSize: 11,
-      orient: 'bottom',
+      orient: 'top',
+      direction: 'horizontal',
       symbolType: 'circle',
       gradientLength: 160,
     },
@@ -117,7 +118,8 @@ export const vegaLiteConfig: Record<ThemeName, Config> = {
       titleColor: '#a3a39d',
       labelFontSize: 11,
       titleFontSize: 11,
-      orient: 'bottom',
+      orient: 'top',
+      direction: 'horizontal',
       symbolType: 'circle',
       gradientLength: 160,
     },
@@ -198,7 +200,8 @@ export const vegaLiteConfig: Record<ThemeName, Config> = {
       titleColor: '#474742',
       labelFontSize: 11,
       titleFontSize: 11,
-      orient: 'bottom',
+      orient: 'top',
+      direction: 'horizontal',
       symbolType: 'circle',
       gradientLength: 160,
     },
@@ -400,7 +403,14 @@ export const flintTheme: Record<ThemeName, ThemeSpec> = {
     },
     structure: { baseline: { color: '#6b6b66' } },
     marks: { point: { size: 28 } },
-    legend: { placement: ['right', 'bottom'], gradientLength: 160 },
+    legend: { placement: ['top'], direction: 'horizontal', gradientLength: 160 },
+    variants: [
+      {
+        when: { markChannel: 'color' },
+        then: { legend: { placement: ['right', 'bottom'], direction: 'vertical' } },
+        because: 'a continuous colour key beside the plot keeps banded charts inside their panel',
+      },
+    ],
   },
   dark: {
     extends: 'datawrapper',
@@ -544,7 +554,14 @@ export const flintTheme: Record<ThemeName, ThemeSpec> = {
     },
     structure: { baseline: { color: '#a3a39d' } },
     marks: { point: { size: 28 } },
-    legend: { placement: ['right', 'bottom'], gradientLength: 160 },
+    legend: { placement: ['top'], direction: 'horizontal', gradientLength: 160 },
+    variants: [
+      {
+        when: { markChannel: 'color' },
+        then: { legend: { placement: ['right', 'bottom'], direction: 'vertical' } },
+        because: 'a continuous colour key beside the plot keeps banded charts inside their panel',
+      },
+    ],
   },
   hc: {
     extends: 'datawrapper',
@@ -688,7 +705,14 @@ export const flintTheme: Record<ThemeName, ThemeSpec> = {
     },
     structure: { baseline: { color: '#1d1d1b' } },
     marks: { point: { size: 28 } },
-    legend: { placement: ['right', 'bottom'], gradientLength: 160 },
+    legend: { placement: ['top'], direction: 'horizontal', gradientLength: 160 },
+    variants: [
+      {
+        when: { markChannel: 'color' },
+        then: { legend: { placement: ['right', 'bottom'], direction: 'vertical' } },
+        because: 'a continuous colour key beside the plot keeps banded charts inside their panel',
+      },
+    ],
   },
 };
 

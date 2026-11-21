@@ -126,10 +126,32 @@ a {
   outline: var(--chip-focus-width) solid var(--chip-focus-ring);
   outline-offset: var(--chip-focus-offset);
 }
+.filter select:hover,
+.chip:hover {
+  background: var(--chip-hover-bg);
+  border-color: var(--chip-hover-border);
+  color: var(--chip-hover-text);
+}
+.chip:active {
+  background: var(--chip-pressed-bg);
+  color: var(--chip-pressed-text);
+}
 .chip[aria-pressed='true'] {
   background: var(--chip-selected-bg);
   border-color: var(--chip-selected-border);
   color: var(--chip-selected-text);
+}
+.chip[aria-pressed='true']:hover {
+  background: var(--chip-selected-hover-bg);
+  border-color: var(--chip-selected-hover-bg);
+  color: var(--chip-selected-hover-text);
+}
+.filter select:disabled,
+.chip:disabled {
+  background: var(--chip-disabled-bg);
+  border-color: var(--chip-disabled-border);
+  color: var(--chip-disabled-text);
+  cursor: not-allowed;
 }
 .chip-clear {
   color: var(--chip-clear-text);

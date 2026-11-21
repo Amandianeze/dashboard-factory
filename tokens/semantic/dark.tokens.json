@@ -16,6 +16,9 @@
       },
       "accent-hover": {
         "$value": "{color.brand.300}"
+      },
+      "pressed": {
+        "$value": "{color.neutral.750}"
       }
     },
     "text": {

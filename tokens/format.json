@@ -8,6 +8,7 @@
     "delta": "+,.2f",
     "delta-percent": "+.2%",
     "currency": "$,.0f",
+    "currency-2": "$,.2f",
     "currency-compact": "$~s",
     "compact": "~s"
   },

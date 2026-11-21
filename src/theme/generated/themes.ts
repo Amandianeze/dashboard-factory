@@ -160,9 +160,10 @@ export type ResolvedTheme = {
     readonly bg: {
       readonly surface: string;
       readonly accent: string;
-      readonly canvas: string;
-      readonly 'surface-raised': string;
       readonly 'accent-hover': string;
+      readonly canvas: string;
+      readonly pressed: string;
+      readonly 'surface-raised': string;
     };
     readonly border: {
       readonly control: string;
@@ -192,6 +193,10 @@ export type ResolvedTheme = {
       readonly bg: string;
       readonly text: string;
       readonly border: string;
+      readonly hover: {
+        readonly bg: string;
+        readonly text: string;
+      };
     };
     readonly clear: {
       readonly text: string;
@@ -200,6 +205,20 @@ export type ResolvedTheme = {
       readonly ring: string;
       readonly width: number;
       readonly offset: number;
+    };
+    readonly hover: {
+      readonly bg: string;
+      readonly text: string;
+      readonly border: string;
+    };
+    readonly pressed: {
+      readonly bg: string;
+      readonly text: string;
+    };
+    readonly disabled: {
+      readonly bg: string;
+      readonly text: string;
+      readonly border: string;
     };
   };
   readonly filter: {
@@ -439,9 +458,10 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
       bg: {
         surface: '#ffffff',
         accent: '#2f5bea',
-        canvas: '#f7f7f5',
-        'surface-raised': '#ffffff',
         'accent-hover': '#1f3ea6',
+        canvas: '#f7f7f5',
+        pressed: '#e4e4e0',
+        'surface-raised': '#ffffff',
       },
       border: { control: '#8b8b85', subtle: '#e4e4e0' },
       focus: { ring: '#2f5bea' },
@@ -460,9 +480,17 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         letterSpacing: 0,
         lineHeight: 1.4,
       },
-      selected: { bg: '#2f5bea', text: '#ffffff', border: '#2f5bea' },
+      selected: {
+        bg: '#2f5bea',
+        text: '#ffffff',
+        border: '#2f5bea',
+        hover: { bg: '#1f3ea6', text: '#ffffff' },
+      },
       clear: { text: '#6b6b66' },
       focus: { ring: '#2f5bea', width: 2, offset: 2 },
+      hover: { bg: '#f7f7f5', text: '#1d1d1b', border: '#6b6b66' },
+      pressed: { bg: '#e4e4e0', text: '#1d1d1b' },
+      disabled: { bg: '#ffffff', text: '#6b6b66', border: '#e4e4e0' },
     },
     filter: { gap: 6, label: { text: '#6b6b66', gap: 4 } },
     kpi: {
@@ -682,9 +710,10 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
       bg: {
         surface: '#242422',
         accent: '#4c6cff',
-        canvas: '#171716',
-        'surface-raised': '#2d2d2a',
         'accent-hover': '#7a85fe',
+        canvas: '#171716',
+        pressed: '#3c3c37',
+        'surface-raised': '#2d2d2a',
       },
       border: { control: '#787873', subtle: '#3c3c37' },
       focus: { ring: '#4c6cff' },
@@ -703,9 +732,17 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         letterSpacing: 0,
         lineHeight: 1.4,
       },
-      selected: { bg: '#4c6cff', text: '#000000', border: '#4c6cff' },
+      selected: {
+        bg: '#4c6cff',
+        text: '#000000',
+        border: '#4c6cff',
+        hover: { bg: '#7a85fe', text: '#000000' },
+      },
       clear: { text: '#a3a39d' },
       focus: { ring: '#4c6cff', width: 2, offset: 2 },
+      hover: { bg: '#171716', text: '#ededea', border: '#a3a39d' },
+      pressed: { bg: '#3c3c37', text: '#ededea' },
+      disabled: { bg: '#242422', text: '#a3a39d', border: '#3c3c37' },
     },
     filter: { gap: 6, label: { text: '#a3a39d', gap: 4 } },
     kpi: {
@@ -925,9 +962,10 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
       bg: {
         surface: '#ffffff',
         accent: '#1f3ea6',
-        canvas: '#ffffff',
-        'surface-raised': '#ffffff',
         'accent-hover': '#000000',
+        canvas: '#ffffff',
+        pressed: '#b7b6b0',
+        'surface-raised': '#ffffff',
       },
       border: { control: '#000000', subtle: '#6b6b66' },
       focus: { ring: '#000000' },
@@ -946,9 +984,17 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         letterSpacing: 0,
         lineHeight: 1.4,
       },
-      selected: { bg: '#1f3ea6', text: '#ffffff', border: '#1f3ea6' },
+      selected: {
+        bg: '#1f3ea6',
+        text: '#ffffff',
+        border: '#1f3ea6',
+        hover: { bg: '#000000', text: '#ffffff' },
+      },
       clear: { text: '#474742' },
       focus: { ring: '#000000', width: 2, offset: 2 },
+      hover: { bg: '#ffffff', text: '#000000', border: '#474742' },
+      pressed: { bg: '#b7b6b0', text: '#000000' },
+      disabled: { bg: '#ffffff', text: '#474742', border: '#6b6b66' },
     },
     filter: { gap: 6, label: { text: '#474742', gap: 4 } },
     kpi: {
@@ -1049,6 +1095,7 @@ export const formats = {
     delta: '+,.2f',
     'delta-percent': '+.2%',
     currency: '$,.0f',
+    'currency-2': '$,.2f',
     'currency-compact': '$~s',
     compact: '~s',
   },

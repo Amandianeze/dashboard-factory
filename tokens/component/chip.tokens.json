@@ -41,6 +41,16 @@
       "border": {
         "$type": "color",
         "$value": "{color.bg.accent}"
+      },
+      "hover": {
+        "bg": {
+          "$type": "color",
+          "$value": "{color.bg.accent-hover}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.text.on-accent}"
+        }
       }
     },
     "clear": {
@@ -61,6 +71,44 @@
       "offset": {
         "$type": "dimension",
         "$value": "{dimension.2}"
+      }
+    },
+    "hover": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.canvas}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.primary}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      }
+    },
+    "pressed": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.pressed}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.primary}"
+      }
+    },
+    "disabled": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.surface}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.border.subtle}"
       }
     }
   },

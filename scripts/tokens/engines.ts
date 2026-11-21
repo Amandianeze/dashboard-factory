@@ -89,7 +89,9 @@ export function vegaLiteConfig(t: Lookup, f: Formats): Config {
       titleColor: t.color('chart.label.text'),
       labelFontSize: label.fontSize,
       titleFontSize: label.fontSize,
-      orient: 'bottom', // policy (legend placement is unified in Phase 2)
+      // Policy (DESIGN.md › Data Visualization): legends sit above the plot, left-aligned.
+      orient: 'top',
+      direction: 'horizontal',
       symbolType: 'circle',
       gradientLength: t.num('chart.legend.gradient-length'),
     },
@@ -175,11 +177,21 @@ export function flintTheme(t: Lookup, theme: string): ThemeSpec {
     },
     structure: { baseline: { color: t.color('chart.baseline') } },
     marks: { point: { size: Math.round(Math.PI * (t.num('chart.mark.point-diameter') / 2) ** 2) } },
-    // Beside the plot when there is room: panels are wide and short, so a top key costs height.
+    // Policy (DESIGN.md › Data Visualization): legends above the plot, left-aligned, as in VL/Plotly.
     legend: {
-      placement: ['right', 'bottom'],
+      placement: ['top'],
+      direction: 'horizontal',
       gradientLength: t.num('chart.legend.gradient-length'),
     },
+    variants: [
+      {
+        // flint-chart 1.0.1 sizes heatmap cells to the full height without reserving room for a
+        // key above them, so a top key pushes the chart out of its panel. Colour keys go beside.
+        when: { markChannel: 'color' },
+        then: { legend: { placement: ['right', 'bottom'], direction: 'vertical' } },
+        because: 'a continuous colour key beside the plot keeps banded charts inside their panel',
+      },
+    ],
   };
 }
 
