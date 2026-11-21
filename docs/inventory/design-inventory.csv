@@ -1,0 +1,109 @@
+source,path,value,status,note
+code-tokens,tokens.font.family,"""Inter"", system-ui, -apple-system, ""Segoe UI"", sans-serif",first-party,
+code-tokens,tokens.font.sizeLabel,11,first-party,
+code-tokens,tokens.font.sizeTitle,13,first-party,
+code-tokens,tokens.color.background,#f7f7f5,first-party,
+code-tokens,tokens.color.surface,#ffffff,first-party,
+code-tokens,tokens.color.border,#e4e4e0,first-party,
+code-tokens,tokens.color.text,#1d1d1b,first-party,
+code-tokens,tokens.color.textMuted,#6b6b66,first-party,
+code-tokens,tokens.color.grid,#ececea,first-party,
+code-tokens,tokens.color.accent,#2f5bea,first-party,
+code-tokens,tokens.categorical,#2f5bea #e3742f #1f9d74 #b4458f #8a7a18 #4a9bd6 #c94747 #6e5bbf,first-party,
+code-tokens,tokens.sequential,#eef2fd #c9d6fa #93aef4 #5a83ec #2f5bea #1f3ea6,first-party,
+code-tokens,tokens.space.gap,16,first-party,
+code-tokens,tokens.space.panelPadding,16,first-party,
+code-tokens,tokens.space.radius,10,first-party,
+flint-preset:datawrapper,ink.surface.source,host,inherited-uncontrolled,
+flint-preset:datawrapper,ink.text.primary,#181818,overridden-by-tokens,ours: #1d1d1b
+flint-preset:datawrapper,ink.text.secondary,#747474,overridden-by-tokens,ours: #6b6b66
+flint-preset:datawrapper,ink.text.muted,#888888,overridden-by-tokens,ours: #6b6b66
+flint-preset:datawrapper,ink.structure.grid,#e7e7e7,overridden-by-tokens,ours: #ececea
+flint-preset:datawrapper,ink.structure.rule,#d8d8d8,inherited-uncontrolled,
+flint-preset:datawrapper,ink.structure.connector,#c4c4c4,inherited-uncontrolled,
+flint-preset:datawrapper,ink.structure.axis,#181818,overridden-by-tokens,ours: #e4e4e0
+flint-preset:datawrapper,ink.series.single,#18a1cd,overridden-by-tokens,ours: #2f5bea
+flint-preset:datawrapper,ink.series.categorical,#18a1cd #c71e1d #fa8c00 #09bb9f #15607a,overridden-by-tokens,"ours: #2f5bea,#e3742f,#1f9d74,#b4458f,#8a7a18,#4a9bd6,#c94747,#6e5bbf"
+flint-preset:datawrapper,ink.series.categoricalExtended,#18a1cd #c71e1d #fa8c00 #09bb9f #15607a #009076 #ffca76 #1d81a2 #00dca6 #c4c4c4 #ffe59c,inherited-uncontrolled,
+flint-preset:datawrapper,ink.series.sequential.stops,#d3eef8 #9cd6ec #5bbbe0 #18a1cd #15607a,overridden-by-tokens,"ours: #eef2fd,#c9d6fa,#93aef4,#5a83ec,#2f5bea,#1f3ea6"
+flint-preset:datawrapper,ink.series.sequential.space,lab,inherited-uncontrolled,
+flint-preset:datawrapper,ink.series.sequential.consumption,quantize,inherited-uncontrolled,
+flint-preset:datawrapper,ink.series.sequential.quantizeCount,5,inherited-uncontrolled,
+flint-preset:datawrapper,ink.series.diverging.stops,#15607a #719aae #e8e8e8 #ff6954 #c71e1d,inherited-uncontrolled,
+flint-preset:datawrapper,ink.series.diverging.neutral,#e8e8e8,inherited-uncontrolled,
+flint-preset:datawrapper,ink.series.diverging.space,lab,inherited-uncontrolled,
+flint-preset:datawrapper,ink.series.diverging.endpointsAgainstSurface,true,inherited-uncontrolled,
+flint-preset:datawrapper,ink.series.diverging.consumption,quantize,inherited-uncontrolled,
+flint-preset:datawrapper,ink.series.diverging.quantizeCount,5,inherited-uncontrolled,
+flint-preset:datawrapper,ink.series.overflow,#c4c4c4,inherited-uncontrolled,
+flint-preset:datawrapper,ink.accent,#18a1cd,overridden-by-tokens,ours: #2f5bea
+flint-preset:datawrapper,type.minSize,11,inherited-uncontrolled,
+flint-preset:datawrapper,type.headline.family,"Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif",inherited-uncontrolled,
+flint-preset:datawrapper,type.headline.size,22,inherited-uncontrolled,
+flint-preset:datawrapper,type.headline.weight,bold,inherited-uncontrolled,
+flint-preset:datawrapper,type.headline.color,#000000,inherited-uncontrolled,
+flint-preset:datawrapper,type.deck.size,14,inherited-uncontrolled,
+flint-preset:datawrapper,type.deck.color,#181818,inherited-uncontrolled,
+flint-preset:datawrapper,type.axisLabel.family,"Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif",overridden-by-tokens,"ours: ""Inter"", system-ui, -apple-system, ""Segoe UI"", sans-serif"
+flint-preset:datawrapper,type.axisLabel.size,12,overridden-by-tokens,ours: 11
+flint-preset:datawrapper,type.valueLabel.size,12,overridden-by-tokens,ours: 11
+flint-preset:datawrapper,type.valueLabel.color,#181818,inherited-uncontrolled,
+flint-preset:datawrapper,type.keyLabel.size,12,overridden-by-tokens,ours: 11
+flint-preset:datawrapper,type.keyLabel.color,#181818,overridden-by-tokens,ours: #6b6b66
+flint-preset:datawrapper,type.footnote.size,11,inherited-uncontrolled,
+flint-preset:datawrapper,type.footnote.color,#888888,inherited-uncontrolled,
+flint-preset:datawrapper,structure.axis.categorical.line,omit,inherited-uncontrolled,
+flint-preset:datawrapper,structure.axis.categorical.ticks,omit,inherited-uncontrolled,
+flint-preset:datawrapper,structure.axis.categorical.tickLabels,sparse,inherited-uncontrolled,
+flint-preset:datawrapper,structure.axis.measure.line,omit,inherited-uncontrolled,
+flint-preset:datawrapper,structure.axis.measure.ticks,omit,inherited-uncontrolled,
+flint-preset:datawrapper,structure.axis.measure.tickDensity,sparse,inherited-uncontrolled,
+flint-preset:datawrapper,structure.axis.measure.suppressWhenValuesPrinted,true,inherited-uncontrolled,
+flint-preset:datawrapper,structure.grid.measure,full,inherited-uncontrolled,
+flint-preset:datawrapper,structure.grid.category,omit,inherited-uncontrolled,
+flint-preset:datawrapper,structure.grid.style,solid,inherited-uncontrolled,
+flint-preset:datawrapper,structure.frame,omit,inherited-uncontrolled,
+flint-preset:datawrapper,structure.baseline.presence,full,inherited-uncontrolled,
+flint-preset:datawrapper,structure.baseline.color,#181818,inherited-uncontrolled,
+flint-preset:datawrapper,structure.baseline.weight,1,inherited-uncontrolled,
+flint-preset:datawrapper,marks.bandFraction,0.65,inherited-uncontrolled,
+flint-preset:datawrapper,marks.separator.presence,omit,inherited-uncontrolled,
+flint-preset:datawrapper,marks.point.size,48,inherited-uncontrolled,
+flint-preset:datawrapper,marks.connector.presence,full,inherited-uncontrolled,
+flint-preset:datawrapper,marks.connector.weight,1,inherited-uncontrolled,
+flint-preset:datawrapper,geometry.arc.gap,1,inherited-uncontrolled,
+flint-preset:datawrapper,geometry.cell.gap,1,inherited-uncontrolled,
+flint-preset:datawrapper,labels.truncation,never,inherited-uncontrolled,
+flint-preset:datawrapper,labels.rowNames,auto,inherited-uncontrolled,
+flint-preset:datawrapper,legend.show,always,inherited-uncontrolled,
+flint-preset:datawrapper,legend.placement,top,overridden-by-tokens,"ours: right,bottom"
+flint-preset:datawrapper,legend.direction,horizontal,inherited-uncontrolled,
+flint-preset:datawrapper,legend.title,whenAmbiguous,inherited-uncontrolled,
+flint-preset:datawrapper,dataLabels.show,whenTheyFit,inherited-uncontrolled,
+flint-preset:datawrapper,dataLabels.placement,outsideMark,inherited-uncontrolled,
+flint-preset:datawrapper,dataLabels.inkMode,contrastWithMark,inherited-uncontrolled,
+flint-preset:datawrapper,annotation.axisTitles,omit,inherited-uncontrolled,
+flint-preset:datawrapper,annotation.unit,lastTick,inherited-uncontrolled,
+flint-preset:datawrapper,annotation.numberFormat.precision,auto,inherited-uncontrolled,
+flint-preset:datawrapper,interaction.tooltipFormat,matchKey,inherited-uncontrolled,
+flint-preset:datawrapper,layout.density,normal,inherited-uncontrolled,
+flint-preset:datawrapper,layout.targetWidth,360,inherited-uncontrolled,
+flint-preset:datawrapper,layout.bandStepFit,1,inherited-uncontrolled,
+flint-preset:datawrapper,layout.titleBlock.anchor,start,inherited-uncontrolled,
+engine-builtin:flint,revenue-overview/heatmap,#afc2f7,untokenized,Heatmap
+engine-builtin:flint,revenue-overview/heatmap,#84a2f2,untokenized,Heatmap
+engine-builtin:flint,revenue-overview/heatmap,#5881ec,untokenized,Heatmap
+engine-builtin:flint,revenue-overview/heatmap,#3662ea,untokenized,Heatmap
+engine-builtin:flint,revenue-overview/heatmap,#2549c1,untokenized,Heatmap
+engine-builtin:flint,revenue-overview/heatmap,#000000,untokenized,Heatmap
+engine-builtin:flint,revenue-overview/heatmap,#181818,untokenized,Heatmap
+engine-builtin:flint,sp500-today/intraday,#06982d,untokenized,Candlestick Chart
+engine-builtin:flint,sp500-today/intraday,#ae1325,untokenized,Candlestick Chart
+engine-builtin:flint,sp500-today/intraday,#000000,untokenized,Candlestick Chart
+engine-builtin:flint,sp500-today/intraday,#181818,untokenized,Candlestick Chart
+engine-builtin:plotly,yaxis.tickformat,(plotly default),untokenized,"renders 6000 not 6,000; no d3-format from tokens"
+engine-builtin:plotly,axis title text,raw field name,untokenized,"renders ""revenue"" not ""Revenue"""
+engine-builtin:plotly,xaxis.showgrid,true (plotly default),untokenized,VL config sets axisX.grid=false; engines disagree
+engine-builtin:plotly,marker symbol,filled circle,untokenized,VL legend uses hollow circles
+brand-asset,public/favicon.svg,#2f5bea,matches-token,
+brand-asset,public/favicon.svg,#fff,raw,
