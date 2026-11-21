@@ -1,0 +1,84 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        "$description": "Placeholder brand value (rebrand pending, see ADR-001)."
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "11": {
+        "$value": {
+          "value": 11,
+          "unit": "px"
+        }
+      },
+      "12": {
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
+      },
+      "13": {
+        "$value": {
+          "value": 13,
+          "unit": "px"
+        }
+      },
+      "15": {
+        "$value": {
+          "value": 15,
+          "unit": "px"
+        }
+      },
+      "16": {
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "22": {
+        "$value": {
+          "value": 22,
+          "unit": "px"
+        }
+      },
+      "32": {
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        }
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 400
+      },
+      "medium": {
+        "$value": 500
+      },
+      "semibold": {
+        "$value": 600
+      }
+    },
+    "tracking": {
+      "$type": "dimension",
+      "tight": {
+        "$value": {
+          "value": -0.32,
+          "unit": "px"
+        },
+        "$description": "-0.01em at the 32px display size."
+      },
+      "normal": {
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "color": {
+    "$type": "color",
+    "neutral": {
+      "$type": "color",
+      "$description": "Warm greys. Step ≈ darkness ×10.",
+      "0": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [1, 1, 1],
+          "hex": "#ffffff"
+        }
+      },
+      "25": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.9686, 0.9686, 0.9608],
+          "hex": "#f7f7f5"
+        }
+      },
+      "75": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.9294, 0.9294, 0.9176],
+          "hex": "#ededea"
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.9255, 0.9255, 0.9176],
+          "hex": "#ececea"
+        }
+      },
+      "150": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.8941, 0.8941, 0.8784],
+          "hex": "#e4e4e0"
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.7176, 0.7137, 0.6902],
+          "hex": "#b7b6b0"
+        }
+      },
+      "350": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.6392, 0.6392, 0.6157],
+          "hex": "#a3a39d"
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.5451, 0.5451, 0.5216],
+          "hex": "#8b8b85"
+        }
+      },
+      "450": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.4706, 0.4706, 0.451],
+          "hex": "#787873"
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.451, 0.451, 0.4314],
+          "hex": "#73736e"
+        }
+      },
+      "550": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.4196, 0.4196, 0.4],
+          "hex": "#6b6b66"
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.2784, 0.2784, 0.2588],
+          "hex": "#474742"
+        }
+      },
+      "750": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.2353, 0.2353, 0.2157],
+          "hex": "#3c3c37"
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.2, 0.2, 0.1843],
+          "hex": "#33332f"
+        }
+      },
+      "850": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.1765, 0.1765, 0.1647],
+          "hex": "#2d2d2a"
+        }
+      },
+      "875": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.1412, 0.1412, 0.1333],
+          "hex": "#242422"
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.1137, 0.1137, 0.1059],
+          "hex": "#1d1d1b"
+        }
+      },
+      "925": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.0902, 0.0902, 0.0863],
+          "hex": "#171716"
+        }
+      },
+      "1000": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0, 0, 0],
+          "hex": "#000000"
+        }
+      }
+    },
+    "brand": {
+      "$type": "color",
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.4784, 0.5216, 0.9961],
+          "hex": "#7a85fe"
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.298, 0.4235, 1],
+          "hex": "#4c6cff"
+        },
+        "$description": "Placeholder brand value (rebrand pending, see ADR-001)."
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.1843, 0.3569, 0.9176],
+          "hex": "#2f5bea"
+        },
+        "$description": "Placeholder brand value (rebrand pending, see ADR-001)."
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.1216, 0.2431, 0.651],
+          "hex": "#1f3ea6"
+        },
+        "$description": "Placeholder brand value (rebrand pending, see ADR-001)."
+      }
+    },
+    "red": {
+      "$type": "color",
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.9765, 0.4392, 0.4],
+          "hex": "#f97066"
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.7059, 0.1373, 0.0941],
+          "hex": "#b42318"
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.6745, 0.098, 0.0706],
+          "hex": "#ac1912"
+        }
+      }
+    },
+    "amber": {
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.9922, 0.6902, 0.1333],
+          "hex": "#fdb022"
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.7098, 0.2784, 0.0314],
+          "hex": "#b54708"
+        }
+      },
+      "$type": "color"
+    },
+    "green": {
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.149, 0.9373, 0.7882],
+          "hex": "#26efc9"
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.0196, 0.3882, 0.0235],
+          "hex": "#056306"
+        }
+      },
+      "$type": "color"
+    },
+    "rose": {
+      "$type": "color",
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.8078, 0.1804, 0.4588],
+          "hex": "#ce2e75"
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.6392, 0.0902, 0.3529],
+          "hex": "#a3175a"
+        }
+      }
+    },
+    "coral": {
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.9059, 0.4314, 0.2667],
+          "hex": "#e76e44"
+        }
+      },
+      "$type": "color"
+    }
+  }
+}

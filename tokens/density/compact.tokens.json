@@ -1,0 +1,52 @@
+{
+  "space": {
+    "$type": "dimension",
+    "stack": {
+      "2xs": {
+        "$value": "{dimension.2}"
+      },
+      "xs": {
+        "$value": "{dimension.4}"
+      },
+      "sm": {
+        "$value": "{dimension.6}"
+      },
+      "md": {
+        "$value": "{dimension.12}"
+      },
+      "lg": {
+        "$value": "{dimension.16}"
+      },
+      "xl": {
+        "$value": "{dimension.32}"
+      }
+    },
+    "inline": {
+      "xs": {
+        "$value": "{dimension.2}"
+      },
+      "sm": {
+        "$value": "{dimension.4}"
+      }
+    },
+    "inset": {
+      "panel": {
+        "$value": "{dimension.12}"
+      },
+      "page": {
+        "$value": "{dimension.12}"
+      },
+      "control-x": {
+        "$value": "{dimension.8}"
+      },
+      "control-y": {
+        "$value": "{dimension.2}"
+      }
+    },
+    "grid": {
+      "gap": {
+        "$value": "{dimension.12}"
+      }
+    }
+  }
+}
