@@ -20,6 +20,9 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 | `npm run tokens:build [-- --check]`       | DTCG `tokens/` → `src/theme/generated/` (CSS vars, themes, engines)   |
 | `npm run tokens:validate`                 | Contrast, CVD separability, ramps, references; writes contrast matrix |
 | `npm run lint:no-raw-values`              | Fail on colours/lengths outside `src/theme/` (`raw-ok:` to justify)   |
+| `npm run design:build` / `design:check`   | DESIGN.md front matter from tokens / fresh + DTCG round-trip          |
+| `npm run design:lint` / `design:diff`     | @google/design.md lint + section order / regressions vs `master`      |
+| `npm run design:taste -- "Do …"`          | Add a reviewed rule to Do's and Don'ts on a taste/* branch, for a PR  |
 
 ## Architecture
 
@@ -29,6 +32,7 @@ Never build a dashboard by hand-writing a page; write or change its spec.
     src/components/d3/catalog.ts  ← D3 chart contracts (props schema, field props), no React
     src/components/d3/registry.tsx← catalog name → React component (TS enforces completeness)
     src/renderers/                ← PanelRenderer switch; one adapter per renderer
+    DESIGN.md                     ← design contract: generated front matter + curated prose
     tokens/**/*.tokens.json       ← design tokens (DTCG): primitive → semantic → component (ADR-001)
     scripts/tokens/               ← resolver, validators, build, engine adapters (VL/Flint/Plotly)
     src/theme/generated/          ← generated: tokens.css, themes.ts, engines.ts (never edit)
@@ -51,6 +55,9 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 
 ## Rules
 
+- Read `DESIGN.md` before any UI or chart work; it is the design contract (values, rationale,
+  Do's and Don'ts). Its front matter is generated: change `tokens/`, then `npm run design:build`.
+  Do's and Don'ts change only via `npm run design:taste` and a PR (a hook blocks direct edits).
 - Every field a panel references must be declared in its dataset's `fields`. Validation enforces it.
 - Quote every d3-format string in YAML (`format: '$,.0f'`): commas split flow mappings.
 - Prefer block-style YAML for nested Vega-Lite specs; Prettier mangles long flow mappings.

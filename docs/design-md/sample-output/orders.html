@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orders</title>
+<style>
+/* ---- Factory DS values (DESIGN.md front matter only), defined once ---- */
+:root {
+  /* colors */
+  --color-primary: #2f5bea;
+  --color-primary-hover: #1f3ea6;
+  --color-on-primary: #ffffff;
+  --color-neutral: #f7f7f5;
+  --color-surface: #ffffff;
+  --color-surface-pressed: #e4e4e0;
+  --color-on-surface: #1d1d1b;
+  --color-on-surface-muted: #6b6b66;
+  --color-outline: #e4e4e0;
+  --color-outline-control: #8b8b85;
+  --color-focus-ring: #2f5bea;
+  --color-data-categorical-1: #2f5bea;
+  --color-data-positive: #056306;
+  --color-data-negative: #ce2e75;
+  --color-data-gridline: #ececea;
+  --color-data-axis: #e4e4e0;
+
+  /* typography */
+  --font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display-size: 32px;  --display-weight: 600; --display-lh: 1.1;  --display-tracking: -0.32px;
+  --title-size: 22px;    --title-weight: 600;   --title-lh: 1.25;
+  --body-large-size: 16px; --body-large-weight: 400; --body-large-lh: 1.25;
+  --body-strong-size: 13px; --body-strong-weight: 500; --body-strong-lh: 1.4;
+  --body-size: 13px;     --body-weight: 400;    --body-lh: 1.4;
+  --caption-size: 12px;  --caption-weight: 400; --caption-lh: 1.35;
+  --label-size: 11px;    --label-weight: 400;   --label-lh: 1.3;
+
+  /* rounded */
+  --rounded-mark: 2px;
+  --rounded-panel: 10px;
+  --rounded-pill: 999px;
+
+  /* spacing */
+  --stack-2xs: 4px;
+  --stack-xs: 6px;
+  --stack-sm: 8px;
+  --stack-md: 16px;
+  --stack-lg: 24px;
+  --stack-xl: 48px;
+  --inline-xs: 4px;
+  --inline-sm: 6px;
+  --inset-panel: 16px;
+  --inset-page: 16px;
+  --inset-control-x: 12px;
+  --inset-control-y: 4px;
+  --grid-gap: 16px;
+  --grid-columns: 12;
+  --container-max: 1440px;
+  --card-min-width: 280px;
+  /* breakpoint-stack: 760px (custom properties can't be used in @media; literal below) */
+
+  /* strokes (thin components) */
+  --stroke-hairline: 1px;   /* panel-outline / chip-outline / chart-* height */
+  --focus-ring-width: 2px;  /* focus-ring width */
+  --focus-ring-offset: 2px; /* prose: "2px, offset 2px" */
+}
+
+/* ---- page ---- */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--color-neutral);
+  color: var(--color-on-surface);
+  font-family: var(--font-family);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  line-height: var(--body-lh);
+}
+.page {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--inset-page);
+}
+
+/* title band */
+.title-band { margin-bottom: var(--stack-lg); }
+.page-title {
+  margin: 0 0 var(--stack-2xs);
+  font-size: var(--title-size);
+  font-weight: var(--title-weight);
+  line-height: var(--title-lh);
+}
+.page-description {
+  margin: 0;
+  color: var(--color-on-surface-muted);
+  font-size: var(--body-large-size);
+  font-weight: var(--body-large-weight);
+  line-height: var(--body-large-lh);
+}
+
+/* 12-column grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  gap: var(--grid-gap);
+  margin-bottom: var(--grid-gap);
+}
+.span-4 { grid-column: span 4; }
+.span-8 { grid-column: span 8; }
+.span-12 { grid-column: span 12; }
+
+/* panel */
+.panel {
+  background: var(--color-surface);
+  border: var(--stroke-hairline) solid var(--color-outline);
+  border-radius: var(--rounded-panel);
+  padding: var(--inset-panel);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.panel-title {
+  margin: 0 0 var(--stack-sm);
+  color: var(--color-on-surface-muted);
+  font-size: var(--body-strong-size);
+  font-weight: var(--body-strong-weight);
+  line-height: var(--body-strong-lh);
+}
+
+/* KPI */
+.kpi { min-height: 132px; } /* prose: "short row, about 132px" */
+.kpi-body { margin-top: auto; } /* bottom-aligned */
+.kpi-value {
+  margin: 0;
+  font-size: var(--display-size);
+  font-weight: var(--display-weight);
+  line-height: var(--display-lh);
+  letter-spacing: var(--display-tracking);
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+.kpi-value.is-negative { color: var(--color-data-negative); }
+.kpi-value.is-positive { color: var(--color-data-positive); }
+
+/* filter chips */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--inline-sm);
+  margin: 0 0 var(--grid-gap);
+  padding: 0;
+  border: 0;
+}
+.chip {
+  appearance: none;
+  margin: 0;
+  font: inherit;
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  line-height: var(--body-lh);
+  padding: var(--inset-control-y) var(--inset-control-x);
+  border-radius: var(--rounded-pill);
+  border: var(--stroke-hairline) solid var(--color-outline-control);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+  cursor: pointer;
+}
+.chip:hover { background: var(--color-neutral); }
+.chip:active { background: var(--color-surface-pressed); }
+.chip[aria-pressed="true"] {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+.chip[aria-pressed="true"]:hover,
+.chip[aria-pressed="true"]:active {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+.chip:focus { outline: none; }
+.chip:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+.chip:disabled,
+.chip:disabled:hover,
+.chip:disabled:active {
+  background: var(--color-surface);
+  color: var(--color-on-surface-muted);
+  border-color: var(--color-outline);
+  cursor: not-allowed;
+}
+
+/* table */
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+}
+th, td {
+  text-align: left;
+  padding: var(--stack-sm) var(--inline-sm);
+  border-bottom: var(--stroke-hairline) solid var(--color-outline);
+  white-space: nowrap;
+}
+th {
+  color: var(--color-on-surface-muted);
+  font-weight: var(--body-strong-weight);
+}
+tbody tr:last-child td { border-bottom: 0; }
+.num {
+  text-align: right;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+.muted { color: var(--color-on-surface-muted); }
+
+/* chart (inline SVG) */
+.chart { width: 100%; height: auto; display: block; }
+.chart text {
+  font-family: var(--font-family);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+}
+.chart .tick-label, .chart .cat-label { fill: var(--color-on-surface-muted); }
+.chart .value-label {
+  fill: var(--color-on-surface);
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+.chart .gridline { stroke: var(--color-data-gridline); stroke-width: var(--stroke-hairline); }
+.chart .axis { stroke: var(--color-data-axis); stroke-width: var(--stroke-hairline); }
+.chart .bar { fill: var(--color-data-categorical-1); }
+
+/* stacked layout below breakpoint-stack */
+@media (max-width: 760px) {
+  .span-4, .span-8 { grid-column: span 12; }
+}
+</style>
+</head>
+<body>
+<main class="page">
+
+  <header class="title-band">
+    <h1 class="page-title">Orders</h1>
+    <p class="page-description">Every order across all channels, with this week's volume and revenue.</p>
+  </header>
+
+  <!-- KPIs first -->
+  <section class="grid" aria-label="Key figures">
+    <div class="panel kpi span-4">
+      <h2 class="panel-title">Open orders</h2>
+      <div class="kpi-body"><p class="kpi-value">1,284</p></div>
+    </div>
+    <div class="panel kpi span-4">
+      <h2 class="panel-title">Revenue this week</h2>
+      <div class="kpi-body"><p class="kpi-value">$482,910</p></div>
+    </div>
+    <div class="panel kpi span-4">
+      <h2 class="panel-title">Change vs last week</h2>
+      <div class="kpi-body">
+        <p class="kpi-value is-negative" aria-label="Down 3.40% versus last week">&minus;3.40%</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <fieldset class="filters" aria-label="Filter by status">
+    <button type="button" class="chip" aria-pressed="true">All</button>
+    <button type="button" class="chip" aria-pressed="false">Open</button>
+    <button type="button" class="chip" aria-pressed="false">Shipped</button>
+    <button type="button" class="chip" aria-pressed="false">Cancelled</button>
+    <button type="button" class="chip" aria-pressed="false" disabled>Archived</button>
+  </fieldset>
+
+  <section class="grid">
+    <!-- Primary panel: the list -->
+    <div class="panel span-8">
+      <h2 class="panel-title" id="orders-title">Recent orders</h2>
+      <div class="table-wrap">
+        <table aria-labelledby="orders-title">
+          <thead>
+            <tr>
+              <th scope="col">Order</th>
+              <th scope="col">Customer</th>
+              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+              <th scope="col" class="num">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>ORD-10482</td><td>Harbor &amp; Pine Co.</td><td>Nov 20, 2026</td><td>Open</td><td class="num">$12,480.00</td></tr>
+            <tr><td>ORD-10481</td><td>Lumen Studios</td><td>Nov 20, 2026</td><td>Shipped</td><td class="num">$3,915.50</td></tr>
+            <tr><td>ORD-10480</td><td>Northgate Supply</td><td>Nov 19, 2026</td><td>Open</td><td class="num">$842.75</td></tr>
+            <tr><td>ORD-10479</td><td>Arcadia Foods</td><td>Nov 19, 2026</td><td>Cancelled</td><td class="num">$1,206.00</td></tr>
+            <tr><td>ORD-10478</td><td>Bright Ridge Ltd.</td><td>Nov 18, 2026</td><td>Shipped</td><td class="num">$27,350.20</td></tr>
+            <tr><td>ORD-10477</td><td>Kestrel Outfitters</td><td>Nov 18, 2026</td><td>Open</td><td class="num muted" aria-label="Amount missing">&mdash;</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Supporting chart -->
+    <div class="panel span-4">
+      <h2 class="panel-title" id="region-title">Orders by region</h2>
+      <svg class="chart" viewBox="0 0 340 196" role="img"
+           aria-labelledby="region-title region-desc">
+        <desc id="region-desc">Horizontal bar chart of order count by region, sorted by value:
+          North America 412, Europe 318, Asia Pacific 276, Latin America 141.</desc>
+        <!-- measure-axis gridlines only (vertical, since bars are horizontal); scale 0–500 over 200px -->
+        <g aria-hidden="true">
+          <line class="gridline" x1="140" y1="4" x2="140" y2="170"/>
+          <line class="gridline" x1="180" y1="4" x2="180" y2="170"/>
+          <line class="gridline" x1="220" y1="4" x2="220" y2="170"/>
+          <line class="gridline" x1="260" y1="4" x2="260" y2="170"/>
+          <line class="gridline" x1="300" y1="4" x2="300" y2="170"/>
+          <text class="tick-label" x="100" y="186" text-anchor="middle">0</text>
+          <text class="tick-label" x="140" y="186" text-anchor="middle">100</text>
+          <text class="tick-label" x="180" y="186" text-anchor="middle">200</text>
+          <text class="tick-label" x="220" y="186" text-anchor="middle">300</text>
+          <text class="tick-label" x="260" y="186" text-anchor="middle">400</text>
+          <text class="tick-label" x="300" y="186" text-anchor="middle">500</text>
+
+          <!-- bars: square at the baseline, 2px radius on the value end only -->
+          <text class="cat-label" x="94" y="26" text-anchor="end">North America</text>
+          <path class="bar" d="M100 10 h162.8 a2 2 0 0 1 2 2 v20 a2 2 0 0 1 -2 2 h-162.8 z"/>
+          <text class="value-label" x="270.8" y="26">412</text>
+
+          <text class="cat-label" x="94" y="66" text-anchor="end">Europe</text>
+          <path class="bar" d="M100 50 h125.2 a2 2 0 0 1 2 2 v20 a2 2 0 0 1 -2 2 h-125.2 z"/>
+          <text class="value-label" x="233.2" y="66">318</text>
+
+          <text class="cat-label" x="94" y="106" text-anchor="end">Asia Pacific</text>
+          <path class="bar" d="M100 90 h108.4 a2 2 0 0 1 2 2 v20 a2 2 0 0 1 -2 2 h-108.4 z"/>
+          <text class="value-label" x="216.4" y="106">276</text>
+
+          <text class="cat-label" x="94" y="146" text-anchor="end">Latin America</text>
+          <path class="bar" d="M100 130 h54.4 a2 2 0 0 1 2 2 v20 a2 2 0 0 1 -2 2 h-54.4 z"/>
+          <text class="value-label" x="162.4" y="146">141</text>
+
+          <!-- baseline (category axis) drawn over bar starts -->
+          <line class="axis" x1="100" y1="4" x2="100" y2="170"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
