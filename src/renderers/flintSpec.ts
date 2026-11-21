@@ -37,9 +37,11 @@ export function buildFlintSpec(
   const spec = stripPrivateKeys(assembleVegaLite(buildFlintInput(panel, rows, semantics, size)));
   delete spec.title;
   // Flint's static output tooltips dump the raw row; show the encoded fields, grouped by thousands.
+  // Vega-Lite also puts numberFormat on quantitative axes, where Vega adds tick precision to a
+  // specifier without a type (',' turns 7,690 into 7.69e+3), so give it an explicit precision.
   spec.config = {
     ...spec.config,
-    numberFormat: spec.config?.numberFormat ?? ',',
+    numberFormat: spec.config?.numberFormat ?? ',.12~g',
     mark: { ...spec.config?.mark, tooltip: { content: 'encoding' } },
   };
   return spec as TopLevelSpec;

@@ -1,6 +1,7 @@
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { View, parse as parseVega } from 'vega';
 import { compile } from 'vega-lite';
 import { describe, expect, it } from 'vitest';
 import { parse, stringify } from 'yaml';
@@ -64,6 +65,32 @@ describe('buildFlintSpec', () => {
   it('takes its look from design tokens', () => {
     expect(spec.background).toBe(tokens.color.surface);
     expect(JSON.stringify(spec.config)).toContain(tokens.font.family.replace(/"/g, '\\"'));
+  });
+
+  it('labels a narrow axis in the thousands in full, not in exponent form', async () => {
+    const bars = Array.from({ length: 12 }, (_, i) => {
+      const open = 7700 + (i % 5) * 7;
+      return {
+        time: `2026-10-29T10:${String(i * 5).padStart(2, '0')}:00`,
+        open,
+        high: open + 9,
+        low: open - 9,
+        close: open + 4,
+      };
+    });
+    const candles: FlintPanel = {
+      title: 'Intraday',
+      dataset: 'bars',
+      renderer: 'flint',
+      chart: {
+        chartType: 'Candlestick Chart',
+        encodings: { x: 'time', open: 'open', high: 'high', low: 'low', close: 'close' },
+      },
+    };
+    const vl = buildFlintSpec(candles, bars, { time: 'DateTime' }, { width: 600, height: 300 });
+    const svg = await new View(parseVega(compile(vl).spec), { renderer: 'none' }).toSVG();
+    expect(svg).toContain('>7,700<');
+    expect(svg).not.toMatch(/\de\+3/);
   });
 });
 
