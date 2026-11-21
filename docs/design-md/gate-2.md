@@ -1,6 +1,6 @@
 # Gate 2: DESIGN.md
 
-**Status:** awaiting review.
+**Status:** reviewed 2026-11-21 (decisions at the end).
 
 ## What was produced
 
@@ -85,10 +85,9 @@ The agent reported 12 gaps. What happened to each:
   Both are isolated in the adapter and the check.
 - The Do's and Don'ts content itself wasn't changed after the guard went in.
 
-## Open questions
+## Decisions (2026-11-21)
 
-1. Do you agree with the legend exception (colour keys beside the plot), or should heatmaps get a
-   fixed key height so the key can sit on top too? The second option means more Flint workarounds.
-2. Should the repo-specific Don't ("Don't hard-code … `src/theme/` … `npm run lint:no-raw-values`")
-   become tool-neutral for agents working outside this repo? If yes, I'll make the change through
-   `npm run design:taste` and a PR, as the new rule requires.
+| #   | Question                                                         | Decision                                                                                                 |
+| --- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| 1   | Colour keys (heatmaps) beside the plot, all other legends on top | **Accepted.**                                                                                            |
+| 2   | Make the repo-specific Don't tool-neutral                        | **Yes**, through `npm run design:taste` / a `taste/*` branch and a PR, as the learn-taste rule requires. |
