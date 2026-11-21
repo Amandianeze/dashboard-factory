@@ -51,6 +51,7 @@ export function DashboardView({ spec }: { spec: DashboardSpec }) {
                     className={`panel panel-${panel.renderer}`}
                     style={{ '--span': span } as CSSProperties}
                     data-testid={`panel-${id}`}
+                    data-kind={panel.kind}
                     data-renderer={panel.renderer}
                     aria-labelledby={`panel-${id}-title`}
                   >

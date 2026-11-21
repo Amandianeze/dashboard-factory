@@ -44,6 +44,7 @@ panels:
   placeholder:
     title: TODO
     dataset: main
+    kind: kpi-card
     renderer: kpi
     field: date
     aggregate: count

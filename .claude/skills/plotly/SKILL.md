@@ -13,6 +13,7 @@ means switching bundles — raise it as an architecture decision, don't just cha
 ## Panel shape
 
 ```yaml
+kind: chart-panel
 renderer: plotly
 trace:
   type: scatter # scatter | bar

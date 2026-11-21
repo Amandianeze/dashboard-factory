@@ -34,6 +34,7 @@ const rows = loadFixture('sales_daily.json') as Row[];
 const panel: FlintPanel = {
   title: 'Revenue by region and product',
   dataset: 'sales',
+  kind: 'chart-panel',
   renderer: 'flint',
   chart: {
     chartType: 'Heatmap',
@@ -94,6 +95,7 @@ describe('buildFlintSpec', () => {
     const candles: FlintPanel = {
       title: 'Intraday',
       dataset: 'bars',
+      kind: 'chart-panel',
       renderer: 'flint',
       chart: {
         chartType: 'Candlestick Chart',
@@ -114,6 +116,7 @@ describe('buildFlintSpec', () => {
     const candles: FlintPanel = {
       title: 'Intraday',
       dataset: 'bars',
+      kind: 'chart-panel',
       renderer: 'flint',
       chart: {
         chartType: 'Candlestick Chart',

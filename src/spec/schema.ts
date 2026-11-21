@@ -7,6 +7,7 @@
  */
 import { z } from 'zod';
 import { D3FormatString } from './d3Format';
+import { PANEL_KINDS, type PanelKind as PanelKindId } from './generated/panel-kinds';
 
 export const ID_PATTERN = /^[a-z][a-z0-9_-]*$/;
 const Id = z
@@ -78,9 +79,18 @@ export type FilterSpec = z.infer<typeof FilterSpec>;
 
 /* -------------------------------------------------------------------- panels */
 
+/**
+ * The catalog organism a panel renders as. Generated from catalog.json (docs/lld front matter):
+ * only built panel organisms are allowed, and each allows a fixed set of renderers.
+ */
+export const PanelKind = z
+  .enum(Object.keys(PANEL_KINDS) as [PanelKindId, ...PanelKindId[]])
+  .describe('Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel.');
+
 const PanelCommon = {
   title: z.string().min(1),
   description: z.string().optional(),
+  kind: PanelKind,
   dataset: Id,
 };
 
@@ -273,8 +283,14 @@ function crossReferences(d: DashboardShape, ctx: z.RefinementCtx) {
     if (n > 1) issue(['panels', id], `panel "${id}" is placed ${n} times`);
   }
 
-  // Panels: dataset exists and every referenced field is declared.
+  // Panels: kind allows the renderer, dataset exists and every referenced field is declared.
   for (const [id, p] of Object.entries(d.panels)) {
+    const allowed: readonly string[] = PANEL_KINDS[p.kind].renderers;
+    if (!allowed.includes(p.renderer))
+      issue(
+        ['panels', id, 'kind'],
+        `kind "${p.kind}" renders with ${allowed.join(' | ')}, not "${p.renderer}"`,
+      );
     const ds = d.datasets[p.dataset];
     if (!ds) {
       issue(['panels', id, 'dataset'], `unknown dataset "${p.dataset}"`);

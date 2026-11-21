@@ -262,6 +262,14 @@
                   "description": {
                     "type": "string"
                   },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "chart-panel",
+                      "kpi-card"
+                    ],
+                    "description": "Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel."
+                  },
                   "dataset": {
                     "type": "string",
                     "pattern": "^[a-z][a-z0-9_-]*$"
@@ -292,6 +300,7 @@
                 },
                 "required": [
                   "title",
+                  "kind",
                   "dataset",
                   "renderer",
                   "field",
@@ -309,6 +318,14 @@
                   "description": {
                     "type": "string"
                   },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "chart-panel",
+                      "kpi-card"
+                    ],
+                    "description": "Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel."
+                  },
                   "dataset": {
                     "type": "string",
                     "pattern": "^[a-z][a-z0-9_-]*$"
@@ -324,6 +341,7 @@
                 },
                 "required": [
                   "title",
+                  "kind",
                   "dataset",
                   "renderer",
                   "spec"
@@ -339,6 +357,14 @@
                   },
                   "description": {
                     "type": "string"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "chart-panel",
+                      "kpi-card"
+                    ],
+                    "description": "Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel."
                   },
                   "dataset": {
                     "type": "string",
@@ -360,6 +386,7 @@
                 },
                 "required": [
                   "title",
+                  "kind",
                   "dataset",
                   "renderer",
                   "component"
@@ -375,6 +402,14 @@
                   },
                   "description": {
                     "type": "string"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "chart-panel",
+                      "kpi-card"
+                    ],
+                    "description": "Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel."
                   },
                   "dataset": {
                     "type": "string",
@@ -436,6 +471,7 @@
                 },
                 "required": [
                   "title",
+                  "kind",
                   "dataset",
                   "renderer",
                   "trace"
@@ -451,6 +487,14 @@
                   },
                   "description": {
                     "type": "string"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "chart-panel",
+                      "kpi-card"
+                    ],
+                    "description": "Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel."
                   },
                   "dataset": {
                     "type": "string",
@@ -516,6 +560,7 @@
                 },
                 "required": [
                   "title",
+                  "kind",
                   "dataset",
                   "renderer",
                   "chart"
