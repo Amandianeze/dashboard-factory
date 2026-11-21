@@ -26,7 +26,7 @@ macOS, run `npm run test:e2e -- --update-snapshots` once to create `*-darwin.png
    Vega-Lite panel.
 4. The app bundles every spec, validates it at load, and renders each panel through
    `PanelRenderer` (kpi / vega-lite / d3 / plotly). Vega and Plotly are lazy-loaded chunks.
-5. All styling derives from `src/theme/tokens.ts`.
+5. All styling derives from the DTCG tokens in `tokens/` (generated into `src/theme/generated/`).
 
 ## Using it with Claude Code
 

@@ -37,7 +37,9 @@ export const d3Registry = { ..., MyChart };
 - Size to the given `width`/`height` (the container is measured by ResizeObserver). Reserve label
   space with constants; never overflow the box.
 - Empty data → render `<p className="panel-empty">No data</p>`.
-- Colors, fonts, sizes from `tokens` (`src/theme/tokens.ts`) only.
+- Colors and type from CSS variables (`style={{ fill: 'var(--chart-label-text)' }}`), so a theme
+  switch restyles without a re-render; numeric sizes from `useTheme().tokens.chart`. Never raw values
+  (`npm run lint:no-raw-values`). See `RankedBars.tsx`.
 - `<svg role="img" aria-label="...">` and a `<title>` per mark for hover/screen readers.
 - Format numbers with `d3.format(props.valueFormat)`.
 - Add a unit test for the data shaping, run `npm run test:e2e`, and look at the panel screenshot.

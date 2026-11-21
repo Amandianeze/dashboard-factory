@@ -12,8 +12,10 @@
 | [`interface-inventory.md`](interface-inventory.md) | Frost categories, variant counts, duplicates, crops in [`img/`](img/)                                                                        | hand-written from the above                             |
 | [`bi-reuse-scan.md`](bi-reuse-scan.md)             | SQLBI ladder, ranked by recurrence                                                                                                           | hand-written from the specs                             |
 
-The scripts aren't wired into `package.json` yet, because `package.json` has uncommitted changes
-that aren't part of this work. They become `npm run inventory:*` in the Phase 1 commit.
+Phase 1 update: `code-inventory.ts` is now `npm run inventory:code`, and its `--check` mode is
+`npm run lint:no-raw-values`. `palette-audit.ts` and `design-inventory.ts` read the pre-Phase-1
+`tokens.ts`, so they were retired (superseded by `npm run tokens:validate`). Their outputs here are
+the Phase 0 record; regenerate them from commit `812561d` if needed.
 
 ## Headline numbers
 
@@ -137,9 +139,9 @@ palettes change per theme for contrast, but never per host without an ADR.
 
 ## Decisions (2026-11-21)
 
-| # | Question | Decision | Effect on later phases |
-| --- | --- | --- | --- |
-| 1 | Names and brand sources | **Placeholders, no Figma.** Product "Dashboard Factory", design system "Factory DS", npm scope `@factory`. | ADR-001: code is the token source; Figma mirrors it later. Figma variables export is still generated; Code Connect is deferred until a Figma file exists. Names are rename-safe placeholders. |
-| 2 | Grid | **Keep 12 columns** with `gap`. | No schema or spec migration. Tokens: `layout.grid.columns = 12`, `layout.grid.gap`. Revisit if a Power BI importer needs finer placement. |
-| 3 | Scope | **Slim:** Phases 1–3 first. | No `packages/` split until a second app consumes the system. The Power BI importer becomes its own phase before Phase 7. |
-| 4 | Brand | **Rebrand coming.** | Build the full token structure now with current values as **placeholders**, marked as such in `$description`. Fix only what fails validation. Swapping in the new brand should touch only primitive (and maybe semantic) token values. The generators, validators and component tokens must not need changes. |
+| #   | Question                | Decision                                                                                                   | Effect on later phases                                                                                                                                                                                                                                                                                        |
+| --- | ----------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Names and brand sources | **Placeholders, no Figma.** Product "Dashboard Factory", design system "Factory DS", npm scope `@factory`. | ADR-001: code is the token source; Figma mirrors it later. Figma variables export is still generated; Code Connect is deferred until a Figma file exists. Names are rename-safe placeholders.                                                                                                                 |
+| 2   | Grid                    | **Keep 12 columns** with `gap`.                                                                            | No schema or spec migration. Tokens: `layout.grid.columns = 12`, `layout.grid.gap`. Revisit if a Power BI importer needs finer placement.                                                                                                                                                                     |
+| 3   | Scope                   | **Slim:** Phases 1–3 first.                                                                                | No `packages/` split until a second app consumes the system. The Power BI importer becomes its own phase before Phase 7.                                                                                                                                                                                      |
+| 4   | Brand                   | **Rebrand coming.**                                                                                        | Build the full token structure now with current values as **placeholders**, marked as such in `$description`. Fix only what fails validation. Swapping in the new brand should touch only primitive (and maybe semantic) token values. The generators, validators and component tokens must not need changes. |
