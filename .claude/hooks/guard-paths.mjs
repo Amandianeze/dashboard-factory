@@ -1,6 +1,7 @@
 // PreToolUse (Edit|MultiEdit|Write): block edits to generated or vendored files and point Claude
 // at the source of truth instead.
-import { block, readInput, rel } from './lib.mjs';
+import { existsSync, readFileSync } from 'node:fs';
+import { block, readInput, rel, run } from './lib.mjs';
 
 const RULES = [
   [/^node_modules\//, 'node_modules is managed by npm.'],
@@ -37,5 +38,25 @@ const input = await readInput();
 const file = input.tool_input?.file_path;
 if (!file) process.exit(0);
 const path = rel(file);
+
+// learn-taste: Do's and Don'ts changes only through `npm run design:taste` on a taste/* branch,
+// reviewed as a PR. Never a silent edit.
+if (path === 'DESIGN.md') {
+  const section = (text) => /## Do's and Don'ts\n([\s\S]*?)(?=\n## |$)/.exec(text ?? '')?.[1] ?? '';
+  const current = existsSync(file) ? readFileSync(file, 'utf8') : '';
+  const ti = input.tool_input ?? {};
+  const touches =
+    input.tool_name === 'Write'
+      ? section(ti.content) !== section(current)
+      : [ti.old_string, ...(ti.edits ?? []).map((e) => e.old_string)]
+          .filter(Boolean)
+          .some((old) => section(current).includes(old) || old.includes("## Do's and Don'ts"));
+  const branch = run('git', ['branch', '--show-current']).output;
+  if (touches && !branch.startsWith('taste/'))
+    block(
+      "Blocked edit to DESIGN.md › Do's and Don'ts: rules change only through review. Use " +
+        '`npm run design:taste -- "Do …"` (creates a taste/* branch and commit) and open a PR.',
+    );
+}
 for (const [pattern, reason] of RULES)
   if (pattern.test(path)) block(`Blocked edit to ${path}: ${reason}`);

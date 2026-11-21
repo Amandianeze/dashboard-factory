@@ -38,6 +38,18 @@ if (/^tokens\//.test(path) || /^scripts\/tokens\//.test(path)) {
   // Token source or token tooling changed: validate and regenerate src/theme/generated.
   const b = run('npm', ['run', '-s', 'tokens:build']);
   if (!b.ok) problems.push(`Token build:\n${tail(b.output)}`);
+  else {
+    // DESIGN.md's front matter is generated from the same tokens.
+    const d = run('npm', ['run', '-s', 'design:build']);
+    if (!d.ok) problems.push(`DESIGN.md build:\n${tail(d.output)}`);
+  }
+}
+
+if (path === 'DESIGN.md') {
+  const l = run('npm', ['run', '-s', 'design:lint']);
+  if (!l.ok) problems.push(`DESIGN.md lint:\n${tail(l.output)}`);
+  const c = run('npm', ['run', '-s', 'design:check']);
+  if (!c.ok) problems.push(`DESIGN.md check:\n${tail(c.output)}`);
 }
 
 if (problems.length)
