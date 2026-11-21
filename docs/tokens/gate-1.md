@@ -1,6 +1,6 @@
 # Gate 1: token architecture
 
-**Status:** awaiting review. Linux screenshot baselines are still pending (Docker wasn't running; see
+**Status:** reviewed 2026-11-21 (decisions at the end). Linux screenshot baselines are still pending (Docker wasn't running; see
 "Not done").
 
 ## What was produced
@@ -101,9 +101,9 @@ High contrast: ![hc](img/revenue-overview-hc.png)
   they're a placeholder, not a design.
 - Not caused by this phase: the Flint candlestick still leaves about 80px of empty panel (Gate 0).
 
-## Open questions
+## Decisions (2026-11-21)
 
-1. Is the magenta-red `negative` acceptable as the finance "down" colour? Classic red/green fails
-   the colour-blind check at similar lightness.
-2. Should the app get a visible theme switcher now, or wait for Storybook's toolbar (Phase 5)? Today
-   the theme comes from `?theme=` or the system preference.
+| #   | Question                                   | Decision                                                                                       |
+| --- | ------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| 1   | Magenta-red `#ce2e75` as the "down" colour | **Accepted.** Keeps up/down separable for colour-blind viewers (ΔE₀₀ 22); `hc` uses `#a3175a`. |
+| 2   | Visible theme switcher in the app          | **Wait** for Storybook's toolbar (Phase 5). Until then: `?theme=` or the system preference.    |
