@@ -79,3 +79,10 @@ bar-radius and legend duplicates from the Gate 0 list.
 - Linux screenshot baselines (Docker) are still pending from Gate 1.
 - The ADRs Phase 4 needs (ADR-002 chart layer, ADR-003 primitives and icons) aren't started. The
   icon gap (P2) waits on ADR-003.
+
+## Decisions (2026-11-21)
+
+| #   | Question                   | Decision                                                                                                |
+| --- | -------------------------- | ------------------------------------------------------------------------------------------------------- |
+| 1   | Phase 4 scope              | **Yes:** full LLDs for the 13 beta items and the 14 P1/P2 gaps. The 7 P3 items stay stubs until needed. |
+| 2   | Rename the D3 `catalog.ts` | **Yes:** `src/components/d3/charts.ts`, done in Phase 4.                                                |
