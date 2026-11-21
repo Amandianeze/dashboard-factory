@@ -2,10 +2,12 @@ import { useMemo, useState, type CSSProperties } from 'react';
 import { applyFilters, type FilterState } from '../data/transforms';
 import { useDatasets } from '../data/useDatasets';
 import { PanelErrorBoundary, PanelRenderer } from '../renderers/PanelRenderer';
-import type { DashboardSpec } from '../spec/types';
+import type { DashboardTemplateProps } from '../../docs/lld/dashboard-template.props';
 import { FilterBar } from './FilterBar';
 
-export function DashboardView({ spec }: { spec: DashboardSpec }) {
+export type { DashboardTemplateProps };
+
+export function DashboardView({ spec }: DashboardTemplateProps) {
   const datasets = useDatasets(spec.datasets);
   const [filterState, setFilterState] = useState<FilterState>({});
 

@@ -66,7 +66,7 @@ bar-radius and legend duplicates from the Gate 0 list.
 
 ## Open questions
 
-1. **Phase 4 scope.** Write full LLDs for P1 and P2 gaps (14 items) and the 13 beta items, and
+1. **Phase 4 scope.** Write full LLDs for P1 and P2 gaps (13 items) and the 13 beta items, and
    leave P3 (product-UI templates, app chrome) as stubs until a CRUD page is actually wanted?
    That fits the slim-scope decision from Gate 0. The alternative is all 34 now.
 2. **Name clash.** `src/components/d3/catalog.ts` (D3 chart props contracts) and `catalog.json`
@@ -84,5 +84,5 @@ bar-radius and legend duplicates from the Gate 0 list.
 
 | #   | Question                   | Decision                                                                                                |
 | --- | -------------------------- | ------------------------------------------------------------------------------------------------------- |
-| 1   | Phase 4 scope              | **Yes:** full LLDs for the 13 beta items and the 14 P1/P2 gaps. The 7 P3 items stay stubs until needed. |
+| 1   | Phase 4 scope              | **Yes:** full LLDs for the 13 beta items and the 13 P1/P2 gaps. The 8 P3 items stay stubs until needed. |
 | 2   | Rename the D3 `catalog.ts` | **Yes:** `src/components/d3/charts.ts`, done in Phase 4.                                                |
