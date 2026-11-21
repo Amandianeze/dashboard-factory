@@ -1,6 +1,6 @@
 # ADR-005: Versioning, deprecation and contribution flow
 
-- **Status:** Proposed (Phase 4, 2026-11-21); accepted at Gate 4
+- **Status:** Accepted (Gate 4, 2026-11-21)
 - **Deciders:** project owner, design-systems agent
 - **References:**
   [Atomic Design, ch. 5 "Maintaining design systems"](https://atomicdesign.bradfrost.com/chapter-5/) ·

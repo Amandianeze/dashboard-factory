@@ -1,6 +1,6 @@
 # ADR-002: Chart authoring layer
 
-- **Status:** Proposed (Phase 4, 2026-11-21); accepted at Gate 4
+- **Status:** Accepted (Gate 4, 2026-11-21)
 - **Deciders:** project owner, design-systems agent
 - **References:**
   [Flint](https://microsoft.github.io/flint-chart/) (`flint-chart` 1.0.1, pinned) ·

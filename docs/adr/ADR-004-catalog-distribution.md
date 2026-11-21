@@ -1,6 +1,6 @@
 # ADR-004: Catalog distribution (registry, npm packages, or both)
 
-- **Status:** Proposed (Phase 4, 2026-11-21); accepted at Gate 4
+- **Status:** Accepted (Gate 4, 2026-11-21)
 - **Deciders:** project owner, design-systems agent
 - **References:**
   [shadcn registry: namespaces](https://github.com/shadcn-ui/ui/blob/shadcn@4.21.0/apps/v4/content/docs/registry/namespace.mdx) ·

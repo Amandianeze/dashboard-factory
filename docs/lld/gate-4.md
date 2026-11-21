@@ -94,3 +94,10 @@ regions, and a `danger` button variant.
 - **Packages:** LLDs exist for catalog items only. The `format` module and semantic layer get
   package LLDs when they're built (Gate 3 taxonomy note).
 - **Linux screenshot baselines** (Docker) are still pending from Gate 1.
+
+## Decisions (2026-11-21)
+
+| #   | Question       | Decision                                                                                        |
+| --- | -------------- | ----------------------------------------------------------------------------------------------- |
+| 1   | ADRs 002–005   | **Accepted**, including ADR-002 (Vega-Lite default, Flint for its forms) and ADR-003 (Base UI). |
+| 2   | KPI comparison | **Field-based `compareTo` first**; period offsets wait for the semantic layer.                  |

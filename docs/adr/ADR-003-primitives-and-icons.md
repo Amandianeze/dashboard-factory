@@ -1,6 +1,6 @@
 # ADR-003: Primitives (Base UI vs Radix under shadcn) and the icon set
 
-- **Status:** Proposed (Phase 4, 2026-11-21); accepted at Gate 4
+- **Status:** Accepted (Gate 4, 2026-11-21)
 - **Deciders:** project owner, design-systems agent
 - **References:**
   [shadcn changelog, July 2026: Base UI as the default](https://github.com/shadcn-ui/ui/blob/shadcn@4.21.0/apps/v4/content/docs/changelog/2026-07-base-ui-default.mdx) ·

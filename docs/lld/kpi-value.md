@@ -99,5 +99,4 @@ formatted-value, delta-indicator.
 
 ## Open questions
 
-1. `compareTo` by period offset (e.g. same day last year) needs the semantic layer; field-based
-   only for now? Owner: project owner.
+None. Gate 4: field-based `compareTo` first; period offsets wait for the semantic layer.
