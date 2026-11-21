@@ -6,31 +6,34 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 
 ## Commands
 
-| Command                                   | What it does                                                          |
-| ----------------------------------------- | --------------------------------------------------------------------- |
-| `npm run dev`                             | Vite dev server (index lists every dashboard; `#/d/<id>` opens one)   |
-| `npm run verify`                          | typecheck, lint, no-raw-values, tokens, specs, unit tests ("done")    |
-| `npm run spec:validate [-- file]`         | Schema, cross-refs, catalog props, fixture fields, VL + Flint checks  |
-| `npm run test:e2e`                        | Builds, renders every dashboard in Chromium, per-panel screenshots    |
-| `npm run new:dashboard -- <id> "<Title>"` | Scaffold a new spec (always use this; never start from a blank)       |
-| `npm run spec:schema`                     | Regenerate `dashboards/dashboard.schema.json` after schema changes    |
-| `npm run catalog:build [-- --check]`      | LLD front matter → `catalog.json`, panel `kind` enum, taxonomy tables |
-| `npm run data:fixtures`                   | Regenerate deterministic fixture data in `public/data/`               |
-| `npm run data:profile`                    | Check every fixture row against declared field types; stats           |
-| `npm run panel:render -- <dash> <panel>`  | Render one panel in Chromium: screenshot, console, compiled VL spec   |
-| `npm run tokens:build [-- --check]`       | DTCG `tokens/` → `src/theme/generated/` (CSS vars, themes, engines)   |
-| `npm run tokens:validate`                 | Contrast, CVD separability, ramps, references; writes contrast matrix |
-| `npm run lint:no-raw-values`              | Fail on colours/lengths outside `src/theme/` (`raw-ok:` to justify)   |
-| `npm run design:build` / `design:check`   | DESIGN.md front matter from tokens / fresh + DTCG round-trip          |
-| `npm run design:lint` / `design:diff`     | @google/design.md lint + section order / regressions vs `master`      |
-| `npm run design:taste -- "Do …"`          | Add a reviewed rule to Do's and Don'ts on a taste/* branch, for a PR  |
+| Command                                   | What it does                                                            |
+| ----------------------------------------- | ----------------------------------------------------------------------- |
+| `npm run dev`                             | Vite dev server (index lists every dashboard; `#/d/<id>` opens one)     |
+| `npm run verify`                          | typecheck, lint, no-raw-values, tokens, specs, unit tests ("done")      |
+| `npm run spec:validate [-- file]`         | Schema, cross-refs, catalog props, fixture fields, VL + Flint checks    |
+| `npm run test:e2e`                        | Builds, renders every dashboard in Chromium, per-panel screenshots      |
+| `npm run new:dashboard -- <id> "<Title>"` | Scaffold a new spec (always use this; never start from a blank)         |
+| `npm run spec:schema`                     | Regenerate `dashboards/dashboard.schema.json` after schema changes      |
+| `npm run catalog:build [-- --check]`      | LLD front matter → `catalog.json`, panel `kind` enum, taxonomy tables   |
+| `npm run lld:check`                       | LLD front matter (tokens, files, ADRs) and template sections, all items |
+| `npm run data:fixtures`                   | Regenerate deterministic fixture data in `public/data/`                 |
+| `npm run data:profile`                    | Check every fixture row against declared field types; stats             |
+| `npm run panel:render -- <dash> <panel>`  | Render one panel in Chromium: screenshot, console, compiled VL spec     |
+| `npm run tokens:build [-- --check]`       | DTCG `tokens/` → `src/theme/generated/` (CSS vars, themes, engines)     |
+| `npm run tokens:validate`                 | Contrast, CVD separability, ramps, references; writes contrast matrix   |
+| `npm run lint:no-raw-values`              | Fail on colours/lengths outside `src/theme/` (`raw-ok:` to justify)     |
+| `npm run design:build` / `design:check`   | DESIGN.md front matter from tokens / fresh + DTCG round-trip            |
+| `npm run design:lint` / `design:diff`     | @google/design.md lint + section order / regressions vs `master`        |
+| `npm run design:taste -- "Do …"`          | Add a reviewed rule to Do's and Don'ts on a taste/* branch, for a PR    |
 
 ## Architecture
 
     dashboards/*.dashboard.yaml   ← specs (source of truth)
     src/spec/schema.ts            ← Zod schema + cross-reference checks (the contract)
     src/spec/validate.ts          ← schema + D3 chart props validation, YAML parsing
-    docs/lld/<id>.md              ← catalog items: front matter is the contract (taxonomy now, LLD Phase 4)
+    docs/lld/<id>.md              ← catalog items: front matter is the contract; body per _template.md
+    docs/lld/<id>.props.ts        ← the item's props interface (components import it)
+    docs/adr/                     ← ADR-001 tokens · 002 chart layer · 003 primitives/icons · 004 distribution · 005 versioning
     catalog.json                  ← generated: every catalog item (agents read this before building)
     docs/taxonomy.md              ← UI ladder × BI ladder, panel kinds, gap and deprecation lists
     src/components/d3/charts.ts   ← D3 chart contracts (props schema, field props), no React

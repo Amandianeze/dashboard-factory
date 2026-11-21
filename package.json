@@ -32,7 +32,8 @@
     "design:diff": "tsx scripts/design-md/cli.ts diff",
     "design:taste": "tsx scripts/design-md/cli.ts taste",
     "catalog:build": "tsx scripts/catalog/build.ts",
-    "verify": "npm run typecheck && npm run lint && npm run lint:no-raw-values && npm run tokens:validate -- --quiet && npm run tokens:build -- --check && npm run design:check && npm run design:lint && npm run design:diff && npm run catalog:build -- --check && npm run spec:validate && npm run test"
+    "lld:check": "tsx scripts/lld/check.ts",
+    "verify": "npm run typecheck && npm run lint && npm run lint:no-raw-values && npm run tokens:validate -- --quiet && npm run tokens:build -- --check && npm run design:check && npm run design:lint && npm run design:diff && npm run lld:check && npm run catalog:build -- --check && npm run spec:validate && npm run test"
   },
   "dependencies": {
     "d3": "^7.9.0",
