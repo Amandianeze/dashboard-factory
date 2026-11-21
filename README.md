@@ -39,7 +39,7 @@ in `.claude/`:
 | `hooks/post-edit.mjs` (PostToolUse)          | Prettier, ESLint, `tsc`, spec validation on every edit; failures go straight back to Claude |
 | `hooks/stop-verify.mjs` (Stop, SubagentStop) | Claude can't finish while `npm run verify` fails                                            |
 | `agents/spec-author.md`                      | Brief → validated spec                                                                      |
-| `agents/chart-builder.md`                    | New D3 catalog components, renderer/schema changes                                          |
+| `agents/chart-builder.md`                    | New D3 charts, renderer/schema changes                                                      |
 | `agents/design-reviewer.md`                  | Chart choice, layout, formatting, honesty review from screenshots                           |
 | `agents/verifier.md`                         | Independent PASS/FAIL with screenshot evidence                                              |
 | `skills/`                                    | `dashboard-spec`, `vega-lite`, `d3-react`, `plotly` reference                               |

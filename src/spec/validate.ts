@@ -1,6 +1,6 @@
 import { parse as parseYaml } from 'yaml';
 import type { ZodError } from 'zod';
-import { d3Catalog, isD3ChartName } from '../components/d3/catalog';
+import { d3Charts, isD3ChartName } from '../components/d3/charts';
 import { DashboardSpec } from './schema';
 
 export type ValidationResult =
@@ -9,7 +9,7 @@ export type ValidationResult =
 const formatZod = (err: ZodError, prefix: (string | number)[] = []) =>
   err.issues.map((i) => `${[...prefix, ...i.path].join('.') || '(root)'}: ${i.message}`);
 
-/** Validate a parsed object: schema, cross-references, then D3 catalog props. */
+/** Validate a parsed object: schema, cross-references, then D3 chart props. */
 export function validateDashboard(input: unknown): ValidationResult {
   const parsed = DashboardSpec.safeParse(input);
   if (!parsed.success) return { ok: false, errors: formatZod(parsed.error) };
@@ -20,11 +20,11 @@ export function validateDashboard(input: unknown): ValidationResult {
     if (panel.renderer !== 'd3') continue;
     if (!isD3ChartName(panel.component)) {
       errors.push(
-        `panels.${id}.component: unknown D3 chart "${panel.component}" (known: ${Object.keys(d3Catalog).join(', ')})`,
+        `panels.${id}.component: unknown D3 chart "${panel.component}" (known: ${Object.keys(d3Charts).join(', ')})`,
       );
       continue;
     }
-    const entry = d3Catalog[panel.component];
+    const entry = d3Charts[panel.component];
     const props = entry.propsSchema.safeParse(panel.props);
     if (!props.success) {
       errors.push(...formatZod(props.error, ['panels', id, 'props']));

@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 import { d3Registry, type D3ChartProps } from '../components/d3/registry';
-import { isD3ChartName } from '../components/d3/catalog';
+import { isD3ChartName } from '../components/d3/charts';
 import type { Row } from '../data/transforms';
 import { useElementSize } from '../hooks/useElementSize';
 import type { D3Panel } from '../spec/types';

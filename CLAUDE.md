@@ -29,12 +29,12 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 
     dashboards/*.dashboard.yaml   ← specs (source of truth)
     src/spec/schema.ts            ← Zod schema + cross-reference checks (the contract)
-    src/spec/validate.ts          ← schema + D3 catalog validation, YAML parsing
+    src/spec/validate.ts          ← schema + D3 chart props validation, YAML parsing
     docs/lld/<id>.md              ← catalog items: front matter is the contract (taxonomy now, LLD Phase 4)
     catalog.json                  ← generated: every catalog item (agents read this before building)
     docs/taxonomy.md              ← UI ladder × BI ladder, panel kinds, gap and deprecation lists
-    src/components/d3/catalog.ts  ← D3 chart contracts (props schema, field props), no React
-    src/components/d3/registry.tsx← catalog name → React component (TS enforces completeness)
+    src/components/d3/charts.ts   ← D3 chart contracts (props schema, field props), no React
+    src/components/d3/registry.tsx← chart name → React component (TS enforces completeness)
     src/renderers/                ← PanelRenderer switch; one adapter per renderer
     DESIGN.md                     ← design contract: generated front matter + curated prose
     tokens/**/*.tokens.json       ← design tokens (DTCG): primitive → semantic → component (ADR-001)

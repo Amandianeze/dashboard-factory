@@ -1,7 +1,7 @@
 ---
 id: chart-panel
 name: Chart panel
-summary: A chart in a panel frame, written as Vega-Lite, Flint, a D3 catalog chart or Plotly.
+summary: A chart in a panel frame, written as Vega-Lite, Flint, a D3 chart or Plotly.
 atomicLevel: organism
 biLevel: visual
 status: beta
@@ -26,6 +26,6 @@ panel:
 
 # Chart panel
 
-A chart in a panel frame, written as Vega-Lite, Flint, a D3 catalog chart or Plotly.
+A chart in a panel frame, written as Vega-Lite, Flint, a D3 chart or Plotly.
 
 Built (status `beta`); the full LLD body is written in Phase 4.

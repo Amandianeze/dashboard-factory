@@ -1,5 +1,5 @@
 /**
- * D3 chart catalog — the contract between specs and bespoke D3 components.
+ * D3 chart registry — the contract between specs and bespoke D3 components.
  *
  * Pure data (no React) so Node validation scripts can import it. Each entry declares:
  *   - propsSchema: what a spec's `props` must look like
@@ -28,7 +28,7 @@ export const RankedBarsProps = z
   .strict();
 export type RankedBarsProps = z.infer<typeof RankedBarsProps>;
 
-export const d3Catalog = {
+export const d3Charts = {
   RankedBars: define({
     description:
       'Horizontal bars ranking categories by an aggregated value, largest first. Use for top-N comparisons.',
@@ -37,5 +37,5 @@ export const d3Catalog = {
   }),
 } satisfies Record<string, CatalogEntry>;
 
-export type D3ChartName = keyof typeof d3Catalog;
-export const isD3ChartName = (name: string): name is D3ChartName => name in d3Catalog;
+export type D3ChartName = keyof typeof d3Charts;
+export const isD3ChartName = (name: string): name is D3ChartName => name in d3Charts;

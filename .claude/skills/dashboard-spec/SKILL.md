@@ -64,7 +64,8 @@ Need a panel that is neither (a table, a note)? Check `catalog.json` first. If i
   need a quantitative field.
 - **`vega-lite`** — `spec`: a Vega-Lite spec without data, width or height. The default for
   charts; see the `vega-lite` skill.
-- **`d3`** — `component` (a catalog name) and `props`, validated by that entry's propsSchema.
+- **`d3`** — `component` (a chart name in `src/components/d3/charts.ts`) and `props`, validated
+  by that entry's propsSchema.
 - **`plotly`** — `trace` with `type` (scatter or bar), `x`, `y`, and optional `groupBy`,
   `aggregate`, `mode`; optional `layout`. Basic bundle only; see the `plotly` skill.
 - **`flint`** — `chart` with `chartType` (a Flint template, e.g. `Calendar Heatmap`) and
@@ -81,7 +82,8 @@ Need a panel that is neither (a table, a note)? Check `catalog.json` first. If i
 - `invalid d3-format specifier` → quote it: `format: '$,.0f'`. Unquoted commas inside `{ ... }`
   silently split the value.
 - `omit data` / `omit width/height` → remove them from the Vega-Lite spec.
-- `unknown D3 chart` → use a catalog name or ask chart-builder to add one.
+- `unknown D3 chart` → use a chart name from `src/components/d3/charts.ts`, or ask chart-builder
+  to add one.
 - `Vega-Lite compile failed` → the VL spec is invalid; read the message, check the `vega-lite` skill.
 - `missing from fixture rows` → declared field does not exist in the data.
 - `Flint warning/error (code)` → the Flint panel is invalid or will draw badly; see the `flint`

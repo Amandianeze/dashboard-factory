@@ -1,6 +1,6 @@
 /**
  * Reference D3 component. Pattern: React owns the DOM, D3 does the math (scales, format, rollups).
- * Copy this structure for new charts; register them in catalog.ts and registry.tsx.
+ * Copy this structure for new charts; register them in charts.ts and registry.tsx.
  *
  * Styling: colours and type come from CSS custom properties (generated from tokens), so a theme
  * switch restyles the SVG without a re-render; layout numbers come from the resolved tokens.
@@ -9,7 +9,7 @@ import { format, scaleBand, scaleLinear } from 'd3';
 import { useMemo } from 'react';
 import { groupAggregate } from '../../data/transforms';
 import { useTheme } from '../../theme/ThemeProvider';
-import type { RankedBarsProps } from './catalog';
+import type { RankedBarsProps } from './charts';
 import type { D3ChartProps } from './registry';
 
 const label = {

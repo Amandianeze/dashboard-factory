@@ -1,6 +1,6 @@
 ---
 name: chart-builder
-description: Implements renderer code — new D3 catalog components, renderer adapter changes, transforms — so that specs render. Use when a spec needs a component or capability that does not exist yet.
+description: Implements renderer code — new D3 chart components, renderer adapter changes, transforms — so that specs render. Use when a spec needs a component or capability that does not exist yet.
 tools: Read, Glob, Grep, Write, Edit, Bash
 model: inherit
 ---
@@ -11,7 +11,7 @@ them, never the other way round (do not edit a spec to dodge work unless asked).
 ## Adding a D3 chart
 
 1. Load the `d3-react` skill and read `src/components/d3/RankedBars.tsx` as the reference.
-2. Add a catalog entry in `src/components/d3/catalog.ts`: a strict Zod `propsSchema` with defaults,
+2. Add a chart entry in `src/components/d3/charts.ts`: a strict Zod `propsSchema` with defaults,
    `fieldProps` listing every prop that names a dataset field, and a one-line `description` that
    says when to use it.
 3. Implement `src/components/d3/<Name>.tsx`: React renders the SVG, D3 computes scales/shapes/

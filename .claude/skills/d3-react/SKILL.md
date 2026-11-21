@@ -1,6 +1,6 @@
 ---
 name: d3-react
-description: How to build a bespoke D3 chart component for the D3 catalog — React renders SVG, D3 computes — including catalog registration, props schema, sizing, accessibility and testing. Use when adding or changing anything in src/components/d3/.
+description: How to build a bespoke D3 chart component for the D3 chart registry — React renders SVG, D3 computes — including chart registration, props schema, sizing, accessibility and testing. Use when adding or changing anything in src/components/d3/.
 ---
 
 # D3 + React components
@@ -19,9 +19,9 @@ Reference implementation: `src/components/d3/RankedBars.tsx`. Copy its shape.
 ## Contract
 
 ```ts
-// catalog.ts (no React import — Node scripts load this)
+// charts.ts (no React import — Node scripts load this)
 export const MyChartProps = z.object({ x: z.string(), y: z.string(), valueFormat: D3FormatString.default(',.0f') }).strict();
-export const d3Catalog = { ..., MyChart: define({ description, propsSchema: MyChartProps, fieldProps: ['x', 'y'] }) };
+export const d3Charts = { ..., MyChart: define({ description, propsSchema: MyChartProps, fieldProps: ['x', 'y'] }) };
 
 // MyChart.tsx
 export function MyChart({ data, props, width, height }: D3ChartProps<z.infer<typeof MyChartProps>>) { ... }
