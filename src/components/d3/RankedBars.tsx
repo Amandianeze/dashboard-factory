@@ -1,19 +1,26 @@
 /**
  * Reference D3 component. Pattern: React owns the DOM, D3 does the math (scales, format, rollups).
  * Copy this structure for new charts; register them in catalog.ts and registry.tsx.
+ *
+ * Styling: colours and type come from CSS custom properties (generated from tokens), so a theme
+ * switch restyles the SVG without a re-render; layout numbers come from the resolved tokens.
  */
 import { format, scaleBand, scaleLinear } from 'd3';
 import { useMemo } from 'react';
 import { groupAggregate } from '../../data/transforms';
-import { tokens } from '../../theme/tokens';
+import { useTheme } from '../../theme/ThemeProvider';
 import type { RankedBarsProps } from './catalog';
 import type { D3ChartProps } from './registry';
 
-const LABEL_W = 96;
-const VALUE_W = 64;
+const label = {
+  font: 'var(--chart-label-typography-font)',
+  letterSpacing: 'var(--chart-label-typography-letter-spacing)',
+};
 
 export function RankedBars({ data, props, width, height }: D3ChartProps<RankedBarsProps>) {
   const { category, value, aggregate, limit, valueFormat } = props;
+  const geometry = useTheme().tokens.chart;
+  const size = geometry['ranked-bars'];
 
   const ranked = useMemo(
     () =>
@@ -26,7 +33,7 @@ export function RankedBars({ data, props, width, height }: D3ChartProps<RankedBa
   );
 
   const fmt = useMemo(() => format(valueFormat), [valueFormat]);
-  const innerW = Math.max(0, width - LABEL_W - VALUE_W);
+  const innerW = Math.max(0, width - size['label-width'] - size['value-width']);
   const y = scaleBand<string>()
     .domain(ranked.map((d) => d.key))
     .range([0, height])
@@ -44,7 +51,7 @@ export function RankedBars({ data, props, width, height }: D3ChartProps<RankedBa
       height={height}
       role="img"
       aria-label={`${value} by ${category}, ranked`}
-      style={{ fontFamily: tokens.font.family, overflow: 'visible' }}
+      style={{ overflow: 'visible' }}
     >
       {ranked.map((d) => {
         const top = y(d.key) ?? 0;
@@ -53,29 +60,27 @@ export function RankedBars({ data, props, width, height }: D3ChartProps<RankedBa
           <g key={d.key}>
             <title>{`${d.key}: ${fmt(d.value)}`}</title>
             <text
-              x={LABEL_W - 8}
+              x={size['label-width'] - size['label-gap']}
               y={mid}
               textAnchor="end"
               dominantBaseline="middle"
-              fontSize={tokens.font.sizeLabel}
-              fill={tokens.color.textMuted}
+              style={{ ...label, fill: 'var(--chart-label-text)' }}
             >
               {d.key}
             </text>
             <rect
-              x={LABEL_W}
+              x={size['label-width']}
               y={top}
               width={x(d.value)}
               height={y.bandwidth()}
-              rx={2}
-              fill={tokens.categorical[0]}
+              rx={geometry.mark['bar-radius']}
+              style={{ fill: 'var(--color-data-categorical-1)' }}
             />
             <text
-              x={LABEL_W + x(d.value) + 6}
+              x={size['label-width'] + x(d.value) + size['value-gap']}
               y={mid}
               dominantBaseline="middle"
-              fontSize={tokens.font.sizeLabel}
-              fill={tokens.color.text}
+              style={{ ...label, fill: 'var(--chart-label-text-strong)' }}
             >
               {fmt(d.value)}
             </text>

@@ -1,4 +1,8 @@
-/* All values come from tokens via CSS variables set in theme/css.ts. */
+/*
+ * Every value comes from a CSS custom property in theme/generated/tokens.css (generated from
+ * tokens/). Raw values here are limited to layout mechanics (0, 100%, flex/grid keywords).
+ * `npm run lint:no-raw-values` enforces it.
+ */
 *,
 *::before,
 *::after {
@@ -6,9 +10,9 @@
 }
 body {
   margin: 0;
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
+  font: var(--typography-body-large-font);
+  background: var(--page-bg);
+  color: var(--color-text-primary);
 }
 a {
   color: inherit;
@@ -16,45 +20,47 @@ a {
 }
 
 .dashboard {
-  max-width: 1440px;
+  max-width: var(--layout-container-max);
   margin: 0 auto;
-  padding: 24px 16px 48px;
+  padding: var(--page-padding-top) var(--page-padding-x) var(--page-padding-bottom);
   display: flex;
   flex-direction: column;
-  gap: var(--gap);
+  gap: var(--space-grid-gap);
 }
 .dashboard-header h1 {
   margin: 0;
-  font-size: 22px;
-  font-weight: 600;
+  font: var(--page-title-typography-font);
+  letter-spacing: var(--page-title-typography-letter-spacing);
+  color: var(--page-title-color);
 }
 .dashboard-header p {
-  margin: 4px 0 0;
-  color: var(--text-muted);
+  margin: var(--page-description-gap) 0 0;
+  font: var(--page-description-typography-font);
+  color: var(--page-description-color);
 }
 
 .row {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--gap);
+  grid-template-columns: repeat(var(--layout-grid-columns), minmax(0, 1fr));
+  gap: var(--space-grid-gap);
   height: var(--row-h);
 }
 .panel {
-  grid-column: span var(--span, 12);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--pad);
+  grid-column: span var(--span, var(--layout-grid-columns));
+  background: var(--panel-bg);
+  border: var(--panel-border-width) solid var(--panel-border-color);
+  border-radius: var(--panel-radius);
+  padding: var(--panel-padding);
   display: flex;
   flex-direction: column;
   min-width: 0;
   min-height: 0;
 }
 .panel h2 {
-  margin: 0 0 8px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-muted);
+  margin: 0 0 var(--panel-title-gap);
+  font: var(--panel-title-typography-font);
+  letter-spacing: var(--panel-title-typography-letter-spacing);
+  color: var(--panel-title-color);
 }
 .panel-body {
   flex: 1;
@@ -77,61 +83,66 @@ a {
   align-items: flex-end;
 }
 .kpi-value {
-  font-size: 32px;
-  font-weight: 600;
+  font: var(--kpi-value-typography-font);
+  letter-spacing: var(--kpi-value-typography-letter-spacing);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  color: var(--kpi-value-text);
 }
 
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--gap);
+  gap: var(--space-grid-gap);
 }
 .filter {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: var(--filter-gap);
   border: 0;
   margin: 0;
   padding: 0;
-  font-size: 13px;
+  font: var(--chip-typography-font);
 }
 .filter legend,
 .filter > span {
-  color: var(--text-muted);
-  margin-right: 4px;
+  color: var(--filter-label-text);
+  margin-right: var(--filter-label-gap);
   float: left;
 }
 .filter select,
 .chip {
-  font: inherit;
-  font-size: 13px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  border-radius: 999px;
-  padding: 4px 12px;
+  font: var(--chip-typography-font);
+  letter-spacing: var(--chip-typography-letter-spacing);
+  border: var(--panel-border-width) solid var(--chip-border);
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  border-radius: var(--chip-radius);
+  padding: var(--chip-padding-y) var(--chip-padding-x);
   cursor: pointer;
 }
+.filter select:focus-visible,
+.chip:focus-visible {
+  outline: var(--chip-focus-width) solid var(--chip-focus-ring);
+  outline-offset: var(--chip-focus-offset);
+}
 .chip[aria-pressed='true'] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
+  background: var(--chip-selected-bg);
+  border-color: var(--chip-selected-border);
+  color: var(--chip-selected-text);
 }
 .chip-clear {
-  color: var(--text-muted);
+  color: var(--chip-clear-text);
 }
 
 .panel-error {
-  color: #b42318;
-  font-size: 13px;
+  color: var(--panel-status-error);
+  font: var(--panel-status-typography-font);
 }
 .panel-empty,
 .status {
-  color: var(--text-muted);
-  font-size: 13px;
+  color: var(--panel-status-text);
+  font: var(--panel-status-typography-font);
 }
 
 .index {
@@ -139,28 +150,126 @@ a {
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--gap);
+  grid-template-columns: repeat(auto-fill, minmax(var(--layout-card-min-width), 1fr));
+  gap: var(--space-grid-gap);
 }
 .index h2 {
-  color: var(--text);
-  font-size: 15px;
+  color: var(--color-text-primary);
+  font: var(--typography-heading-font);
 }
 .index p {
-  color: var(--text-muted);
-  font-size: 13px;
+  color: var(--color-text-muted);
+  font: var(--typography-body-font);
 }
 .index code {
-  font-size: 12px;
-  color: var(--text-muted);
+  font: var(--typography-caption-font);
+  color: var(--color-text-muted);
 }
 
+/* Foundations page (#/foundations) */
+.dashboard-header a {
+  color: var(--color-bg-accent);
+  text-decoration: underline;
+}
+.foundations-themes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--layout-card-min-width), 1fr));
+  gap: var(--space-grid-gap);
+}
+.foundations-theme {
+  background: var(--color-bg-canvas);
+  color: var(--color-text-primary);
+  border: var(--panel-border-width) solid var(--panel-border-color);
+  border-radius: var(--panel-radius);
+  padding: var(--panel-padding);
+}
+.foundations-theme h2 {
+  margin: 0;
+  font: var(--typography-heading-font);
+}
+.foundations-theme h3 {
+  margin: var(--space-stack-md) 0 var(--space-stack-sm);
+  font: var(--typography-caption-font);
+  color: var(--color-text-muted);
+}
+.swatches {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-stack-xs);
+}
+.swatches-compact {
+  /* raw-ok: two columns of ten categorical swatches (structure, not a design value) */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-inline-sm);
+  font: var(--typography-caption-font);
+}
+.swatch-chip {
+  flex: none;
+  width: var(--space-stack-lg);
+  height: var(--space-stack-lg);
+  border-radius: var(--radius-mark);
+  border: var(--panel-border-width) solid var(--color-border-subtle);
+}
+.swatch-name {
+  flex: 1;
+}
+.swatch-value {
+  color: var(--color-text-muted);
+}
+.ramp {
+  margin: 0 0 var(--space-stack-sm);
+  font: var(--typography-caption-font);
+}
+.ramp-stops {
+  display: flex;
+  height: var(--space-stack-lg);
+  margin-top: var(--space-stack-2xs);
+  border-radius: var(--radius-mark);
+  overflow: hidden;
+}
+.ramp-stops > span {
+  flex: 1;
+}
+.type-scale {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-stack-sm);
+}
+.type-scale li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-stack-md);
+}
+.type-scale code,
+.token-table {
+  font: var(--typography-caption-font);
+  color: var(--color-text-muted);
+}
+.token-table {
+  border-collapse: collapse;
+  text-align: left;
+}
+.token-table th,
+.token-table td {
+  padding: var(--space-stack-2xs) var(--space-stack-md) var(--space-stack-2xs) 0;
+}
+
+/* Custom properties can't be used in media queries. raw-ok: {layout.breakpoint.stack} */
 @media (max-width: 760px) {
   .row {
     height: auto;
   }
   .panel {
-    grid-column: span 12;
-    min-height: min(var(--row-h), 360px);
+    grid-column: span var(--layout-grid-columns);
+    min-height: min(var(--row-h), var(--layout-panel-stacked-min-height));
   }
 }

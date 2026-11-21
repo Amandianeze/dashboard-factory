@@ -20,9 +20,13 @@
     "new:dashboard": "tsx scripts/new-dashboard.ts",
     "data:fixtures": "tsx scripts/generate-fixtures.ts",
     "data:yahoo": "tsx scripts/fetch-yahoo-sp500.ts",
-    "verify": "npm run typecheck && npm run lint && npm run spec:validate && npm run test",
     "panel:render": "tsx scripts/render-panel.ts",
-    "data:profile": "tsx scripts/profile-fixture.ts"
+    "data:profile": "tsx scripts/profile-fixture.ts",
+    "tokens:build": "tsx scripts/tokens/build.ts",
+    "tokens:validate": "tsx scripts/tokens/validate.ts",
+    "lint:no-raw-values": "tsx scripts/inventory/code-inventory.ts --check",
+    "inventory:code": "tsx scripts/inventory/code-inventory.ts --summary",
+    "verify": "npm run typecheck && npm run lint && npm run lint:no-raw-values && npm run tokens:validate -- --quiet && npm run tokens:build -- --check && npm run spec:validate && npm run test"
   },
   "dependencies": {
     "d3": "^7.9.0",

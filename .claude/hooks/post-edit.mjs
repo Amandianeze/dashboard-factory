@@ -34,6 +34,12 @@ if (isSchemaSource) {
   if (!v.ok) problems.push(`Spec validation:\n${tail(v.output)}`);
 }
 
+if (/^tokens\//.test(path) || /^scripts\/tokens\//.test(path)) {
+  // Token source or token tooling changed: validate and regenerate src/theme/generated.
+  const b = run('npm', ['run', '-s', 'tokens:build']);
+  if (!b.ok) problems.push(`Token build:\n${tail(b.output)}`);
+}
+
 if (problems.length)
   block(
     `Checks failed after editing ${path}. Fix these before continuing:\n\n${problems.join('\n\n')}`,

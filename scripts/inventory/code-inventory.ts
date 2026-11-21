@@ -5,6 +5,12 @@
  *
  *   npx tsx scripts/inventory/code-inventory.ts            # writes docs/inventory/code-inventory.csv
  *   npx tsx scripts/inventory/code-inventory.ts --summary  # also prints counts per category
+ *   npm run lint:no-raw-values                             # --check: fail on raw design values
+ *
+ * --check skips token definitions (src/theme/**) and generated assets, ignores structural values
+ * (0, 1fr, 100%, auto), and allows a raw value only where the same or previous line carries a
+ * `raw-ok: <reason>` comment. If the reason is a token reference (`raw-ok: {layout.breakpoint.stack}`)
+ * the value must equal that token's resolved value, so it can't drift.
  *
  * .ts/.tsx files are parsed with the TypeScript compiler API, so only real literals count
  * (comments and identifiers are ignored). CSS is scanned declaration by declaration.
@@ -277,6 +283,49 @@ for (const file of walk('dashboards')
           context: line.trim(),
         });
     });
+}
+
+if (process.argv.includes('--check')) {
+  const { resolveSet } = await import('../tokens/lib');
+  const tokens = resolveSet('light', 'comfortable').tokens;
+  const GENERATED = new Set(['public/favicon.svg']);
+  const lines = new Map<string, string[]>();
+  const lineOf = (file: string, n: number) => {
+    if (!lines.has(file)) lines.set(file, readFileSync(join(ROOT, file), 'utf8').split('\n'));
+    return lines.get(file)![n - 1] ?? '';
+  };
+  const problems: string[] = [];
+  for (const h of hits) {
+    if (h.kind !== 'raw-usage' || h.file.startsWith('src/theme/') || GENERATED.has(h.file))
+      continue;
+    const residue = h.value.replace(/\b0\b|\b\d+fr\b|100%|\bauto\b/g, '');
+    if (h.category !== 'color' && !/\d/.test(residue)) continue;
+    const marker = [lineOf(h.file, h.line), lineOf(h.file, h.line - 1)]
+      .map((l) => /raw-ok:\s*(.+?)\s*(\*\/)?$/.exec(l)?.[1])
+      .find(Boolean);
+    if (!marker) {
+      problems.push(`${h.file}:${h.line}  ${h.category} ${h.value}  (${h.context})`);
+      continue;
+    }
+    const ref = /^\{([^}]+)\}/.exec(marker)?.[1];
+    if (ref) {
+      const v = tokens.get(ref)?.resolved;
+      if (v === undefined)
+        problems.push(`${h.file}:${h.line}  raw-ok names unknown token {${ref}}`);
+      else if (String(v) !== h.value.replace(/px$/, ''))
+        problems.push(`${h.file}:${h.line}  ${h.value} no longer matches {${ref}} = ${String(v)}`);
+    }
+  }
+  if (problems.length) {
+    console.error(`✗ raw design values outside the token system (${problems.length}):`);
+    problems.forEach((p) => console.error(`  ${p}`));
+    console.error(
+      '  Use a CSS variable / theme token, or mark a justified exception with `raw-ok: <reason>`.',
+    );
+    process.exit(1);
+  }
+  console.log('✓ no raw design values outside src/theme');
+  process.exit(0);
 }
 
 const esc = (s: string | number) => {

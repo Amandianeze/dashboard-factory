@@ -11,7 +11,7 @@ import { buildFlintSpec } from '../../src/renderers/flintSpec';
 import { flintFieldRefs } from '../../src/spec/schema';
 import type { FlintPanel } from '../../src/spec/types';
 import { validateDashboard } from '../../src/spec/validate';
-import { tokens } from '../../src/theme/tokens';
+import { themes } from '../../src/theme/generated/themes';
 
 const file = listSpecFiles().find((f) => f.includes('revenue-overview'))!;
 const example = () =>
@@ -63,8 +63,21 @@ describe('buildFlintSpec', () => {
   });
 
   it('takes its look from design tokens', () => {
-    expect(spec.background).toBe(tokens.color.surface);
-    expect(JSON.stringify(spec.config)).toContain(tokens.font.family.replace(/"/g, '\\"'));
+    expect(spec.background).toBe(themes.light.color.bg.surface);
+    expect(JSON.stringify(spec.config)).toContain(
+      JSON.stringify(themes.light.chart.label.typography.fontFamily).slice(1, -1),
+    );
+  });
+
+  it('follows the active theme', () => {
+    const dark = buildFlintSpec(panel, rows, semantics, { width: 600, height: 300 }, 'dark');
+    expect((dark as { background?: string }).background).toBe(themes.dark.color.bg.surface);
+  });
+
+  it('leaks no Datawrapper preset ink', () => {
+    const json = JSON.stringify(spec.config).toLowerCase();
+    for (const ink of ['#181818', '#18a1cd', '#c71e1d', '#747474', '#888888'])
+      expect(json).not.toContain(ink);
   });
 
   it('labels a narrow axis in the thousands in full, not in exponent form', async () => {
@@ -91,6 +104,31 @@ describe('buildFlintSpec', () => {
     const svg = await new View(parseVega(compile(vl).spec), { renderer: 'none' }).toSVG();
     expect(svg).toContain('>7,700<');
     expect(svg).not.toMatch(/\de\+3/);
+  });
+
+  it("colours candles with the sign tokens, not Flint's hard-coded green and red", () => {
+    const bars = [
+      { time: '2026-10-29T10:00:00', open: 10, high: 12, low: 9, close: 11 },
+      { time: '2026-10-29T10:05:00', open: 11, high: 12, low: 8, close: 9 },
+    ];
+    const candles: FlintPanel = {
+      title: 'Intraday',
+      dataset: 'bars',
+      renderer: 'flint',
+      chart: {
+        chartType: 'Candlestick Chart',
+        encodings: { x: 'time', open: 'open', high: 'high', low: 'low', close: 'close' },
+      },
+    };
+    for (const theme of ['light', 'dark'] as const) {
+      const json = JSON.stringify(
+        buildFlintSpec(candles, bars, { time: 'DateTime' }, { width: 400, height: 200 }, theme),
+      ).toLowerCase();
+      expect(json).not.toContain('#06982d');
+      expect(json).not.toContain('#ae1325');
+      expect(json).toContain(themes[theme].color.data.positive);
+      expect(json).toContain(themes[theme].color.data.negative);
+    }
   });
 });
 

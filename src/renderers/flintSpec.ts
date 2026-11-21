@@ -3,9 +3,33 @@ import { stripPrivateKeys } from 'flint-chart/validate';
 import type { TopLevelSpec } from 'vega-lite';
 import type { Row } from '../data/transforms';
 import type { DatasetSpec, FlintPanel } from '../spec/types';
-import { flintTheme } from '../theme/flintTheme';
+import { flintTheme } from '../theme/generated/engines';
+import { themes, type ThemeName } from '../theme/generated/themes';
 
 export type Size = { width: number; height: number };
+
+/**
+ * Inks flint-chart 1.0.1 hard-codes in chart templates instead of reading the theme: the
+ * candlestick up/down colours (Candlestick Chart template, `encoding.color`). Remapped to the
+ * sign tokens after compiling. Re-check on every flint-chart upgrade; delete entries once Flint
+ * reads `ink.series.status` for them.
+ */
+const HARDCODED_INKS = (theme: ThemeName): Record<string, string> => ({
+  // raw-ok: Flint's literal, matched and replaced
+  '#06982d': themes[theme].color.data.positive,
+  // raw-ok: Flint's literal, matched and replaced
+  '#ae1325': themes[theme].color.data.negative,
+});
+
+function remapInks<T>(node: T, inks: Record<string, string>): T {
+  if (typeof node === 'string') return (inks[node.toLowerCase()] ?? node) as T;
+  if (Array.isArray(node)) return node.map((n) => remapInks(n, inks)) as T;
+  if (node && typeof node === 'object')
+    return Object.fromEntries(
+      Object.entries(node).map(([k, v]) => [k, k === 'data' ? v : remapInks(v, inks)]),
+    ) as T;
+  return node;
+}
 
 /** Pure: the Flint input for a panel, sized to its layout cell. */
 export function buildFlintInput(
@@ -13,13 +37,14 @@ export function buildFlintInput(
   rows: Row[],
   semantics: DatasetSpec['semantics'],
   size: Size,
+  theme: ThemeName = 'light',
 ): ChartAssemblyInput {
   const box = { width: Math.floor(size.width), height: Math.floor(size.height) };
   return {
     data: { values: rows },
     semantic_types: semantics ?? {},
     chart_spec: { ...panel.chart, baseSize: box, canvasSize: box },
-    theme_spec: flintTheme,
+    theme_spec: flintTheme[theme],
     options: { addTooltips: true },
   };
 }
@@ -33,8 +58,12 @@ export function buildFlintSpec(
   rows: Row[],
   semantics: DatasetSpec['semantics'],
   size: Size,
+  theme: ThemeName = 'light',
 ): TopLevelSpec {
-  const spec = stripPrivateKeys(assembleVegaLite(buildFlintInput(panel, rows, semantics, size)));
+  const compiled = stripPrivateKeys(
+    assembleVegaLite(buildFlintInput(panel, rows, semantics, size, theme)),
+  );
+  const spec = remapInks(compiled, HARDCODED_INKS(theme));
   delete spec.title;
   // Flint's static output tooltips dump the raw row; show the encoded fields, grouped by thousands.
   // Vega-Lite also puts numberFormat on quantitative axes, where Vega adds tick precision to a
