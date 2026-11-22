@@ -99,6 +99,8 @@ three had been checked. Checking found, and this branch now fixes:
 6. **`ChartPanelSpec` included tables**, and the browser tests expected an svg inside a table.
 7. **ADR-003 was described as amended and wasn't.** Amendments to ADR-003 and ADR-004 are now
    written and await confirmation.
+8. **The data table drew 3 px borders on every side** of each row and header (`border-solid`
+   without preflight). axe can't see this; a screenshot did.
 
 The fresh-app install test predates these fixes and covered 4 of the 20 items.
 
