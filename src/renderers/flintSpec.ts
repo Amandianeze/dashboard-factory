@@ -2,6 +2,8 @@ import { assembleVegaLite, type ChartAssemblyInput } from 'flint-chart';
 import { stripPrivateKeys } from 'flint-chart/validate';
 import type { TopLevelSpec } from 'vega-lite';
 import type { Row } from '../data/transforms';
+import { flintFieldRefs } from '../spec/schema';
+import { bandStep, MIN_BAND_STEP } from './flintFit';
 import type { DatasetSpec, FlintPanel } from '../spec/types';
 import { flintTheme } from '../theme/generated/engines';
 import { themes, type ThemeName } from '../theme/generated/themes';
@@ -31,6 +33,26 @@ function remapInks<T>(node: T, inks: Record<string, string>): T {
   return node;
 }
 
+/**
+ * Flint keeps banded charts at a fixed reading size (56 px heatmap cells) and puts the colour key
+ * beside the plot without reserving room for it, so in a narrow panel the chart overflows. Given
+ * the measured overflow in px, narrow each x band by an equal share, down to MIN_BAND_STEP.
+ */
+function narrowBands(
+  spec: { width?: unknown },
+  panel: FlintPanel,
+  rows: Row[],
+  trim: number,
+): void {
+  const step = bandStep(spec);
+  const x = panel.chart.encodings.x;
+  if (trim <= 0 || step === undefined || x === undefined) return;
+  const field = flintFieldRefs({ x })[0];
+  const bands = field ? new Set(rows.map((r) => r[field])).size : 0;
+  if (!bands) return;
+  spec.width = { step: Math.max(MIN_BAND_STEP, step - Math.ceil(trim / bands)) };
+}
+
 /** Pure: the Flint input for a panel, sized to its layout cell. */
 export function buildFlintInput(
   panel: FlintPanel,
@@ -52,6 +74,7 @@ export function buildFlintInput(
 /**
  * Pure: compile a Flint panel to a render-ready Vega-Lite spec. Shared by the runtime renderer and
  * `npm run spec:validate`. The panel header already shows the title, so Flint's is dropped.
+ * `trimWidth` is how far a previous render overflowed the panel (see FlintChart).
  */
 export function buildFlintSpec(
   panel: FlintPanel,
@@ -59,12 +82,14 @@ export function buildFlintSpec(
   semantics: DatasetSpec['semantics'],
   size: Size,
   theme: ThemeName = 'light',
+  trimWidth = 0,
 ): TopLevelSpec {
   const compiled = stripPrivateKeys(
     assembleVegaLite(buildFlintInput(panel, rows, semantics, size, theme)),
   );
   const spec = remapInks(compiled, HARDCODED_INKS(theme));
   delete spec.title;
+  narrowBands(spec, panel, rows, trimWidth);
   // Flint's static output tooltips dump the raw row; show the encoded fields, grouped by thousands.
   // Vega-Lite also puts numberFormat on quantitative axes, where Vega adds tick precision to a
   // specifier without a type (',' turns 7,690 into 7.69e+3), so give it an explicit precision.

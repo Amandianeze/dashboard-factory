@@ -302,6 +302,11 @@
           "target": "~/factory/src/renderers/VegaView.tsx"
         },
         {
+          "path": "src/renderers/flintFit.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/flintFit.ts"
+        },
+        {
           "path": "src/renderers/flintSpec.ts",
           "type": "registry:file",
           "target": "~/factory/src/renderers/flintSpec.ts"
@@ -615,6 +620,11 @@
           "target": "~/factory/src/renderers/VegaView.tsx"
         },
         {
+          "path": "src/renderers/flintFit.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/flintFit.ts"
+        },
+        {
           "path": "src/renderers/flintSpec.ts",
           "type": "registry:file",
           "target": "~/factory/src/renderers/flintSpec.ts"
@@ -841,6 +851,11 @@
           "path": "src/renderers/VegaView.tsx",
           "type": "registry:file",
           "target": "~/factory/src/renderers/VegaView.tsx"
+        },
+        {
+          "path": "src/renderers/flintFit.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/flintFit.ts"
         },
         {
           "path": "src/renderers/flintSpec.ts",
@@ -1580,6 +1595,11 @@
           "path": "src/renderers/VegaView.tsx",
           "type": "registry:file",
           "target": "~/factory/src/renderers/VegaView.tsx"
+        },
+        {
+          "path": "src/renderers/flintFit.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/flintFit.ts"
         },
         {
           "path": "src/renderers/flintSpec.ts",
