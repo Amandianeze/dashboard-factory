@@ -1,6 +1,6 @@
 # Gate 5a: chart text alternatives and the table fallback
 
-**Status:** ready for review, 2026-11-22. Branch `design-system/chart-text-alternatives` (from
+**Status:** reviewed 2026-11-22 (decisions at the end). Branch `design-system/chart-text-alternatives` (from
 `design-system/phase-5`). Chosen at Gate 5 to come before Phase 6.
 
 ## What was produced
@@ -46,3 +46,11 @@
    (a schema change)? Recommended: keep it generated until a real dashboard needs more.
 2. Confirm the ADR-003 and ADR-004 amendments proposed in Phase 5?
 3. Go on to Phase 6 (motion and polish)? The heatmap overflow fits there.
+
+## Decisions (owner, 2026-11-22)
+
+1. **Summary:** keep the generated range summary. No `takeaway` field until a real dashboard needs
+   one.
+2. **ADR-003 and ADR-004 amendments:** confirmed.
+3. **Phase 6:** go, once CI and current Linux screenshot baselines are in place, so its visual
+   changes have something to be compared against. The heatmap overflow is part of it.
