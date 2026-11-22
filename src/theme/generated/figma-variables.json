@@ -1384,6 +1384,60 @@
       "modes": ["light", "dark", "hc"],
       "variables": [
         {
+          "name": "color/bg/surface-raised",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/0"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/850"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/0"
+            }
+          }
+        },
+        {
+          "name": "color/border/subtle",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/150"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/750"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/550"
+            }
+          }
+        },
+        {
+          "name": "color/text/primary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/900"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/75"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/1000"
+            }
+          }
+        },
+        {
           "name": "color/text/muted",
           "type": "COLOR",
           "valuesByMode": {
@@ -1402,16 +1456,214 @@
           }
         },
         {
-          "name": "color/text/primary",
+          "name": "color/status/info",
           "type": "COLOR",
           "valuesByMode": {
             "light": {
               "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/900"
+              "name": "color/brand/500"
             },
             "dark": {
               "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/75"
+              "name": "color/brand/400"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/700"
+            }
+          }
+        },
+        {
+          "name": "color/status/success",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/green/800"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/green/300"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/green/800"
+            }
+          }
+        },
+        {
+          "name": "color/status/warning",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/amber/700"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/amber/300"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/amber/700"
+            }
+          }
+        },
+        {
+          "name": "color/status/danger",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/red/600"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/red/300"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/red/700"
+            }
+          }
+        },
+        {
+          "name": "color/bg/accent",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/500"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/400"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/700"
+            }
+          }
+        },
+        {
+          "name": "color/text/on-accent",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/0"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/1000"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/0"
+            }
+          }
+        },
+        {
+          "name": "color/bg/accent-hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/700"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/300"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/1000"
+            }
+          }
+        },
+        {
+          "name": "color/bg/surface",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/0"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/875"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/0"
+            }
+          }
+        },
+        {
+          "name": "color/border/control",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/400"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/450"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/1000"
+            }
+          }
+        },
+        {
+          "name": "color/bg/canvas",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/25"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/925"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/0"
+            }
+          }
+        },
+        {
+          "name": "color/bg/pressed",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/150"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/750"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/neutral/300"
+            }
+          }
+        },
+        {
+          "name": "color/focus/ring",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/500"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/400"
             },
             "hc": {
               "type": "VARIABLE_ALIAS",
@@ -1474,164 +1726,20 @@
           }
         },
         {
-          "name": "color/bg/surface",
+          "name": "color/text/danger",
           "type": "COLOR",
           "valuesByMode": {
             "light": {
               "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/0"
+              "name": "color/red/600"
             },
             "dark": {
               "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/875"
+              "name": "color/red/300"
             },
             "hc": {
               "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/0"
-            }
-          }
-        },
-        {
-          "name": "color/border/control",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/400"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/450"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/1000"
-            }
-          }
-        },
-        {
-          "name": "color/bg/accent",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/brand/500"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/brand/400"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/brand/700"
-            }
-          }
-        },
-        {
-          "name": "color/text/on-accent",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/0"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/1000"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/0"
-            }
-          }
-        },
-        {
-          "name": "color/bg/accent-hover",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/brand/700"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/brand/300"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/1000"
-            }
-          }
-        },
-        {
-          "name": "color/focus/ring",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/brand/500"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/brand/400"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/1000"
-            }
-          }
-        },
-        {
-          "name": "color/bg/canvas",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/25"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/925"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/0"
-            }
-          }
-        },
-        {
-          "name": "color/bg/pressed",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/150"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/750"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/300"
-            }
-          }
-        },
-        {
-          "name": "color/border/subtle",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/150"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/750"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/550"
+              "name": "color/red/700"
             }
           }
         },
@@ -1668,114 +1776,6 @@
             "hc": {
               "type": "VARIABLE_ALIAS",
               "name": "color/rose/800"
-            }
-          }
-        },
-        {
-          "name": "color/text/danger",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/red/600"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/red/300"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/red/700"
-            }
-          }
-        },
-        {
-          "name": "color/bg/surface-raised",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/0"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/850"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/neutral/0"
-            }
-          }
-        },
-        {
-          "name": "color/status/danger",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/red/600"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/red/300"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/red/700"
-            }
-          }
-        },
-        {
-          "name": "color/status/warning",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/amber/700"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/amber/300"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/amber/700"
-            }
-          }
-        },
-        {
-          "name": "color/status/success",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/green/800"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/green/300"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/green/800"
-            }
-          }
-        },
-        {
-          "name": "color/status/info",
-          "type": "COLOR",
-          "valuesByMode": {
-            "light": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/brand/500"
-            },
-            "dark": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/brand/400"
-            },
-            "hc": {
-              "type": "VARIABLE_ALIAS",
-              "name": "color/brand/700"
             }
           }
         },
@@ -2407,6 +2407,48 @@
       "modes": ["comfortable", "compact"],
       "variables": [
         {
+          "name": "space/inline/sm",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "comfortable": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/6"
+            },
+            "compact": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/4"
+            }
+          }
+        },
+        {
+          "name": "space/stack/2xs",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "comfortable": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/4"
+            },
+            "compact": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/2"
+            }
+          }
+        },
+        {
+          "name": "space/inline/xs",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "comfortable": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/4"
+            },
+            "compact": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/2"
+            }
+          }
+        },
+        {
           "name": "space/inset/control-x",
           "type": "FLOAT",
           "valuesByMode": {
@@ -2435,7 +2477,7 @@
           }
         },
         {
-          "name": "space/inline/sm",
+          "name": "space/stack/xs",
           "type": "FLOAT",
           "valuesByMode": {
             "comfortable": {
@@ -2449,16 +2491,16 @@
           }
         },
         {
-          "name": "space/inline/xs",
+          "name": "space/inset/panel",
           "type": "FLOAT",
           "valuesByMode": {
             "comfortable": {
               "type": "VARIABLE_ALIAS",
-              "name": "dimension/4"
+              "name": "dimension/16"
             },
             "compact": {
               "type": "VARIABLE_ALIAS",
-              "name": "dimension/2"
+              "name": "dimension/12"
             }
           }
         },
@@ -2505,34 +2547,6 @@
           }
         },
         {
-          "name": "space/stack/2xs",
-          "type": "FLOAT",
-          "valuesByMode": {
-            "comfortable": {
-              "type": "VARIABLE_ALIAS",
-              "name": "dimension/4"
-            },
-            "compact": {
-              "type": "VARIABLE_ALIAS",
-              "name": "dimension/2"
-            }
-          }
-        },
-        {
-          "name": "space/inset/panel",
-          "type": "FLOAT",
-          "valuesByMode": {
-            "comfortable": {
-              "type": "VARIABLE_ALIAS",
-              "name": "dimension/16"
-            },
-            "compact": {
-              "type": "VARIABLE_ALIAS",
-              "name": "dimension/12"
-            }
-          }
-        },
-        {
           "name": "space/stack/sm",
           "type": "FLOAT",
           "valuesByMode": {
@@ -2543,20 +2557,6 @@
             "compact": {
               "type": "VARIABLE_ALIAS",
               "name": "dimension/6"
-            }
-          }
-        },
-        {
-          "name": "space/stack/xs",
-          "type": "FLOAT",
-          "valuesByMode": {
-            "comfortable": {
-              "type": "VARIABLE_ALIAS",
-              "name": "dimension/6"
-            },
-            "compact": {
-              "type": "VARIABLE_ALIAS",
-              "name": "dimension/4"
             }
           }
         },
@@ -2594,6 +2594,376 @@
       "name": "Component",
       "modes": ["Value"],
       "variables": [
+        {
+          "name": "badge/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/surface-raised"
+            }
+          }
+        },
+        {
+          "name": "badge/border",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/border/subtle"
+            }
+          }
+        },
+        {
+          "name": "badge/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/primary"
+            }
+          }
+        },
+        {
+          "name": "badge/neutral/dot",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/muted"
+            }
+          }
+        },
+        {
+          "name": "badge/info/dot",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/status/info"
+            }
+          }
+        },
+        {
+          "name": "badge/success/dot",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/status/success"
+            }
+          }
+        },
+        {
+          "name": "badge/warning/dot",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/status/warning"
+            }
+          }
+        },
+        {
+          "name": "badge/danger/dot",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/status/danger"
+            }
+          }
+        },
+        {
+          "name": "badge/radius",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "radius/pill"
+            }
+          }
+        },
+        {
+          "name": "badge/padding/x",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inline/sm"
+            }
+          }
+        },
+        {
+          "name": "badge/padding/y",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/stack/2xs"
+            }
+          }
+        },
+        {
+          "name": "badge/gap",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inline/xs"
+            }
+          }
+        },
+        {
+          "name": "badge/dot-size",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/6"
+            }
+          }
+        },
+        {
+          "name": "button/primary/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/accent"
+            }
+          }
+        },
+        {
+          "name": "button/primary/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/on-accent"
+            }
+          }
+        },
+        {
+          "name": "button/primary/hover/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/accent-hover"
+            }
+          }
+        },
+        {
+          "name": "button/primary/hover/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/on-accent"
+            }
+          }
+        },
+        {
+          "name": "button/secondary/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/surface"
+            }
+          }
+        },
+        {
+          "name": "button/secondary/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/primary"
+            }
+          }
+        },
+        {
+          "name": "button/secondary/border",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/border/control"
+            }
+          }
+        },
+        {
+          "name": "button/secondary/hover/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/canvas"
+            }
+          }
+        },
+        {
+          "name": "button/secondary/hover/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/primary"
+            }
+          }
+        },
+        {
+          "name": "button/ghost/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/surface"
+            }
+          }
+        },
+        {
+          "name": "button/ghost/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/primary"
+            }
+          }
+        },
+        {
+          "name": "button/ghost/hover/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/canvas"
+            }
+          }
+        },
+        {
+          "name": "button/ghost/hover/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/primary"
+            }
+          }
+        },
+        {
+          "name": "button/pressed/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/pressed"
+            }
+          }
+        },
+        {
+          "name": "button/pressed/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/primary"
+            }
+          }
+        },
+        {
+          "name": "button/disabled/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/canvas"
+            }
+          }
+        },
+        {
+          "name": "button/disabled/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/muted"
+            }
+          }
+        },
+        {
+          "name": "button/focus/ring",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/focus/ring"
+            }
+          }
+        },
+        {
+          "name": "button/focus/width",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/2"
+            }
+          }
+        },
+        {
+          "name": "button/focus/offset",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/2"
+            }
+          }
+        },
+        {
+          "name": "button/radius",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "radius/pill"
+            }
+          }
+        },
+        {
+          "name": "button/padding/x",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inset/control-x"
+            }
+          }
+        },
+        {
+          "name": "button/padding/y",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inset/control-y"
+            }
+          }
+        },
+        {
+          "name": "button/gap",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inline/sm"
+            }
+          }
+        },
         {
           "name": "chart/label/text",
           "type": "COLOR",
@@ -3062,6 +3432,76 @@
           }
         },
         {
+          "name": "delta/neutral/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/muted"
+            }
+          }
+        },
+        {
+          "name": "delta/gap",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inline/xs"
+            }
+          }
+        },
+        {
+          "name": "empty-state/title/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/primary"
+            }
+          }
+        },
+        {
+          "name": "empty-state/description/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/muted"
+            }
+          }
+        },
+        {
+          "name": "empty-state/error/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/danger"
+            }
+          }
+        },
+        {
+          "name": "empty-state/icon/color",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/muted"
+            }
+          }
+        },
+        {
+          "name": "empty-state/gap",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/stack/xs"
+            }
+          }
+        },
+        {
           "name": "kpi/value/text",
           "type": "COLOR",
           "valuesByMode": {
@@ -3088,6 +3528,76 @@
             "Value": {
               "type": "VARIABLE_ALIAS",
               "name": "color/data/negative"
+            }
+          }
+        },
+        {
+          "name": "kpi/delta/gap",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inline/sm"
+            }
+          }
+        },
+        {
+          "name": "kpi/comparison/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/muted"
+            }
+          }
+        },
+        {
+          "name": "nav-card/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/surface"
+            }
+          }
+        },
+        {
+          "name": "nav-card/border",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/border/subtle"
+            }
+          }
+        },
+        {
+          "name": "nav-card/hover/border",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/border/control"
+            }
+          }
+        },
+        {
+          "name": "nav-card/radius",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "radius/panel"
+            }
+          }
+        },
+        {
+          "name": "nav-card/padding",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inset/panel"
             }
           }
         },
@@ -3248,6 +3758,186 @@
             "Value": {
               "type": "VARIABLE_ALIAS",
               "name": "color/text/danger"
+            }
+          }
+        },
+        {
+          "name": "table/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/surface"
+            }
+          }
+        },
+        {
+          "name": "table/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/primary"
+            }
+          }
+        },
+        {
+          "name": "table/header/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/muted"
+            }
+          }
+        },
+        {
+          "name": "table/row/border",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/border/subtle"
+            }
+          }
+        },
+        {
+          "name": "table/row/hover/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/canvas"
+            }
+          }
+        },
+        {
+          "name": "table/row/hover/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/primary"
+            }
+          }
+        },
+        {
+          "name": "table/cell/padding/x",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inline/sm"
+            }
+          }
+        },
+        {
+          "name": "table/cell/padding/y",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/stack/xs"
+            }
+          }
+        },
+        {
+          "name": "table/sort/icon",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/muted"
+            }
+          }
+        },
+        {
+          "name": "table/focus/ring",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/focus/ring"
+            }
+          }
+        },
+        {
+          "name": "tooltip/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/surface-raised"
+            }
+          }
+        },
+        {
+          "name": "tooltip/text",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/text/primary"
+            }
+          }
+        },
+        {
+          "name": "tooltip/border",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/border/subtle"
+            }
+          }
+        },
+        {
+          "name": "tooltip/radius",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "radius/mark"
+            }
+          }
+        },
+        {
+          "name": "tooltip/padding/x",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inline/sm"
+            }
+          }
+        },
+        {
+          "name": "tooltip/padding/y",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/stack/2xs"
+            }
+          }
+        },
+        {
+          "name": "tooltip/max-width",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/280"
+            }
+          }
+        },
+        {
+          "name": "tooltip/offset",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/6"
             }
           }
         }

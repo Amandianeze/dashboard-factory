@@ -7,7 +7,8 @@ biLevel: pattern
 status: beta
 renderEngine: react
 composes: []
-source: [src/dashboard/DashboardView.tsx, src/App.tsx]
+source:
+  - src/components/ui/title-band.tsx
 package: '@factory/ui'
 registryItem: '@factory/title-band'
 figmaNode: null

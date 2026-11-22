@@ -1,0 +1,66 @@
+{
+  "table": {
+    "bg": {
+      "$type": "color",
+      "$value": "{color.bg.surface}"
+    },
+    "text": {
+      "$type": "color",
+      "$value": "{color.text.primary}"
+    },
+    "header": {
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      },
+      "typography": {
+        "$type": "typography",
+        "$value": "{typography.label}"
+      }
+    },
+    "row": {
+      "border": {
+        "$type": "color",
+        "$value": "{color.border.subtle}"
+      },
+      "hover": {
+        "bg": {
+          "$type": "color",
+          "$value": "{color.bg.canvas}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.text.primary}"
+        }
+      }
+    },
+    "cell": {
+      "padding": {
+        "x": {
+          "$type": "dimension",
+          "$value": "{space.inline.sm}"
+        },
+        "y": {
+          "$type": "dimension",
+          "$value": "{space.stack.xs}"
+        }
+      },
+      "typography": {
+        "$type": "typography",
+        "$value": "{typography.body}"
+      }
+    },
+    "sort": {
+      "icon": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      }
+    },
+    "focus": {
+      "ring": {
+        "$type": "color",
+        "$value": "{color.focus.ring}"
+      }
+    }
+  }
+}

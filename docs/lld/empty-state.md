@@ -4,25 +4,19 @@ name: Empty state
 summary: What a panel shows with no data, or when it fails.
 atomicLevel: molecule
 biLevel: null
-status: proposed
+status: beta
 renderEngine: react
-composes: [icon, button]
-gap:
-  priority: P1
-  reason: "Three behaviours today: D3 'No data', KPI '—', and empty axes from Vega-Lite, Flint and Plotly. Errors use one red class for four jobs."
+composes: []
 package: '@factory/ui'
 registryItem: '@factory/empty-state'
 figmaNode: null
 tokens:
-  [
-    panel.status.text,
-    panel.status.error,
-    panel.status.typography,
-    color.text.muted,
-    typography.body,
-    space.stack.sm,
-  ]
-newTokens: [empty-state.title.typography, empty-state.icon.color]
+  - empty-state.title.text
+  - empty-state.title.typography
+  - empty-state.description.text
+  - empty-state.description.typography
+  - empty-state.error.text
+  - empty-state.gap
 props: ./empty-state.props.ts
 dataContract: null
 a11y:
@@ -39,6 +33,8 @@ references:
   - 'https://ui.shadcn.com/docs/components/empty'
   - 'https://www.w3.org/WAI/ARIA/apg/practices/structural-roles/'
 adr: [ADR-003]
+source:
+  - src/components/ui/empty-state.tsx
 ---
 
 # Empty state
@@ -52,7 +48,7 @@ axes.
 ## Anatomy
 
 ```
-① icon (regular only)
+① icon slot (waits for the Icon atom, P2; not built)
 ② Nothing matches these filters
 ③ Try fewer regions.
 ④ [ Clear filters ]
@@ -99,7 +95,7 @@ None.
 
 ## Dependencies and bundle
 
-Icon, Button.
+None of its own. Callers pass a Button as `action`; the icon slot waits for the Icon atom (P2).
 
 ## Test plan
 

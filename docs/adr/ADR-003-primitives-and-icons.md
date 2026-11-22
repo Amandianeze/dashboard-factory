@@ -5,8 +5,8 @@
 - **References:**
   [shadcn changelog, July 2026: Base UI as the default](https://github.com/shadcn-ui/ui/blob/shadcn@4.21.0/apps/v4/content/docs/changelog/2026-07-base-ui-default.mdx) ·
   [shadcn changelog, January 2026: Base UI docs](https://github.com/shadcn-ui/ui/blob/shadcn@4.21.0/apps/v4/content/docs/changelog/2026-01-base-ui.mdx) ·
-  [shadcn CLI (`init -b`, `migrate radix`, `migrate icons`)](https://github.com/shadcn-ui/ui/blob/shadcn@4.21.0/apps/v4/content/docs/(root)/cli.mdx) ·
-  [components.json `iconLibrary`](https://github.com/shadcn-ui/ui/blob/shadcn@4.21.0/apps/v4/content/docs/(root)/components-json.mdx) ·
+  [shadcn CLI (`init -b`, `migrate radix`, `migrate icons`)](<https://github.com/shadcn-ui/ui/blob/shadcn@4.21.0/apps/v4/content/docs/(root)/cli.mdx>) ·
+  [components.json `iconLibrary`](<https://github.com/shadcn-ui/ui/blob/shadcn@4.21.0/apps/v4/content/docs/(root)/components-json.mdx>) ·
   [Base UI](https://base-ui.com) · [Radix Primitives](https://www.radix-ui.com/primitives) ·
   [Lucide](https://lucide.dev) · npm registry (versions checked 2026-11-21)
 
@@ -52,3 +52,12 @@ What the current sources say (checked 2026-11-21):
   ADR records the comparison it would ask for; install the skill in Phase 6 with the other Emil
   skills, and rerun it before Phase 5 adds the packages.
 - Revisit if Base UI drops a component we need that Radix has, or shadcn reverses its default.
+
+## Amendment, Phase 5 (2026-11-22): proposed, awaiting the owner's confirmation
+
+- **Tailwind is utilities only.** The consequence above said Phase 5 would add a generated `@theme`
+  block. It didn't: `src/theme/tailwind.css` loads utilities with no theme and no preflight, and
+  classes reference token variables directly. This keeps `tokens/` the only source of values.
+  Its cost is that scale utilities, including `m-0` and `top-0`, silently generate nothing;
+  `tests/unit/tailwind-classes.test.ts` fails on any in `src/`.
+- **`pick-ui-library` was not rerun** before the packages were added, because it isn't installed.

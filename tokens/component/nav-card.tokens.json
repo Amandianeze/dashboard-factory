@@ -1,0 +1,26 @@
+{
+  "nav-card": {
+    "bg": {
+      "$type": "color",
+      "$value": "{color.bg.surface}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.border.subtle}"
+    },
+    "hover": {
+      "border": {
+        "$type": "color",
+        "$value": "{color.border.control}"
+      }
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.panel}"
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": "{space.inset.panel}"
+    }
+  }
+}

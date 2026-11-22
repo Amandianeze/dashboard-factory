@@ -47,12 +47,9 @@ layout:
   rows:
     - height: 132
       cells:
-        - { panel: close, span: 2 }
-        - { panel: change, span: 2 }
-        - { panel: change_pct, span: 2 }
-        - { panel: previous_close, span: 2 }
-        - { panel: day_high, span: 2 }
-        - { panel: day_low, span: 2 }
+        - { panel: close, span: 6 }
+        - { panel: day_high, span: 3 }
+        - { panel: day_low, span: 3 }
     - height: 340
       cells:
         - { panel: intraday, span: 12 }
@@ -66,33 +63,12 @@ panels:
     field: close
     aggregate: max
     format: ',.2f'
-
-  change:
-    title: Change (points)
-    dataset: session
-    kind: kpi-card
-    renderer: kpi
-    field: change
-    aggregate: max
-    format: '+,.2f'
-
-  change_pct:
-    title: Change (%)
-    dataset: session
-    kind: kpi-card
-    renderer: kpi
-    field: change_pct
-    aggregate: max
-    format: '+.2%'
-
-  previous_close:
-    title: Previous close
-    dataset: session
-    kind: kpi-card
-    renderer: kpi
-    field: previous_close
-    aggregate: max
-    format: ',.2f'
+    comparison:
+      compareTo:
+        field: previous_close
+      label: previous close
+      deltaFormat: '+,.2f'
+      deltaPctFormat: '+.2%'
 
   day_high:
     title: Day high

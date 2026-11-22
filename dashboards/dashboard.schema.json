@@ -266,9 +266,10 @@
                     "type": "string",
                     "enum": [
                       "chart-panel",
+                      "data-table",
                       "kpi-card"
                     ],
-                    "description": "Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel."
+                    "description": "Catalog organism this panel renders as (catalog.json): chart-panel, data-table, kpi-card."
                   },
                   "dataset": {
                     "type": "string",
@@ -296,6 +297,65 @@
                   "format": {
                     "type": "string",
                     "default": ",.0f"
+                  },
+                  "comparison": {
+                    "type": "object",
+                    "properties": {
+                      "compareTo": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "field"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1,
+                        "default": "previous"
+                      },
+                      "show": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "delta",
+                            "delta-pct"
+                          ]
+                        },
+                        "minItems": 1,
+                        "default": [
+                          "delta",
+                          "delta-pct"
+                        ]
+                      },
+                      "deltaFormat": {
+                        "type": "string",
+                        "default": "+,.2f"
+                      },
+                      "deltaPctFormat": {
+                        "type": "string",
+                        "default": "+.2%"
+                      },
+                      "polarity": {
+                        "type": "string",
+                        "enum": [
+                          "up-is-good",
+                          "down-is-good",
+                          "neutral"
+                        ],
+                        "default": "up-is-good"
+                      }
+                    },
+                    "required": [
+                      "compareTo"
+                    ],
+                    "additionalProperties": false
                   }
                 },
                 "required": [
@@ -322,9 +382,10 @@
                     "type": "string",
                     "enum": [
                       "chart-panel",
+                      "data-table",
                       "kpi-card"
                     ],
-                    "description": "Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel."
+                    "description": "Catalog organism this panel renders as (catalog.json): chart-panel, data-table, kpi-card."
                   },
                   "dataset": {
                     "type": "string",
@@ -362,9 +423,10 @@
                     "type": "string",
                     "enum": [
                       "chart-panel",
+                      "data-table",
                       "kpi-card"
                     ],
-                    "description": "Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel."
+                    "description": "Catalog organism this panel renders as (catalog.json): chart-panel, data-table, kpi-card."
                   },
                   "dataset": {
                     "type": "string",
@@ -407,9 +469,10 @@
                     "type": "string",
                     "enum": [
                       "chart-panel",
+                      "data-table",
                       "kpi-card"
                     ],
-                    "description": "Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel."
+                    "description": "Catalog organism this panel renders as (catalog.json): chart-panel, data-table, kpi-card."
                   },
                   "dataset": {
                     "type": "string",
@@ -492,9 +555,10 @@
                     "type": "string",
                     "enum": [
                       "chart-panel",
+                      "data-table",
                       "kpi-card"
                     ],
-                    "description": "Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel."
+                    "description": "Catalog organism this panel renders as (catalog.json): chart-panel, data-table, kpi-card."
                   },
                   "dataset": {
                     "type": "string",
@@ -564,6 +628,119 @@
                   "dataset",
                   "renderer",
                   "chart"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "chart-panel",
+                      "data-table",
+                      "kpi-card"
+                    ],
+                    "description": "Catalog organism this panel renders as (catalog.json): chart-panel, data-table, kpi-card."
+                  },
+                  "dataset": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "renderer": {
+                    "type": "string",
+                    "const": "table"
+                  },
+                  "columns": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "label": {
+                          "type": "string"
+                        },
+                        "align": {
+                          "type": "string",
+                          "enum": [
+                            "start",
+                            "end"
+                          ]
+                        },
+                        "format": {
+                          "type": "string"
+                        },
+                        "conditional": {
+                          "type": "string",
+                          "enum": [
+                            "sign"
+                          ]
+                        },
+                        "badges": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string",
+                            "enum": [
+                              "neutral",
+                              "info",
+                              "success",
+                              "warning",
+                              "danger"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "field"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1
+                  },
+                  "sort": {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "order": {
+                        "type": "string",
+                        "enum": [
+                          "asc",
+                          "desc"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "order"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000,
+                    "default": 50
+                  }
+                },
+                "required": [
+                  "title",
+                  "kind",
+                  "dataset",
+                  "renderer",
+                  "columns"
                 ],
                 "additionalProperties": false
               }

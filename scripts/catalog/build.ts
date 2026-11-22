@@ -143,11 +143,95 @@ const sorted = (items: Item[]) =>
 const panelKinds = (items: Item[]) =>
   sorted(items).filter((i) => i.panel && i.status !== 'proposed');
 
-function buildCatalogJson(items: Item[]): string {
+/* ---------------------------------------------------------------- coverage */
+
+/** Published Storybook and registry (GitHub Pages, ADR-004). */
+export const SITE = 'https://amandianeze.github.io/dashboard-factory';
+
+const walk = (dir: string): string[] =>
+  existsSync(dir)
+    ? readdirSync(dir, { withFileTypes: true }).flatMap((d) =>
+        d.isDirectory() ? walk(join(dir, d.name)) : [join(dir, d.name)],
+      )
+    : [];
+
+/** Storybook id from a story title: "Atoms/DeltaIndicator" → "atoms-deltaindicator". */
+export const storyId = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9/]+/g, '-')
+    .replace(/\//g, '-');
+
+export interface Coverage {
+  story: { file: string; title: string; url: string } | null;
+  registry: { name: string; url: string } | null;
+}
+
+/** Story file (src/stories/**\/<id>.stories.tsx) and registry entry per catalog item. */
+export function coverage(items: Item[]): Map<string, Coverage> {
+  const stories = walk(join(ROOT, 'src/stories')).filter((f) => f.endsWith('.stories.tsx'));
+  const registryPath = join(ROOT, 'registry/registry.json');
+  const inRegistry = new Set<string>(
+    existsSync(registryPath)
+      ? (JSON.parse(readFileSync(registryPath, 'utf8')) as { items: { name: string }[] }).items.map(
+          (i) => i.name,
+        )
+      : [],
+  );
+  return new Map(
+    items.map((i) => {
+      const file = stories.find((f) => f.endsWith(`/${i.id}.stories.tsx`));
+      const title = file && /title:\s*'((?:Foundations|Atoms|Molecules|Organisms|Templates|Pages|BI Patterns)\/[^']+)'/.exec(readFileSync(file, 'utf8'))?.[1];
+      return [
+        i.id,
+        {
+          story:
+            file && title
+              ? {
+                  file: file.slice(ROOT.length + 1),
+                  title,
+                  url: `${SITE}/?path=/docs/${storyId(title)}--docs`,
+                }
+              : null,
+          registry: inRegistry.has(i.id)
+            ? { name: `@factory/${i.id}`, url: `${SITE}/r/${i.id}.json` }
+            : null,
+        },
+      ];
+    }),
+  );
+}
+
+/** Gate 5: every built item has an LLD (enforced by the schema), a story and a registry entry. */
+export function coverageErrors(items: Item[], cov: Map<string, Coverage>): string[] {
+  return items
+    .filter((i) => i.status === 'beta' || i.status === 'stable')
+    .flatMap((i) => {
+      const c = cov.get(i.id)!;
+      return [
+        ...(c.story
+          ? []
+          : [`docs/lld/${i.id}.md: built but has no story (src/stories/**/${i.id}.stories.tsx)`]),
+        ...(c.registry
+          ? []
+          : [
+              `docs/lld/${i.id}.md: built but not in registry/registry.json (npm run registry:build)`,
+            ]),
+      ];
+    });
+}
+
+function buildCatalogJson(items: Item[], cov: Map<string, Coverage>): string {
   return JSON.stringify({
     $comment: HEADER,
     version: 1,
-    items: sorted(items).map((i) => ({ ...i, lld: `docs/lld/${i.id}.md`, fullLld: needsFullLld(i) })),
+    site: SITE,
+    items: sorted(items).map((i) => ({
+      ...i,
+      lld: `docs/lld/${i.id}.md`,
+      fullLld: needsFullLld(i),
+      ...cov.get(i.id),
+    })),
   });
 }
 
@@ -177,7 +261,7 @@ function buildTaxonomyBlock(items: Item[]): string {
   const count = (pred: (i: Item) => boolean) => all.filter(pred).length;
 
   out.push(
-    `**${all.length} items:** ${count((i) => i.status === 'stable')} stable, ${count((i) => i.status === 'beta')} beta (built, LLD written, no story yet), ${count((i) => i.status === 'proposed')} proposed (gaps), ${count((i) => i.status === 'deprecated')} deprecated.`,
+    `**${all.length} items:** ${count((i) => i.status === 'stable')} stable, ${count((i) => i.status === 'beta')} beta (built with an LLD, a story and a registry entry; not yet used long enough to call stable), ${count((i) => i.status === 'proposed')} proposed (gaps), ${count((i) => i.status === 'deprecated')} deprecated.`,
     '',
   );
 
@@ -225,7 +309,10 @@ function buildTaxonomyBlock(items: Item[]): string {
   out.push('');
 
   out.push('### Gap list', '');
-  out.push('Proposed items. P1 and P2 have a full LLD to build from; P3 stay stubs until a page needs them (Gate 3).', '');
+  out.push(
+    'Proposed items. P1 and P2 have a full LLD to build from; P3 stay stubs until a page needs them (Gate 3).',
+    '',
+  );
   out.push('| Priority | Item | Level | Why it is needed |');
   out.push('| --- | --- | --- | --- |');
   for (const p of GAP_PRIORITIES)
@@ -239,7 +326,9 @@ function buildTaxonomyBlock(items: Item[]): string {
 
 async function main() {
   const check = process.argv.includes('--check');
-  const { items, errors } = loadItems();
+  const { items, errors: loadErrors } = loadItems();
+  const cov = coverage(items);
+  const errors = [...loadErrors, ...coverageErrors(items, cov)];
   if (errors.length) {
     for (const e of errors) console.error(`✗ ${e}`);
     console.error(`✗ catalog: ${errors.length} problem(s) in docs/lld front matter`);
@@ -256,7 +345,7 @@ async function main() {
   }
 
   const files: Record<string, string> = {
-    'catalog.json': buildCatalogJson(items),
+    'catalog.json': buildCatalogJson(items, cov),
     'src/spec/generated/panel-kinds.ts': buildPanelKindsTs(items),
     [TAXONOMY]: `${before}${BEGIN}\n\n${buildTaxonomyBlock(items)}\n\n${END}${after}`,
   };

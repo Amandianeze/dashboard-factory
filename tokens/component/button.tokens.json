@@ -1,0 +1,124 @@
+{
+  "button": {
+    "primary": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.accent}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.on-accent}"
+      },
+      "hover": {
+        "bg": {
+          "$type": "color",
+          "$value": "{color.bg.accent-hover}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.text.on-accent}"
+        }
+      }
+    },
+    "secondary": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.surface}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.primary}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.border.control}"
+      },
+      "hover": {
+        "bg": {
+          "$type": "color",
+          "$value": "{color.bg.canvas}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.text.primary}"
+        }
+      }
+    },
+    "ghost": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.surface}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.primary}"
+      },
+      "hover": {
+        "bg": {
+          "$type": "color",
+          "$value": "{color.bg.canvas}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.text.primary}"
+        }
+      }
+    },
+    "pressed": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.pressed}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.primary}"
+      }
+    },
+    "disabled": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.canvas}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      }
+    },
+    "focus": {
+      "ring": {
+        "$type": "color",
+        "$value": "{color.focus.ring}"
+      },
+      "width": {
+        "$type": "dimension",
+        "$value": "{dimension.2}"
+      },
+      "offset": {
+        "$type": "dimension",
+        "$value": "{dimension.2}"
+      }
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.pill}"
+    },
+    "padding": {
+      "x": {
+        "$type": "dimension",
+        "$value": "{space.inset.control-x}"
+      },
+      "y": {
+        "$type": "dimension",
+        "$value": "{space.inset.control-y}"
+      }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.inline.sm}"
+    },
+    "typography": {
+      "$type": "typography",
+      "$value": "{typography.body-strong}"
+    }
+  }
+}

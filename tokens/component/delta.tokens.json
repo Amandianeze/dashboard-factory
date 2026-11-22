@@ -1,0 +1,18 @@
+{
+  "delta": {
+    "neutral": {
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.inline.xs}"
+    },
+    "typography": {
+      "$type": "typography",
+      "$value": "{typography.body-strong}"
+    }
+  }
+}

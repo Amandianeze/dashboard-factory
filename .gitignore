@@ -9,3 +9,5 @@ tests/e2e/*-snapshots/*-darwin.png
 .claude/settings.local.json
 *.log
 .DS_Store
+storybook-static/
+public/r/

@@ -42,3 +42,9 @@ one app today.
   As registry blocks they carry those files as dependencies. That is the main argument for moving
   `panels` to npm first when a second app appears.
 - No npm publishing pipeline is needed yet; `npm publish` stays denied in `.claude/settings.json`.
+
+## Amendment, Phase 5 (2026-11-22): proposed, awaiting the owner's confirmation
+
+- **`registry:base` is not built.** The shadcn docs consulted don't show which config key pins
+  Base UI. Until they do, consumers get Base UI only because it is shadcn's current default,
+  which is the risk decision 1 named.

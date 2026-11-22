@@ -1,0 +1,72 @@
+{
+  "badge": {
+    "bg": {
+      "$type": "color",
+      "$value": "{color.bg.surface-raised}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.border.subtle}"
+    },
+    "text": {
+      "$type": "color",
+      "$value": "{color.text.primary}"
+    },
+    "neutral": {
+      "dot": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      }
+    },
+    "info": {
+      "dot": {
+        "$type": "color",
+        "$value": "{color.status.info}"
+      }
+    },
+    "success": {
+      "dot": {
+        "$type": "color",
+        "$value": "{color.status.success}"
+      }
+    },
+    "warning": {
+      "dot": {
+        "$type": "color",
+        "$value": "{color.status.warning}"
+      }
+    },
+    "danger": {
+      "dot": {
+        "$type": "color",
+        "$value": "{color.status.danger}"
+      }
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.pill}"
+    },
+    "padding": {
+      "x": {
+        "$type": "dimension",
+        "$value": "{space.inline.sm}"
+      },
+      "y": {
+        "$type": "dimension",
+        "$value": "{space.stack.2xs}"
+      }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.inline.xs}"
+    },
+    "dot-size": {
+      "$type": "dimension",
+      "$value": "{dimension.6}"
+    },
+    "typography": {
+      "$type": "typography",
+      "$value": "{typography.caption}"
+    }
+  }
+}

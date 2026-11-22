@@ -1,0 +1,1846 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "factory",
+  "homepage": "https://github.com/Amandianeze/dashboard-factory",
+  "items": [
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "Factory DS theme",
+      "description": "Token CSS variables (light, dark, high contrast; comfortable, compact), Tailwind v4 utilities without the default theme, and base styles. Import the three files once.",
+      "dependencies": ["tailwindcss@4.3.5", "@tailwindcss/vite@4.3.5"],
+      "files": [
+        {
+          "path": "src/theme/generated/tokens.css",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/tokens.css"
+        },
+        {
+          "path": "src/theme/tailwind.css",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/tailwind.css"
+        },
+        { "path": "src/styles.css", "type": "registry:file", "target": "~/factory/src/styles.css" }
+      ]
+    },
+    {
+      "name": "axis",
+      "type": "registry:ui",
+      "title": "Axis",
+      "description": "Chart axis (ticks, labels, title, grid) drawn by the chart engine from the generated theme.",
+      "dependencies": [],
+      "devDependencies": ["@types/plotly.js@3.0.15", "flint-chart@1.0.1", "vega-lite@6.5.0"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "src/theme/generated/engines.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/engines.ts"
+        },
+        {
+          "path": "src/theme/generated/themes.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/themes.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "molecule",
+        "biLevel": null,
+        "status": "beta",
+        "lld": "docs/lld/axis.md"
+      }
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Short status text with a status colour, e.g. an order status.",
+      "dependencies": ["clsx@2.1.1", "tailwind-merge@3.7.1"],
+      "devDependencies": ["react@19.3.1"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/badge.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/badge.props.ts"
+        },
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/badge.tsx"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" }
+      ],
+      "meta": {
+        "atomicLevel": "atom",
+        "biLevel": "object",
+        "status": "beta",
+        "lld": "docs/lld/badge.md"
+      }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Triggers an action; primary, secondary and ghost variants.",
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "tailwind-merge@3.7.1"
+      ],
+      "devDependencies": ["react@19.3.1"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/button.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/button.props.ts"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/button.tsx"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" }
+      ],
+      "meta": {
+        "atomicLevel": "atom",
+        "biLevel": null,
+        "status": "beta",
+        "lld": "docs/lld/button.md"
+      }
+    },
+    {
+      "name": "chart-panel",
+      "type": "registry:block",
+      "title": "Chart panel",
+      "description": "A chart in a panel frame, written as Vega-Lite, Flint, a D3 chart or Plotly.",
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "d3@7.9.0",
+        "flint-chart@1.0.1",
+        "plotly.js-basic-dist-min@4.2.0",
+        "tailwind-merge@3.7.1",
+        "vega-embed@7.3.0",
+        "zod@3.25.76"
+      ],
+      "devDependencies": ["@types/d3@7.4.3", "@types/plotly.js@3.0.15", "vega-lite@6.5.0"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/badge.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/badge.props.ts"
+        },
+        {
+          "path": "docs/lld/button.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/button.props.ts"
+        },
+        {
+          "path": "docs/lld/chart-panel.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/chart-panel.props.ts"
+        },
+        {
+          "path": "docs/lld/data-table.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/data-table.props.ts"
+        },
+        {
+          "path": "docs/lld/delta-indicator.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/delta-indicator.props.ts"
+        },
+        {
+          "path": "docs/lld/empty-state.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/empty-state.props.ts"
+        },
+        {
+          "path": "docs/lld/formatted-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/formatted-value.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-card.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-card.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-value.props.ts"
+        },
+        {
+          "path": "src/components/d3/RankedBars.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/RankedBars.tsx"
+        },
+        {
+          "path": "src/components/d3/charts.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/charts.ts"
+        },
+        {
+          "path": "src/components/d3/registry.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/registry.tsx"
+        },
+        {
+          "path": "src/components/panels/data-table.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/data-table.tsx"
+        },
+        {
+          "path": "src/components/panels/kpi-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/kpi-value.tsx"
+        },
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/badge.tsx"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/button.tsx"
+        },
+        {
+          "path": "src/components/ui/delta-indicator.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/delta-indicator.tsx"
+        },
+        {
+          "path": "src/components/ui/empty-state.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/empty-state.tsx"
+        },
+        {
+          "path": "src/components/ui/formatted-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/formatted-value.tsx"
+        },
+        {
+          "path": "src/data/transforms.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/transforms.ts"
+        },
+        {
+          "path": "src/hooks/useElementSize.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/hooks/useElementSize.ts"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/renderers/D3Chart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/D3Chart.tsx"
+        },
+        {
+          "path": "src/renderers/FlintChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/FlintChart.tsx"
+        },
+        {
+          "path": "src/renderers/KpiCard.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/KpiCard.tsx"
+        },
+        {
+          "path": "src/renderers/PanelRenderer.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/PanelRenderer.tsx"
+        },
+        {
+          "path": "src/renderers/PlotlyChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/PlotlyChart.tsx"
+        },
+        {
+          "path": "src/renderers/VegaLiteChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/VegaLiteChart.tsx"
+        },
+        {
+          "path": "src/renderers/VegaView.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/VegaView.tsx"
+        },
+        {
+          "path": "src/renderers/flintSpec.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/flintSpec.ts"
+        },
+        {
+          "path": "src/renderers/plotlyFigure.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/plotlyFigure.ts"
+        },
+        {
+          "path": "src/renderers/vegaLiteSpec.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/vegaLiteSpec.ts"
+        },
+        {
+          "path": "src/spec/d3Format.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/d3Format.ts"
+        },
+        {
+          "path": "src/spec/generated/panel-kinds.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/generated/panel-kinds.ts"
+        },
+        {
+          "path": "src/spec/schema.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/schema.ts"
+        },
+        {
+          "path": "src/spec/types.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/types.ts"
+        },
+        {
+          "path": "src/theme/ThemeProvider.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/ThemeProvider.tsx"
+        },
+        {
+          "path": "src/theme/generated/engines.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/engines.ts"
+        },
+        {
+          "path": "src/theme/generated/themes.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/themes.ts"
+        },
+        {
+          "path": "src/types/plotly-basic.d.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/types/plotly-basic.d.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "organism",
+        "biLevel": "visual",
+        "status": "beta",
+        "lld": "docs/lld/chart-panel.md"
+      }
+    },
+    {
+      "name": "dashboard-template",
+      "type": "registry:block",
+      "title": "Dashboard template",
+      "description": "Title band, filter bar, then 12-column rows of panels; KPI band, primary chart, supporting charts.",
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "d3@7.9.0",
+        "flint-chart@1.0.1",
+        "plotly.js-basic-dist-min@4.2.0",
+        "tailwind-merge@3.7.1",
+        "vega-embed@7.3.0",
+        "zod@3.25.76"
+      ],
+      "devDependencies": ["@types/d3@7.4.3", "@types/plotly.js@3.0.15", "vega-lite@6.5.0"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/badge.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/badge.props.ts"
+        },
+        {
+          "path": "docs/lld/button.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/button.props.ts"
+        },
+        {
+          "path": "docs/lld/dashboard-template.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/dashboard-template.props.ts"
+        },
+        {
+          "path": "docs/lld/data-table.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/data-table.props.ts"
+        },
+        {
+          "path": "docs/lld/delta-indicator.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/delta-indicator.props.ts"
+        },
+        {
+          "path": "docs/lld/empty-state.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/empty-state.props.ts"
+        },
+        {
+          "path": "docs/lld/filter-bar.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/filter-bar.props.ts"
+        },
+        {
+          "path": "docs/lld/filter-chip.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/filter-chip.props.ts"
+        },
+        {
+          "path": "docs/lld/formatted-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/formatted-value.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-card.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-card.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-value.props.ts"
+        },
+        {
+          "path": "docs/lld/panel-frame.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/panel-frame.props.ts"
+        },
+        {
+          "path": "docs/lld/select.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/select.props.ts"
+        },
+        {
+          "path": "docs/lld/title-band.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/title-band.props.ts"
+        },
+        {
+          "path": "docs/lld/tooltip.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/tooltip.props.ts"
+        },
+        {
+          "path": "src/components/d3/RankedBars.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/RankedBars.tsx"
+        },
+        {
+          "path": "src/components/d3/charts.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/charts.ts"
+        },
+        {
+          "path": "src/components/d3/registry.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/registry.tsx"
+        },
+        {
+          "path": "src/components/panels/data-table.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/data-table.tsx"
+        },
+        {
+          "path": "src/components/panels/filter-chip.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/filter-chip.tsx"
+        },
+        {
+          "path": "src/components/panels/kpi-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/kpi-value.tsx"
+        },
+        {
+          "path": "src/components/panels/panel-frame.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/panel-frame.tsx"
+        },
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/badge.tsx"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/button.tsx"
+        },
+        {
+          "path": "src/components/ui/delta-indicator.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/delta-indicator.tsx"
+        },
+        {
+          "path": "src/components/ui/empty-state.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/empty-state.tsx"
+        },
+        {
+          "path": "src/components/ui/formatted-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/formatted-value.tsx"
+        },
+        {
+          "path": "src/components/ui/select.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/select.tsx"
+        },
+        {
+          "path": "src/components/ui/title-band.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/title-band.tsx"
+        },
+        {
+          "path": "src/components/ui/tooltip.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/tooltip.tsx"
+        },
+        {
+          "path": "src/dashboard/DashboardView.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/dashboard/DashboardView.tsx"
+        },
+        {
+          "path": "src/dashboard/FilterBar.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/dashboard/FilterBar.tsx"
+        },
+        {
+          "path": "src/data/transforms.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/transforms.ts"
+        },
+        {
+          "path": "src/data/useDatasets.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/useDatasets.ts"
+        },
+        {
+          "path": "src/hooks/useElementSize.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/hooks/useElementSize.ts"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/renderers/D3Chart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/D3Chart.tsx"
+        },
+        {
+          "path": "src/renderers/FlintChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/FlintChart.tsx"
+        },
+        {
+          "path": "src/renderers/KpiCard.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/KpiCard.tsx"
+        },
+        {
+          "path": "src/renderers/PanelRenderer.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/PanelRenderer.tsx"
+        },
+        {
+          "path": "src/renderers/PlotlyChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/PlotlyChart.tsx"
+        },
+        {
+          "path": "src/renderers/VegaLiteChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/VegaLiteChart.tsx"
+        },
+        {
+          "path": "src/renderers/VegaView.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/VegaView.tsx"
+        },
+        {
+          "path": "src/renderers/flintSpec.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/flintSpec.ts"
+        },
+        {
+          "path": "src/renderers/plotlyFigure.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/plotlyFigure.ts"
+        },
+        {
+          "path": "src/renderers/vegaLiteSpec.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/vegaLiteSpec.ts"
+        },
+        {
+          "path": "src/spec/d3Format.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/d3Format.ts"
+        },
+        {
+          "path": "src/spec/generated/panel-kinds.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/generated/panel-kinds.ts"
+        },
+        {
+          "path": "src/spec/schema.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/schema.ts"
+        },
+        {
+          "path": "src/spec/types.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/types.ts"
+        },
+        {
+          "path": "src/theme/ThemeProvider.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/ThemeProvider.tsx"
+        },
+        {
+          "path": "src/theme/generated/engines.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/engines.ts"
+        },
+        {
+          "path": "src/theme/generated/themes.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/themes.ts"
+        },
+        {
+          "path": "src/types/plotly-basic.d.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/types/plotly-basic.d.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "template",
+        "biLevel": "page-template",
+        "status": "beta",
+        "lld": "docs/lld/dashboard-template.md"
+      }
+    },
+    {
+      "name": "data-table",
+      "type": "registry:block",
+      "title": "Data table",
+      "description": "Rows and columns with sorting, number formats and conditional formats; also the text alternative for every chart.",
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "d3@7.9.0",
+        "flint-chart@1.0.1",
+        "plotly.js-basic-dist-min@4.2.0",
+        "tailwind-merge@3.7.1",
+        "vega-embed@7.3.0",
+        "zod@3.25.76"
+      ],
+      "devDependencies": ["@types/d3@7.4.3", "@types/plotly.js@3.0.15", "vega-lite@6.5.0"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/badge.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/badge.props.ts"
+        },
+        {
+          "path": "docs/lld/button.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/button.props.ts"
+        },
+        {
+          "path": "docs/lld/data-table.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/data-table.props.ts"
+        },
+        {
+          "path": "docs/lld/delta-indicator.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/delta-indicator.props.ts"
+        },
+        {
+          "path": "docs/lld/empty-state.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/empty-state.props.ts"
+        },
+        {
+          "path": "docs/lld/formatted-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/formatted-value.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-card.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-card.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-value.props.ts"
+        },
+        {
+          "path": "src/components/d3/RankedBars.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/RankedBars.tsx"
+        },
+        {
+          "path": "src/components/d3/charts.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/charts.ts"
+        },
+        {
+          "path": "src/components/d3/registry.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/registry.tsx"
+        },
+        {
+          "path": "src/components/panels/data-table.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/data-table.tsx"
+        },
+        {
+          "path": "src/components/panels/kpi-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/kpi-value.tsx"
+        },
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/badge.tsx"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/button.tsx"
+        },
+        {
+          "path": "src/components/ui/delta-indicator.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/delta-indicator.tsx"
+        },
+        {
+          "path": "src/components/ui/empty-state.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/empty-state.tsx"
+        },
+        {
+          "path": "src/components/ui/formatted-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/formatted-value.tsx"
+        },
+        {
+          "path": "src/data/transforms.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/transforms.ts"
+        },
+        {
+          "path": "src/hooks/useElementSize.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/hooks/useElementSize.ts"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/renderers/D3Chart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/D3Chart.tsx"
+        },
+        {
+          "path": "src/renderers/FlintChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/FlintChart.tsx"
+        },
+        {
+          "path": "src/renderers/KpiCard.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/KpiCard.tsx"
+        },
+        {
+          "path": "src/renderers/PanelRenderer.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/PanelRenderer.tsx"
+        },
+        {
+          "path": "src/renderers/PlotlyChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/PlotlyChart.tsx"
+        },
+        {
+          "path": "src/renderers/VegaLiteChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/VegaLiteChart.tsx"
+        },
+        {
+          "path": "src/renderers/VegaView.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/VegaView.tsx"
+        },
+        {
+          "path": "src/renderers/flintSpec.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/flintSpec.ts"
+        },
+        {
+          "path": "src/renderers/plotlyFigure.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/plotlyFigure.ts"
+        },
+        {
+          "path": "src/renderers/vegaLiteSpec.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/vegaLiteSpec.ts"
+        },
+        {
+          "path": "src/spec/d3Format.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/d3Format.ts"
+        },
+        {
+          "path": "src/spec/generated/panel-kinds.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/generated/panel-kinds.ts"
+        },
+        {
+          "path": "src/spec/schema.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/schema.ts"
+        },
+        {
+          "path": "src/spec/types.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/types.ts"
+        },
+        {
+          "path": "src/theme/ThemeProvider.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/ThemeProvider.tsx"
+        },
+        {
+          "path": "src/theme/generated/engines.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/engines.ts"
+        },
+        {
+          "path": "src/theme/generated/themes.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/themes.ts"
+        },
+        {
+          "path": "src/types/plotly-basic.d.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/types/plotly-basic.d.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "organism",
+        "biLevel": "visual",
+        "status": "beta",
+        "lld": "docs/lld/data-table.md"
+      }
+    },
+    {
+      "name": "delta-indicator",
+      "type": "registry:ui",
+      "title": "Delta indicator",
+      "description": "Direction glyph plus signed change, coloured positive or negative.",
+      "dependencies": ["clsx@2.1.1", "d3@7.9.0", "tailwind-merge@3.7.1"],
+      "devDependencies": ["@types/d3@7.4.3"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/delta-indicator.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/delta-indicator.props.ts"
+        },
+        {
+          "path": "docs/lld/formatted-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/formatted-value.props.ts"
+        },
+        {
+          "path": "src/components/ui/delta-indicator.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/delta-indicator.tsx"
+        },
+        {
+          "path": "src/components/ui/formatted-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/formatted-value.tsx"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" }
+      ],
+      "meta": {
+        "atomicLevel": "atom",
+        "biLevel": "object",
+        "status": "beta",
+        "lld": "docs/lld/delta-indicator.md"
+      }
+    },
+    {
+      "name": "empty-state",
+      "type": "registry:ui",
+      "title": "Empty state",
+      "description": "What a panel shows with no data, or when it fails.",
+      "dependencies": ["clsx@2.1.1", "tailwind-merge@3.7.1"],
+      "devDependencies": ["react@19.3.1"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/empty-state.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/empty-state.props.ts"
+        },
+        {
+          "path": "src/components/ui/empty-state.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/empty-state.tsx"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" }
+      ],
+      "meta": {
+        "atomicLevel": "molecule",
+        "biLevel": null,
+        "status": "beta",
+        "lld": "docs/lld/empty-state.md"
+      }
+    },
+    {
+      "name": "filter-bar",
+      "type": "registry:block",
+      "title": "Filter bar",
+      "description": "The dashboard filters, as chip groups and selects.",
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "d3@7.9.0",
+        "tailwind-merge@3.7.1",
+        "zod@3.25.76"
+      ],
+      "devDependencies": ["@types/d3@7.4.3", "react@19.3.1"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/badge.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/badge.props.ts"
+        },
+        {
+          "path": "docs/lld/button.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/button.props.ts"
+        },
+        {
+          "path": "docs/lld/data-table.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/data-table.props.ts"
+        },
+        {
+          "path": "docs/lld/filter-bar.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/filter-bar.props.ts"
+        },
+        {
+          "path": "docs/lld/filter-chip.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/filter-chip.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-value.props.ts"
+        },
+        {
+          "path": "docs/lld/select.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/select.props.ts"
+        },
+        {
+          "path": "src/components/panels/filter-chip.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/filter-chip.tsx"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/button.tsx"
+        },
+        {
+          "path": "src/components/ui/select.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/select.tsx"
+        },
+        {
+          "path": "src/dashboard/FilterBar.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/dashboard/FilterBar.tsx"
+        },
+        {
+          "path": "src/data/transforms.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/transforms.ts"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/spec/d3Format.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/d3Format.ts"
+        },
+        {
+          "path": "src/spec/generated/panel-kinds.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/generated/panel-kinds.ts"
+        },
+        {
+          "path": "src/spec/schema.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/schema.ts"
+        },
+        {
+          "path": "src/spec/types.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/types.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "organism",
+        "biLevel": "pattern",
+        "status": "beta",
+        "lld": "docs/lld/filter-bar.md"
+      }
+    },
+    {
+      "name": "filter-chip",
+      "type": "registry:ui",
+      "title": "Filter chip",
+      "description": "Toggle chip (aria-pressed) for one value of a multiselect filter.",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/filter-chip.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/filter-chip.props.ts"
+        },
+        {
+          "path": "src/components/panels/filter-chip.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/filter-chip.tsx"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "molecule",
+        "biLevel": "pattern",
+        "status": "beta",
+        "lld": "docs/lld/filter-chip.md"
+      }
+    },
+    {
+      "name": "formatted-value",
+      "type": "registry:ui",
+      "title": "Formatted value",
+      "description": "A number formatted from a format token, in tabular numerals; an em dash when missing.",
+      "dependencies": ["clsx@2.1.1", "d3@7.9.0", "tailwind-merge@3.7.1", "zod@3.25.76"],
+      "devDependencies": ["@types/d3@7.4.3"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/badge.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/badge.props.ts"
+        },
+        {
+          "path": "docs/lld/data-table.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/data-table.props.ts"
+        },
+        {
+          "path": "docs/lld/delta-indicator.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/delta-indicator.props.ts"
+        },
+        {
+          "path": "docs/lld/formatted-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/formatted-value.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-card.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-card.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-value.props.ts"
+        },
+        {
+          "path": "src/components/panels/kpi-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/kpi-value.tsx"
+        },
+        {
+          "path": "src/components/ui/delta-indicator.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/delta-indicator.tsx"
+        },
+        {
+          "path": "src/components/ui/formatted-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/formatted-value.tsx"
+        },
+        {
+          "path": "src/data/transforms.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/transforms.ts"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/renderers/KpiCard.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/KpiCard.tsx"
+        },
+        {
+          "path": "src/spec/d3Format.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/d3Format.ts"
+        },
+        {
+          "path": "src/spec/generated/panel-kinds.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/generated/panel-kinds.ts"
+        },
+        {
+          "path": "src/spec/schema.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/schema.ts"
+        },
+        {
+          "path": "src/spec/types.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/types.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "atom",
+        "biLevel": "object",
+        "status": "beta",
+        "lld": "docs/lld/formatted-value.md"
+      }
+    },
+    {
+      "name": "kpi-card",
+      "type": "registry:block",
+      "title": "KPI card",
+      "description": "One headline number in a panel.",
+      "dependencies": ["clsx@2.1.1", "d3@7.9.0", "tailwind-merge@3.7.1", "zod@3.25.76"],
+      "devDependencies": ["@types/d3@7.4.3"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/badge.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/badge.props.ts"
+        },
+        {
+          "path": "docs/lld/data-table.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/data-table.props.ts"
+        },
+        {
+          "path": "docs/lld/delta-indicator.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/delta-indicator.props.ts"
+        },
+        {
+          "path": "docs/lld/formatted-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/formatted-value.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-card.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-card.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-value.props.ts"
+        },
+        {
+          "path": "src/components/panels/kpi-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/kpi-value.tsx"
+        },
+        {
+          "path": "src/components/ui/delta-indicator.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/delta-indicator.tsx"
+        },
+        {
+          "path": "src/components/ui/formatted-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/formatted-value.tsx"
+        },
+        {
+          "path": "src/data/transforms.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/transforms.ts"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/renderers/KpiCard.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/KpiCard.tsx"
+        },
+        {
+          "path": "src/spec/d3Format.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/d3Format.ts"
+        },
+        {
+          "path": "src/spec/generated/panel-kinds.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/generated/panel-kinds.ts"
+        },
+        {
+          "path": "src/spec/schema.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/schema.ts"
+        },
+        {
+          "path": "src/spec/types.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/types.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "organism",
+        "biLevel": "visual",
+        "status": "beta",
+        "lld": "docs/lld/kpi-card.md"
+      }
+    },
+    {
+      "name": "kpi-value",
+      "type": "registry:ui",
+      "title": "KPI value with delta",
+      "description": "A current value with its change against a comparison period.",
+      "dependencies": ["clsx@2.1.1", "d3@7.9.0", "tailwind-merge@3.7.1", "zod@3.25.76"],
+      "devDependencies": ["@types/d3@7.4.3"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/delta-indicator.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/delta-indicator.props.ts"
+        },
+        {
+          "path": "docs/lld/formatted-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/formatted-value.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-value.props.ts"
+        },
+        {
+          "path": "src/components/panels/kpi-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/kpi-value.tsx"
+        },
+        {
+          "path": "src/components/ui/delta-indicator.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/delta-indicator.tsx"
+        },
+        {
+          "path": "src/components/ui/formatted-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/formatted-value.tsx"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/spec/d3Format.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/d3Format.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "molecule",
+        "biLevel": "pattern",
+        "status": "beta",
+        "lld": "docs/lld/kpi-value.md"
+      }
+    },
+    {
+      "name": "legend",
+      "type": "registry:ui",
+      "title": "Legend",
+      "description": "Chart legend drawn by the chart engine from the generated theme.",
+      "dependencies": [],
+      "devDependencies": ["@types/plotly.js@3.0.15", "flint-chart@1.0.1", "vega-lite@6.5.0"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "src/theme/generated/engines.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/engines.ts"
+        },
+        {
+          "path": "src/theme/generated/themes.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/themes.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "molecule",
+        "biLevel": null,
+        "status": "beta",
+        "lld": "docs/lld/legend.md"
+      }
+    },
+    {
+      "name": "nav-card",
+      "type": "registry:ui",
+      "title": "Navigation card",
+      "description": "Index-page link to one dashboard, listing its validation errors.",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/nav-card.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/nav-card.props.ts"
+        },
+        {
+          "path": "src/components/ui/nav-card.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/nav-card.tsx"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "molecule",
+        "biLevel": null,
+        "status": "beta",
+        "lld": "docs/lld/nav-card.md"
+      }
+    },
+    {
+      "name": "panel-frame",
+      "type": "registry:ui",
+      "title": "Panel frame",
+      "description": "The card a panel sits in, with its title, body and an error boundary.",
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "d3@7.9.0",
+        "flint-chart@1.0.1",
+        "plotly.js-basic-dist-min@4.2.0",
+        "tailwind-merge@3.7.1",
+        "vega-embed@7.3.0",
+        "zod@3.25.76"
+      ],
+      "devDependencies": ["@types/d3@7.4.3", "@types/plotly.js@3.0.15", "vega-lite@6.5.0"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/badge.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/badge.props.ts"
+        },
+        {
+          "path": "docs/lld/button.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/button.props.ts"
+        },
+        {
+          "path": "docs/lld/data-table.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/data-table.props.ts"
+        },
+        {
+          "path": "docs/lld/delta-indicator.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/delta-indicator.props.ts"
+        },
+        {
+          "path": "docs/lld/empty-state.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/empty-state.props.ts"
+        },
+        {
+          "path": "docs/lld/formatted-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/formatted-value.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-card.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-card.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-value.props.ts"
+        },
+        {
+          "path": "docs/lld/panel-frame.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/panel-frame.props.ts"
+        },
+        {
+          "path": "docs/lld/tooltip.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/tooltip.props.ts"
+        },
+        {
+          "path": "src/components/d3/RankedBars.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/RankedBars.tsx"
+        },
+        {
+          "path": "src/components/d3/charts.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/charts.ts"
+        },
+        {
+          "path": "src/components/d3/registry.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/registry.tsx"
+        },
+        {
+          "path": "src/components/panels/data-table.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/data-table.tsx"
+        },
+        {
+          "path": "src/components/panels/kpi-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/kpi-value.tsx"
+        },
+        {
+          "path": "src/components/panels/panel-frame.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/panel-frame.tsx"
+        },
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/badge.tsx"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/button.tsx"
+        },
+        {
+          "path": "src/components/ui/delta-indicator.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/delta-indicator.tsx"
+        },
+        {
+          "path": "src/components/ui/empty-state.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/empty-state.tsx"
+        },
+        {
+          "path": "src/components/ui/formatted-value.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/formatted-value.tsx"
+        },
+        {
+          "path": "src/components/ui/tooltip.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/tooltip.tsx"
+        },
+        {
+          "path": "src/data/transforms.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/transforms.ts"
+        },
+        {
+          "path": "src/hooks/useElementSize.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/hooks/useElementSize.ts"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/renderers/D3Chart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/D3Chart.tsx"
+        },
+        {
+          "path": "src/renderers/FlintChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/FlintChart.tsx"
+        },
+        {
+          "path": "src/renderers/KpiCard.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/KpiCard.tsx"
+        },
+        {
+          "path": "src/renderers/PanelRenderer.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/PanelRenderer.tsx"
+        },
+        {
+          "path": "src/renderers/PlotlyChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/PlotlyChart.tsx"
+        },
+        {
+          "path": "src/renderers/VegaLiteChart.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/VegaLiteChart.tsx"
+        },
+        {
+          "path": "src/renderers/VegaView.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/VegaView.tsx"
+        },
+        {
+          "path": "src/renderers/flintSpec.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/flintSpec.ts"
+        },
+        {
+          "path": "src/renderers/plotlyFigure.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/plotlyFigure.ts"
+        },
+        {
+          "path": "src/renderers/vegaLiteSpec.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/vegaLiteSpec.ts"
+        },
+        {
+          "path": "src/spec/d3Format.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/d3Format.ts"
+        },
+        {
+          "path": "src/spec/generated/panel-kinds.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/generated/panel-kinds.ts"
+        },
+        {
+          "path": "src/spec/schema.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/schema.ts"
+        },
+        {
+          "path": "src/spec/types.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/types.ts"
+        },
+        {
+          "path": "src/theme/ThemeProvider.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/ThemeProvider.tsx"
+        },
+        {
+          "path": "src/theme/generated/engines.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/engines.ts"
+        },
+        {
+          "path": "src/theme/generated/themes.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/themes.ts"
+        },
+        {
+          "path": "src/types/plotly-basic.d.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/types/plotly-basic.d.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "molecule",
+        "biLevel": null,
+        "status": "beta",
+        "lld": "docs/lld/panel-frame.md"
+      }
+    },
+    {
+      "name": "ranked-bars",
+      "type": "registry:block",
+      "title": "Ranked bars",
+      "description": "Top-N horizontal bars with direct value labels; a D3 chart used inside a chart panel.",
+      "dependencies": ["clsx@2.1.1", "d3@7.9.0", "tailwind-merge@3.7.1", "zod@3.25.76"],
+      "devDependencies": ["@types/d3@7.4.3"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/badge.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/badge.props.ts"
+        },
+        {
+          "path": "docs/lld/data-table.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/data-table.props.ts"
+        },
+        {
+          "path": "docs/lld/empty-state.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/empty-state.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-value.props.ts"
+        },
+        {
+          "path": "docs/lld/ranked-bars.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/ranked-bars.props.ts"
+        },
+        {
+          "path": "src/components/d3/RankedBars.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/RankedBars.tsx"
+        },
+        {
+          "path": "src/components/d3/charts.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/charts.ts"
+        },
+        {
+          "path": "src/components/d3/registry.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/d3/registry.tsx"
+        },
+        {
+          "path": "src/components/ui/empty-state.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/empty-state.tsx"
+        },
+        {
+          "path": "src/data/transforms.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/transforms.ts"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/spec/d3Format.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/d3Format.ts"
+        },
+        {
+          "path": "src/spec/generated/panel-kinds.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/generated/panel-kinds.ts"
+        },
+        {
+          "path": "src/spec/schema.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/schema.ts"
+        },
+        {
+          "path": "src/spec/types.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/types.ts"
+        },
+        {
+          "path": "src/theme/ThemeProvider.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/ThemeProvider.tsx"
+        },
+        {
+          "path": "src/theme/generated/themes.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/themes.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "organism",
+        "biLevel": "visual",
+        "status": "beta",
+        "lld": "docs/lld/ranked-bars.md"
+      }
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Native single-choice dropdown, styled as a pill.",
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1",
+        "clsx@2.1.1",
+        "d3@7.9.0",
+        "tailwind-merge@3.7.1",
+        "zod@3.25.76"
+      ],
+      "devDependencies": ["@types/d3@7.4.3", "react@19.3.1"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/badge.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/badge.props.ts"
+        },
+        {
+          "path": "docs/lld/button.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/button.props.ts"
+        },
+        {
+          "path": "docs/lld/data-table.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/data-table.props.ts"
+        },
+        {
+          "path": "docs/lld/filter-bar.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/filter-bar.props.ts"
+        },
+        {
+          "path": "docs/lld/filter-chip.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/filter-chip.props.ts"
+        },
+        {
+          "path": "docs/lld/kpi-value.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/kpi-value.props.ts"
+        },
+        {
+          "path": "docs/lld/select.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/select.props.ts"
+        },
+        {
+          "path": "src/components/panels/filter-chip.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/filter-chip.tsx"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/button.tsx"
+        },
+        {
+          "path": "src/components/ui/select.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/select.tsx"
+        },
+        {
+          "path": "src/dashboard/FilterBar.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/dashboard/FilterBar.tsx"
+        },
+        {
+          "path": "src/data/transforms.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/transforms.ts"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/spec/d3Format.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/d3Format.ts"
+        },
+        {
+          "path": "src/spec/generated/panel-kinds.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/generated/panel-kinds.ts"
+        },
+        {
+          "path": "src/spec/schema.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/schema.ts"
+        },
+        {
+          "path": "src/spec/types.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/spec/types.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "atom",
+        "biLevel": null,
+        "status": "beta",
+        "lld": "docs/lld/select.md"
+      }
+    },
+    {
+      "name": "title-band",
+      "type": "registry:ui",
+      "title": "Title band",
+      "description": "Page heading and description.",
+      "dependencies": [],
+      "devDependencies": ["react@19.3.1"],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/title-band.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/title-band.props.ts"
+        },
+        {
+          "path": "src/components/ui/title-band.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/title-band.tsx"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "molecule",
+        "biLevel": "pattern",
+        "status": "beta",
+        "lld": "docs/lld/title-band.md"
+      }
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Extra text shown on hover and keyboard focus.",
+      "dependencies": ["@base-ui/react@1.9.0", "clsx@2.1.1", "tailwind-merge@3.7.1"],
+      "devDependencies": [],
+      "registryDependencies": ["@factory/theme"],
+      "files": [
+        {
+          "path": "docs/lld/tooltip.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/tooltip.props.ts"
+        },
+        {
+          "path": "src/components/ui/tooltip.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/tooltip.tsx"
+        },
+        { "path": "src/lib/cn.ts", "type": "registry:file", "target": "~/factory/src/lib/cn.ts" },
+        {
+          "path": "src/theme/ThemeProvider.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/ThemeProvider.tsx"
+        },
+        {
+          "path": "src/theme/generated/themes.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/theme/generated/themes.ts"
+        }
+      ],
+      "meta": {
+        "atomicLevel": "atom",
+        "biLevel": null,
+        "status": "beta",
+        "lld": "docs/lld/tooltip.md"
+      }
+    }
+  ]
+}

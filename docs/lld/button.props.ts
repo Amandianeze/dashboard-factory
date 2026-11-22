@@ -10,7 +10,7 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   size?: (typeof BUTTON_SIZES)[number];
   /** Default "button", so a button inside a form never submits by accident. */
   type?: 'button' | 'submit' | 'reset';
-  /** Keeps its width, shows a Skeleton-free spinner, sets aria-busy and ignores clicks. */
+  /** Keeps focus and its label, sets aria-busy and aria-disabled, and ignores clicks (no spinner yet; Phase 6). */
   loading?: boolean;
   /** Leading Icon atom; decorative (the text is the name). */
   icon?: ReactNode;

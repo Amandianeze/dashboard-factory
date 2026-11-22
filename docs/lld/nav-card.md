@@ -7,24 +7,27 @@ biLevel: null
 status: beta
 renderEngine: react
 composes: []
-source: [src/App.tsx]
+source:
+  - src/components/ui/nav-card.tsx
+  - src/styles.css
 package: '@factory/ui'
 registryItem: '@factory/nav-card'
 figmaNode: null
 tokens:
-  [
-    typography.heading,
-    typography.body,
-    typography.caption,
-    color.text.primary,
-    color.text.muted,
-    panel.status.error,
-    panel.bg,
-    panel.border.color,
-    panel.radius,
-    panel.padding,
-  ]
-newTokens: [nav-card.bg, nav-card.border, nav-card.hover.border, nav-card.radius, nav-card.padding]
+  - nav-card.bg
+  - nav-card.border
+  - nav-card.hover.border
+  - nav-card.radius
+  - nav-card.padding
+  - border-width.hairline
+  - panel.title.gap
+  - panel.title.typography
+  - typography.heading
+  - typography.body
+  - typography.caption
+  - color.text.primary
+  - color.text.muted
+  - panel.status.error
 props: ./nav-card.props.ts
 dataContract: null
 a11y:
@@ -70,9 +73,8 @@ validation errors in `panel.status.error`).
 
 ## Token map
 
-Today it borrows `.panel` (Gate 3 deprecation 1). It gets its own `nav-card.*` tokens (front
-matter `newTokens`), initially aliasing the panel tokens so nothing looks different, plus a hover
-border.
+Its own `nav-card.*` tokens since Phase 5 (Gate 3 deprecation 1 retired): they alias the panel
+tokens, so nothing looks different, plus a hover and focus-within border (`nav-card.hover.border`).
 
 ## Data binding and formatting
 
@@ -80,7 +82,7 @@ From the validated spec list.
 
 ## Responsive and density
 
-Auto-fill grid, minimum `layout.card.min-width`.
+One card per row, filling the index width; long titles and file names wrap inside it.
 
 ## Accessibility
 

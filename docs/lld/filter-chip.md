@@ -7,7 +7,9 @@ biLevel: pattern
 status: beta
 renderEngine: react
 composes: []
-source: [src/dashboard/FilterBar.tsx, src/styles.css]
+source:
+  - src/components/panels/filter-chip.tsx
+  - src/styles.css
 package: '@factory/panels'
 registryItem: '@factory/filter-chip'
 figmaNode: null

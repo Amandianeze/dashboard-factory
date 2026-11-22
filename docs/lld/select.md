@@ -7,7 +7,9 @@ biLevel: null
 status: beta
 renderEngine: react
 composes: []
-source: [src/dashboard/FilterBar.tsx]
+source:
+  - src/components/ui/select.tsx
+  - src/dashboard/FilterBar.tsx
 package: '@factory/ui'
 registryItem: '@factory/select'
 figmaNode: null

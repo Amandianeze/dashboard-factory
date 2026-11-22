@@ -7,7 +7,7 @@ biLevel: object
 status: beta
 renderEngine: react
 composes: []
-source: [src/renderers/KpiCard.tsx]
+source: [src/components/ui/formatted-value.tsx, src/renderers/KpiCard.tsx]
 package: '@factory/format'
 registryItem: '@factory/formatted-value'
 figmaNode: null

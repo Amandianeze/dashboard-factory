@@ -4,52 +4,46 @@ name: Button
 summary: Triggers an action; primary, secondary and ghost variants.
 atomicLevel: atom
 biLevel: null
-status: proposed
+status: beta
 renderEngine: react
-gap:
-  priority: P1
-  reason: 'No button atom: the clear-filters control is a styled chip. Product UI (forms, CRUD) needs primary, secondary and ghost buttons.'
 package: '@factory/ui'
 registryItem: '@factory/button'
 figmaNode: null
 tokens:
-  [
-    color.bg.accent,
-    color.bg.accent-hover,
-    color.text.on-accent,
-    color.bg.surface,
-    color.bg.pressed,
-    color.text.primary,
-    color.border.control,
-    color.focus.ring,
-    radius.pill,
-    typography.body-strong,
-    space.inset.control-x,
-    space.inset.control-y,
-  ]
-newTokens:
-  [
-    button.primary.bg,
-    button.primary.text,
-    button.primary.hover.bg,
-    button.secondary.bg,
-    button.secondary.border,
-    button.ghost.text,
-    button.pressed.bg,
-    button.disabled.bg,
-    button.disabled.text,
-    button.focus.ring,
-    button.radius,
-    button.padding.x,
-    button.padding.y,
-    button.typography,
-  ]
+  - button.primary.bg
+  - button.primary.text
+  - button.primary.hover.bg
+  - button.primary.hover.text
+  - button.secondary.bg
+  - button.secondary.text
+  - button.secondary.border
+  - button.secondary.hover.bg
+  - button.secondary.hover.text
+  - button.ghost.text
+  - button.ghost.hover.bg
+  - button.ghost.hover.text
+  - button.pressed.bg
+  - button.pressed.text
+  - button.disabled.bg
+  - button.disabled.text
+  - button.focus.ring
+  - button.focus.width
+  - button.focus.offset
+  - button.radius
+  - button.padding.x
+  - button.padding.y
+  - button.gap
+  - button.typography
+  - border-width.hairline
+  - space.inline.sm
+  - space.stack.2xs
 props: ./button.props.ts
 dataContract: null
 a11y:
   {
     role: button,
-    keyboard: 'Enter and Space activate; disabled buttons stay focusable only when they explain why (aria-disabled)',
+    keyboard: 'Enter and Space activate; disabled buttons stay focusable only when they explain why
+      (aria-disabled)',
     srSummary: n/a,
     minContrast: 4.5,
   }
@@ -61,6 +55,8 @@ references:
   - 'https://base-ui.com/react/components/button'
   - 'https://ui.shadcn.com/docs/components/button'
 adr: [ADR-003]
+source:
+  - src/components/ui/button.tsx
 ---
 
 # Button

@@ -9,6 +9,7 @@ import { format, scaleBand, scaleLinear } from 'd3';
 import { useMemo } from 'react';
 import { groupAggregate } from '../../data/transforms';
 import { useTheme } from '../../theme/ThemeProvider';
+import { EmptyState } from '../ui/empty-state';
 import type { RankedBarsProps } from './charts';
 import type { D3ChartProps } from './registry';
 
@@ -43,7 +44,7 @@ export function RankedBars({ data, props, width, height }: D3ChartProps<RankedBa
     .nice()
     .range([0, innerW]);
 
-  if (!ranked.length) return <p className="panel-empty">No data</p>;
+  if (!ranked.length) return <EmptyState variant="empty" title="No values to rank" />;
 
   return (
     <svg

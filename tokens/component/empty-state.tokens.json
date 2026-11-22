@@ -1,0 +1,40 @@
+{
+  "empty-state": {
+    "title": {
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.primary}"
+      },
+      "typography": {
+        "$type": "typography",
+        "$value": "{typography.body-strong}"
+      }
+    },
+    "description": {
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      },
+      "typography": {
+        "$type": "typography",
+        "$value": "{typography.body}"
+      }
+    },
+    "error": {
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.danger}"
+      }
+    },
+    "icon": {
+      "color": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.stack.xs}"
+    }
+  }
+}

@@ -4,42 +4,27 @@ name: Badge
 summary: Short status text with a status colour, e.g. an order status.
 atomicLevel: atom
 biLevel: object
-status: proposed
+status: beta
 renderEngine: react
-gap:
-  priority: P1
-  reason: 'Gate 2 gap: no status badge (order status). Must pair colour with text, never colour alone.'
 package: '@factory/ui'
 registryItem: '@factory/badge'
 figmaNode: null
 tokens:
-  [
-    color.status.danger,
-    color.status.warning,
-    color.status.success,
-    color.status.info,
-    color.text.primary,
-    color.bg.surface-raised,
-    radius.pill,
-    typography.caption,
-  ]
-newTokens:
-  [
-    badge.neutral.bg,
-    badge.neutral.text,
-    badge.info.bg,
-    badge.info.text,
-    badge.success.bg,
-    badge.success.text,
-    badge.warning.bg,
-    badge.warning.text,
-    badge.danger.bg,
-    badge.danger.text,
-    badge.radius,
-    badge.padding.x,
-    badge.padding.y,
-    badge.typography,
-  ]
+  - badge.bg
+  - badge.border
+  - badge.text
+  - badge.neutral.dot
+  - badge.info.dot
+  - badge.success.dot
+  - badge.warning.dot
+  - badge.danger.dot
+  - badge.radius
+  - badge.padding.x
+  - badge.padding.y
+  - badge.gap
+  - badge.dot-size
+  - badge.typography
+  - border-width.hairline
 props: ./badge.props.ts
 dataContract: null
 a11y:
@@ -56,6 +41,8 @@ references:
   - 'https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html'
   - 'https://ui.shadcn.com/docs/components/badge'
 adr: [ADR-003]
+source:
+  - src/components/ui/badge.tsx
 ---
 
 # Badge
@@ -83,9 +70,12 @@ is **not** allowed (mouse-only); keep status words short.
 
 ## Token map
 
-New `badge.<tone>.bg/text` tokens: tinted backgrounds from `color.status.*` with text that
-reaches 4.5:1 on the tint in every theme (checked by `tokens:validate` once added).
-Shape: `badge.radius` → `radius.pill`; type `badge.typography` → `typography.caption`.
+Built (Phase 5) as a neutral pill with a status-coloured dot: `badge.bg` (→
+`color.bg.surface-raised`), `badge.border`, `badge.text` (→ `color.text.primary` for every tone),
+and `badge.<tone>.dot` (→ `color.status.*`). Status-coloured text was tried first and failed
+`tokens:validate` (info 3.22:1 in dark, warning 5.43:1 against the 7:1 high-contrast rule), so
+the word carries the meaning and the dot carries the colour. Shape `badge.radius` → `radius.pill`;
+type `badge.typography` → `typography.caption`.
 
 ## Data binding and formatting
 
