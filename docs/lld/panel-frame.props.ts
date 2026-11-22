@@ -16,6 +16,8 @@ export interface PanelFrameProps {
   kind: PanelKind;
   /** Columns out of 12 in the dashboard row. */
   span: number;
+  /** Controls at the end of the header, e.g. the chart panel's Table toggle. */
+  actions?: ReactNode;
   /** The panel body; wrapped in an error boundary that renders EmptyState `error`. */
   children: ReactNode;
 }

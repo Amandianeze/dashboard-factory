@@ -457,9 +457,9 @@ charts look like one system because every engine config is generated from the sa
 - **Colour roles**: see Colors. Ordered data never uses the categorical palette, and unordered data
   never uses a ramp. A single series is one colour (`chart-bar`, series 1); the categorical palette
   is for when colour itself encodes a field, so don't colour each bar of a one-series chart.
-- **Accessibility**: every chart has an accessible name (`role="img"` and `aria-label` for D3; Vega
-  and Plotly expose their own), formatted tooltips, and colour is never the only carrier of
-  meaning. A data-table fallback for every chart is planned in the catalog (Phase 5).
+- **Accessibility**: every chart is one image named by its panel title and described by a
+  generated summary, and has a **Table** toggle that shows the plotted values exactly. Tooltips
+  are formatted, and colour is never the only carrier of meaning.
 
 ## Motion
 

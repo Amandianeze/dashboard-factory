@@ -131,5 +131,4 @@ No grid library at first (~4 kB). Virtualisation (> 500 rows) needs a dependency
 
 ## Open questions
 
-1. Is the chart fallback the same component (hidden behind "Show data") or a lighter static
-   table? Owner: design review.
+None. The chart fallback is this component, behind the chart panel's Table toggle.

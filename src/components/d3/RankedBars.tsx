@@ -7,10 +7,9 @@
  */
 import { format, scaleBand, scaleLinear } from 'd3';
 import { useMemo } from 'react';
-import { groupAggregate } from '../../data/transforms';
 import { useTheme } from '../../theme/ThemeProvider';
 import { EmptyState } from '../ui/empty-state';
-import type { RankedBarsProps } from './charts';
+import { rankRows, type RankedBarsProps } from './charts';
 import type { D3ChartProps } from './registry';
 
 const label = {
@@ -19,19 +18,11 @@ const label = {
 };
 
 export function RankedBars({ data, props, width, height }: D3ChartProps<RankedBarsProps>) {
-  const { category, value, aggregate, limit, valueFormat } = props;
+  const { category, value, valueFormat } = props;
   const geometry = useTheme().tokens.chart;
   const size = geometry['ranked-bars'];
 
-  const ranked = useMemo(
-    () =>
-      groupAggregate(data, [category], value, aggregate)
-        .map((r) => ({ key: String(r[category]), value: Number(r[value]) }))
-        .filter((r) => Number.isFinite(r.value))
-        .sort((a, b) => b.value - a.value)
-        .slice(0, limit),
-    [data, category, value, aggregate, limit],
-  );
+  const ranked = useMemo(() => rankRows(data, props), [data, props]);
 
   const fmt = useMemo(() => format(valueFormat), [valueFormat]);
   const innerW = Math.max(0, width - size['label-width'] - size['value-width']);

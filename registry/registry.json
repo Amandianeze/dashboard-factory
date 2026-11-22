@@ -176,6 +176,16 @@
           "target": "~/factory/docs/lld/kpi-value.props.ts"
         },
         {
+          "path": "docs/lld/panel-frame.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/panel-frame.props.ts"
+        },
+        {
+          "path": "docs/lld/tooltip.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/tooltip.props.ts"
+        },
+        {
           "path": "src/components/d3/RankedBars.tsx",
           "type": "registry:file",
           "target": "~/factory/src/components/d3/RankedBars.tsx"
@@ -191,6 +201,11 @@
           "target": "~/factory/src/components/d3/registry.tsx"
         },
         {
+          "path": "src/components/panels/chart-panel.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/chart-panel.tsx"
+        },
+        {
           "path": "src/components/panels/data-table.tsx",
           "type": "registry:file",
           "target": "~/factory/src/components/panels/data-table.tsx"
@@ -199,6 +214,11 @@
           "path": "src/components/panels/kpi-value.tsx",
           "type": "registry:file",
           "target": "~/factory/src/components/panels/kpi-value.tsx"
+        },
+        {
+          "path": "src/components/panels/panel-frame.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/panel-frame.tsx"
         },
         {
           "path": "src/components/ui/badge.tsx",
@@ -224,6 +244,16 @@
           "path": "src/components/ui/formatted-value.tsx",
           "type": "registry:file",
           "target": "~/factory/src/components/ui/formatted-value.tsx"
+        },
+        {
+          "path": "src/components/ui/tooltip.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/ui/tooltip.tsx"
+        },
+        {
+          "path": "src/data/chartData.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/chartData.ts"
         },
         {
           "path": "src/data/transforms.ts",
@@ -280,6 +310,11 @@
           "path": "src/renderers/plotlyFigure.ts",
           "type": "registry:file",
           "target": "~/factory/src/renderers/plotlyFigure.ts"
+        },
+        {
+          "path": "src/renderers/vegaChartData.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/vegaChartData.ts"
         },
         {
           "path": "src/renderers/vegaLiteSpec.ts",
@@ -364,6 +399,11 @@
           "target": "~/factory/docs/lld/button.props.ts"
         },
         {
+          "path": "docs/lld/chart-panel.props.ts",
+          "type": "registry:file",
+          "target": "~/factory/docs/lld/chart-panel.props.ts"
+        },
+        {
           "path": "docs/lld/dashboard-template.props.ts",
           "type": "registry:file",
           "target": "~/factory/docs/lld/dashboard-template.props.ts"
@@ -444,6 +484,11 @@
           "target": "~/factory/src/components/d3/registry.tsx"
         },
         {
+          "path": "src/components/panels/chart-panel.tsx",
+          "type": "registry:file",
+          "target": "~/factory/src/components/panels/chart-panel.tsx"
+        },
+        {
           "path": "src/components/panels/data-table.tsx",
           "type": "registry:file",
           "target": "~/factory/src/components/panels/data-table.tsx"
@@ -514,6 +559,11 @@
           "target": "~/factory/src/dashboard/FilterBar.tsx"
         },
         {
+          "path": "src/data/chartData.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/chartData.ts"
+        },
+        {
           "path": "src/data/transforms.ts",
           "type": "registry:file",
           "target": "~/factory/src/data/transforms.ts"
@@ -573,6 +623,11 @@
           "path": "src/renderers/plotlyFigure.ts",
           "type": "registry:file",
           "target": "~/factory/src/renderers/plotlyFigure.ts"
+        },
+        {
+          "path": "src/renderers/vegaChartData.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/vegaChartData.ts"
         },
         {
           "path": "src/renderers/vegaLiteSpec.ts",
@@ -737,6 +792,11 @@
           "target": "~/factory/src/components/ui/formatted-value.tsx"
         },
         {
+          "path": "src/data/chartData.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/chartData.ts"
+        },
+        {
           "path": "src/data/transforms.ts",
           "type": "registry:file",
           "target": "~/factory/src/data/transforms.ts"
@@ -791,6 +851,11 @@
           "path": "src/renderers/plotlyFigure.ts",
           "type": "registry:file",
           "target": "~/factory/src/renderers/plotlyFigure.ts"
+        },
+        {
+          "path": "src/renderers/vegaChartData.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/vegaChartData.ts"
         },
         {
           "path": "src/renderers/vegaLiteSpec.ts",
@@ -1466,6 +1531,11 @@
           "target": "~/factory/src/components/ui/tooltip.tsx"
         },
         {
+          "path": "src/data/chartData.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/chartData.ts"
+        },
+        {
           "path": "src/data/transforms.ts",
           "type": "registry:file",
           "target": "~/factory/src/data/transforms.ts"
@@ -1520,6 +1590,11 @@
           "path": "src/renderers/plotlyFigure.ts",
           "type": "registry:file",
           "target": "~/factory/src/renderers/plotlyFigure.ts"
+        },
+        {
+          "path": "src/renderers/vegaChartData.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/renderers/vegaChartData.ts"
         },
         {
           "path": "src/renderers/vegaLiteSpec.ts",
@@ -1627,6 +1702,11 @@
           "path": "src/components/ui/empty-state.tsx",
           "type": "registry:file",
           "target": "~/factory/src/components/ui/empty-state.tsx"
+        },
+        {
+          "path": "src/data/chartData.ts",
+          "type": "registry:file",
+          "target": "~/factory/src/data/chartData.ts"
         },
         {
           "path": "src/data/transforms.ts",

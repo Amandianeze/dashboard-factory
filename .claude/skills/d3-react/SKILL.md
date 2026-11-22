@@ -21,7 +21,7 @@ Reference implementation: `src/components/d3/RankedBars.tsx`. Copy its shape.
 ```ts
 // charts.ts (no React import — Node scripts load this)
 export const MyChartProps = z.object({ x: z.string(), y: z.string(), valueFormat: D3FormatString.default(',.0f') }).strict();
-export const d3Charts = { ..., MyChart: define({ description, propsSchema: MyChartProps, fieldProps: ['x', 'y'] }) };
+export const d3Charts = { ..., MyChart: define({ description, propsSchema: MyChartProps, fieldProps: ['x', 'y'], chartData: (rows, props) => ({ from: 'plotted', columns, rows: shapeRows(rows, props) }) }) };
 
 // MyChart.tsx
 export function MyChart({ data, props, width, height }: D3ChartProps<z.infer<typeof MyChartProps>>) { ... }
@@ -31,6 +31,8 @@ export const d3Registry = { ..., MyChart };
 ```
 
 `fieldProps` lets validation reject specs that point props at undeclared fields.
+`chartData` is the chart's table view and screen-reader summary: return exactly the rows drawn,
+from the same pure function the component uses (see `rankRows`).
 
 ## Requirements
 

@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import type { OnChartData } from '../data/chartData';
 import type { Row } from '../data/transforms';
 import { useElementSize } from '../hooks/useElementSize';
 import type { PlotlyPanel } from '../spec/types';
 import { useTheme } from '../theme/ThemeProvider';
-import { buildPlotlyFigure } from './plotlyFigure';
+import { buildPlotlyFigure, plotlyChartData } from './plotlyFigure';
 
 type PlotlyModule = typeof import('plotly.js');
 /** Lazy-load the basic Plotly bundle so dashboards without Plotly panels never pay for it. */
@@ -13,12 +14,24 @@ const loadPlotly = () =>
     (m) => ((m as { default?: PlotlyModule }).default ?? m) as PlotlyModule,
   ));
 
-export function PlotlyChart({ panel, rows }: { panel: PlotlyPanel; rows: Row[] }) {
+export function PlotlyChart({
+  panel,
+  rows,
+  onData,
+}: {
+  panel: PlotlyPanel;
+  rows: Row[];
+  onData?: OnChartData;
+}) {
   const [sizeRef, size] = useElementSize<HTMLDivElement>();
   const plotRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string>();
   const { theme } = useTheme();
   const figure = useMemo(() => buildPlotlyFigure(panel, rows, theme), [panel, rows, theme]);
+
+  useEffect(() => {
+    onData?.(plotlyChartData(panel, figure));
+  }, [panel, figure, onData]);
 
   useEffect(() => {
     const el = plotRef.current;

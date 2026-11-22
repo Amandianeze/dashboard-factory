@@ -6,8 +6,11 @@ atomicLevel: organism
 biLevel: visual
 status: beta
 renderEngine: react
-composes: [panel-frame, legend, axis]
+composes: [panel-frame, legend, axis, data-table, button, empty-state]
 source:
+  - src/components/panels/chart-panel.tsx
+  - src/data/chartData.ts
+  - src/renderers/vegaChartData.ts
   - src/renderers/PanelRenderer.tsx
   - src/renderers/VegaLiteChart.tsx
   - src/renderers/FlintChart.tsx
@@ -31,8 +34,8 @@ props: ./chart-panel.props.ts
 dataContract: src/spec/schema.ts#PanelSpec
 a11y:
   {
-    role: 'group (frame) + img (chart svg) with a data-table fallback',
-    keyboard: 'Tab to the chart; tooltips on focus (Vega); fallback table is keyboard-readable',
+    role: 'region (frame) + img named by the title, described by the summary; a table view',
+    keyboard: 'Tab to Table; Enter/Space swaps chart and table; then Tab into the scrolling table',
     srSummary: required,
     minContrast: 3,
   }
@@ -67,22 +70,22 @@ ADR-002 picks for its family. **Use it** for any chart. **Don't use it** for a s
 ```
 
 ② [legend](legend.md) and ④ [axis](axis.md) are drawn by the engine from the generated theme.
-⑤ is **planned** (no text alternative today).
+⑤ is the generated summary and the **Table** toggle at the end of the header.
 
 ## Props and variants
 
-`ChartPanelProps { panel, dataset, rows }`. `panel.renderer` picks the adapter: `VegaLiteChart`,
+`ChartPanelProps { id, span, panel, dataset, rows, empty? }`. `panel.renderer` picks the adapter: `VegaLiteChart`,
 `FlintChart`, `D3Chart` (by `component` in `src/components/d3/charts.ts`), `PlotlyChart`. No
 visual variants; engine choice is the variant.
 
 ## States
 
 - **Loading:** engines load lazily; the cell is blank until the chunk arrives (→ Skeleton `chart`).
-- **Empty:** inconsistent today — D3 says "No data", Vega-Lite, Flint and Plotly draw empty axes
-  (Gate 3 deprecation 4 → [empty-state](empty-state.md) `empty` / `filtered`).
+- **Empty:** EmptyState `empty` or `filtered` in place of the chart; no Table toggle.
+- **Table:** the chart stays mounted, invisible, under the table so both follow filters.
 - **Error:** frame error boundary; Vega compile errors surface there.
 - **Overflow:** legends wrap; heatmap keys sit beside the plot (Gate 2, decision 1).
-- Hover: engine tooltips. Focus: Vega tooltips on focus; D3 and Plotly have none.
+- Hover: engine tooltips. They are mouse-only; the table carries the same values for keyboards.
 
 ## Token map
 
@@ -109,10 +112,23 @@ rows lose their fixed height; charts keep `layout.panel.stacked-min-height`.
 
 ## Accessibility
 
-Each chart needs a text alternative: a one-sentence summary (`aria-describedby`) and a
-[data-table](data-table.md) fallback reachable by keyboard (principle 6). **Not built.** Series
-colours pass the CVD separability check (`tokens:validate`); non-text contrast 3:1 for marks and
-gridlines that carry meaning.
+Two parts, following the W3C pattern for complex images:
+
+- **Short:** the plot is one `img`, named by the panel title and described by the panel
+  `description` plus a generated summary (number of data points, each measure's range and where
+  its extremes are). Screen readers don't step through thousands of marks.
+- **Long:** **Table** swaps in a [data-table](data-table.md) of the rows the engine drew:
+  aggregates, bins, time units and filters as plotted, with exact values in place of `$1.5M`.
+
+Where the rows come from: Vega-Lite and Flint from the compiled datasets the marks use
+(`vegaChartData`), Plotly from its figure (`plotlyChartData`), D3 from the registry's required
+`chartData`, which shares the component's shaping function. If no single drawn dataset has every
+encoded field (concat, repeat), the table shows the panel's source rows and the summary says so.
+
+Limits: the summary states ranges, not trends or causes; put the point of the chart in
+`description`. Rule lines at a constant (`datum`) are not in the table. Series colours pass the
+CVD separability check (`tokens:validate`); non-text contrast 3:1 for marks and gridlines that
+carry meaning.
 
 ## Motion
 
@@ -127,10 +143,10 @@ Plotly basic 385 kB; D3 is in the main bundle. A page loads only the engines its
 
 - **unit:** spec builders (`vegaLiteSpec.ts`, `flintSpec.ts`, `plotlyFigure.ts`) are pure and tested.
 - **visual:** per-panel baselines; the same dataset per engine in Storybook (Phase 5).
-- **a11y:** summary present; fallback table reachable.
+- **a11y:** summary present; table view opened by keyboard in each engine's story and dashboard.
 - **break-ui:** zero rows, filtered to zero, 10k rows (render-performance budget), long category labels.
 
 ## Open questions
 
-1. Where the text alternative comes from: generated from the spec (field + aggregate) or written
-   per panel (`description`)? Owner: design review.
+1. Is a generated range summary enough, or should specs get an authored `takeaway` field?
+   Today: generated, plus `description`. Owner: design review.
