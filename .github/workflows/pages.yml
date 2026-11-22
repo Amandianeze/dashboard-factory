@@ -1,0 +1,49 @@
+# Builds the @factory registry and Storybook, and publishes both to GitHub Pages (ADR-004):
+#   https://amandianeze.github.io/dashboard-factory/          Storybook
+#   https://amandianeze.github.io/dashboard-factory/r/<id>.json  registry items (npx shadcn add @factory/<id>)
+name: Storybook and registry
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # Same gates as verify for what gets published: catalog coverage and registry freshness.
+      - run: npm run lld:check
+      - run: npm run catalog:build -- --check
+      - run: npm run registry:build
+      # Storybook copies public/ (fixtures and the freshly built public/r) into its output.
+      - run: npm run storybook:build
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: storybook-static
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

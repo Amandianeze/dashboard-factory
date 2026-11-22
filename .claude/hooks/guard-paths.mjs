@@ -35,6 +35,10 @@ const RULES = [
     /^(catalog\.json|src\/spec\/generated\/)/,
     'Generated from docs/lld/*.md front matter; edit the LLD then run `npm run catalog:build`.',
   ],
+  [
+    /^(registry\/registry\.json|public\/r\/)/,
+    'Generated from the catalog; edit docs/lld then run `npm run registry:build`.',
+  ],
   [/^\.env/, 'Never write secrets files.'],
 ];
 

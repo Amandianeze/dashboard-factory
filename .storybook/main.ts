@@ -4,7 +4,13 @@ import type { StorybookConfig } from '@storybook/react-vite';
 const config: StorybookConfig = {
   framework: { name: '@storybook/react-vite', options: {} },
   stories: ['../src/**/*.stories.@(ts|tsx)'],
-  addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
+  addons: [
+    '@storybook/addon-docs',
+    '@storybook/addon-a11y',
+    '@storybook/addon-vitest',
+    // Agents look components and stories up over MCP at http://localhost:6006/mcp (storybook dev).
+    '@storybook/addon-mcp',
+  ],
   // Fixtures (public/data) for organism and template stories.
   staticDirs: ['../public'],
   core: { disableTelemetry: true },

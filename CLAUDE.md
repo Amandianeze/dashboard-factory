@@ -6,25 +6,28 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 
 ## Commands
 
-| Command                                   | What it does                                                            |
-| ----------------------------------------- | ----------------------------------------------------------------------- |
-| `npm run dev`                             | Vite dev server (index lists every dashboard; `#/d/<id>` opens one)     |
-| `npm run verify`                          | typecheck, lint, no-raw-values, tokens, specs, unit tests ("done")      |
-| `npm run spec:validate [-- file]`         | Schema, cross-refs, catalog props, fixture fields, VL + Flint checks    |
-| `npm run test:e2e`                        | Builds, renders every dashboard in Chromium, per-panel screenshots      |
-| `npm run new:dashboard -- <id> "<Title>"` | Scaffold a new spec (always use this; never start from a blank)         |
-| `npm run spec:schema`                     | Regenerate `dashboards/dashboard.schema.json` after schema changes      |
-| `npm run catalog:build [-- --check]`      | LLD front matter → `catalog.json`, panel `kind` enum, taxonomy tables   |
-| `npm run lld:check`                       | LLD front matter (tokens, files, ADRs) and template sections, all items |
-| `npm run data:fixtures`                   | Regenerate deterministic fixture data in `public/data/`                 |
-| `npm run data:profile`                    | Check every fixture row against declared field types; stats             |
-| `npm run panel:render -- <dash> <panel>`  | Render one panel in Chromium: screenshot, console, compiled VL spec     |
-| `npm run tokens:build [-- --check]`       | DTCG `tokens/` → `src/theme/generated/` (CSS vars, themes, engines)     |
-| `npm run tokens:validate`                 | Contrast, CVD separability, ramps, references; writes contrast matrix   |
-| `npm run lint:no-raw-values`              | Fail on colours/lengths outside `src/theme/` (`raw-ok:` to justify)     |
-| `npm run design:build` / `design:check`   | DESIGN.md front matter from tokens / fresh + DTCG round-trip            |
-| `npm run design:lint` / `design:diff`     | @google/design.md lint + section order / regressions vs `master`        |
-| `npm run design:taste -- "Do …"`          | Add a reviewed rule to Do's and Don'ts on a taste/* branch, for a PR    |
+| Command                                   | What it does                                                                   |
+| ----------------------------------------- | ------------------------------------------------------------------------------ |
+| `npm run dev`                             | Vite dev server (index lists every dashboard; `#/d/<id>` opens one)            |
+| `npm run verify`                          | typecheck, lint, no-raw-values, tokens, specs, unit tests ("done")             |
+| `npm run spec:validate [-- file]`         | Schema, cross-refs, catalog props, fixture fields, VL + Flint checks           |
+| `npm run test:e2e`                        | Builds, renders every dashboard in Chromium, per-panel screenshots             |
+| `npm run new:dashboard -- <id> "<Title>"` | Scaffold a new spec (always use this; never start from a blank)                |
+| `npm run spec:schema`                     | Regenerate `dashboards/dashboard.schema.json` after schema changes             |
+| `npm run catalog:build [-- --check]`      | LLD front matter → `catalog.json`, panel `kind` enum, taxonomy tables          |
+| `npm run lld:check`                       | LLD front matter (tokens, files, ADRs) and template sections, all items        |
+| `npm run registry:build [-- --check]`     | Catalog → `registry/registry.json` → `shadcn build` → `public/r/` (`@factory`) |
+| `npm run storybook` / `storybook:build`   | Storybook 10 on :6006 (MCP at `/mcp`) / static build in `storybook-static/`    |
+| `npm run test:stories`                    | Every story as a browser test: renders, play function, axe (in `verify`)       |
+| `npm run data:fixtures`                   | Regenerate deterministic fixture data in `public/data/`                        |
+| `npm run data:profile`                    | Check every fixture row against declared field types; stats                    |
+| `npm run panel:render -- <dash> <panel>`  | Render one panel in Chromium: screenshot, console, compiled VL spec            |
+| `npm run tokens:build [-- --check]`       | DTCG `tokens/` → `src/theme/generated/` (CSS vars, themes, engines)            |
+| `npm run tokens:validate`                 | Contrast, CVD separability, ramps, references; writes contrast matrix          |
+| `npm run lint:no-raw-values`              | Fail on colours/lengths outside `src/theme/` (`raw-ok:` to justify)            |
+| `npm run design:build` / `design:check`   | DESIGN.md front matter from tokens / fresh + DTCG round-trip                   |
+| `npm run design:lint` / `design:diff`     | @google/design.md lint + section order / regressions vs `master`               |
+| `npm run design:taste -- "Do …"`          | Add a reviewed rule to Do's and Don'ts on a taste/* branch, for a PR           |
 
 ## Architecture
 
@@ -35,6 +38,9 @@ Never build a dashboard by hand-writing a page; write or change its spec.
     docs/lld/<id>.props.ts        ← the item's props interface (components import it)
     docs/adr/                     ← ADR-001 tokens · 002 chart layer · 003 primitives/icons · 004 distribution · 005 versioning
     catalog.json                  ← generated: every catalog item (agents read this before building)
+    src/components/{ui,panels}/   ← catalog components (Base UI + cva; Tailwind utilities over token vars)
+    src/stories/<level>/<id>.stories.tsx ← one story file per built item (CSF Factories); coverage-checked
+    registry/registry.json        ← generated @factory shadcn registry; public/r/ is its build (CI → Pages)
     docs/taxonomy.md              ← UI ladder × BI ladder, panel kinds, gap and deprecation lists
     src/components/d3/charts.ts   ← D3 chart contracts (props schema, field props), no React
     src/components/d3/registry.tsx← chart name → React component (TS enforces completeness)
@@ -67,6 +73,11 @@ Never build a dashboard by hand-writing a page; write or change its spec.
   Do's and Don'ts change only via `npm run design:taste` and a PR (a hook blocks direct edits).
 - Look before you build: check `catalog.json` before creating any component or panel type. A
   panel's `kind` must be a built organism there; a new item needs an LLD and an approval gate.
+- Components style with Tailwind utilities that reference token variables only
+  (`bg-(--button-primary-bg)`, `[font:var(--x-typography-font)]`); Tailwind's default theme is not
+  loaded, so `p-3` or `text-sm` generate nothing. Put `tabular-nums!` (important) next to a font
+  shorthand: the shorthand resets `font-variant-numeric`.
+- A built catalog item needs an LLD, a story and a registry entry; `catalog:build` fails otherwise.
 - Every field a panel references must be declared in its dataset's `fields`. Validation enforces it.
 - Quote every d3-format string in YAML (`format: '$,.0f'`): commas split flow mappings.
 - Prefer block-style YAML for nested Vega-Lite specs; Prettier mangles long flow mappings.
@@ -77,7 +88,7 @@ Never build a dashboard by hand-writing a page; write or change its spec.
   DOM mutation inside React components.
 - Keep `src/data/transforms.ts` and `*Figure.ts` / `*Spec.ts` builders pure and unit-tested.
 - Never edit generated files (`dashboard.schema.json`, `public/data/*`, `src/theme/generated/*`,
-  `catalog.json`, `src/spec/generated/*`, `public/favicon.svg`, `docs/tokens/contrast-matrix.md`,
+  `catalog.json`, `src/spec/generated/*`, `registry/registry.json`, `public/r/*`, `public/favicon.svg`, `docs/tokens/contrast-matrix.md`,
   screenshot baselines, `dist/`).
   A hook blocks it and names the right command.
 - Never weaken a test, the schema, or a validation rule to make checks pass. Fix the cause.
