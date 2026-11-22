@@ -71,6 +71,8 @@ spec; do not filter warnings out.
 - **Fixed cell sizes for grids.** Heatmap and Calendar Heatmap cells keep Flint's reading size
   (≈56 px heatmap, 460×140 calendar for ~4 months); they do not stretch to fill a wide panel.
   Size the layout cell to the chart, not the other way round.
+  In a narrow panel (phones) the runtime measures any overflow and narrows the x bands to fit
+  (`trimWidth` in `flintSpec.ts`, floor `MIN_BAND_STEP` in `flintFit.ts`); below that floor the chart still overflows.
 - **Tooltips are basic.** Static output has no tooltip encoding; the builder switches tooltips to
   encoded fields with thousands grouping. Currency symbols and Flint's field titles may be
   missing (e.g. `revenue_sum` when Flint adds a value-label layer). Note this in reviews; the fix

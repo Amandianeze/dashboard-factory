@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest';
 import { parse, stringify } from 'yaml';
 import { checkSpecFile, listSpecFiles, loadFixture } from '../../scripts/lib/specs';
 import type { Row } from '../../src/data/transforms';
+import { MIN_BAND_STEP } from '../../src/renderers/flintFit';
 import { buildFlintSpec } from '../../src/renderers/flintSpec';
 import { flintFieldRefs } from '../../src/spec/schema';
 import type { FlintPanel } from '../../src/spec/types';
@@ -132,6 +133,25 @@ describe('buildFlintSpec', () => {
       expect(json).toContain(themes[theme].color.data.positive);
       expect(json).toContain(themes[theme].color.data.negative);
     }
+  });
+});
+
+describe('buildFlintSpec trimWidth (fitting a heatmap that overflows its panel)', () => {
+  const size = { width: 340, height: 300 };
+  const build = (trim?: number) =>
+    buildFlintSpec(panel, rows, semantics, size, 'light', trim) as { width?: unknown };
+
+  it('leaves the chart alone without a trim', () => {
+    expect(build().width).toEqual({ step: 56 });
+    expect(build(0).width).toEqual({ step: 56 });
+  });
+
+  it('takes an equal share of the overflow from each of the 4 product bands', () => {
+    expect(build(20).width).toEqual({ step: 51 });
+  });
+
+  it('never narrows a band below the minimum', () => {
+    expect(build(1000).width).toEqual({ step: MIN_BAND_STEP });
   });
 });
 
