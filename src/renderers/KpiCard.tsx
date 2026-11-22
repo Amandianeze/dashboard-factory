@@ -1,8 +1,10 @@
 import { format } from 'd3';
-import { aggregate, type Row } from '../data/transforms';
-import type { KpiPanel } from '../spec/types';
+import { aggregate } from '../data/transforms';
+import type { KpiCardProps } from '../../docs/lld/kpi-card.props';
 
-export function KpiCard({ panel, rows }: { panel: KpiPanel; rows: Row[] }) {
+export type { KpiCardProps };
+
+export function KpiCard({ panel, rows }: KpiCardProps) {
   const value = aggregate(rows, panel.field, panel.aggregate);
   return (
     <div className="kpi">

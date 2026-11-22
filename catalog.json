@@ -16,7 +16,53 @@
         "priority": "P1",
         "reason": "Gate 2 gap: no status badge (order status). Must pair colour with text, never colour alone."
       },
-      "lld": "docs/lld/badge.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/badge",
+      "figmaNode": null,
+      "tokens": [
+        "color.status.danger",
+        "color.status.warning",
+        "color.status.success",
+        "color.status.info",
+        "color.text.primary",
+        "color.bg.surface-raised",
+        "radius.pill",
+        "typography.caption"
+      ],
+      "newTokens": [
+        "badge.neutral.bg",
+        "badge.neutral.text",
+        "badge.info.bg",
+        "badge.info.text",
+        "badge.success.bg",
+        "badge.success.text",
+        "badge.warning.bg",
+        "badge.warning.text",
+        "badge.danger.bg",
+        "badge.danger.text",
+        "badge.radius",
+        "badge.padding.x",
+        "badge.padding.y",
+        "badge.typography"
+      ],
+      "props": "./badge.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "text (no role); the text carries the status",
+        "keyboard": "n/a",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.2, "bundleKb": 0.5 },
+      "tests": ["unit", "a11y", "visual"],
+      "references": [
+        "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html",
+        "https://ui.shadcn.com/docs/components/badge"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/badge.md",
+      "fullLld": true
     },
     {
       "id": "button",
@@ -32,7 +78,58 @@
         "priority": "P1",
         "reason": "No button atom: the clear-filters control is a styled chip. Product UI (forms, CRUD) needs primary, secondary and ghost buttons."
       },
-      "lld": "docs/lld/button.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/button",
+      "figmaNode": null,
+      "tokens": [
+        "color.bg.accent",
+        "color.bg.accent-hover",
+        "color.text.on-accent",
+        "color.bg.surface",
+        "color.bg.pressed",
+        "color.text.primary",
+        "color.border.control",
+        "color.focus.ring",
+        "radius.pill",
+        "typography.body-strong",
+        "space.inset.control-x",
+        "space.inset.control-y"
+      ],
+      "newTokens": [
+        "button.primary.bg",
+        "button.primary.text",
+        "button.primary.hover.bg",
+        "button.secondary.bg",
+        "button.secondary.border",
+        "button.ghost.text",
+        "button.pressed.bg",
+        "button.disabled.bg",
+        "button.disabled.text",
+        "button.focus.ring",
+        "button.radius",
+        "button.padding.x",
+        "button.padding.y",
+        "button.typography"
+      ],
+      "props": "./button.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "button",
+        "keyboard": "Enter and Space activate; disabled buttons stay focusable only when they explain why (aria-disabled)",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.5, "bundleKb": 1.5 },
+      "tests": ["unit", "interaction", "a11y", "visual"],
+      "references": [
+        "https://www.w3.org/WAI/ARIA/apg/patterns/button/",
+        "https://base-ui.com/react/components/button",
+        "https://ui.shadcn.com/docs/components/button"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/button.md",
+      "fullLld": true
     },
     {
       "id": "delta-indicator",
@@ -48,7 +145,34 @@
         "priority": "P1",
         "reason": "Change KPIs show the sign as text only; color.data.positive/negative exist but nothing uses them."
       },
-      "lld": "docs/lld/delta-indicator.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/delta-indicator",
+      "figmaNode": null,
+      "tokens": [
+        "kpi.delta.positive.text",
+        "kpi.delta.negative.text",
+        "color.text.muted",
+        "typography.body-strong"
+      ],
+      "newTokens": ["delta.neutral.text", "delta.typography"],
+      "props": "./delta-indicator.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "text; sr reads \"up 2.1% versus previous close\"",
+        "keyboard": "n/a",
+        "srSummary": "required",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.2, "bundleKb": 0.5 },
+      "tests": ["unit", "a11y", "visual", "break-ui"],
+      "references": [
+        "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html",
+        "https://d3js.org/d3-format"
+      ],
+      "adr": ["ADR-002"],
+      "lld": "docs/lld/delta-indicator.md",
+      "fullLld": true
     },
     {
       "id": "formatted-value",
@@ -60,7 +184,34 @@
       "renderEngine": "react",
       "composes": [],
       "source": ["src/renderers/KpiCard.tsx"],
-      "lld": "docs/lld/formatted-value.md"
+      "package": "@factory/format",
+      "registryItem": "@factory/formatted-value",
+      "figmaNode": null,
+      "tokens": [
+        "kpi.value.typography",
+        "kpi.value.text",
+        "color.text.primary",
+        "color.text.muted"
+      ],
+      "newTokens": [],
+      "props": "./formatted-value.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "text; missing values carry an sr-only \"no data\"",
+        "keyboard": "n/a",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.2, "bundleKb": 0.5 },
+      "tests": ["unit", "a11y", "break-ui"],
+      "references": [
+        "https://d3js.org/d3-format",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant-numeric"
+      ],
+      "adr": ["ADR-002"],
+      "lld": "docs/lld/formatted-value.md",
+      "fullLld": true
     },
     {
       "id": "icon",
@@ -76,7 +227,29 @@
         "priority": "P2",
         "reason": "No icon set (ADR-003 picks one). Badge, EmptyState, Button and the delta indicator need it."
       },
-      "lld": "docs/lld/icon.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/icon",
+      "figmaNode": null,
+      "tokens": ["typography.caption", "typography.body", "typography.heading"],
+      "newTokens": ["icon.size.sm", "icon.size.md", "icon.size.lg", "icon.stroke-width"],
+      "props": "./icon.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "img with aria-label when meaningful; aria-hidden when decorative",
+        "keyboard": "n/a",
+        "srSummary": "n/a",
+        "minContrast": 3
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.1, "bundleKb": 0.5 },
+      "tests": ["unit", "a11y", "visual"],
+      "references": [
+        "https://lucide.dev/guide/packages/lucide-react",
+        "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/icon.md",
+      "fullLld": true
     },
     {
       "id": "input",
@@ -92,7 +265,49 @@
         "priority": "P2",
         "reason": "No text input. Field, SearchBox and every CRUD form need one."
       },
-      "lld": "docs/lld/input.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/input",
+      "figmaNode": null,
+      "tokens": [
+        "color.bg.surface",
+        "color.text.primary",
+        "color.text.muted",
+        "color.border.control",
+        "color.status.danger",
+        "color.focus.ring",
+        "typography.body",
+        "space.inset.control-x",
+        "space.inset.control-y"
+      ],
+      "newTokens": [
+        "input.bg",
+        "input.text",
+        "input.placeholder",
+        "input.border",
+        "input.border.invalid",
+        "input.radius",
+        "input.padding.x",
+        "input.padding.y",
+        "input.disabled.bg"
+      ],
+      "props": "./input.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "textbox (native input)",
+        "keyboard": "native",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.3, "bundleKb": 0.8 },
+      "tests": ["unit", "interaction", "a11y", "visual"],
+      "references": [
+        "https://base-ui.com/react/components/input",
+        "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/input.md",
+      "fullLld": true
     },
     {
       "id": "label",
@@ -108,7 +323,29 @@
         "priority": "P2",
         "reason": "Filters use fieldset legends and inline text; forms need a Label atom."
       },
-      "lld": "docs/lld/label.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/label",
+      "figmaNode": null,
+      "tokens": ["typography.label", "color.text.primary", "color.text.muted"],
+      "newTokens": ["label.typography", "label.text", "label.required.text"],
+      "props": "./label.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "label (native)",
+        "keyboard": "clicking focuses the control",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.1, "bundleKb": 0.2 },
+      "tests": ["unit", "a11y"],
+      "references": [
+        "https://www.w3.org/WAI/tutorials/forms/labels/",
+        "https://ui.shadcn.com/docs/components/label"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/label.md",
+      "fullLld": true
     },
     {
       "id": "select",
@@ -120,7 +357,47 @@
       "renderEngine": "react",
       "composes": [],
       "source": ["src/dashboard/FilterBar.tsx"],
-      "lld": "docs/lld/select.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/select",
+      "figmaNode": null,
+      "tokens": [
+        "chip.bg",
+        "chip.text",
+        "chip.border",
+        "chip.radius",
+        "chip.padding.x",
+        "chip.padding.y",
+        "chip.typography",
+        "chip.hover.bg",
+        "chip.hover.border",
+        "chip.hover.text",
+        "chip.disabled.bg",
+        "chip.disabled.text",
+        "chip.disabled.border",
+        "chip.focus.ring",
+        "chip.focus.width",
+        "chip.focus.offset",
+        "filter.label.text"
+      ],
+      "newTokens": ["select.bg", "select.border", "select.text"],
+      "props": "./select.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "native select (combobox) inside its label",
+        "keyboard": "native: arrows, type-ahead, Enter/Space opens",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.5, "bundleKb": 0.3 },
+      "tests": ["interaction", "a11y", "visual"],
+      "references": [
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select",
+        "https://www.w3.org/WAI/tutorials/forms/labels/"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/select.md",
+      "fullLld": true
     },
     {
       "id": "separator",
@@ -136,7 +413,8 @@
         "priority": "P3",
         "reason": "Not needed by any screen yet; part of the shadcn base set for product UI."
       },
-      "lld": "docs/lld/separator.md"
+      "lld": "docs/lld/separator.md",
+      "fullLld": false
     },
     {
       "id": "skeleton",
@@ -149,7 +427,32 @@
       "composes": [],
       "source": [],
       "gap": { "priority": "P2", "reason": "Loading is a 'Loading data…' line and panels pop in." },
-      "lld": "docs/lld/skeleton.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/skeleton",
+      "figmaNode": null,
+      "tokens": ["color.bg.pressed", "radius.mark", "motion.duration.slow", "motion.easing.in-out"],
+      "newTokens": ["skeleton.bg", "skeleton.radius", "skeleton.line-height"],
+      "props": "./skeleton.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "presentation inside a container with aria-busy=true",
+        "keyboard": "n/a",
+        "srSummary": "n/a",
+        "minContrast": 3
+      },
+      "motion": {
+        "enter": "opacity pulse, motion.duration.slow, motion.easing.in-out, infinite",
+        "reducedMotion": "static shape, no pulse"
+      },
+      "perfBudget": { "renderMs": 0.3, "bundleKb": 0.3 },
+      "tests": ["unit", "a11y", "visual"],
+      "references": [
+        "https://ui.shadcn.com/docs/components/skeleton",
+        "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/skeleton.md",
+      "fullLld": true
     },
     {
       "id": "sparkline",
@@ -162,7 +465,34 @@
       "composes": [],
       "source": [],
       "gap": { "priority": "P2", "reason": "The KPI card has no trend slot." },
-      "lld": "docs/lld/sparkline.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/sparkline",
+      "figmaNode": null,
+      "tokens": [
+        "color.data.categorical.1",
+        "color.data.highlight",
+        "chart.mark.line-width",
+        "chart.mark.point-diameter"
+      ],
+      "newTokens": ["sparkline.height", "sparkline.width"],
+      "props": "./sparkline.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "img with aria-label from `label`",
+        "keyboard": "n/a",
+        "srSummary": "required",
+        "minContrast": 3
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 1, "bundleKb": 1 },
+      "tests": ["unit", "a11y", "visual", "break-ui"],
+      "references": [
+        "https://d3js.org/d3-shape/line",
+        "https://www.w3.org/WAI/tutorials/images/complex/"
+      ],
+      "adr": ["ADR-002"],
+      "lld": "docs/lld/sparkline.md",
+      "fullLld": true
     },
     {
       "id": "tooltip",
@@ -178,7 +508,49 @@
         "priority": "P1",
         "reason": "Panel descriptions sit in title=, which keyboard and screen-reader users cannot reach."
       },
-      "lld": "docs/lld/tooltip.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/tooltip",
+      "figmaNode": null,
+      "tokens": [
+        "color.bg.surface-raised",
+        "color.text.primary",
+        "color.border.subtle",
+        "typography.caption",
+        "motion.duration.fast",
+        "motion.easing.out"
+      ],
+      "newTokens": [
+        "tooltip.bg",
+        "tooltip.text",
+        "tooltip.border",
+        "tooltip.radius",
+        "tooltip.padding",
+        "tooltip.typography",
+        "tooltip.max-width",
+        "tooltip.delay"
+      ],
+      "props": "./tooltip.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "tooltip (aria-describedby from the trigger)",
+        "keyboard": "shows on focus; Escape dismisses; hoverable (WCAG 1.4.13)",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": {
+        "enter": "fade 120ms motion.easing.out after tooltip.delay",
+        "reducedMotion": "appear without fade"
+      },
+      "perfBudget": { "renderMs": 1, "bundleKb": 4 },
+      "tests": ["interaction", "a11y", "visual"],
+      "references": [
+        "https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/",
+        "https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html",
+        "https://base-ui.com/react/components/tooltip"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/tooltip.md",
+      "fullLld": true
     },
     {
       "id": "unit-label",
@@ -191,7 +563,8 @@
       "composes": [],
       "source": [],
       "gap": { "priority": "P3", "reason": "Units live in panel titles, e.g. 'Change (points)'." },
-      "lld": "docs/lld/unit-label.md"
+      "lld": "docs/lld/unit-label.md",
+      "fullLld": false
     },
     {
       "id": "axis",
@@ -203,7 +576,38 @@
       "renderEngine": "vega-lite",
       "composes": [],
       "source": ["scripts/tokens/engines.ts"],
-      "lld": "docs/lld/axis.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/axis",
+      "figmaNode": null,
+      "tokens": [
+        "chart.label.typography",
+        "chart.label.text",
+        "chart.axis.domain",
+        "chart.axis.title-weight",
+        "chart.grid",
+        "chart.baseline",
+        "color.data.axis",
+        "color.data.gridline"
+      ],
+      "newTokens": [],
+      "props": null,
+      "dataContract": null,
+      "a11y": {
+        "role": "part of the chart image",
+        "keyboard": "n/a",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 1, "bundleKb": 0 },
+      "tests": ["unit", "visual"],
+      "references": [
+        "https://vega.github.io/vega-lite/docs/axis.html",
+        "https://plotly.com/javascript/axes/"
+      ],
+      "adr": ["ADR-002"],
+      "lld": "docs/lld/axis.md",
+      "fullLld": true
     },
     {
       "id": "empty-state",
@@ -213,13 +617,42 @@
       "biLevel": null,
       "status": "proposed",
       "renderEngine": "react",
-      "composes": [],
+      "composes": ["icon", "button"],
       "source": [],
       "gap": {
         "priority": "P1",
         "reason": "Three behaviours today: D3 'No data', KPI '—', and empty axes from Vega-Lite, Flint and Plotly. Errors use one red class for four jobs."
       },
-      "lld": "docs/lld/empty-state.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/empty-state",
+      "figmaNode": null,
+      "tokens": [
+        "panel.status.text",
+        "panel.status.error",
+        "panel.status.typography",
+        "color.text.muted",
+        "typography.body",
+        "space.stack.sm"
+      ],
+      "newTokens": ["empty-state.title.typography", "empty-state.icon.color"],
+      "props": "./empty-state.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "status for empty/filtered; alert for error",
+        "keyboard": "Tab reaches the action button",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.5, "bundleKb": 0.8 },
+      "tests": ["unit", "a11y", "visual"],
+      "references": [
+        "https://ui.shadcn.com/docs/components/empty",
+        "https://www.w3.org/WAI/ARIA/apg/practices/structural-roles/"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/empty-state.md",
+      "fullLld": true
     },
     {
       "id": "field",
@@ -229,13 +662,36 @@
       "biLevel": null,
       "status": "proposed",
       "renderEngine": "react",
-      "composes": [],
+      "composes": ["label", "input"],
       "source": [],
       "gap": {
         "priority": "P2",
         "reason": "CRUD and settings forms need label + input + help + error."
       },
-      "lld": "docs/lld/field.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/field",
+      "figmaNode": null,
+      "tokens": ["typography.caption", "color.text.muted", "color.text.danger", "space.stack.xs"],
+      "newTokens": ["field.gap", "field.help.text", "field.error.text"],
+      "props": "./field.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "group of label + control; error announced",
+        "keyboard": "native control behaviour",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.5, "bundleKb": 1 },
+      "tests": ["unit", "interaction", "a11y", "visual"],
+      "references": [
+        "https://base-ui.com/react/components/field",
+        "https://ui.shadcn.com/docs/components/field",
+        "https://www.w3.org/WAI/tutorials/forms/notifications/"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/field.md",
+      "fullLld": true
     },
     {
       "id": "filter-chip",
@@ -247,7 +703,54 @@
       "renderEngine": "react",
       "composes": [],
       "source": ["src/dashboard/FilterBar.tsx", "src/styles.css"],
-      "lld": "docs/lld/filter-chip.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/filter-chip",
+      "figmaNode": null,
+      "tokens": [
+        "chip.bg",
+        "chip.text",
+        "chip.border",
+        "chip.radius",
+        "chip.padding.x",
+        "chip.padding.y",
+        "chip.typography",
+        "chip.hover.bg",
+        "chip.hover.text",
+        "chip.hover.border",
+        "chip.pressed.bg",
+        "chip.pressed.text",
+        "chip.selected.bg",
+        "chip.selected.text",
+        "chip.selected.border",
+        "chip.selected.hover.bg",
+        "chip.selected.hover.text",
+        "chip.disabled.bg",
+        "chip.disabled.text",
+        "chip.disabled.border",
+        "chip.focus.ring",
+        "chip.focus.width",
+        "chip.focus.offset"
+      ],
+      "newTokens": [],
+      "props": "./filter-chip.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "button with aria-pressed",
+        "keyboard": "Space or Enter toggles; Tab moves between chips",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.5, "bundleKb": 0.5 },
+      "tests": ["interaction", "a11y", "visual"],
+      "references": [
+        "https://www.w3.org/WAI/ARIA/apg/patterns/button/",
+        "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-pressed",
+        "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/filter-chip.md",
+      "fullLld": true
     },
     {
       "id": "kpi-value",
@@ -257,13 +760,39 @@
       "biLevel": "pattern",
       "status": "proposed",
       "renderEngine": "react",
-      "composes": [],
+      "composes": ["formatted-value", "delta-indicator"],
       "source": [],
       "gap": {
         "priority": "P1",
         "reason": "Period comparison: sp500-today shows change, change % and previous close as three unrelated tiles."
       },
-      "lld": "docs/lld/kpi-value.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/kpi-value",
+      "figmaNode": null,
+      "tokens": [
+        "kpi.value.typography",
+        "kpi.value.text",
+        "kpi.delta.positive.text",
+        "kpi.delta.negative.text",
+        "space.inline.sm",
+        "color.text.muted"
+      ],
+      "newTokens": ["kpi.comparison.typography"],
+      "props": "./kpi-value.props.ts",
+      "dataContract": "docs/lld/kpi-value.props.ts#KpiComparison",
+      "a11y": {
+        "role": "text group; sr reads value, then change and comparison",
+        "keyboard": "n/a",
+        "srSummary": "required",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.5, "bundleKb": 0.5 },
+      "tests": ["unit", "a11y", "visual", "break-ui"],
+      "references": ["https://www.sqlbi.com/", "https://d3js.org/d3-format"],
+      "adr": ["ADR-002", "ADR-005"],
+      "lld": "docs/lld/kpi-value.md",
+      "fullLld": true
     },
     {
       "id": "legend",
@@ -275,7 +804,35 @@
       "renderEngine": "vega-lite",
       "composes": [],
       "source": ["scripts/tokens/engines.ts"],
-      "lld": "docs/lld/legend.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/legend",
+      "figmaNode": null,
+      "tokens": [
+        "chart.label.typography",
+        "chart.label.text",
+        "chart.label.text-strong",
+        "chart.legend.gradient-length",
+        "chart.inset.top-legend"
+      ],
+      "newTokens": [],
+      "props": null,
+      "dataContract": null,
+      "a11y": {
+        "role": "part of the chart image",
+        "keyboard": "n/a",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 1, "bundleKb": 0 },
+      "tests": ["unit", "visual"],
+      "references": [
+        "https://vega.github.io/vega-lite/docs/legend.html",
+        "https://microsoft.github.io/flint-chart/"
+      ],
+      "adr": ["ADR-002"],
+      "lld": "docs/lld/legend.md",
+      "fullLld": true
     },
     {
       "id": "nav-card",
@@ -287,19 +844,88 @@
       "renderEngine": "react",
       "composes": [],
       "source": ["src/App.tsx"],
-      "lld": "docs/lld/nav-card.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/nav-card",
+      "figmaNode": null,
+      "tokens": [
+        "typography.heading",
+        "typography.body",
+        "typography.caption",
+        "color.text.primary",
+        "color.text.muted",
+        "panel.status.error",
+        "panel.bg",
+        "panel.border.color",
+        "panel.radius",
+        "panel.padding"
+      ],
+      "newTokens": [
+        "nav-card.bg",
+        "nav-card.border",
+        "nav-card.hover.border",
+        "nav-card.radius",
+        "nav-card.padding"
+      ],
+      "props": "./nav-card.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "listitem containing one link",
+        "keyboard": "Tab to the card link; Enter opens",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 0.5, "bundleKb": 0.5 },
+      "tests": ["a11y", "visual", "break-ui"],
+      "references": ["https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html"],
+      "adr": [],
+      "lld": "docs/lld/nav-card.md",
+      "fullLld": true
     },
     {
       "id": "panel-frame",
       "name": "Panel frame",
-      "summary": "The card a panel sits in: title, body and an error boundary.",
+      "summary": "The card a panel sits in, with its title, body and an error boundary.",
       "atomicLevel": "molecule",
       "biLevel": null,
       "status": "beta",
       "renderEngine": "react",
       "composes": [],
       "source": ["src/dashboard/DashboardView.tsx", "src/renderers/PanelRenderer.tsx"],
-      "lld": "docs/lld/panel-frame.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/panel-frame",
+      "figmaNode": null,
+      "tokens": [
+        "panel.bg",
+        "panel.border.color",
+        "panel.border.width",
+        "panel.radius",
+        "panel.padding",
+        "panel.title.typography",
+        "panel.title.color",
+        "panel.title.gap",
+        "panel.status.error",
+        "panel.status.typography"
+      ],
+      "newTokens": [],
+      "props": "./panel-frame.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "section with aria-labelledby → h2",
+        "keyboard": "n/a; the description trigger (planned) is a focusable button",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 1, "bundleKb": 1 },
+      "tests": ["unit", "a11y", "visual"],
+      "references": [
+        "https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/",
+        "https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html"
+      ],
+      "adr": ["ADR-004"],
+      "lld": "docs/lld/panel-frame.md",
+      "fullLld": true
     },
     {
       "id": "search-box",
@@ -312,7 +938,8 @@
       "composes": [],
       "source": [],
       "gap": { "priority": "P3", "reason": "CRUD list pages need it; no screen does yet." },
-      "lld": "docs/lld/search-box.md"
+      "lld": "docs/lld/search-box.md",
+      "fullLld": false
     },
     {
       "id": "title-band",
@@ -324,7 +951,32 @@
       "renderEngine": "react",
       "composes": [],
       "source": ["src/dashboard/DashboardView.tsx", "src/App.tsx"],
-      "lld": "docs/lld/title-band.md"
+      "package": "@factory/ui",
+      "registryItem": "@factory/title-band",
+      "figmaNode": null,
+      "tokens": [
+        "page.title.typography",
+        "page.title.color",
+        "page.description.typography",
+        "page.description.color",
+        "page.description.gap"
+      ],
+      "newTokens": [],
+      "props": "./title-band.props.ts",
+      "dataContract": null,
+      "a11y": {
+        "role": "header with the page h1",
+        "keyboard": "n/a",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 1, "bundleKb": 0.5 },
+      "tests": ["a11y", "visual", "break-ui"],
+      "references": ["https://www.w3.org/WAI/tutorials/page-structure/headings/"],
+      "adr": [],
+      "lld": "docs/lld/title-band.md",
+      "fullLld": true
     },
     {
       "id": "app-header",
@@ -340,12 +992,13 @@
         "priority": "P3",
         "reason": "No app chrome yet; pages have only a title band. Needed once there is more than the index."
       },
-      "lld": "docs/lld/app-header.md"
+      "lld": "docs/lld/app-header.md",
+      "fullLld": false
     },
     {
       "id": "chart-panel",
       "name": "Chart panel",
-      "summary": "A chart in a panel frame, written as Vega-Lite, Flint, a D3 catalog chart or Plotly.",
+      "summary": "A chart in a panel frame, written as Vega-Lite, Flint, a D3 chart or Plotly.",
       "atomicLevel": "organism",
       "biLevel": "visual",
       "status": "beta",
@@ -359,7 +1012,38 @@
         "src/renderers/PlotlyChart.tsx"
       ],
       "panel": { "renderers": ["vega-lite", "flint", "d3", "plotly"] },
-      "lld": "docs/lld/chart-panel.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/chart-panel",
+      "figmaNode": null,
+      "tokens": [
+        "chart.label.typography",
+        "chart.label.text",
+        "chart.grid",
+        "chart.padding",
+        "color.data.categorical.1",
+        "panel.status.text"
+      ],
+      "newTokens": [],
+      "props": "./chart-panel.props.ts",
+      "dataContract": "src/spec/schema.ts#PanelSpec",
+      "a11y": {
+        "role": "group (frame) + img (chart svg) with a data-table fallback",
+        "keyboard": "Tab to the chart; tooltips on focus (Vega); fallback table is keyboard-readable",
+        "srSummary": "required",
+        "minContrast": 3
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 50, "bundleKb": 2 },
+      "tests": ["unit", "a11y", "visual", "break-ui"],
+      "references": [
+        "https://vega.github.io/vega-lite/docs/",
+        "https://microsoft.github.io/flint-chart/",
+        "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html",
+        "https://www.w3.org/WAI/tutorials/images/complex/"
+      ],
+      "adr": ["ADR-002"],
+      "lld": "docs/lld/chart-panel.md",
+      "fullLld": true
     },
     {
       "id": "data-table",
@@ -369,26 +1053,98 @@
       "biLevel": "visual",
       "status": "proposed",
       "renderEngine": "react",
-      "composes": [],
+      "composes": ["formatted-value", "badge", "empty-state", "skeleton"],
       "source": [],
       "panel": { "renderers": [] },
       "gap": {
         "priority": "P1",
         "reason": "Gate 2 gap (no table or matrix), and the data-table fallback every chart needs for accessibility. Needs a `table` renderer."
       },
-      "lld": "docs/lld/data-table.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/data-table",
+      "figmaNode": null,
+      "tokens": [
+        "color.text.primary",
+        "color.text.muted",
+        "color.border.subtle",
+        "color.bg.surface",
+        "color.bg.surface-raised",
+        "typography.body",
+        "typography.label",
+        "color.data.sequential.blue.1",
+        "color.data.diverging.blue-orange.0",
+        "color.data.positive",
+        "color.data.negative",
+        "color.focus.ring"
+      ],
+      "newTokens": [
+        "table.header.typography",
+        "table.header.text",
+        "table.row.border",
+        "table.row.hover.bg",
+        "table.cell.padding.x",
+        "table.cell.padding.y",
+        "table.sort.icon"
+      ],
+      "props": "./data-table.props.ts",
+      "dataContract": "docs/lld/data-table.props.ts#TablePanel",
+      "a11y": {
+        "role": "table with caption; sortable headers are buttons with aria-sort",
+        "keyboard": "Tab to header buttons; Enter/Space sorts; table scrolls in a focusable region",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 16, "bundleKb": 4 },
+      "tests": ["unit", "interaction", "a11y", "visual", "break-ui"],
+      "references": [
+        "https://www.w3.org/WAI/ARIA/apg/patterns/table/examples/sortable-table/",
+        "https://www.w3.org/WAI/tutorials/tables/",
+        "https://ui.shadcn.com/docs/components/data-table"
+      ],
+      "adr": ["ADR-002", "ADR-003", "ADR-004"],
+      "lld": "docs/lld/data-table.md",
+      "fullLld": true
     },
     {
       "id": "filter-bar",
       "name": "Filter bar",
-      "summary": "The dashboard filters: chip groups and selects.",
+      "summary": "The dashboard filters, as chip groups and selects.",
       "atomicLevel": "organism",
       "biLevel": "pattern",
       "status": "beta",
       "renderEngine": "react",
       "composes": ["filter-chip", "select"],
       "source": ["src/dashboard/FilterBar.tsx"],
-      "lld": "docs/lld/filter-bar.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/filter-bar",
+      "figmaNode": null,
+      "tokens": [
+        "filter.gap",
+        "filter.label.text",
+        "filter.label.gap",
+        "space.grid.gap",
+        "chip.typography"
+      ],
+      "newTokens": [],
+      "props": "./filter-bar.props.ts",
+      "dataContract": "src/spec/schema.ts#FilterSpec",
+      "a11y": {
+        "role": "group \"Filters\"; each filter a fieldset/legend or labelled select",
+        "keyboard": "Tab between controls; Space/Enter toggles a chip; arrows in a select",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 2, "bundleKb": 1 },
+      "tests": ["unit", "interaction", "a11y", "visual", "break-ui"],
+      "references": [
+        "https://www.w3.org/WAI/ARIA/apg/patterns/button/",
+        "https://www.w3.org/WAI/tutorials/forms/grouping/"
+      ],
+      "adr": ["ADR-003"],
+      "lld": "docs/lld/filter-bar.md",
+      "fullLld": true
     },
     {
       "id": "kpi-card",
@@ -401,19 +1157,75 @@
       "composes": ["panel-frame", "formatted-value"],
       "source": ["src/renderers/KpiCard.tsx"],
       "panel": { "renderers": ["kpi"] },
-      "lld": "docs/lld/kpi-card.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/kpi-card",
+      "figmaNode": null,
+      "tokens": ["kpi.value.typography", "kpi.value.text", "panel.status.text"],
+      "newTokens": ["kpi.label.typography", "kpi.sparkline.height"],
+      "props": "./kpi-card.props.ts",
+      "dataContract": "src/spec/schema.ts#KpiPanel",
+      "a11y": {
+        "role": "group (panel frame section, named by its h2)",
+        "keyboard": "n/a (not interactive)",
+        "srSummary": "required",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 2, "bundleKb": 1 },
+      "tests": ["unit", "a11y", "visual", "break-ui"],
+      "references": [
+        "https://d3js.org/d3-format",
+        "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+        "https://atomicdesign.bradfrost.com/chapter-2/"
+      ],
+      "adr": ["ADR-002", "ADR-005"],
+      "lld": "docs/lld/kpi-card.md",
+      "fullLld": true
     },
     {
       "id": "ranked-bars",
       "name": "Ranked bars",
-      "summary": "Top-N horizontal bars with direct value labels; a D3 catalog chart used inside a chart panel.",
+      "summary": "Top-N horizontal bars with direct value labels; a D3 chart used inside a chart panel.",
       "atomicLevel": "organism",
       "biLevel": "visual",
       "status": "beta",
       "renderEngine": "d3",
       "composes": [],
-      "source": ["src/components/d3/RankedBars.tsx", "src/components/d3/catalog.ts"],
-      "lld": "docs/lld/ranked-bars.md"
+      "source": ["src/components/d3/RankedBars.tsx", "src/components/d3/charts.ts"],
+      "package": "@factory/panels",
+      "registryItem": "@factory/ranked-bars",
+      "figmaNode": null,
+      "tokens": [
+        "chart.label.typography",
+        "chart.label.text",
+        "chart.mark.bar-radius",
+        "chart.ranked-bars.label-width",
+        "chart.ranked-bars.value-width",
+        "chart.ranked-bars.label-gap",
+        "chart.ranked-bars.value-gap",
+        "color.data.categorical.1",
+        "panel.status.text"
+      ],
+      "newTokens": [],
+      "props": "./ranked-bars.props.ts",
+      "dataContract": "src/components/d3/charts.ts#RankedBarsProps",
+      "a11y": {
+        "role": "img with a summary; each bar has a <title>",
+        "keyboard": "n/a (static); fallback table planned",
+        "srSummary": "required",
+        "minContrast": 3
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 4, "bundleKb": 2 },
+      "tests": ["unit", "a11y", "visual", "break-ui"],
+      "references": [
+        "https://d3js.org/d3-scale/band",
+        "https://d3js.org/d3-format",
+        "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+      ],
+      "adr": ["ADR-002"],
+      "lld": "docs/lld/ranked-bars.md",
+      "fullLld": true
     },
     {
       "id": "sidebar",
@@ -429,7 +1241,8 @@
         "priority": "P3",
         "reason": "Needed by report templates and CRUD apps; nothing uses it yet."
       },
-      "lld": "docs/lld/sidebar.md"
+      "lld": "docs/lld/sidebar.md",
+      "fullLld": false
     },
     {
       "id": "crud-list-template",
@@ -445,19 +1258,51 @@
         "priority": "P3",
         "reason": "Product UI side of the system; no CRUD page exists yet (Definition of done asks for one)."
       },
-      "lld": "docs/lld/crud-list-template.md"
+      "lld": "docs/lld/crud-list-template.md",
+      "fullLld": false
     },
     {
       "id": "dashboard-template",
       "name": "Dashboard template",
-      "summary": "Title band, filter bar, then 12-column rows of panels: KPI band, primary chart, supporting charts.",
+      "summary": "Title band, filter bar, then 12-column rows of panels; KPI band, primary chart, supporting charts.",
       "atomicLevel": "template",
       "biLevel": "page-template",
       "status": "beta",
       "renderEngine": "react",
       "composes": ["title-band", "filter-bar", "kpi-card", "chart-panel"],
       "source": ["src/dashboard/DashboardView.tsx"],
-      "lld": "docs/lld/dashboard-template.md"
+      "package": "@factory/panels",
+      "registryItem": "@factory/dashboard-template",
+      "figmaNode": null,
+      "tokens": [
+        "page.bg",
+        "page.padding.x",
+        "page.padding.top",
+        "page.padding.bottom",
+        "space.grid.gap",
+        "layout.grid.columns",
+        "layout.container.max",
+        "panel.status.text"
+      ],
+      "newTokens": [],
+      "props": "./dashboard-template.props.ts",
+      "dataContract": "src/spec/schema.ts#DashboardSpec",
+      "a11y": {
+        "role": "main; each panel a section named by its h2",
+        "keyboard": "Tab order follows reading order: filters, then rows left to right",
+        "srSummary": "n/a",
+        "minContrast": 4.5
+      },
+      "motion": null,
+      "perfBudget": { "renderMs": 16, "bundleKb": 4 },
+      "tests": ["unit", "a11y", "visual", "break-ui"],
+      "references": [
+        "https://atomicdesign.bradfrost.com/chapter-2/",
+        "https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/"
+      ],
+      "adr": ["ADR-002", "ADR-004"],
+      "lld": "docs/lld/dashboard-template.md",
+      "fullLld": true
     },
     {
       "id": "detail-template",
@@ -473,7 +1318,8 @@
         "priority": "P3",
         "reason": "Product UI; also the shape of a BI drill-through page."
       },
-      "lld": "docs/lld/detail-template.md"
+      "lld": "docs/lld/detail-template.md",
+      "fullLld": false
     },
     {
       "id": "settings-template",
@@ -486,7 +1332,8 @@
       "composes": [],
       "source": [],
       "gap": { "priority": "P3", "reason": "Product UI; no settings page exists yet." },
-      "lld": "docs/lld/settings-template.md"
+      "lld": "docs/lld/settings-template.md",
+      "fullLld": false
     }
   ]
 }

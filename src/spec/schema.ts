@@ -124,7 +124,7 @@ export const D3Panel = z
   .object({
     ...PanelCommon,
     renderer: z.literal('d3'),
-    /** Name of a chart in src/components/d3/catalog.ts. */
+    /** Name of a chart in src/components/d3/charts.ts. */
     component: z.string().min(1),
     /** Validated against that chart's propsSchema. */
     props: z.record(z.unknown()).default({}),
@@ -325,7 +325,7 @@ function crossReferences(d: DashboardShape, ctx: z.RefinementCtx) {
         flintFieldRefs(p.chart.encodings).forEach((f) => need(['chart', 'encodings'], f));
         break;
       case 'd3':
-        break; // props are checked against the chart catalog in validate.ts
+        break; // props are checked against the D3 chart registry in validate.ts
     }
   }
 

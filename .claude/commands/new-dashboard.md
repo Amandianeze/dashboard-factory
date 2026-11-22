@@ -16,5 +16,5 @@ Run the factory pipeline:
 4. Run `npm run test:e2e -- --update-snapshots` to create baselines for the new dashboard only,
    then use the **verifier** subagent to confirm every panel renders correctly.
 5. Use the **design-reviewer** subagent. Apply blocker and should-fix findings, then re-verify.
-6. Summarize: the spec path, panels and renderers used, anything added to the D3 catalog, review
+6. Summarize: the spec path, panels and renderers used, anything added to the D3 chart registry, review
    findings you applied or deferred, and how to open it (`npm run dev`, then `#/d/<id>`).

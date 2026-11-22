@@ -1,14 +1,9 @@
-import { distinctValues, type FilterState, type Row } from '../data/transforms';
-import type { FilterSpec } from '../spec/types';
+import type { FilterBarProps } from '../../docs/lld/filter-bar.props';
+import { distinctValues } from '../data/transforms';
 
-interface Props {
-  filters: FilterSpec[];
-  data: Record<string, Row[]>;
-  state: FilterState;
-  onChange: (next: FilterState) => void;
-}
+export type { FilterBarProps };
 
-export function FilterBar({ filters, data, state, onChange }: Props) {
+export function FilterBar({ filters, data, state, onChange }: FilterBarProps) {
   if (!filters.length) return null;
   const set = (id: string, values: string[]) => onChange({ ...state, [id]: values });
 
