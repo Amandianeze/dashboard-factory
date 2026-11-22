@@ -14,6 +14,7 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 | `npm run test:e2e`                        | Builds, renders every dashboard in Chromium, per-panel screenshots    |
 | `npm run new:dashboard -- <id> "<Title>"` | Scaffold a new spec (always use this; never start from a blank)       |
 | `npm run spec:schema`                     | Regenerate `dashboards/dashboard.schema.json` after schema changes    |
+| `npm run catalog:build [-- --check]`      | LLD front matter → `catalog.json`, panel `kind` enum, taxonomy tables |
 | `npm run data:fixtures`                   | Regenerate deterministic fixture data in `public/data/`               |
 | `npm run data:profile`                    | Check every fixture row against declared field types; stats           |
 | `npm run panel:render -- <dash> <panel>`  | Render one panel in Chromium: screenshot, console, compiled VL spec   |
@@ -29,6 +30,9 @@ Never build a dashboard by hand-writing a page; write or change its spec.
     dashboards/*.dashboard.yaml   ← specs (source of truth)
     src/spec/schema.ts            ← Zod schema + cross-reference checks (the contract)
     src/spec/validate.ts          ← schema + D3 catalog validation, YAML parsing
+    docs/lld/<id>.md              ← catalog items: front matter is the contract (taxonomy now, LLD Phase 4)
+    catalog.json                  ← generated: every catalog item (agents read this before building)
+    docs/taxonomy.md              ← UI ladder × BI ladder, panel kinds, gap and deprecation lists
     src/components/d3/catalog.ts  ← D3 chart contracts (props schema, field props), no React
     src/components/d3/registry.tsx← catalog name → React component (TS enforces completeness)
     src/renderers/                ← PanelRenderer switch; one adapter per renderer
@@ -58,6 +62,8 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 - Read `DESIGN.md` before any UI or chart work; it is the design contract (values, rationale,
   Do's and Don'ts). Its front matter is generated: change `tokens/`, then `npm run design:build`.
   Do's and Don'ts change only via `npm run design:taste` and a PR (a hook blocks direct edits).
+- Look before you build: check `catalog.json` before creating any component or panel type. A
+  panel's `kind` must be a built organism there; a new item needs an LLD and an approval gate.
 - Every field a panel references must be declared in its dataset's `fields`. Validation enforces it.
 - Quote every d3-format string in YAML (`format: '$,.0f'`): commas split flow mappings.
 - Prefer block-style YAML for nested Vega-Lite specs; Prettier mangles long flow mappings.
@@ -68,7 +74,8 @@ Never build a dashboard by hand-writing a page; write or change its spec.
   DOM mutation inside React components.
 - Keep `src/data/transforms.ts` and `*Figure.ts` / `*Spec.ts` builders pure and unit-tested.
 - Never edit generated files (`dashboard.schema.json`, `public/data/*`, `src/theme/generated/*`,
-  `public/favicon.svg`, `docs/tokens/contrast-matrix.md`, screenshot baselines, `dist/`).
+  `catalog.json`, `src/spec/generated/*`, `public/favicon.svg`, `docs/tokens/contrast-matrix.md`,
+  screenshot baselines, `dist/`).
   A hook blocks it and names the right command.
 - Never weaken a test, the schema, or a validation rule to make checks pass. Fix the cause.
 - A task is done when `npm run verify` passes. For visual changes also run `npm run test:e2e`

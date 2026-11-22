@@ -61,6 +61,7 @@ panels:
   close:
     title: Close
     dataset: session
+    kind: kpi-card
     renderer: kpi
     field: close
     aggregate: max
@@ -69,6 +70,7 @@ panels:
   change:
     title: Change (points)
     dataset: session
+    kind: kpi-card
     renderer: kpi
     field: change
     aggregate: max
@@ -77,6 +79,7 @@ panels:
   change_pct:
     title: Change (%)
     dataset: session
+    kind: kpi-card
     renderer: kpi
     field: change_pct
     aggregate: max
@@ -85,6 +88,7 @@ panels:
   previous_close:
     title: Previous close
     dataset: session
+    kind: kpi-card
     renderer: kpi
     field: previous_close
     aggregate: max
@@ -93,6 +97,7 @@ panels:
   day_high:
     title: Day high
     dataset: session
+    kind: kpi-card
     renderer: kpi
     field: high
     aggregate: max
@@ -101,6 +106,7 @@ panels:
   day_low:
     title: Day low
     dataset: session
+    kind: kpi-card
     renderer: kpi
     field: low
     aggregate: min
@@ -110,6 +116,7 @@ panels:
     title: Intraday price, 5-minute candles (New York time)
     description: Flint candlestick; green bars closed above their open, red below.
     dataset: bars
+    kind: chart-panel
     renderer: flint
     chart:
       chartType: Candlestick Chart

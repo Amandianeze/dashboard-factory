@@ -40,11 +40,23 @@ panels:
   revenue_total:
     title: Revenue
     dataset: sales
+    kind: kpi-card
     renderer: kpi
     field: revenue
     aggregate: sum
     format: '$,.0f'
 ```
+
+## Kind (catalog organism)
+
+Every panel names the catalog organism it renders as in `kind`. The allowed values are generated
+from `catalog.json` (see `docs/taxonomy.md`, "Panel kinds"):
+
+- **`kpi-card`** → `renderer: kpi`
+- **`chart-panel`** → `renderer: vega-lite | flint | d3 | plotly`
+
+Need a panel that is neither (a table, a note)? Check `catalog.json` first. If it is listed as
+`proposed`, it is a known gap: say so and stop, don't improvise one from another kind.
 
 ## Renderers
 
@@ -64,6 +76,8 @@ panels:
 - `field "x" is not declared in dataset "y"` → add it to `datasets.y.fields` (check the fixture has it) or fix the typo.
 - `panel "p" is not placed in layout.rows` / `unknown panel` → every panel exactly once in layout.
 - `row spans must total 12 or less`.
+- `kind "x" renders with …, not "y"` → the kind and renderer disagree; KPIs are `kpi-card`, charts
+  are `chart-panel`. `Invalid enum value` on `kind` → not a built panel organism in `catalog.json`.
 - `invalid d3-format specifier` → quote it: `format: '$,.0f'`. Unquoted commas inside `{ ... }`
   silently split the value.
 - `omit data` / `omit width/height` → remove them from the Vega-Lite spec.

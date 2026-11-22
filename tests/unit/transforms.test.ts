@@ -55,6 +55,7 @@ describe('buildPlotlyFigure', () => {
   const panel: PlotlyPanel = {
     title: 't',
     dataset: 'sales',
+    kind: 'chart-panel',
     renderer: 'plotly',
     trace: { type: 'bar', x: 'product', y: 'revenue', groupBy: 'region', aggregate: 'sum' },
     layout: {},

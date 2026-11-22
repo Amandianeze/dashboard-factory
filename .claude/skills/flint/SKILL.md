@@ -29,6 +29,7 @@ panels:
   heatmap:
     title: Revenue by region and product # the panel header; Flint's own title is dropped
     dataset: sales
+    kind: chart-panel
     renderer: flint
     chart:
       chartType: Heatmap # a Flint Vega-Lite template name, exact spelling
