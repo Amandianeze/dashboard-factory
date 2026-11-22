@@ -55,7 +55,8 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 
 ## Choosing a renderer (in this order)
 
-1. **kpi** for single numbers.
+1. **kpi** for single numbers (`comparison` adds the change against another field); **table** for
+   exact values people look up.
 2. **vega-lite** for anything the grammar expresses: line, bar, area, scatter, heatmap, faceting.
    Default choice. Specs omit `data`, `width`, `height`; the runtime injects them.
 3. **flint** for forms in Flint's chart catalog that are long or fiddly in Vega-Lite (calendar
