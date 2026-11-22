@@ -2,7 +2,7 @@
  * Tailwind v4, utilities only (ADR-003, amended in Phase 5): no default theme and no preflight.
  * Components reference token variables from generated/tokens.css directly, e.g.
  * `bg-(--button-primary-bg)` or `[font:var(--badge-typography-font)]`, so tokens/ stays the only
- * source of values and default-scale classes (p-3, text-sm, rounded-md) generate nothing.
+ * source of values and default-scale classes (p-3, m-0, top-0, rounded-md) generate nothing; a unit test fails on them.
  */
 @layer theme, base, components, utilities;
 @import 'tailwindcss/utilities.css' layer(utilities);

@@ -75,7 +75,7 @@ Never build a dashboard by hand-writing a page; write or change its spec.
   panel's `kind` must be a built organism there; a new item needs an LLD and an approval gate.
 - Components style with Tailwind utilities that reference token variables only
   (`bg-(--button-primary-bg)`, `[font:var(--x-typography-font)]`); Tailwind's default theme is not
-  loaded, so `p-3` or `text-sm` generate nothing. Put `tabular-nums!` (important) next to a font
+  loaded, so `p-3`, `text-sm` and even `m-0` or `top-0` generate nothing (write `m-[0]`, `top-[0]`). Put `tabular-nums!` (important) next to a font
   shorthand: the shorthand resets `font-variant-numeric`.
 - A built catalog item needs an LLD, a story and a registry entry; `catalog:build` fails otherwise.
 - Every field a panel references must be declared in its dataset's `fields`. Validation enforces it.

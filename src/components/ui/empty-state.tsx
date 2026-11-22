@@ -26,14 +26,14 @@ export function EmptyState({
     >
       <p
         className={cn(
-          'm-0 [font:var(--empty-state-title-typography-font)] tracking-(--empty-state-title-typography-letter-spacing)',
+          'm-[0] [font:var(--empty-state-title-typography-font)] tracking-(--empty-state-title-typography-letter-spacing)',
           error ? 'text-(color:--empty-state-error-text)' : 'text-(color:--empty-state-title-text)',
         )}
       >
         {title}
       </p>
       {description && size === 'regular' && (
-        <p className="m-0 [font:var(--empty-state-description-typography-font)] text-(color:--empty-state-description-text)">
+        <p className="m-[0] [font:var(--empty-state-description-typography-font)] text-(color:--empty-state-description-text)">
           {description}
         </p>
       )}

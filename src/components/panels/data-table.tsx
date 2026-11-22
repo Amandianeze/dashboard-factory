@@ -104,7 +104,7 @@ export function DataTable({
         aria-label={`${caption} table`}
         // Focusable so keyboard users can scroll a wide or long table (WCAG 2.1.1).
         tabIndex={0}
-        className="min-h-0 flex-1 overflow-auto focus-visible:outline-(length:--button-focus-width) focus-visible:outline-solid focus-visible:outline-(color:--table-focus-ring)"
+        className="min-h-[0] flex-1 overflow-auto focus-visible:outline-(length:--button-focus-width) focus-visible:outline-solid focus-visible:outline-(color:--table-focus-ring)"
       >
         <table className="w-full border-collapse bg-(--table-bg) text-(color:--table-text) [font:var(--table-cell-typography-font)]">
           <caption className="sr-only">{caption}</caption>
@@ -121,7 +121,7 @@ export function DataTable({
                       active ? (sort.order === 'asc' ? 'ascending' : 'descending') : undefined
                     }
                     className={cn(
-                      'sticky top-0 bg-(--table-bg) font-[inherit]',
+                      'sticky top-[0] bg-(--table-bg) font-[inherit]',
                       'border-b-(length:--border-width-hairline) border-solid border-(color:--table-row-border)',
                       end ? 'text-end' : 'text-start',
                     )}
