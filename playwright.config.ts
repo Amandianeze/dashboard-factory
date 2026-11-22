@@ -5,7 +5,11 @@ export default defineConfig({
   // A committed test.only would otherwise pass CI while skipping every other test.
   forbidOnly: !!process.env.CI,
   timeout: 30_000,
-  expect: { toHaveScreenshot: { maxDiffPixelRatio: 0.002 } },
+  // Baselines are only compared inside the pinned Playwright container, where rendering is
+  // deterministic, so any changed pixel is a real change: a one-letter typo or a slightly different
+  // colour used to fit inside the old 0.2% / 1% allowances. threshold is the per-pixel colour
+  // tolerance (0–1, YIQ); 0.05 still ignores sub-visible antialiasing jitter.
+  expect: { toHaveScreenshot: { maxDiffPixels: 0, threshold: 0.05 } },
   use: { baseURL: 'http://localhost:4173' },
   projects: [
     {

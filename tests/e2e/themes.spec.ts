@@ -42,6 +42,5 @@ test('foundations shows every theme', async ({ page }) => {
   await expect(page).toHaveScreenshot('foundations.png', {
     fullPage: true,
     animations: 'disabled',
-    maxDiffPixelRatio: 0.01,
   });
 });

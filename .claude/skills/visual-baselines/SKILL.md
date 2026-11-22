@@ -19,11 +19,16 @@ named volume for `node_modules` so Linux binaries never overwrite your host inst
 ```
 docker run --rm --ipc=host -v "$PWD":/work -v dashboard-factory-node-modules:/work/node_modules \
   -w /work mcr.microsoft.com/playwright:v1.64.1-noble \
-  bash -c "npm ci && npx playwright test"
+  bash -c "apt-get update -qq && apt-get install -y -qq --no-install-recommends fonts-inter && npm ci && npx playwright test"
 ```
 
-Add `-g <dashboard-id>` to run one dashboard (test titles are `<id> renders every panel`).
-In CI (Linux) just run `npx playwright test`.
+The image has no Inter, and without it Chromium falls back to a single-weight font: every text
+pixel changes and semibold titles render regular. Always install `fonts-inter` first, as CI does
+(`.github/workflows/ci.yml`). Add `-g <dashboard-id>` to run one dashboard (test titles are
+`<id> renders every panel`).
+
+The gate is exact (`maxDiffPixels: 0`, per-pixel `threshold: 0.05` in `playwright.config.ts`):
+rendering in the pinned container is deterministic, so any failing pixel is a real change.
 
 ## When a screenshot test fails
 
@@ -33,13 +38,14 @@ In CI (Linux) just run `npx playwright test`.
    - Unintended (collapsed chart, shifted legend, different numbers): it is a regression. Fix the
      cause. Do not update.
    - Tiny anti-aliasing noise on a change you did not touch: re-run once in Docker before judging.
-     Do not raise `maxDiffPixelRatio` to hide it.
+     Do not add `maxDiffPixels`, `maxDiffPixelRatio` or a higher `threshold` to hide it.
 3. For a data-driven diff, confirm fixtures did not change (`git status public/`).
 
 ## Update only what you changed
 
 ```
-docker run … bash -c "npm ci && npx playwright test -g <dashboard-id> --update-snapshots"
+docker run … bash -c "apt-get update -qq && apt-get install -y -qq --no-install-recommends fonts-inter && npm ci \
+  && npx playwright test -g <dashboard-id> --update-snapshots"
 ```
 
 Never `--update-snapshots` across all dashboards to turn a red run green. After updating, `git status`
@@ -48,7 +54,7 @@ New dashboard: the same command creates its baselines (first run writes them).
 
 ## Checklist before reporting done
 
-- [ ] Ran in Docker (Linux), not on the host
+- [ ] Ran in Docker (Linux) with `fonts-inter` installed, not on the host
 - [ ] Looked at every changed PNG, not just the pass/fail
 - [ ] Only the intended dashboard's baselines changed
 - [ ] No tolerance or test edits made to get green
