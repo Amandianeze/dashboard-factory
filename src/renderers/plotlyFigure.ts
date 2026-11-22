@@ -1,4 +1,5 @@
 import type { Data, Datum, Layout } from 'plotly.js';
+import { exactFormat, type ChartData } from '../data/chartData';
 import { groupAggregate, type Row } from '../data/transforms';
 import type { PlotlyPanel } from '../spec/types';
 import { plotlyTheme } from '../theme/generated/engines';
@@ -46,4 +47,30 @@ export function buildPlotlyFigure(
     ...(panel.layout as Partial<Layout>),
   };
   return { data, layout };
+}
+
+/** Pure: the points a figure plots, for the chart's table view and summary. */
+export function plotlyChartData(
+  panel: PlotlyPanel,
+  figure: ReturnType<typeof buildPlotlyFigure>,
+): ChartData {
+  const { groupBy, aggregate } = panel.trace;
+  const rows = figure.data.flatMap((trace) => {
+    const { name, x, y } = trace as { name: string; x: Datum[]; y: Datum[] };
+    return x.map((value, i) => ({ x: value, ...(groupBy ? { group: name } : {}), y: y[i] }));
+  });
+  const column = (key: 'x' | 'y') => {
+    const axis = figure.layout[`${key}axis`];
+    const title = axis?.title?.text ?? panel.trace[key];
+    const label = key === 'y' && aggregate ? `${aggregate} of ${title}` : title;
+    const measure = rows.some((r) => typeof r[key] === 'number');
+    return {
+      field: key,
+      label,
+      measure,
+      format: measure ? exactFormat(axis?.tickformat) : undefined,
+    };
+  };
+  const group = groupBy ? [{ field: 'group', label: groupBy, measure: false }] : [];
+  return { from: 'plotted', columns: [column('x'), ...group, column('y')], rows };
 }

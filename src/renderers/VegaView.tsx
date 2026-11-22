@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import type { TopLevelSpec } from 'vega-lite';
+import type { OnChartData } from '../data/chartData';
 
-/** Lazy-load Vega so it lands in its own chunk, fetched only by dashboards that use it. */
-let embedPromise: Promise<typeof import('vega-embed').default> | undefined;
-const loadEmbed = () => (embedPromise ??= import('vega-embed').then((m) => m.default));
+/** Lazy-load Vega and the code that reads it, fetched only by dashboards that use them. */
+const load = () =>
+  Promise.all([import('vega-embed'), import('./vegaChartData')]).then(([embed, reader]) => ({
+    embed: embed.default,
+    read: reader.vegaChartData,
+  }));
+let loading: ReturnType<typeof load> | undefined;
+const loadVega = () => (loading ??= load());
 
 /** Embed a compiled Vega-Lite spec. Shared by the vega-lite and flint renderers. */
-export function VegaView({ spec }: { spec: TopLevelSpec }) {
+export function VegaView({ spec, onData }: { spec: TopLevelSpec; onData?: OnChartData }) {
   const ref = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string>();
 
@@ -15,16 +21,15 @@ export function VegaView({ spec }: { spec: TopLevelSpec }) {
     if (!el) return;
     let cancelled = false;
     let finalize: (() => void) | undefined;
-    loadEmbed()
-      .then((embed) =>
-        cancelled ? undefined : embed(el, spec, { actions: false, renderer: 'svg' }),
-      )
-      .then((result) => {
-        if (!result) return;
+    loadVega()
+      .then(async ({ embed, read }) => {
+        if (cancelled) return;
+        const result = await embed(el, spec, { actions: false, renderer: 'svg' });
         if (cancelled) result.finalize();
         else {
           finalize = result.finalize;
           setError(undefined);
+          onData?.(read(spec, result.vgSpec, (name) => result.view.data(name)));
         }
       })
       .catch((e: unknown) => !cancelled && setError(String(e)));
@@ -32,7 +37,7 @@ export function VegaView({ spec }: { spec: TopLevelSpec }) {
       cancelled = true;
       finalize?.();
     };
-  }, [spec]);
+  }, [spec, onData]);
 
   if (error) throw new Error(error);
   // vega-embed injects `.vega-embed { position: relative; display: inline-block }`, so embed into

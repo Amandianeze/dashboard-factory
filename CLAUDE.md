@@ -63,7 +63,7 @@ Never build a dashboard by hand-writing a page; write or change its spec.
    heatmap, bullet, waterfall, bump, slope, ridgeline, …). Compiles to Vega-Lite; formats come
    from the dataset's `semantics`. Read the `flint` skill's known limits first.
 4. **d3** only for bespoke visuals Vega-Lite and Flint can't express. Must be a catalog component.
-   Adding one = catalog entry (propsSchema + fieldProps) + component + registry entry + test.
+   Adding one = catalog entry (propsSchema + fieldProps + chartData) + component + registry entry + test.
 5. **plotly** only for scientific/interactive needs (zoom/pan on dense scatter). Limited to the
    basic bundle (`scatter`, `bar`); asking for more trace types is an architecture decision.
 

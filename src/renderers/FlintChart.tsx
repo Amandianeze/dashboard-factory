@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { TopLevelSpec } from 'vega-lite';
+import type { OnChartData } from '../data/chartData';
 import type { Row } from '../data/transforms';
 import { useElementSize } from '../hooks/useElementSize';
 import type { DatasetSpec, FlintPanel } from '../spec/types';
@@ -14,10 +15,12 @@ export function FlintChart({
   panel,
   rows,
   semantics,
+  onData,
 }: {
   panel: FlintPanel;
   rows: Row[];
   semantics: DatasetSpec['semantics'];
+  onData?: OnChartData;
 }) {
   const [ref, { width, height }] = useElementSize<HTMLDivElement>();
   const { theme } = useTheme();
@@ -40,7 +43,7 @@ export function FlintChart({
   if (error) throw new Error(error);
   return (
     <div ref={ref} className="chart-fill">
-      {spec && <VegaView spec={spec} />}
+      {spec && <VegaView spec={spec} onData={onData} />}
     </div>
   );
 }
