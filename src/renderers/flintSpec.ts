@@ -53,6 +53,40 @@ function narrowBands(
   spec.width = { step: Math.max(MIN_BAND_STEP, step - Math.ceil(trim / bands)) };
 }
 
+/**
+ * flint-chart 1.0.1 shrinks tick and legend text on dense charts (9px on the 78-candle intraday
+ * chart) below the theme's `type.minSize`, which DESIGN.md makes the floor for chart text. Raise
+ * every font size in the compiled spec (axes, legends, text marks) to the floor. Larger labels can
+ * then collide, so where anything was raised, axes Flint marked `labelOverlap: false` let Vega-Lite
+ * hide colliding labels instead. Re-check on Flint upgrades.
+ */
+function enforceTextFloor(spec: object, floor: number): void {
+  const isSize = (k: string) => k === 'fontSize' || k.endsWith('FontSize');
+  const walk = (
+    node: unknown,
+    visit: (o: Record<string, unknown>, key?: string) => void,
+    key?: string,
+  ): void => {
+    if (Array.isArray(node)) return node.forEach((n) => walk(n, visit, key));
+    if (!node || typeof node !== 'object') return;
+    const o = node as Record<string, unknown>;
+    visit(o, key);
+    for (const [k, v] of Object.entries(o)) if (k !== 'data') walk(v, visit, k);
+  };
+  let raised = false;
+  walk(spec, (o) => {
+    for (const [k, v] of Object.entries(o))
+      if (isSize(k) && typeof v === 'number' && v < floor) {
+        o[k] = floor;
+        raised = true;
+      }
+  });
+  if (raised)
+    walk(spec, (o, key) => {
+      if (key?.startsWith('axis') && o.labelOverlap === false) o.labelOverlap = true;
+    });
+}
+
 /** Pure: the Flint input for a panel, sized to its layout cell. */
 export function buildFlintInput(
   panel: FlintPanel,
@@ -89,6 +123,7 @@ export function buildFlintSpec(
   );
   const spec = remapInks(compiled, HARDCODED_INKS(theme));
   delete spec.title;
+  enforceTextFloor(spec, flintTheme[theme].type?.minSize ?? 0);
   narrowBands(spec, panel, rows, trimWidth);
   // Flint's static output tooltips dump the raw row; show the encoded fields, grouped by thousands.
   // Vega-Lite also puts numberFormat on quantitative axes, where Vega adds tick precision to a
