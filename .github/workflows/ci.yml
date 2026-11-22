@@ -43,6 +43,14 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git cat-file -e "$BASE:DESIGN.md"
           echo "DESIGN_DIFF_BASE=$BASE" >> "$GITHUB_ENV"
+      # The app uses Inter where installed and bundles no font (DESIGN.md). Without it the image
+      # falls back to a single-weight face, and screenshots can't catch a font-weight regression.
+      - name: Install Inter
+        run: |
+          apt-get update -qq
+          apt-get install -y -qq --no-install-recommends fonts-inter
+          dpkg-query -W fonts-inter
+          test "$(fc-match -f '%{family[0]}' 'Inter:weight=semibold')" = Inter
       - run: npm ci
       - run: npm run verify
       # Also when verify fails, so one run reports both.
