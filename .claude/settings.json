@@ -11,9 +11,10 @@
       "Bash(npx playwright test:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
+      "Bash(git push:*)",
       "Bash(git log:*)"
     ],
-    "deny": ["Read(./.env)", "Read(./.env.*)", "Bash(git push:*)", "Bash(npm publish:*)"]
+    "deny": ["Read(./.env)", "Read(./.env.*)", "Bash(npm publish:*)"]
   },
   "hooks": {
     "PreToolUse": [

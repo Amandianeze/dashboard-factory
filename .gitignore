@@ -2,6 +2,8 @@ node_modules
 dist
 playwright-report
 test-results
+# macOS screenshot baselines are per machine; the committed ones are Linux (visual-baselines skill)
+tests/e2e/*-snapshots/*-darwin.png
 .env
 .env.*
 .claude/settings.local.json
