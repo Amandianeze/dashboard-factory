@@ -87,7 +87,9 @@ export type FilterSpec = z.infer<typeof FilterSpec>;
  */
 export const PanelKind = z
   .enum(Object.keys(PANEL_KINDS) as [PanelKindId, ...PanelKindId[]])
-  .describe('Catalog organism this panel renders as (catalog.json): kpi-card or chart-panel.');
+  .describe(
+    `Catalog organism this panel renders as (catalog.json): ${Object.keys(PANEL_KINDS).join(', ')}.`,
+  );
 
 const PanelCommon = {
   title: z.string().min(1),

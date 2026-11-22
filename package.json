@@ -37,7 +37,7 @@
     "catalog:build": "tsx scripts/catalog/build.ts",
     "lld:check": "tsx scripts/lld/check.ts",
     "registry:build": "tsx scripts/registry/build.ts",
-    "verify": "npm run typecheck && npm run lint && npm run lint:no-raw-values && npm run tokens:validate -- --quiet && npm run tokens:build -- --check && npm run design:check && npm run design:lint && npm run design:diff && npm run lld:check && npm run catalog:build -- --check && npm run registry:build -- --check && npm run spec:validate && npm run test && npm run test:stories"
+    "verify": "npm run typecheck && npm run lint && npm run lint:no-raw-values && npm run tokens:validate -- --quiet && npm run tokens:build -- --check && npm run design:check && npm run design:lint && npm run design:diff && npm run lld:check && npm run catalog:build -- --check && npm run registry:build -- --check && npm run spec:schema -- --check && npm run spec:validate && npm run test && npm run test:stories"
   },
   "dependencies": {
     "@base-ui/react": "1.9.0",
