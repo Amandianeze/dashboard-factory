@@ -69,7 +69,8 @@ try {
 
   const el = page.getByTestId(`panel-${panelId}`);
   await el.waitFor({ timeout: 10_000 });
-  const drawn = panel.renderer === 'kpi' ? '.kpi-value' : 'svg, canvas';
+  const drawn =
+    panel.renderer === 'kpi' ? '.kpi-value' : panel.renderer === 'table' ? 'table' : 'svg, canvas';
   await el
     .locator(drawn)
     .first()

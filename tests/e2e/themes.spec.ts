@@ -24,7 +24,9 @@ for (const theme of THEMES.filter((t) => t !== 'light'))
         const el = page.getByTestId(`panel-${id}`);
         await expect(el.getByRole('alert'), `panel ${id} error`).toHaveCount(0);
         const drawn =
-          panel.renderer === 'kpi' ? el.locator('.kpi-value') : el.locator('svg').first();
+          panel.renderer === 'kpi'
+            ? el.locator('.kpi-value')
+            : el.locator(panel.renderer === 'table' ? 'table' : 'svg').first();
         await expect(drawn, `panel ${id} drew nothing`).toBeVisible({ timeout: 15_000 });
       }
       expect(errors).toEqual([]);
