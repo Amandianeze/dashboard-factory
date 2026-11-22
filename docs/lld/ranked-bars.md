@@ -27,7 +27,7 @@ dataContract: src/components/d3/charts.ts#RankedBarsProps
 a11y:
   {
     role: 'img with a summary; each bar has a <title>',
-    keyboard: 'n/a (static); fallback table planned',
+    keyboard: 'n/a (static); the chart panel has the table view',
     srSummary: required,
     minContrast: 3,
   }
@@ -93,8 +93,8 @@ about 240 px wide the value column crowds the bars; not handled.
 
 ## Accessibility
 
-Needs an `aria-label` summary on the SVG ("Top 10 products by revenue; highest Widget at $1.5M")
-and the data-table fallback. Bars use one hue, so no colour-only meaning.
+Inside a chart panel the summary and table view come from `chartData` in `charts.ts`, which uses
+the same `rankRows` as the bars. Bars use one hue, so no colour-only meaning.
 
 ## Motion
 

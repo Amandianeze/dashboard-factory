@@ -10,7 +10,15 @@ import { Tooltip } from '../ui/tooltip';
 
 export type { PanelFrameProps };
 
-export function PanelFrame({ id, title, description, kind, span, children }: PanelFrameProps) {
+export function PanelFrame({
+  id,
+  title,
+  description,
+  kind,
+  span,
+  actions,
+  children,
+}: PanelFrameProps) {
   return (
     <section
       className="panel"
@@ -28,6 +36,7 @@ export function PanelFrame({ id, title, description, kind, span, children }: Pan
             </Button>
           </Tooltip>
         )}
+        {actions}
       </div>
       <div className="panel-body">
         <PanelErrorBoundary>{children}</PanelErrorBoundary>

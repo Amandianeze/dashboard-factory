@@ -994,7 +994,7 @@
       "dataContract": null,
       "a11y": {
         "role": "section with aria-labelledby → h2",
-        "keyboard": "n/a; the description trigger (planned) is a focusable button",
+        "keyboard": "Tab to the description trigger and any header actions",
         "srSummary": "n/a",
         "minContrast": 4.5
       },
@@ -1107,8 +1107,11 @@
       "biLevel": "visual",
       "status": "beta",
       "renderEngine": "react",
-      "composes": ["panel-frame", "legend", "axis"],
+      "composes": ["panel-frame", "legend", "axis", "data-table", "button", "empty-state"],
       "source": [
+        "src/components/panels/chart-panel.tsx",
+        "src/data/chartData.ts",
+        "src/renderers/vegaChartData.ts",
         "src/renderers/PanelRenderer.tsx",
         "src/renderers/VegaLiteChart.tsx",
         "src/renderers/FlintChart.tsx",
@@ -1131,8 +1134,8 @@
       "props": "./chart-panel.props.ts",
       "dataContract": "src/spec/schema.ts#PanelSpec",
       "a11y": {
-        "role": "group (frame) + img (chart svg) with a data-table fallback",
-        "keyboard": "Tab to the chart; tooltips on focus (Vega); fallback table is keyboard-readable",
+        "role": "region (frame) + img named by the title, described by the summary; a table view",
+        "keyboard": "Tab to Table; Enter/Space swaps chart and table; then Tab into the scrolling table",
         "srSummary": "required",
         "minContrast": 3
       },
@@ -1343,7 +1346,7 @@
       "dataContract": "src/components/d3/charts.ts#RankedBarsProps",
       "a11y": {
         "role": "img with a summary; each bar has a <title>",
-        "keyboard": "n/a (static); fallback table planned",
+        "keyboard": "n/a (static); the chart panel has the table view",
         "srSummary": "required",
         "minContrast": 3
       },

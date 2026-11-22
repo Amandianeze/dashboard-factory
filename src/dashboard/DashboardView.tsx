@@ -3,12 +3,11 @@ import { applyFilters, type FilterState } from '../data/transforms';
 import { useDatasets } from '../data/useDatasets';
 import { PanelRenderer } from '../renderers/PanelRenderer';
 import type { DashboardTemplateProps } from '../../docs/lld/dashboard-template.props';
+import { ChartPanel } from '../components/panels/chart-panel';
 import { PanelFrame } from '../components/panels/panel-frame';
 import { Button } from '../components/ui/button';
 import { EmptyState } from '../components/ui/empty-state';
 import { TitleBand } from '../components/ui/title-band';
-import type { Row } from '../data/transforms';
-import type { PanelSpec } from '../spec/types';
 import { FilterBar } from './FilterBar';
 
 export type { DashboardTemplateProps };
@@ -48,6 +47,25 @@ export function DashboardView({ spec }: DashboardTemplateProps) {
             <div key={r} className="row" style={{ '--row-h': `${row.height}px` } as CSSProperties}>
               {row.cells.map(({ panel: id, span }) => {
                 const panel = spec.panels[id]!;
+                const rowsShown = panelRows[id] ?? [];
+                const noRows = (
+                  <NoRows
+                    filtered={(datasets.data[panel.dataset] ?? []).length > 0}
+                    onClear={() => setFilterState(clearFor(id, spec.filters, filterState))}
+                  />
+                );
+                if (panel.renderer !== 'kpi' && panel.renderer !== 'table')
+                  return (
+                    <ChartPanel
+                      key={id}
+                      id={id}
+                      span={span}
+                      panel={panel}
+                      dataset={spec.datasets[panel.dataset]}
+                      rows={rowsShown}
+                      empty={noRows}
+                    />
+                  );
                 return (
                   <PanelFrame
                     key={id}
@@ -57,16 +75,13 @@ export function DashboardView({ spec }: DashboardTemplateProps) {
                     kind={panel.kind}
                     span={span}
                   >
-                    {isEmptyChart(panel, panelRows[id]) ? (
-                      <NoRows
-                        filtered={(datasets.data[panel.dataset] ?? []).length > 0}
-                        onClear={() => setFilterState(clearFor(id, spec.filters, filterState))}
-                      />
+                    {panel.renderer === 'table' && rowsShown.length === 0 ? (
+                      noRows
                     ) : (
                       <PanelRenderer
                         panel={panel}
                         dataset={spec.datasets[panel.dataset]}
-                        rows={panelRows[id] ?? []}
+                        rows={rowsShown}
                       />
                     )}
                   </PanelFrame>
@@ -79,10 +94,6 @@ export function DashboardView({ spec }: DashboardTemplateProps) {
     </main>
   );
 }
-
-/** Charts and tables with no rows show an EmptyState instead of empty axes (Gate 3, #4). KPIs keep their dash. */
-const isEmptyChart = (panel: PanelSpec, rows: Row[] | undefined) =>
-  panel.kind !== 'kpi-card' && (rows ?? []).length === 0;
 
 /** Filter state with every filter that applies to `panelId` cleared. */
 function clearFor(

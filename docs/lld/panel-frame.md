@@ -34,7 +34,7 @@ dataContract: null
 a11y:
   {
     role: 'section with aria-labelledby → h2',
-    keyboard: 'n/a; the description trigger (planned) is a focusable button',
+    keyboard: 'Tab to the description trigger and any header actions',
     srSummary: n/a,
     minContrast: 4.5,
   }
@@ -59,14 +59,14 @@ for navigation cards (Gate 3 deprecation 1 → [nav-card](nav-card.md)) or for n
 
 ```
 ┌ section.panel (span n, data-kind) ──┐
-│ ① h2 title   ② ⓘ description (planned) │
+│ ① h2 title ② ⓘ description  ④ actions │
 │ ③ body (flex 1) ← error boundary    │
 └─────────────────────────────────────┘
 ```
 
 ## Props and variants
 
-`PanelFrameProps { id, title, description?, kind, span, children }`. Today inlined in
+`PanelFrameProps { id, title, description?, kind, span, actions?, children }`. Today inlined in
 `DashboardView` (markup) and `PanelErrorBoundary` (failure). No variants.
 
 ## States
