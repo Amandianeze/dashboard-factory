@@ -930,6 +930,8 @@
         "nav-card.radius",
         "nav-card.padding",
         "border-width.hairline",
+        "panel.title.gap",
+        "panel.title.typography",
         "typography.heading",
         "typography.body",
         "typography.caption",

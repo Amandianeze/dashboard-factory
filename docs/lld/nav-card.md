@@ -20,6 +20,8 @@ tokens:
   - nav-card.radius
   - nav-card.padding
   - border-width.hairline
+  - panel.title.gap
+  - panel.title.typography
   - typography.heading
   - typography.body
   - typography.caption
@@ -80,7 +82,7 @@ From the validated spec list.
 
 ## Responsive and density
 
-Auto-fill grid, minimum `layout.card.min-width`.
+One card per row, filling the index width; long titles and file names wrap inside it.
 
 ## Accessibility
 

@@ -21,7 +21,8 @@ export function KpiValue({ current, previous, format, comparison }: KpiValueProp
   return (
     <div className="flex flex-wrap items-baseline gap-x-(--kpi-delta-gap)">
       <FormattedValue value={current} format={format} size="kpi" />
-      <p className="m-0 flex flex-wrap items-baseline gap-(--kpi-delta-gap)">
+      {/* Its own font: otherwise the line box inherits the KPI size and lifts the value. */}
+      <p className="m-[0] flex flex-wrap items-baseline gap-(--kpi-delta-gap) [font:var(--kpi-comparison-typography-font)]">
         {comparison.show.includes('delta') && (
           <DeltaIndicator
             value={delta}
