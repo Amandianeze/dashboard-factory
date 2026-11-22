@@ -346,6 +346,15 @@ export type ResolvedTheme = {
       readonly typography: Typography;
     };
   };
+  readonly 'nav-card': {
+    readonly bg: string;
+    readonly border: string;
+    readonly hover: {
+      readonly border: string;
+    };
+    readonly radius: number;
+    readonly padding: number;
+  };
   readonly page: {
     readonly bg: string;
     readonly padding: {
@@ -443,8 +452,8 @@ export type ResolvedDensity = {
     readonly inset: {
       readonly 'control-x': number;
       readonly 'control-y': number;
-      readonly page: number;
       readonly panel: number;
+      readonly page: number;
     };
     readonly grid: {
       readonly gap: number;
@@ -740,6 +749,13 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
           lineHeight: 1.35,
         },
       },
+    },
+    'nav-card': {
+      bg: '#ffffff',
+      border: '#e4e4e0',
+      hover: { border: '#8b8b85' },
+      radius: 10,
+      padding: 16,
     },
     page: {
       bg: '#f7f7f5',
@@ -1126,6 +1142,13 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         },
       },
     },
+    'nav-card': {
+      bg: '#242422',
+      border: '#3c3c37',
+      hover: { border: '#787873' },
+      radius: 10,
+      padding: 16,
+    },
     page: {
       bg: '#171716',
       padding: { top: 24, x: 16, bottom: 48 },
@@ -1511,6 +1534,13 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         },
       },
     },
+    'nav-card': {
+      bg: '#ffffff',
+      border: '#6b6b66',
+      hover: { border: '#000000' },
+      radius: 10,
+      padding: 16,
+    },
     page: {
       bg: '#ffffff',
       padding: { top: 24, x: 16, bottom: 48 },
@@ -1615,7 +1645,7 @@ export const densities: Record<DensityName, ResolvedDensity> = {
     space: {
       inline: { sm: 6, xs: 4 },
       stack: { '2xs': 4, xs: 6, lg: 24, xl: 48, sm: 8, md: 16 },
-      inset: { 'control-x': 12, 'control-y': 4, page: 16, panel: 16 },
+      inset: { 'control-x': 12, 'control-y': 4, panel: 16, page: 16 },
       grid: { gap: 16 },
     },
   },
@@ -1623,7 +1653,7 @@ export const densities: Record<DensityName, ResolvedDensity> = {
     space: {
       inline: { sm: 4, xs: 2 },
       stack: { '2xs': 2, xs: 4, lg: 16, xl: 32, sm: 6, md: 12 },
-      inset: { 'control-x': 8, 'control-y': 2, page: 12, panel: 12 },
+      inset: { 'control-x': 8, 'control-y': 2, panel: 12, page: 12 },
       grid: { gap: 12 },
     },
   },

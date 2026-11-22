@@ -1,5 +1,7 @@
 import type { FilterBarProps } from '../../docs/lld/filter-bar.props';
+import { FilterChip } from '../components/panels/filter-chip';
 import { Button } from '../components/ui/button';
+import { Select } from '../components/ui/select';
 import { distinctValues } from '../data/transforms';
 
 export type { FilterBarProps };
@@ -15,18 +17,13 @@ export function FilterBar({ filters, data, state, onChange }: FilterBarProps) {
         const selected = state[f.id] ?? [];
         if (f.type === 'select')
           return (
-            <label key={f.id} className="filter">
-              <span>{f.label}</span>
-              <select
-                value={selected[0] ?? ''}
-                onChange={(e) => set(f.id, e.target.value ? [e.target.value] : [])}
-              >
-                <option value="">All</option>
-                {options.map((o) => (
-                  <option key={o}>{o}</option>
-                ))}
-              </select>
-            </label>
+            <Select
+              key={f.id}
+              label={f.label}
+              options={options}
+              value={selected[0] ?? null}
+              onChange={(v) => set(f.id, v === null ? [] : [v])}
+            />
           );
         return (
           <fieldset key={f.id} className="filter">
@@ -34,15 +31,14 @@ export function FilterBar({ filters, data, state, onChange }: FilterBarProps) {
             {options.map((o) => {
               const on = selected.includes(o);
               return (
-                <button
+                <FilterChip
                   key={o}
-                  type="button"
-                  className="chip"
-                  aria-pressed={on}
-                  onClick={() => set(f.id, on ? selected.filter((s) => s !== o) : [...selected, o])}
-                >
-                  {o}
-                </button>
+                  label={o}
+                  pressed={on}
+                  onPressedChange={(p) =>
+                    set(f.id, p ? [...selected, o] : selected.filter((s) => s !== o))
+                  }
+                />
               );
             })}
             {selected.length > 0 && (

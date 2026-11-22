@@ -100,7 +100,8 @@ export function DataTable({
     <div className="flex h-full flex-col gap-(--space-stack-xs)">
       <div
         role="region"
-        aria-label={caption}
+        // Distinct from the panel region's name (axe landmark-unique).
+        aria-label={`${caption} table`}
         // Focusable so keyboard users can scroll a wide or long table (WCAG 2.1.1).
         tabIndex={0}
         className="min-h-0 flex-1 overflow-auto focus-visible:outline-(length:--button-focus-width) focus-visible:outline-solid focus-visible:outline-(color:--table-focus-ring)"

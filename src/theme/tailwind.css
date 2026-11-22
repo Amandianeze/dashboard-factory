@@ -6,3 +6,13 @@
  */
 @layer theme, base, components, utilities;
 @import 'tailwindcss/utilities.css' layer(utilities);
+
+/* `motion-reduce:` also applies under [data-motion='reduce'] (Storybook's Motion toolbar). */
+@custom-variant motion-reduce {
+  @media (prefers-reduced-motion: reduce) {
+    @slot;
+  }
+  &:where([data-motion='reduce'] *) {
+    @slot;
+  }
+}

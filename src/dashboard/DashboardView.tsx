@@ -1,11 +1,12 @@
 import { useMemo, useState, type CSSProperties } from 'react';
 import { applyFilters, type FilterState } from '../data/transforms';
 import { useDatasets } from '../data/useDatasets';
-import { PanelErrorBoundary, PanelRenderer } from '../renderers/PanelRenderer';
+import { PanelRenderer } from '../renderers/PanelRenderer';
 import type { DashboardTemplateProps } from '../../docs/lld/dashboard-template.props';
+import { PanelFrame } from '../components/panels/panel-frame';
 import { Button } from '../components/ui/button';
 import { EmptyState } from '../components/ui/empty-state';
-import { Tooltip } from '../components/ui/tooltip';
+import { TitleBand } from '../components/ui/title-band';
 import type { Row } from '../data/transforms';
 import type { PanelSpec } from '../spec/types';
 import { FilterBar } from './FilterBar';
@@ -28,10 +29,7 @@ export function DashboardView({ spec }: DashboardTemplateProps) {
 
   return (
     <main className="dashboard" data-testid={`dashboard-${spec.id}`}>
-      <header className="dashboard-header">
-        <h1>{spec.title}</h1>
-        {spec.description && <p>{spec.description}</p>}
-      </header>
+      <TitleBand title={spec.title} description={spec.description} />
 
       {datasets.status === 'loading' && <p className="status">Loading data…</p>}
       {datasets.status === 'error' && (
@@ -51,42 +49,27 @@ export function DashboardView({ spec }: DashboardTemplateProps) {
               {row.cells.map(({ panel: id, span }) => {
                 const panel = spec.panels[id]!;
                 return (
-                  <section
+                  <PanelFrame
                     key={id}
-                    className={`panel panel-${panel.renderer}`}
-                    style={{ '--span': span } as CSSProperties}
-                    data-testid={`panel-${id}`}
-                    data-kind={panel.kind}
-                    data-renderer={panel.renderer}
-                    aria-labelledby={`panel-${id}-title`}
+                    id={id}
+                    title={panel.title}
+                    description={panel.description}
+                    kind={panel.kind}
+                    span={span}
                   >
-                    <div className="panel-head">
-                      <h2 id={`panel-${id}-title`}>{panel.title}</h2>
-                      {panel.description && (
-                        <Tooltip content={panel.description}>
-                          <Button variant="ghost" size="sm" aria-label={`About ${panel.title}`}>
-                            ⓘ
-                          </Button>
-                        </Tooltip>
-                      )}
-                    </div>
-                    <div className="panel-body">
-                      <PanelErrorBoundary>
-                        {isEmptyChart(panel, panelRows[id]) ? (
-                          <NoRows
-                            filtered={(datasets.data[panel.dataset] ?? []).length > 0}
-                            onClear={() => setFilterState(clearFor(id, spec.filters, filterState))}
-                          />
-                        ) : (
-                          <PanelRenderer
-                            panel={panel}
-                            dataset={spec.datasets[panel.dataset]}
-                            rows={panelRows[id] ?? []}
-                          />
-                        )}
-                      </PanelErrorBoundary>
-                    </div>
-                  </section>
+                    {isEmptyChart(panel, panelRows[id]) ? (
+                      <NoRows
+                        filtered={(datasets.data[panel.dataset] ?? []).length > 0}
+                        onClear={() => setFilterState(clearFor(id, spec.filters, filterState))}
+                      />
+                    ) : (
+                      <PanelRenderer
+                        panel={panel}
+                        dataset={spec.datasets[panel.dataset]}
+                        rows={panelRows[id] ?? []}
+                      />
+                    )}
+                  </PanelFrame>
                 );
               })}
             </div>

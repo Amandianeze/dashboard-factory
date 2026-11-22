@@ -2491,6 +2491,20 @@
           }
         },
         {
+          "name": "space/inset/panel",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "comfortable": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/16"
+            },
+            "compact": {
+              "type": "VARIABLE_ALIAS",
+              "name": "dimension/12"
+            }
+          }
+        },
+        {
           "name": "space/stack/lg",
           "type": "FLOAT",
           "valuesByMode": {
@@ -2529,20 +2543,6 @@
             "compact": {
               "type": "VARIABLE_ALIAS",
               "name": "dimension/32"
-            }
-          }
-        },
-        {
-          "name": "space/inset/panel",
-          "type": "FLOAT",
-          "valuesByMode": {
-            "comfortable": {
-              "type": "VARIABLE_ALIAS",
-              "name": "dimension/16"
-            },
-            "compact": {
-              "type": "VARIABLE_ALIAS",
-              "name": "dimension/12"
             }
           }
         },
@@ -3548,6 +3548,56 @@
             "Value": {
               "type": "VARIABLE_ALIAS",
               "name": "color/text/muted"
+            }
+          }
+        },
+        {
+          "name": "nav-card/bg",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/bg/surface"
+            }
+          }
+        },
+        {
+          "name": "nav-card/border",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/border/subtle"
+            }
+          }
+        },
+        {
+          "name": "nav-card/hover/border",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/border/control"
+            }
+          }
+        },
+        {
+          "name": "nav-card/radius",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "radius/panel"
+            }
+          }
+        },
+        {
+          "name": "nav-card/padding",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/inset/panel"
             }
           }
         },

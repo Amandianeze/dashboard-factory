@@ -7,3 +7,4 @@ test-results
 .claude/settings.local.json
 *.log
 .DS_Store
+storybook-static/

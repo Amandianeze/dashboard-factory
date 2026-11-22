@@ -83,6 +83,7 @@
   --kpi-comparison-typography-font:
     400 12px/1.35 Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --kpi-comparison-typography-letter-spacing: 0px;
+  --nav-card-radius: 10px;
   --page-title-typography-font:
     600 22px/1.25 Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --page-title-typography-letter-spacing: 0px;
@@ -196,6 +197,9 @@
   --color-data-negative: #ce2e75;
   --kpi-delta-negative-text: #ce2e75;
   --kpi-comparison-text: #6b6b66;
+  --nav-card-bg: #ffffff;
+  --nav-card-border: #e4e4e0;
+  --nav-card-hover-border: #8b8b85;
   --page-bg: #f7f7f5;
   --page-title-color: #1d1d1b;
   --page-description-color: #6b6b66;
@@ -328,6 +332,9 @@
   --color-data-negative: #e76e44;
   --kpi-delta-negative-text: #e76e44;
   --kpi-comparison-text: #a3a39d;
+  --nav-card-bg: #242422;
+  --nav-card-border: #3c3c37;
+  --nav-card-hover-border: #787873;
   --page-bg: #171716;
   --page-title-color: #ededea;
   --page-description-color: #a3a39d;
@@ -460,6 +467,9 @@
   --color-data-negative: #a3175a;
   --kpi-delta-negative-text: #a3175a;
   --kpi-comparison-text: #474742;
+  --nav-card-bg: #ffffff;
+  --nav-card-border: #6b6b66;
+  --nav-card-hover-border: #000000;
   --page-bg: #ffffff;
   --page-title-color: #000000;
   --page-description-color: #474742;
@@ -593,6 +603,9 @@
     --color-data-negative: #e76e44;
     --kpi-delta-negative-text: #e76e44;
     --kpi-comparison-text: #a3a39d;
+    --nav-card-bg: #242422;
+    --nav-card-border: #3c3c37;
+    --nav-card-hover-border: #787873;
     --page-bg: #171716;
     --page-title-color: #ededea;
     --page-description-color: #a3a39d;
@@ -727,6 +740,9 @@
     --color-data-negative: #a3175a;
     --kpi-delta-negative-text: #a3175a;
     --kpi-comparison-text: #474742;
+    --nav-card-bg: #ffffff;
+    --nav-card-border: #6b6b66;
+    --nav-card-hover-border: #000000;
     --page-bg: #ffffff;
     --page-title-color: #000000;
     --page-description-color: #474742;
@@ -798,6 +814,8 @@
   --space-stack-xs: 6px;
   --empty-state-gap: 6px;
   --kpi-delta-gap: 6px;
+  --space-inset-panel: 16px;
+  --nav-card-padding: 16px;
   --space-stack-lg: 24px;
   --page-padding-top: 24px;
   --space-inset-page: 16px;
@@ -805,7 +823,6 @@
   --space-stack-xl: 48px;
   --page-padding-bottom: 48px;
   --page-description-gap: 4px;
-  --space-inset-panel: 16px;
   --panel-padding: 16px;
   --space-stack-sm: 8px;
   --panel-title-gap: 8px;
@@ -837,6 +854,8 @@
   --space-stack-xs: 4px;
   --empty-state-gap: 4px;
   --kpi-delta-gap: 4px;
+  --space-inset-panel: 12px;
+  --nav-card-padding: 12px;
   --space-stack-lg: 16px;
   --page-padding-top: 16px;
   --space-inset-page: 12px;
@@ -844,7 +863,6 @@
   --space-stack-xl: 32px;
   --page-padding-bottom: 32px;
   --page-description-gap: 2px;
-  --space-inset-panel: 12px;
   --panel-padding: 12px;
   --space-stack-sm: 6px;
   --panel-title-gap: 6px;

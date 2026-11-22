@@ -6,8 +6,12 @@ atomicLevel: molecule
 biLevel: null
 status: beta
 renderEngine: react
-composes: []
-source: [src/dashboard/DashboardView.tsx, src/renderers/PanelRenderer.tsx]
+composes:
+  - tooltip
+  - button
+source:
+  - src/components/panels/panel-frame.tsx
+  - src/renderers/PanelRenderer.tsx
 package: '@factory/panels'
 registryItem: '@factory/panel-frame'
 figmaNode: null

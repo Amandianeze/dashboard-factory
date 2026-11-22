@@ -12,8 +12,11 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "vitest run --project unit",
+    "test:watch": "vitest --project unit",
+    "test:stories": "vitest run --project storybook",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build -o storybook-static --quiet",
     "test:e2e": "playwright test",
     "spec:validate": "tsx scripts/validate-specs.ts",
     "spec:schema": "tsx scripts/export-schema.ts",
@@ -33,7 +36,7 @@
     "design:taste": "tsx scripts/design-md/cli.ts taste",
     "catalog:build": "tsx scripts/catalog/build.ts",
     "lld:check": "tsx scripts/lld/check.ts",
-    "verify": "npm run typecheck && npm run lint && npm run lint:no-raw-values && npm run tokens:validate -- --quiet && npm run tokens:build -- --check && npm run design:check && npm run design:lint && npm run design:diff && npm run lld:check && npm run catalog:build -- --check && npm run spec:validate && npm run test"
+    "verify": "npm run typecheck && npm run lint && npm run lint:no-raw-values && npm run tokens:validate -- --quiet && npm run tokens:build -- --check && npm run design:check && npm run design:lint && npm run design:diff && npm run lld:check && npm run catalog:build -- --check && npm run spec:validate && npm run test && npm run test:stories"
   },
   "dependencies": {
     "@base-ui/react": "1.9.0",

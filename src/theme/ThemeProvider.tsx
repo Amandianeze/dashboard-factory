@@ -51,8 +51,21 @@ const state = (theme: ThemeName, density: DensityName): ThemeState => ({
 
 const ThemeContext = createContext<ThemeState>(state('light', 'comfortable'));
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [{ theme, density, explicit }, setChoice] = useState(initial);
+export function ThemeProvider({
+  children,
+  theme: forcedTheme,
+  density: forcedDensity,
+}: {
+  children: ReactNode;
+  /** Forces a theme (Storybook toolbar); otherwise ?theme= or the system preference. */
+  theme?: ThemeName;
+  /** Forces a density (Storybook toolbar); otherwise ?density= or comfortable. */
+  density?: DensityName;
+}) {
+  const [choice, setChoice] = useState(initial);
+  const theme = forcedTheme ?? choice.theme;
+  const density = forcedDensity ?? choice.density;
+  const explicit = choice.explicit || forcedTheme !== undefined;
 
   useEffect(() => {
     const root = document.documentElement;
