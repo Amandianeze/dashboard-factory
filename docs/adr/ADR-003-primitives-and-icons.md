@@ -61,3 +61,9 @@ What the current sources say (checked 2026-11-21):
   Its cost is that scale utilities, including `m-0` and `top-0`, silently generate nothing;
   `tests/unit/tailwind-classes.test.ts` fails on any in `src/`.
 - **`pick-ui-library` was not rerun** before the packages were added, because it isn't installed.
+
+## Note, Phase 6 (2026-11-22)
+
+`pick-ui-library` and the other Emil Kowalski skills are installed (owner's go, 2026-11-22), copied
+unchanged at a pinned commit; see `.claude/skills/THIRD_PARTY.md`. Run `/pick-ui-library` before
+any new dependency from now on. Its chart picks don't apply here: charts follow ADR-002.

@@ -106,6 +106,9 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 - Skills (`.claude/skills/`): `dashboard-spec`, `vega-lite`, `flint`, `d3-react`, `plotly` (how to write);
   `chart-choice` (what to build); `debug-panel`, `visual-baselines` (when it breaks);
   `datasets-and-fixtures`, `render-performance` (data); `harness-maintenance` (changing `.claude/`).
+  Third-party (Emil Kowalski, MIT; see `.claude/skills/THIRD_PARTY.md`): motion and polish
+  (`emil-design-eng`, `review-animations`, `improve-animations`, …), `pick-ui-library`, `break-ui`.
+  Project rules, `DESIGN.md` and the ADRs override them.
 - Commands: `/new-dashboard <brief>`, `/add-panel <dashboard-id> <what>`, `/verify`, `/catalog [need]`.
 - MCP (`.mcp.json`): Playwright (look at the running app), Context7 (current library docs),
   shadcn (search and add `@factory` registry items), Storybook (components and stories, needs
