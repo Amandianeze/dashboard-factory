@@ -65,8 +65,9 @@ a {
 }
 /* The description trigger must not make the header taller than the title (it would shrink the plot). */
 .panel-head > button {
+  /* raw-ok: -1 negates a spacing token */
   margin-block: calc(-1 * var(--space-stack-xs));
-  /* At least as wide as it is tall: a 24px target in compact density too (WCAG 2.5.8). */
+  /* raw-ok: as wide as the button is tall (one line, both paddings and borders), WCAG 2.5.8 */
   min-width: calc(1lh + 2 * var(--space-stack-2xs) + 2 * var(--border-width-hairline));
 }
 .panel h2 {
@@ -185,6 +186,7 @@ a {
   gap: var(--space-grid-gap);
 }
 .nav-card {
+  /* raw-ok: first to last grid line (structure, not a design value) */
   grid-column: 1 / -1;
   min-width: 0;
   background: var(--nav-card-bg);
