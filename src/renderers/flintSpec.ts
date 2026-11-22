@@ -3,7 +3,15 @@ import { stripPrivateKeys } from 'flint-chart/validate';
 import type { TopLevelSpec } from 'vega-lite';
 import type { Row } from '../data/transforms';
 import { flintFieldRefs } from '../spec/schema';
-import { bandStep, MIN_BAND_STEP } from './flintFit';
+import {
+  bandStep,
+  continuousSize,
+  MIN_BAND_STEP,
+  MIN_PLOT_HEIGHT,
+  NO_FIT,
+  type Compiled,
+  type Fit,
+} from './flintFit';
 import type { DatasetSpec, FlintPanel } from '../spec/types';
 import { flintTheme } from '../theme/generated/engines';
 import { themes, type ThemeName } from '../theme/generated/themes';
@@ -34,23 +42,25 @@ function remapInks<T>(node: T, inks: Record<string, string>): T {
 }
 
 /**
- * Flint keeps banded charts at a fixed reading size (56 px heatmap cells) and puts the colour key
- * beside the plot without reserving room for it, so in a narrow panel the chart overflows. Given
- * the measured overflow in px, narrow each x band by an equal share, down to MIN_BAND_STEP.
+ * Apply a measured fit (see flintFit.ts). Width: a banded chart (heatmap) gives each x band an equal
+ * share of the trim, down to MIN_BAND_STEP; a continuous one narrows its plot. Height: a continuous
+ * plot takes back the room Flint reserved for things the panel doesn't draw, or gives up overflow.
  */
-function narrowBands(
-  spec: { width?: unknown },
-  panel: FlintPanel,
-  rows: Row[],
-  trim: number,
-): void {
-  const step = bandStep(spec);
-  const x = panel.chart.encodings.x;
-  if (trim <= 0 || step === undefined || x === undefined) return;
-  const field = flintFieldRefs({ x })[0];
-  const bands = field ? new Set(rows.map((r) => r[field])).size : 0;
-  if (!bands) return;
-  spec.width = { step: Math.max(MIN_BAND_STEP, step - Math.ceil(trim / bands)) };
+function applyFit(spec: Compiled, panel: FlintPanel, rows: Row[], fit: Fit): void {
+  const view = spec.config?.view;
+  if (fit.trimWidth > 0) {
+    const step = bandStep(spec);
+    const cw = continuousSize(spec, 'width');
+    const x = panel.chart.encodings.x;
+    const field = x === undefined ? undefined : flintFieldRefs({ x })[0];
+    const bands = field ? new Set(rows.map((r) => r[field])).size : 0;
+    if (step !== undefined && bands)
+      spec.width = { step: Math.max(MIN_BAND_STEP, step - Math.ceil(fit.trimWidth / bands)) };
+    else if (cw !== undefined && view) view.continuousWidth = cw - fit.trimWidth;
+  }
+  const ch = continuousSize(spec, 'height');
+  if (fit.growHeight && ch !== undefined && view)
+    view.continuousHeight = Math.max(MIN_PLOT_HEIGHT, ch + fit.growHeight);
 }
 
 /**
@@ -108,7 +118,7 @@ export function buildFlintInput(
 /**
  * Pure: compile a Flint panel to a render-ready Vega-Lite spec. Shared by the runtime renderer and
  * `npm run spec:validate`. The panel header already shows the title, so Flint's is dropped.
- * `trimWidth` is how far a previous render overflowed the panel (see FlintChart).
+ * `fit` corrects the size from a previous render's measurement (see FlintChart).
  */
 export function buildFlintSpec(
   panel: FlintPanel,
@@ -116,7 +126,7 @@ export function buildFlintSpec(
   semantics: DatasetSpec['semantics'],
   size: Size,
   theme: ThemeName = 'light',
-  trimWidth = 0,
+  fit: Fit = NO_FIT,
 ): TopLevelSpec {
   const compiled = stripPrivateKeys(
     assembleVegaLite(buildFlintInput(panel, rows, semantics, size, theme)),
@@ -124,7 +134,7 @@ export function buildFlintSpec(
   const spec = remapInks(compiled, HARDCODED_INKS(theme));
   delete spec.title;
   enforceTextFloor(spec, flintTheme[theme].type?.minSize ?? 0);
-  narrowBands(spec, panel, rows, trimWidth);
+  applyFit(spec, panel, rows, fit);
   // Flint's static output tooltips dump the raw row; show the encoded fields, grouped by thousands.
   // Vega-Lite also puts numberFormat on quantitative axes, where Vega adds tick precision to a
   // specifier without a type (',' turns 7,690 into 7.69e+3), so give it an explicit precision.

@@ -7,7 +7,12 @@ import { describe, expect, it } from 'vitest';
 import { parse, stringify } from 'yaml';
 import { checkSpecFile, listSpecFiles, loadFixture } from '../../scripts/lib/specs';
 import type { Row } from '../../src/data/transforms';
-import { MIN_BAND_STEP } from '../../src/renderers/flintFit';
+import {
+  canFitHeight,
+  canTrimWidth,
+  MIN_BAND_STEP,
+  MIN_PLOT_HEIGHT,
+} from '../../src/renderers/flintFit';
 import { buildFlintSpec } from '../../src/renderers/flintSpec';
 import { flintFieldRefs } from '../../src/spec/schema';
 import type { FlintPanel } from '../../src/spec/types';
@@ -139,7 +144,10 @@ describe('buildFlintSpec', () => {
 describe('buildFlintSpec trimWidth (fitting a heatmap that overflows its panel)', () => {
   const size = { width: 340, height: 300 };
   const build = (trim?: number) =>
-    buildFlintSpec(panel, rows, semantics, size, 'light', trim) as { width?: unknown };
+    buildFlintSpec(panel, rows, semantics, size, 'light', {
+      trimWidth: trim ?? 0,
+      growHeight: 0,
+    }) as { width?: unknown };
 
   it('leaves the chart alone without a trim', () => {
     expect(build().width).toEqual({ step: 56 });
@@ -182,6 +190,40 @@ describe('buildFlintSpec text floor', () => {
       encoding?: { x?: { axis?: { labelOverlap?: unknown } } };
     };
     expect(spec.encoding?.x?.axis?.labelOverlap).toBe(true);
+  });
+});
+
+describe('buildFlintSpec fit on a continuous chart (the intraday candlestick)', () => {
+  const sp500 = listSpecFiles()
+    .map((f) => checkSpecFile(f).spec)
+    .find((d) => d?.id === 'sp500-today')!;
+  const intraday = sp500.panels.intraday as FlintPanel;
+  const ds = sp500.datasets[intraday.dataset]!;
+  const bars = loadFixture('sp500_intraday.json') as Row[];
+  const size = { width: 1374, height: 280 };
+  type View = { config: { view: { continuousWidth: number; continuousHeight: number } } };
+  const build = (trimWidth: number, growHeight: number) =>
+    buildFlintSpec(intraday, bars, ds.semantics, size, 'light', { trimWidth, growHeight }) as View;
+  const base = build(0, 0).config.view;
+
+  it('can be fitted in both directions; a banded heatmap only in width', () => {
+    expect(canTrimWidth(build(0, 0))).toBe(true);
+    expect(canFitHeight(build(0, 0))).toBe(true);
+    const heatmap = buildFlintSpec(panel, rows, semantics, { width: 600, height: 300 });
+    expect(canFitHeight(heatmap as View)).toBe(false);
+  });
+
+  it('gives the plot the height Flint reserved for the title the panel drops', () => {
+    expect(build(0, 40).config.view.continuousHeight).toBe(base.continuousHeight + 40);
+  });
+
+  it('takes overflow from the plot, but never below the minimum height', () => {
+    expect(build(0, -30).config.view.continuousHeight).toBe(base.continuousHeight - 30);
+    expect(build(0, -10_000).config.view.continuousHeight).toBe(MIN_PLOT_HEIGHT);
+  });
+
+  it('narrows the continuous plot by the measured overflow', () => {
+    expect(build(3, 0).config.view.continuousWidth).toBe(base.continuousWidth - 3);
   });
 });
 
