@@ -19,9 +19,19 @@
     "spec:schema": "tsx scripts/export-schema.ts",
     "new:dashboard": "tsx scripts/new-dashboard.ts",
     "data:fixtures": "tsx scripts/generate-fixtures.ts",
-    "verify": "npm run typecheck && npm run lint && npm run spec:validate && npm run test",
+    "data:yahoo": "tsx scripts/fetch-yahoo-sp500.ts",
     "panel:render": "tsx scripts/render-panel.ts",
-    "data:profile": "tsx scripts/profile-fixture.ts"
+    "data:profile": "tsx scripts/profile-fixture.ts",
+    "tokens:build": "tsx scripts/tokens/build.ts",
+    "tokens:validate": "tsx scripts/tokens/validate.ts",
+    "lint:no-raw-values": "tsx scripts/inventory/code-inventory.ts --check",
+    "inventory:code": "tsx scripts/inventory/code-inventory.ts --summary",
+    "design:build": "tsx scripts/design-md/cli.ts build",
+    "design:check": "tsx scripts/design-md/cli.ts check",
+    "design:lint": "tsx scripts/design-md/cli.ts lint",
+    "design:diff": "tsx scripts/design-md/cli.ts diff",
+    "design:taste": "tsx scripts/design-md/cli.ts taste",
+    "verify": "npm run typecheck && npm run lint && npm run lint:no-raw-values && npm run tokens:validate -- --quiet && npm run tokens:build -- --check && npm run design:check && npm run design:lint && npm run design:diff && npm run spec:validate && npm run test"
   },
   "dependencies": {
     "d3": "^7.9.0",
@@ -37,6 +47,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@google/design.md": "0.4.0",
     "@playwright/test": "^1.64.1",
     "@types/d3": "^7.4.3",
     "@types/node": "^26.6.6",

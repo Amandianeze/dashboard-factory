@@ -6,17 +6,23 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 
 ## Commands
 
-| Command                                   | What it does                                                         |
-| ----------------------------------------- | -------------------------------------------------------------------- |
-| `npm run dev`                             | Vite dev server (index lists every dashboard; `#/d/<id>` opens one)  |
-| `npm run verify`                          | typecheck + lint + spec validation + unit tests (the "done" gate)    |
-| `npm run spec:validate [-- file]`         | Schema, cross-refs, catalog props, fixture fields, VL + Flint checks |
-| `npm run test:e2e`                        | Builds, renders every dashboard in Chromium, per-panel screenshots   |
-| `npm run new:dashboard -- <id> "<Title>"` | Scaffold a new spec (always use this; never start from a blank)      |
-| `npm run spec:schema`                     | Regenerate `dashboards/dashboard.schema.json` after schema changes   |
-| `npm run data:fixtures`                   | Regenerate deterministic fixture data in `public/data/`              |
-| `npm run data:profile`                    | Check every fixture row against declared field types; stats          |
-| `npm run panel:render -- <dash> <panel>`  | Render one panel in Chromium: screenshot, console, compiled VL spec  |
+| Command                                   | What it does                                                          |
+| ----------------------------------------- | --------------------------------------------------------------------- |
+| `npm run dev`                             | Vite dev server (index lists every dashboard; `#/d/<id>` opens one)   |
+| `npm run verify`                          | typecheck, lint, no-raw-values, tokens, specs, unit tests ("done")    |
+| `npm run spec:validate [-- file]`         | Schema, cross-refs, catalog props, fixture fields, VL + Flint checks  |
+| `npm run test:e2e`                        | Builds, renders every dashboard in Chromium, per-panel screenshots    |
+| `npm run new:dashboard -- <id> "<Title>"` | Scaffold a new spec (always use this; never start from a blank)       |
+| `npm run spec:schema`                     | Regenerate `dashboards/dashboard.schema.json` after schema changes    |
+| `npm run data:fixtures`                   | Regenerate deterministic fixture data in `public/data/`               |
+| `npm run data:profile`                    | Check every fixture row against declared field types; stats           |
+| `npm run panel:render -- <dash> <panel>`  | Render one panel in Chromium: screenshot, console, compiled VL spec   |
+| `npm run tokens:build [-- --check]`       | DTCG `tokens/` → `src/theme/generated/` (CSS vars, themes, engines)   |
+| `npm run tokens:validate`                 | Contrast, CVD separability, ramps, references; writes contrast matrix |
+| `npm run lint:no-raw-values`              | Fail on colours/lengths outside `src/theme/` (`raw-ok:` to justify)   |
+| `npm run design:build` / `design:check`   | DESIGN.md front matter from tokens / fresh + DTCG round-trip          |
+| `npm run design:lint` / `design:diff`     | @google/design.md lint + section order / regressions vs `master`      |
+| `npm run design:taste -- "Do …"`          | Add a reviewed rule to Do's and Don'ts on a taste/* branch, for a PR  |
 
 ## Architecture
 
@@ -26,8 +32,11 @@ Never build a dashboard by hand-writing a page; write or change its spec.
     src/components/d3/catalog.ts  ← D3 chart contracts (props schema, field props), no React
     src/components/d3/registry.tsx← catalog name → React component (TS enforces completeness)
     src/renderers/                ← PanelRenderer switch; one adapter per renderer
-    src/theme/tokens.ts           ← design tokens; every renderer derives its look from here
-    src/theme/flintTheme.ts       ← Flint theme derived from tokens (panels never name presets)
+    DESIGN.md                     ← design contract: generated front matter + curated prose
+    tokens/**/*.tokens.json       ← design tokens (DTCG): primitive → semantic → component (ADR-001)
+    scripts/tokens/               ← resolver, validators, build, engine adapters (VL/Flint/Plotly)
+    src/theme/generated/          ← generated: tokens.css, themes.ts, engines.ts (never edit)
+    src/theme/ThemeProvider.tsx   ← active theme/density (?theme=dark|hc, system preference)
     src/data/transforms.ts        ← pure filter/aggregate helpers (unit-tested)
     scripts/                      ← deterministic codegen + validation (no model judgment)
 
@@ -46,14 +55,20 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 
 ## Rules
 
+- Read `DESIGN.md` before any UI or chart work; it is the design contract (values, rationale,
+  Do's and Don'ts). Its front matter is generated: change `tokens/`, then `npm run design:build`.
+  Do's and Don'ts change only via `npm run design:taste` and a PR (a hook blocks direct edits).
 - Every field a panel references must be declared in its dataset's `fields`. Validation enforces it.
 - Quote every d3-format string in YAML (`format: '$,.0f'`): commas split flow mappings.
 - Prefer block-style YAML for nested Vega-Lite specs; Prettier mangles long flow mappings.
-- No hard-coded colors, fonts or spacing outside `src/theme/`. Use tokens / CSS variables.
+- No hard-coded colors, fonts or spacing outside `src/theme/`. Use CSS variables from
+  `src/theme/generated/tokens.css` or `useTheme().tokens`; add a token in `tokens/` if one is
+  missing. Semantic and component tokens only reference other tokens; a rebrand edits primitives.
 - D3 pattern: React renders the SVG; D3 only computes (scales, formats, layouts). No `d3.select`
   DOM mutation inside React components.
 - Keep `src/data/transforms.ts` and `*Figure.ts` / `*Spec.ts` builders pure and unit-tested.
-- Never edit generated files (`dashboard.schema.json`, `public/data/*`, screenshot baselines, `dist/`).
+- Never edit generated files (`dashboard.schema.json`, `public/data/*`, `src/theme/generated/*`,
+  `public/favicon.svg`, `docs/tokens/contrast-matrix.md`, screenshot baselines, `dist/`).
   A hook blocks it and names the right command.
 - Never weaken a test, the schema, or a validation rule to make checks pass. Fix the cause.
 - A task is done when `npm run verify` passes. For visual changes also run `npm run test:e2e`
@@ -74,7 +89,7 @@ Never build a dashboard by hand-writing a page; write or change its spec.
 
 ## Roadmap (not built yet)
 
-- Phase 2: DTCG design tokens → Style Dictionary → CSS vars, Vega-Lite config, Plotly template;
-  chart-grammar rules enforced by design-reviewer; cross-panel interactions (brush → filter).
+- Design system (in progress, `docs/inventory/gate-0.md`, `docs/tokens/gate-1.md`): DESIGN.md,
+  catalog + LLDs, Storybook, shadcn registry. Cross-panel interactions (brush → filter).
 - Phase 3: semantic layer + typed API; `source: api` datasets; metric catalog exposed over MCP.
 - Phase 4: headless factory runs (`claude -p`) in CI from committed briefs.

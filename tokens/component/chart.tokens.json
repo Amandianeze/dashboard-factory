@@ -1,0 +1,97 @@
+{
+  "chart": {
+    "label": {
+      "typography": {
+        "$type": "typography",
+        "$value": "{typography.label}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      },
+      "text-strong": {
+        "$type": "color",
+        "$value": "{color.text.primary}"
+      }
+    },
+    "axis": {
+      "domain": {
+        "$type": "color",
+        "$value": "{color.data.axis}"
+      },
+      "title-weight": {
+        "$type": "fontWeight",
+        "$value": "{font.weight.medium}"
+      }
+    },
+    "grid": {
+      "$type": "color",
+      "$value": "{color.data.gridline}"
+    },
+    "baseline": {
+      "$type": "color",
+      "$value": "{color.data.reference-line}"
+    },
+    "mark": {
+      "bar-radius": {
+        "$type": "dimension",
+        "$value": "{radius.mark}"
+      },
+      "line-width": {
+        "$type": "dimension",
+        "$value": "{dimension.2}"
+      },
+      "point-diameter": {
+        "$type": "dimension",
+        "$value": "{dimension.6}"
+      },
+      "point-opacity": {
+        "$type": "number",
+        "$value": 0.7
+      }
+    },
+    "legend": {
+      "gradient-length": {
+        "$type": "dimension",
+        "$value": "{dimension.160}"
+      }
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": "{dimension.4}"
+    },
+    "inset": {
+      "$type": "dimension",
+      "left": {
+        "$value": "{dimension.56}"
+      },
+      "right": {
+        "$value": "{dimension.12}"
+      },
+      "top": {
+        "$value": "{dimension.8}"
+      },
+      "top-legend": {
+        "$value": "{dimension.36}"
+      },
+      "bottom": {
+        "$value": "{dimension.44}"
+      }
+    },
+    "ranked-bars": {
+      "$type": "dimension",
+      "label-width": {
+        "$value": "{dimension.96}"
+      },
+      "value-width": {
+        "$value": "{dimension.64}"
+      },
+      "label-gap": {
+        "$value": "{dimension.8}"
+      },
+      "value-gap": {
+        "$value": "{dimension.6}"
+      }
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "color": {
+    "$type": "color",
+    "bg": {
+      "canvas": {
+        "$value": "{color.neutral.25}"
+      },
+      "surface": {
+        "$value": "{color.neutral.0}"
+      },
+      "surface-raised": {
+        "$value": "{color.neutral.0}"
+      },
+      "accent": {
+        "$value": "{color.brand.500}"
+      },
+      "accent-hover": {
+        "$value": "{color.brand.700}"
+      },
+      "pressed": {
+        "$value": "{color.neutral.150}"
+      }
+    },
+    "text": {
+      "primary": {
+        "$value": "{color.neutral.900}"
+      },
+      "muted": {
+        "$value": "{color.neutral.550}"
+      },
+      "on-accent": {
+        "$value": "{color.neutral.0}"
+      },
+      "danger": {
+        "$value": "{color.red.600}"
+      }
+    },
+    "border": {
+      "subtle": {
+        "$value": "{color.neutral.150}"
+      },
+      "control": {
+        "$value": "{color.neutral.400}"
+      }
+    },
+    "focus": {
+      "ring": {
+        "$value": "{color.brand.500}"
+      }
+    },
+    "status": {
+      "danger": {
+        "$value": "{color.red.600}"
+      },
+      "warning": {
+        "$value": "{color.amber.700}"
+      },
+      "success": {
+        "$value": "{color.green.800}"
+      },
+      "info": {
+        "$value": "{color.brand.500}"
+      }
+    },
+    "data": {
+      "categorical": {
+        "1": {
+          "$value": "{palette.categorical.light.1}"
+        },
+        "2": {
+          "$value": "{palette.categorical.light.2}"
+        },
+        "3": {
+          "$value": "{palette.categorical.light.3}"
+        },
+        "4": {
+          "$value": "{palette.categorical.light.4}"
+        },
+        "5": {
+          "$value": "{palette.categorical.light.5}"
+        },
+        "6": {
+          "$value": "{palette.categorical.light.6}"
+        },
+        "7": {
+          "$value": "{palette.categorical.light.7}"
+        },
+        "8": {
+          "$value": "{palette.categorical.light.8}"
+        },
+        "9": {
+          "$value": "{palette.categorical.light.9}"
+        },
+        "10": {
+          "$value": "{palette.categorical.light.10}"
+        }
+      },
+      "sequential": {
+        "blue": {
+          "1": {
+            "$value": "{palette.sequential.blue.light.1}"
+          },
+          "2": {
+            "$value": "{palette.sequential.blue.light.2}"
+          },
+          "3": {
+            "$value": "{palette.sequential.blue.light.3}"
+          },
+          "4": {
+            "$value": "{palette.sequential.blue.light.4}"
+          },
+          "5": {
+            "$value": "{palette.sequential.blue.light.5}"
+          },
+          "6": {
+            "$value": "{palette.sequential.blue.light.6}"
+          },
+          "7": {
+            "$value": "{palette.sequential.blue.light.7}"
+          },
+          "8": {
+            "$value": "{palette.sequential.blue.light.8}"
+          },
+          "9": {
+            "$value": "{palette.sequential.blue.light.9}"
+          }
+        }
+      },
+      "diverging": {
+        "blue-orange": {
+          "0": {
+            "$value": "{palette.diverging.blue-orange.light.0}"
+          },
+          "-4": {
+            "$value": "{palette.diverging.blue-orange.light.-4}"
+          },
+          "-3": {
+            "$value": "{palette.diverging.blue-orange.light.-3}"
+          },
+          "-2": {
+            "$value": "{palette.diverging.blue-orange.light.-2}"
+          },
+          "-1": {
+            "$value": "{palette.diverging.blue-orange.light.-1}"
+          },
+          "+1": {
+            "$value": "{palette.diverging.blue-orange.light.+1}"
+          },
+          "+2": {
+            "$value": "{palette.diverging.blue-orange.light.+2}"
+          },
+          "+3": {
+            "$value": "{palette.diverging.blue-orange.light.+3}"
+          },
+          "+4": {
+            "$value": "{palette.diverging.blue-orange.light.+4}"
+          }
+        }
+      },
+      "positive": {
+        "$value": "{color.green.800}"
+      },
+      "negative": {
+        "$value": "{color.rose.600}"
+      },
+      "neutral": {
+        "$value": "{color.neutral.400}"
+      },
+      "highlight": {
+        "$value": "{color.brand.500}"
+      },
+      "reference-line": {
+        "$value": "{color.neutral.550}"
+      },
+      "gridline": {
+        "$value": "{color.neutral.100}"
+      },
+      "axis": {
+        "$value": "{color.neutral.150}"
+      }
+    }
+  }
+}

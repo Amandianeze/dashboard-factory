@@ -3,6 +3,7 @@ import type { TopLevelSpec } from 'vega-lite';
 import type { Row } from '../data/transforms';
 import { useElementSize } from '../hooks/useElementSize';
 import type { DatasetSpec, FlintPanel } from '../spec/types';
+import { useTheme } from '../theme/ThemeProvider';
 import { VegaView } from './VegaView';
 
 /** Lazy-load Flint (and its compiler) so dashboards without Flint panels never pay for it. */
@@ -19,6 +20,7 @@ export function FlintChart({
   semantics: DatasetSpec['semantics'];
 }) {
   const [ref, { width, height }] = useElementSize<HTMLDivElement>();
+  const { theme } = useTheme();
   const [spec, setSpec] = useState<TopLevelSpec>();
   const [error, setError] = useState<string>();
 
@@ -27,13 +29,13 @@ export function FlintChart({
     let cancelled = false;
     loadFlint()
       .then(({ buildFlintSpec }) => {
-        if (!cancelled) setSpec(buildFlintSpec(panel, rows, semantics, { width, height }));
+        if (!cancelled) setSpec(buildFlintSpec(panel, rows, semantics, { width, height }, theme));
       })
       .catch((e: unknown) => !cancelled && setError(String(e)));
     return () => {
       cancelled = true;
     };
-  }, [panel, rows, semantics, width, height]);
+  }, [panel, rows, semantics, width, height, theme]);
 
   if (error) throw new Error(error);
   return (

@@ -1,0 +1,155 @@
+{
+  "palette": {
+    "categorical": {
+      "$type": "color",
+      "$description": "Series colours. Order matters: series n takes colour n.",
+      "light": {
+        "1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.1843, 0.3569, 0.9176],
+            "hex": "#2f5bea"
+          }
+        },
+        "2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.8902, 0.4549, 0.1843],
+            "hex": "#e3742f"
+          }
+        },
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.1216, 0.6157, 0.4549],
+            "hex": "#1f9d74"
+          }
+        },
+        "4": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.7059, 0.2706, 0.5608],
+            "hex": "#b4458f"
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.5569, 0.1804, 0.0196],
+            "hex": "#8e2e05"
+          }
+        },
+        "6": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.5333, 0.2275, 0.2941],
+            "hex": "#883a4b"
+          }
+        },
+        "7": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.1529, 0.6078, 0.851],
+            "hex": "#279bd9"
+          }
+        },
+        "8": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [1, 0.3451, 0.4824],
+            "hex": "#ff587b"
+          }
+        },
+        "9": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.302, 0.4667, 0.2431],
+            "hex": "#4d773e"
+          }
+        },
+        "10": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.0824, 0.6275, 0.6863],
+            "hex": "#15a0af"
+          }
+        },
+        "$type": "color",
+        "$description": "Colours 1–4 keep the pre-Phase-1 look; 5–10 chosen for colour-vision-deficiency separation. Placeholder until the rebrand."
+      },
+      "dark": {
+        "1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.298, 0.4235, 1],
+            "hex": "#4c6cff"
+          }
+        },
+        "2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.8902, 0.4549, 0.1843],
+            "hex": "#e3742f"
+          }
+        },
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.1216, 0.6157, 0.4549],
+            "hex": "#1f9d74"
+          }
+        },
+        "4": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.7529, 0.3137, 0.6039],
+            "hex": "#c0509a"
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.9922, 0.7725, 0.9961],
+            "hex": "#fdc5fe"
+          }
+        },
+        "6": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.3059, 0.949, 0.698],
+            "hex": "#4ef2b2"
+          }
+        },
+        "7": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.902, 0.8549, 0.2314],
+            "hex": "#e6da3b"
+          }
+        },
+        "8": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.9098, 0.5647, 0.7059],
+            "hex": "#e890b4"
+          }
+        },
+        "9": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.6078, 0.6235, 0.9882],
+            "hex": "#9b9ffc"
+          }
+        },
+        "10": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.8784, 0.2235, 0.3373],
+            "hex": "#e03956"
+          }
+        },
+        "$type": "color"
+      }
+    }
+  }
+}

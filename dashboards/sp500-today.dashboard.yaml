@@ -1,0 +1,121 @@
+# yaml-language-server: $schema=./dashboard.schema.json
+version: 1
+id: sp500-today
+title: S&P 500 today
+description: >-
+  The S&P 500's latest session from Yahoo Finance (^GSPC): where it closed against the prior close
+  and how it traded intraday. Refresh with npm run data:yahoo, then npm run data:fixtures.
+
+datasets:
+  bars:
+    source: fixture
+    path: sp500_intraday.json
+    description: >-
+      One row per 5-minute bar of the regular session, exchange-local time (New York). The last
+      row is the 16:00 closing print, so it has zero range.
+    fields:
+      time: temporal
+      open: quantitative
+      high: quantitative
+      low: quantitative
+      close: quantitative
+      volume: quantitative
+    semantics:
+      time: DateTime
+      open: Quantity
+      high: Quantity
+      low: Quantity
+      close: Quantity
+      volume: Count
+  session:
+    source: fixture
+    path: sp500_session.json
+    description: One row summarising the session; change is against the previous close.
+    fields:
+      date: temporal
+      previous_close: quantitative
+      open: quantitative
+      high: quantitative
+      low: quantitative
+      close: quantitative
+      change: quantitative
+      change_pct: quantitative
+
+filters: []
+
+layout:
+  rows:
+    - height: 132
+      cells:
+        - { panel: close, span: 2 }
+        - { panel: change, span: 2 }
+        - { panel: change_pct, span: 2 }
+        - { panel: previous_close, span: 2 }
+        - { panel: day_high, span: 2 }
+        - { panel: day_low, span: 2 }
+    - height: 340
+      cells:
+        - { panel: intraday, span: 12 }
+
+panels:
+  close:
+    title: Close
+    dataset: session
+    renderer: kpi
+    field: close
+    aggregate: max
+    format: ',.2f'
+
+  change:
+    title: Change (points)
+    dataset: session
+    renderer: kpi
+    field: change
+    aggregate: max
+    format: '+,.2f'
+
+  change_pct:
+    title: Change (%)
+    dataset: session
+    renderer: kpi
+    field: change_pct
+    aggregate: max
+    format: '+.2%'
+
+  previous_close:
+    title: Previous close
+    dataset: session
+    renderer: kpi
+    field: previous_close
+    aggregate: max
+    format: ',.2f'
+
+  day_high:
+    title: Day high
+    dataset: session
+    renderer: kpi
+    field: high
+    aggregate: max
+    format: ',.2f'
+
+  day_low:
+    title: Day low
+    dataset: session
+    renderer: kpi
+    field: low
+    aggregate: min
+    format: ',.2f'
+
+  intraday:
+    title: Intraday price, 5-minute candles (New York time)
+    description: Flint candlestick; green bars closed above their open, red below.
+    dataset: bars
+    renderer: flint
+    chart:
+      chartType: Candlestick Chart
+      encodings:
+        x: time
+        open: open
+        high: high
+        low: low
+        close: close

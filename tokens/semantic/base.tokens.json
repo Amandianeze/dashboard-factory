@@ -1,0 +1,134 @@
+{
+  "typography": {
+    "$type": "typography",
+    "display": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.32}",
+        "fontWeight": "{font.weight.semibold}",
+        "letterSpacing": "{font.tracking.tight}",
+        "lineHeight": 1.1
+      },
+      "$description": "Headline figures (KPI values). Always tabular numerals."
+    },
+    "title": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.22}",
+        "fontWeight": "{font.weight.semibold}",
+        "letterSpacing": "{font.tracking.normal}",
+        "lineHeight": 1.25
+      }
+    },
+    "heading": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.15}",
+        "fontWeight": "{font.weight.medium}",
+        "letterSpacing": "{font.tracking.normal}",
+        "lineHeight": 1.3
+      }
+    },
+    "body-large": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.16}",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": "{font.tracking.normal}",
+        "lineHeight": 1.25
+      },
+      "$description": "Page-level running text (dashboard descriptions)."
+    },
+    "body-strong": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.13}",
+        "fontWeight": "{font.weight.medium}",
+        "letterSpacing": "{font.tracking.normal}",
+        "lineHeight": 1.4
+      }
+    },
+    "body": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.13}",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": "{font.tracking.normal}",
+        "lineHeight": 1.4
+      }
+    },
+    "caption": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.12}",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": "{font.tracking.normal}",
+        "lineHeight": 1.35
+      }
+    },
+    "label": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "{font.size.11}",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": "{font.tracking.normal}",
+        "lineHeight": 1.3
+      },
+      "$description": "Chart axis, legend and value labels."
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "mark": {
+      "$value": "{dimension.2}"
+    },
+    "panel": {
+      "$value": "{dimension.10}"
+    },
+    "pill": {
+      "$value": "{dimension.999}"
+    }
+  },
+  "border-width": {
+    "$type": "dimension",
+    "hairline": {
+      "$value": "{dimension.1}"
+    }
+  },
+  "layout": {
+    "grid": {
+      "columns": {
+        "$type": "number",
+        "$value": 12,
+        "$description": "Spec layout spans are out of 12 (Gate 0 decision)."
+      }
+    },
+    "container": {
+      "max": {
+        "$type": "dimension",
+        "$value": "{dimension.1440}"
+      }
+    },
+    "breakpoint": {
+      "stack": {
+        "$type": "dimension",
+        "$value": "{dimension.760}",
+        "$description": "Below this width every panel spans the full row."
+      }
+    },
+    "card": {
+      "min-width": {
+        "$type": "dimension",
+        "$value": "{dimension.280}",
+        "$description": "Index cards wrap below this width."
+      }
+    },
+    "panel": {
+      "stacked-min-height": {
+        "$type": "dimension",
+        "$value": "{dimension.360}",
+        "$description": "Cap on a panel height when rows stack below layout.breakpoint.stack."
+      }
+    }
+  }
+}

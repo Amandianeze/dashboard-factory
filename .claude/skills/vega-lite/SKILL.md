@@ -7,7 +7,7 @@ description: Patterns and pitfalls for writing Vega-Lite specs inside dashboard 
 
 The runtime (`src/renderers/vegaLiteSpec.ts`) wraps each panel spec with `$schema` (v6),
 `data: {values}`, `width/height: "container"`, `autosize: fit` and the token theme
-(`src/theme/vegaTheme.ts`). So panel specs contain only `mark`, `encoding`, `transform`, `layer`,
+(`vegaLiteConfig` in `src/theme/generated/engines.ts`, generated from tokens by `scripts/tokens/engines.ts`). So panel specs contain only `mark`, `encoding`, `transform`, `layer`,
 `params`, and optional `config` overrides. Validate with `npm run spec:validate` (it compiles every
 VL panel). For current docs, use the Context7 MCP (`vega-lite`).
 

@@ -1,0 +1,143 @@
+{
+  "palette": {
+    "sequential": {
+      "blue": {
+        "$type": "color",
+        "light": {
+          "1": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.8941, 0.9216, 0.9843],
+              "hex": "#e4ebfb"
+            }
+          },
+          "2": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.8, 0.8118, 0.9961],
+              "hex": "#cccffe"
+            }
+          },
+          "3": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.6941, 0.7059, 1],
+              "hex": "#b1b4ff"
+            }
+          },
+          "4": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.5843, 0.6039, 0.9961],
+              "hex": "#959afe"
+            }
+          },
+          "5": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.451, 0.502, 1],
+              "hex": "#7380ff"
+            }
+          },
+          "6": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.3294, 0.4157, 0.9255],
+              "hex": "#546aec"
+            }
+          },
+          "7": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.2627, 0.3333, 0.7647],
+              "hex": "#4355c3"
+            }
+          },
+          "8": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.2039, 0.2549, 0.6157],
+              "hex": "#34419d"
+            }
+          },
+          "9": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.1412, 0.1804, 0.4706],
+              "hex": "#242e78"
+            }
+          },
+          "$type": "color",
+          "$description": "Low → high. Even L* steps (93 → 23)."
+        },
+        "dark": {
+          "1": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.1686, 0.2118, 0.4235],
+              "hex": "#2b366c"
+            }
+          },
+          "2": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.2235, 0.2824, 0.5765],
+              "hex": "#394893"
+            }
+          },
+          "3": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.2824, 0.3529, 0.7451],
+              "hex": "#485abe"
+            }
+          },
+          "4": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.3451, 0.4275, 0.9137],
+              "hex": "#586de9"
+            }
+          },
+          "5": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.4588, 0.5098, 1],
+              "hex": "#7582ff"
+            }
+          },
+          "6": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.5843, 0.6039, 1],
+              "hex": "#959aff"
+            }
+          },
+          "7": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.6902, 0.7059, 1],
+              "hex": "#b0b4ff"
+            }
+          },
+          "8": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.7882, 0.8078, 0.9961],
+              "hex": "#c9cefe"
+            }
+          },
+          "9": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [0.8824, 0.9098, 0.9922],
+              "hex": "#e1e8fd"
+            }
+          },
+          "$type": "color",
+          "$description": "Low → high. Even L* steps (24 → 92): low values sink into the dark surface."
+        }
+      }
+    }
+  }
+}

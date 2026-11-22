@@ -1,6 +1,6 @@
 ---
 name: flint
-description: When and how to write Flint panels (renderer flint) — chart types, dataset semantic types, what the runtime injects, and Flint's known limits in this project. Use when writing or debugging a flint panel or changing src/renderers/flint* or src/theme/flintTheme.ts.
+description: When and how to write Flint panels (renderer flint) — chart types, dataset semantic types, what the runtime injects, and Flint's known limits in this project. Use when writing or debugging a flint panel or changing src/renderers/flint* or the Flint adapter in scripts/tokens/engines.ts.
 ---
 
 # Flint in this project
@@ -41,7 +41,7 @@ panels:
 
 `chart` accepts only `chartType`, `encodings`, `chartProperties`. The runtime injects the rows
 (after filters), sizes the chart to its layout cell, applies the token theme
-(`src/theme/flintTheme.ts`) and drops Flint's title. Never name a preset theme in a spec.
+(`flintTheme[theme]` from `src/theme/generated/engines.ts`) and drops Flint's title. Never name a preset theme in a spec.
 
 Semantic types: `Date`, `YearMonth`, `Quarter`, `Amount`, `Price`, `Count`, `Quantity`,
 `Percentage`, `PercentageChange`, `Profit`, `Rank`, `Score`, `Region`, `Country`, `Category`,
@@ -91,5 +91,7 @@ fit; try a wider/taller cell before touching the theme.
 - `src/renderers/flintSpec.ts` — pure input/spec builders, shared by runtime and validation.
   Unit tests: `tests/unit/flint.test.ts`.
 - `src/renderers/FlintChart.tsx` — measures the cell, lazy-loads Flint, renders via `VegaView`.
-- `src/theme/flintTheme.ts` — the token-derived Flint theme (extends `datawrapper`).
+- `scripts/tokens/engines.ts` (`flintTheme`) — the token-derived Flint theme (extends `datawrapper` for behaviour; every ink and type value comes from tokens). Generated per theme into `src/theme/generated/engines.ts`.
+- Known limit: Flint 1.0.1 hard-codes candlestick up/down colours; `flintSpec.ts` remaps them to `color.data.positive/negative` (`HARDCODED_INKS`).
+- Known limit: Flint 1.0.1 sizes banded charts (heatmap cells) to the full height without reserving room for a key above them, so a top legend overflows the panel. The theme puts colour keys beside the plot (`variants` with `when: { markChannel: 'color' }` in `scripts/tokens/engines.ts`); keep it when changing legend policy, and check with `npm run panel:render -- revenue-overview heatmap` (svg box height ≤ body box height).
 - `scripts/lib/specs.ts` — semantic-type and `validateChart` checks.

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Row } from '../data/transforms';
 import { useElementSize } from '../hooks/useElementSize';
 import type { PlotlyPanel } from '../spec/types';
+import { useTheme } from '../theme/ThemeProvider';
 import { buildPlotlyFigure } from './plotlyFigure';
 
 type PlotlyModule = typeof import('plotly.js');
@@ -16,7 +17,8 @@ export function PlotlyChart({ panel, rows }: { panel: PlotlyPanel; rows: Row[] }
   const [sizeRef, size] = useElementSize<HTMLDivElement>();
   const plotRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string>();
-  const figure = useMemo(() => buildPlotlyFigure(panel, rows), [panel, rows]);
+  const { theme } = useTheme();
+  const figure = useMemo(() => buildPlotlyFigure(panel, rows, theme), [panel, rows, theme]);
 
   useEffect(() => {
     const el = plotRef.current;

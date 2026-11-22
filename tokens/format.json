@@ -1,0 +1,22 @@
+{
+  "$description": "Number and date formats (d3-format / d3-time-format specifiers). Not DTCG: the 2025.10 format has no string type. Validated by scripts/tokens/lib.ts (FormatFile) and tokens:validate. number.axis carries an explicit precision because Vega adds tick precision to a typeless specifier (',' renders 7,690 as 7.69e+3).",
+  "number": {
+    "axis": ",.12~g",
+    "integer": ",.0f",
+    "decimal-2": ",.2f",
+    "percent": ".1%",
+    "delta": "+,.2f",
+    "delta-percent": "+.2%",
+    "currency": "$,.0f",
+    "currency-2": "$,.2f",
+    "currency-compact": "$~s",
+    "compact": "~s"
+  },
+  "date": {
+    "day": "%b %-d, %Y",
+    "week": "%Y W%V",
+    "month": "%b %Y",
+    "time": "%-I:%M %p",
+    "datetime": "%b %-d, %Y %-I:%M %p"
+  }
+}

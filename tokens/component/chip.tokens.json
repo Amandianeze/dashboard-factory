@@ -1,0 +1,131 @@
+{
+  "chip": {
+    "bg": {
+      "$type": "color",
+      "$value": "{color.bg.surface}"
+    },
+    "text": {
+      "$type": "color",
+      "$value": "{color.text.primary}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.border.control}"
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.pill}"
+    },
+    "padding": {
+      "$type": "dimension",
+      "x": {
+        "$value": "{space.inset.control-x}"
+      },
+      "y": {
+        "$value": "{space.inset.control-y}"
+      }
+    },
+    "typography": {
+      "$type": "typography",
+      "$value": "{typography.body}"
+    },
+    "selected": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.accent}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.on-accent}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.bg.accent}"
+      },
+      "hover": {
+        "bg": {
+          "$type": "color",
+          "$value": "{color.bg.accent-hover}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{color.text.on-accent}"
+        }
+      }
+    },
+    "clear": {
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      }
+    },
+    "focus": {
+      "ring": {
+        "$type": "color",
+        "$value": "{color.focus.ring}"
+      },
+      "width": {
+        "$type": "dimension",
+        "$value": "{dimension.2}"
+      },
+      "offset": {
+        "$type": "dimension",
+        "$value": "{dimension.2}"
+      }
+    },
+    "hover": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.canvas}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.primary}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      }
+    },
+    "pressed": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.pressed}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.primary}"
+      }
+    },
+    "disabled": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.surface}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.border.subtle}"
+      }
+    }
+  },
+  "filter": {
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.inline.sm}"
+    },
+    "label": {
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": "{space.inline.xs}"
+      }
+    }
+  }
+}

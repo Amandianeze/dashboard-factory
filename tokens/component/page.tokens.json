@@ -1,0 +1,44 @@
+{
+  "page": {
+    "bg": {
+      "$type": "color",
+      "$value": "{color.bg.canvas}"
+    },
+    "padding": {
+      "$type": "dimension",
+      "top": {
+        "$value": "{space.stack.lg}"
+      },
+      "x": {
+        "$value": "{space.inset.page}"
+      },
+      "bottom": {
+        "$value": "{space.stack.xl}"
+      }
+    },
+    "title": {
+      "typography": {
+        "$type": "typography",
+        "$value": "{typography.title}"
+      },
+      "color": {
+        "$type": "color",
+        "$value": "{color.text.primary}"
+      }
+    },
+    "description": {
+      "typography": {
+        "$type": "typography",
+        "$value": "{typography.body-large}"
+      },
+      "color": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": "{space.stack.2xs}"
+      }
+    }
+  }
+}
