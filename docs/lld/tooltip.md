@@ -4,34 +4,25 @@ name: Tooltip
 summary: Extra text shown on hover and keyboard focus.
 atomicLevel: atom
 biLevel: null
-status: proposed
+status: beta
 renderEngine: react
-gap:
-  priority: P1
-  reason: 'Panel descriptions sit in title=, which keyboard and screen-reader users cannot reach.'
 package: '@factory/ui'
 registryItem: '@factory/tooltip'
 figmaNode: null
 tokens:
-  [
-    color.bg.surface-raised,
-    color.text.primary,
-    color.border.subtle,
-    typography.caption,
-    motion.duration.fast,
-    motion.easing.out,
-  ]
-newTokens:
-  [
-    tooltip.bg,
-    tooltip.text,
-    tooltip.border,
-    tooltip.radius,
-    tooltip.padding,
-    tooltip.typography,
-    tooltip.max-width,
-    tooltip.delay,
-  ]
+  - tooltip.bg
+  - tooltip.text
+  - tooltip.border
+  - tooltip.radius
+  - tooltip.padding.x
+  - tooltip.padding.y
+  - tooltip.max-width
+  - tooltip.offset
+  - tooltip.typography
+  - motion.duration.base
+  - motion.duration.fast
+  - motion.easing.out
+  - border-width.hairline
 props: ./tooltip.props.ts
 dataContract: null
 a11y:
@@ -53,6 +44,8 @@ references:
   - 'https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html'
   - 'https://base-ui.com/react/components/tooltip'
 adr: [ADR-003]
+source:
+  - src/components/ui/tooltip.tsx
 ---
 
 # Tooltip

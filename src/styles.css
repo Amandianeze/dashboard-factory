@@ -56,8 +56,15 @@ a {
   min-width: 0;
   min-height: 0;
 }
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-inline-xs);
+  margin-bottom: var(--panel-title-gap);
+  min-height: 0;
+}
 .panel h2 {
-  margin: 0 0 var(--panel-title-gap);
+  margin: 0;
   font: var(--panel-title-typography-font);
   letter-spacing: var(--panel-title-typography-letter-spacing);
   color: var(--panel-title-color);
@@ -153,15 +160,11 @@ a {
   color: var(--chip-disabled-text);
   cursor: not-allowed;
 }
-.chip-clear {
-  color: var(--chip-clear-text);
-}
 
 .panel-error {
   color: var(--panel-status-error);
   font: var(--panel-status-typography-font);
 }
-.panel-empty,
 .status {
   color: var(--panel-status-text);
   font: var(--panel-status-typography-font);

@@ -1,6 +1,8 @@
 import { Component, type ReactNode } from 'react';
 import type { Row } from '../data/transforms';
 import type { DatasetSpec, PanelSpec } from '../spec/types';
+import { DataTable } from '../components/panels/data-table';
+import { EmptyState } from '../components/ui/empty-state';
 import { D3Chart } from './D3Chart';
 import { FlintChart } from './FlintChart';
 import { KpiCard } from './KpiCard';
@@ -28,6 +30,16 @@ export function PanelRenderer({
       return <PlotlyChart panel={panel} rows={rows} />;
     case 'flint':
       return <FlintChart panel={panel} rows={rows} semantics={dataset?.semantics} />;
+    case 'table':
+      return (
+        <DataTable
+          columns={panel.columns}
+          rows={rows}
+          caption={panel.title}
+          sort={panel.sort}
+          limit={panel.limit}
+        />
+      );
   }
 }
 
@@ -40,9 +52,11 @@ export class PanelErrorBoundary extends Component<{ children: ReactNode }, { err
   render() {
     if (this.state.error)
       return (
-        <p className="panel-error" role="alert">
-          Panel failed to render: {this.state.error.message}
-        </p>
+        <EmptyState
+          variant="error"
+          title="This panel failed to render"
+          description={this.state.error.message}
+        />
       );
     return this.props.children;
   }

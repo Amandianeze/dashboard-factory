@@ -1,44 +1,41 @@
 ---
 id: data-table
 name: Data table
-summary: Rows and columns with sorting, number formats and conditional formats; also the text alternative for every chart.
+summary: Rows and columns with sorting, number formats and conditional formats; also the text
+  alternative for every chart.
 atomicLevel: organism
 biLevel: visual
-status: proposed
+status: beta
 renderEngine: react
-composes: [formatted-value, badge, empty-state, skeleton]
-panel: { renderers: [] }
-gap:
-  priority: P1
-  reason: 'Gate 2 gap (no table or matrix), and the data-table fallback every chart needs for accessibility. Needs a `table` renderer.'
+composes:
+  - formatted-value
+  - badge
+  - empty-state
+  - button
+panel:
+  renderers:
+    - table
 package: '@factory/panels'
 registryItem: '@factory/data-table'
 figmaNode: null
 tokens:
-  [
-    color.text.primary,
-    color.text.muted,
-    color.border.subtle,
-    color.bg.surface,
-    color.bg.surface-raised,
-    typography.body,
-    typography.label,
-    color.data.sequential.blue.1,
-    color.data.diverging.blue-orange.0,
-    color.data.positive,
-    color.data.negative,
-    color.focus.ring,
-  ]
-newTokens:
-  [
-    table.header.typography,
-    table.header.text,
-    table.row.border,
-    table.row.hover.bg,
-    table.cell.padding.x,
-    table.cell.padding.y,
-    table.sort.icon,
-  ]
+  - table.bg
+  - table.text
+  - table.header.text
+  - table.header.typography
+  - table.row.border
+  - table.row.hover.bg
+  - table.cell.padding.x
+  - table.cell.padding.y
+  - table.cell.typography
+  - table.sort.icon
+  - table.focus.ring
+  - kpi.delta.positive.text
+  - kpi.delta.negative.text
+  - button.focus.width
+  - space.stack.xs
+  - space.inline.xs
+  - border-width.hairline
 props: ./data-table.props.ts
 dataContract: docs/lld/data-table.props.ts#TablePanel
 a11y:
@@ -56,6 +53,9 @@ references:
   - 'https://www.w3.org/WAI/tutorials/tables/'
   - 'https://ui.shadcn.com/docs/components/data-table'
 adr: [ADR-002, ADR-003, ADR-004]
+source:
+  - src/components/panels/data-table.tsx
+  - src/renderers/PanelRenderer.tsx
 ---
 
 # Data table
@@ -83,7 +83,7 @@ caption: ① Orders by status
 
 `DataTableProps { columns, rows, caption, sort?, onSortChange?, limit? }`. Panel spec
 `TablePanel` (`renderer: table`, `columns[]`, `sort`, `limit`). Column options: `format`,
-`align`, `conditional` (sequential ramp, diverging ramp, ± sign colour).
+`align`, `conditional` (`sign` today; ramps later), `badges` (value → Badge tone).
 
 ## States
 
@@ -94,8 +94,10 @@ behind "Show all"; > 500 rows virtualised.
 ## Token map
 
 New `table.*` tokens for header type/colour, row borders (→ `color.border.subtle`), hover
-(→ `color.bg.surface-raised`), cell padding (density-aware). Conditional formats use the
-existing sequential/diverging ramps and `color.data.positive/negative` with text contrast checked.
+(→ `color.bg.surface-raised`), cell padding (density-aware). Built (Phase 5) with the `sign`
+conditional only, reusing `kpi.delta.positive/negative.text`. Sequential and diverging cell
+backgrounds need per-cell text contrast and are not built yet. Status columns use `badges`
+(value → Badge tone).
 
 ## Data binding and formatting
 

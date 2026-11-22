@@ -3,6 +3,7 @@ import type { z } from 'zod';
 import type {
   D3Panel as D3PanelSchema,
   FlintPanel as FlintPanelSchema,
+  TablePanel as TablePanelSchema,
   KpiPanel as KpiPanelSchema,
   PlotlyPanel as PlotlyPanelSchema,
   VegaLitePanel as VegaLitePanelSchema,
@@ -21,3 +22,4 @@ export type VegaLitePanel = z.infer<typeof VegaLitePanelSchema>;
 export type D3Panel = z.infer<typeof D3PanelSchema>;
 export type PlotlyPanel = z.infer<typeof PlotlyPanelSchema>;
 export type FlintPanel = z.infer<typeof FlintPanelSchema>;
+export type TablePanel = z.infer<typeof TablePanelSchema>;

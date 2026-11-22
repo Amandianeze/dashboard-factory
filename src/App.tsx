@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { EmptyState } from './components/ui/empty-state';
 import { DashboardView } from './dashboard/DashboardView';
 import { dashboards } from './dashboard/registry';
 import { FoundationsPage } from './foundations/FoundationsPage';
@@ -34,7 +35,14 @@ export function App() {
           tokens: <a href="#/foundations">Foundations</a>.
         </p>
       </header>
-      {id && !entry && <p className="panel-error">No dashboard with id “{id}”.</p>}
+      {id && !entry && (
+        <EmptyState
+          variant="error"
+          title={`No dashboard with id “${id}”`}
+          description="Pick one of the dashboards below."
+          size="compact"
+        />
+      )}
       <ul className="index">
         {dashboards.map(({ file, result }) => (
           <li key={file} className="panel">

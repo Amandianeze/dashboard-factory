@@ -4,16 +4,17 @@ name: Delta indicator
 summary: Direction glyph plus signed change, coloured positive or negative.
 atomicLevel: atom
 biLevel: object
-status: proposed
+status: beta
 renderEngine: react
-gap:
-  priority: P1
-  reason: 'Change KPIs show the sign as text only; color.data.positive/negative exist but nothing uses them.'
 package: '@factory/panels'
 registryItem: '@factory/delta-indicator'
 figmaNode: null
-tokens: [kpi.delta.positive.text, kpi.delta.negative.text, color.text.muted, typography.body-strong]
-newTokens: [delta.neutral.text, delta.typography]
+tokens:
+  - kpi.delta.positive.text
+  - kpi.delta.negative.text
+  - delta.neutral.text
+  - delta.gap
+  - delta.typography
 props: ./delta-indicator.props.ts
 dataContract: null
 a11y:
@@ -30,6 +31,8 @@ references:
   - 'https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html'
   - 'https://d3js.org/d3-format'
 adr: [ADR-002]
+source:
+  - src/components/ui/delta-indicator.tsx
 ---
 
 # Delta indicator

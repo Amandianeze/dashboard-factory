@@ -7,6 +7,8 @@
  */
 import { z } from 'zod';
 import { D3FormatString } from './d3Format';
+import { TablePanel as TablePanelFields } from '../../docs/lld/data-table.props';
+import { KpiComparison } from '../../docs/lld/kpi-value.props';
 import { PANEL_KINDS, type PanelKind as PanelKindId } from './generated/panel-kinds';
 
 export const ID_PATTERN = /^[a-z][a-z0-9_-]*$/;
@@ -102,6 +104,8 @@ export const KpiPanel = z
     aggregate: z.enum(['sum', 'mean', 'min', 'max', 'count', 'distinct']),
     /** d3-format specifier, e.g. "$,.0f" or ".1%". */
     format: D3FormatString.default(',.0f'),
+    /** Period comparison (kpi-value): delta and delta % against the same aggregate of another field. */
+    comparison: KpiComparison.optional(),
   })
   .strict();
 
@@ -177,12 +181,16 @@ export const FlintPanel = z
   })
   .strict();
 
+/** A data table (data-table organism). Column and sort contract: docs/lld/data-table.props.ts. */
+export const TablePanel = z.object({ ...PanelCommon, ...TablePanelFields.shape }).strict();
+
 export const PanelSpec = z.discriminatedUnion('renderer', [
   KpiPanel,
   VegaLitePanel,
   D3Panel,
   PlotlyPanel,
   FlintPanel,
+  TablePanel,
 ]);
 export type PanelSpec = z.infer<typeof PanelSpec>;
 export type Renderer = PanelSpec['renderer'];
@@ -310,6 +318,17 @@ function crossReferences(d: DashboardShape, ctx: z.RefinementCtx) {
           ds.fields[p.field] !== 'quantitative'
         )
           issue(['panels', id, 'aggregate'], `"${p.aggregate}" needs a quantitative field`);
+        if (p.comparison) {
+          const f = p.comparison.compareTo.field;
+          need(['comparison', 'compareTo', 'field'], f);
+          if (has(f) && ds.fields[f] !== 'quantitative')
+            issue(['panels', id, 'comparison'], `compareTo field "${f}" must be quantitative`);
+          if (p.aggregate === 'count' || p.aggregate === 'distinct')
+            issue(
+              ['panels', id, 'comparison'],
+              `a comparison needs sum, mean, min or max, not ${p.aggregate}`,
+            );
+        }
         break;
       case 'plotly':
         need(['trace', 'x'], p.trace.x);
@@ -326,6 +345,16 @@ function crossReferences(d: DashboardShape, ctx: z.RefinementCtx) {
         break;
       case 'd3':
         break; // props are checked against the D3 chart registry in validate.ts
+      case 'table': {
+        p.columns.forEach((c, i) => need(['columns', i, 'field'], c.field));
+        if (p.sort && !p.columns.some((c) => c.field === p.sort!.field))
+          issue(['panels', id, 'sort', 'field'], `sort field "${p.sort.field}" is not a column`);
+        p.columns.forEach((c, i) => {
+          if (c.conditional === 'sign' && has(c.field) && ds.fields[c.field] !== 'quantitative')
+            issue(['panels', id, 'columns', i, 'conditional'], `"sign" needs a quantitative field`);
+        });
+        break;
+      }
     }
   }
 

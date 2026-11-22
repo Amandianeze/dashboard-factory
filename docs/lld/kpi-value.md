@@ -4,25 +4,20 @@ name: KPI value with delta
 summary: A current value with its change against a comparison period.
 atomicLevel: molecule
 biLevel: pattern
-status: proposed
+status: beta
 renderEngine: react
-composes: [formatted-value, delta-indicator]
-gap:
-  priority: P1
-  reason: 'Period comparison: sp500-today shows change, change % and previous close as three unrelated tiles.'
+composes:
+  - formatted-value
+  - delta-indicator
 package: '@factory/panels'
 registryItem: '@factory/kpi-value'
 figmaNode: null
 tokens:
-  [
-    kpi.value.typography,
-    kpi.value.text,
-    kpi.delta.positive.text,
-    kpi.delta.negative.text,
-    space.inline.sm,
-    color.text.muted,
-  ]
-newTokens: [kpi.comparison.typography]
+  - kpi.value.typography
+  - kpi.value.text
+  - kpi.delta.gap
+  - kpi.comparison.text
+  - kpi.comparison.typography
 props: ./kpi-value.props.ts
 dataContract: docs/lld/kpi-value.props.ts#KpiComparison
 a11y:
@@ -39,6 +34,8 @@ references:
   - 'https://www.sqlbi.com/'
   - 'https://d3js.org/d3-format'
 adr: [ADR-002, ADR-005]
+source:
+  - src/components/panels/kpi-value.tsx
 ---
 
 # KPI value with delta
@@ -59,9 +56,11 @@ categories (a chart).
 
 ## Props and variants
 
-`KpiValueProps { current, previous, format, comparison }`. The spec gets an optional
-`compareTo` block on KPI panels (data contract `KpiComparison`): `compareTo.field`, `show`
-(delta, delta-pct), `deltaFormat`, `polarity`.
+`KpiValueProps { current, previous, format, comparison }`. KPI panels get an optional
+`comparison` block (data contract `KpiComparison`): `compareTo.field`, `label` (the caption,
+"vs previous close"), `show` (delta, delta-pct), `deltaFormat`, `deltaPctFormat`, `polarity`.
+The previous value is the panel's aggregate over `compareTo.field`; count and distinct can't be
+compared (validation rejects them). First used on `sp500-today` (Gate 3 deprecation 8).
 
 ## States
 
@@ -78,7 +77,7 @@ delta = current − previous; delta % = delta / |previous|. Signed formats from 
 
 ## Responsive and density
 
-Second line wraps under the value in narrow cells.
+Deltas sit on the value's baseline and wrap below it in narrow cells; a span-2 cell at the KPI row height (132 px) overflows, so comparison KPIs need span 4 or more.
 
 ## Accessibility
 

@@ -1,4 +1,5 @@
 import type { FilterBarProps } from '../../docs/lld/filter-bar.props';
+import { Button } from '../components/ui/button';
 import { distinctValues } from '../data/transforms';
 
 export type { FilterBarProps };
@@ -45,9 +46,9 @@ export function FilterBar({ filters, data, state, onChange }: FilterBarProps) {
               );
             })}
             {selected.length > 0 && (
-              <button type="button" className="chip chip-clear" onClick={() => set(f.id, [])}>
+              <Button variant="ghost" size="sm" onClick={() => set(f.id, [])}>
                 Clear
-              </button>
+              </Button>
             )}
           </fieldset>
         );

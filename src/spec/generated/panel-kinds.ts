@@ -7,6 +7,7 @@ export const PANEL_KINDS = {
     status: 'beta',
     renderers: ['vega-lite', 'flint', 'd3', 'plotly'],
   },
+  'data-table': { name: 'Data table', status: 'beta', renderers: ['table'] },
   'kpi-card': { name: 'KPI card', status: 'beta', renderers: ['kpi'] },
 } as const;
 

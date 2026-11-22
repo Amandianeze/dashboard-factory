@@ -6,7 +6,7 @@ atomicLevel: organism
 biLevel: visual
 status: beta
 renderEngine: react
-composes: [panel-frame, formatted-value]
+composes: [panel-frame, formatted-value, kpi-value]
 source: [src/renderers/KpiCard.tsx]
 panel: { renderers: [kpi] }
 package: '@factory/panels'

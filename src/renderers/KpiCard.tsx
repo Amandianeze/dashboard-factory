@@ -1,16 +1,29 @@
-import { format } from 'd3';
-import { aggregate } from '../data/transforms';
 import type { KpiCardProps } from '../../docs/lld/kpi-card.props';
+import { KpiValue } from '../components/panels/kpi-value';
+import { FormattedValue } from '../components/ui/formatted-value';
+import { aggregate } from '../data/transforms';
 
 export type { KpiCardProps };
 
 export function KpiCard({ panel, rows }: KpiCardProps) {
   const value = aggregate(rows, panel.field, panel.aggregate);
+  const { comparison } = panel;
   return (
     <div className="kpi">
-      <span className="kpi-value">
-        {Number.isFinite(value) ? format(panel.format)(value) : '—'}
-      </span>
+      {comparison ? (
+        <div className="kpi-value">
+          <KpiValue
+            current={value}
+            previous={aggregate(rows, comparison.compareTo.field, panel.aggregate)}
+            format={panel.format}
+            comparison={comparison}
+          />
+        </div>
+      ) : (
+        <span className="kpi-value">
+          <FormattedValue value={value} format={panel.format} size="kpi" />
+        </span>
+      )}
     </div>
   );
 }

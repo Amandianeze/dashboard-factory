@@ -296,6 +296,65 @@
                   "format": {
                     "type": "string",
                     "default": ",.0f"
+                  },
+                  "comparison": {
+                    "type": "object",
+                    "properties": {
+                      "compareTo": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "field"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1,
+                        "default": "previous"
+                      },
+                      "show": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "delta",
+                            "delta-pct"
+                          ]
+                        },
+                        "minItems": 1,
+                        "default": [
+                          "delta",
+                          "delta-pct"
+                        ]
+                      },
+                      "deltaFormat": {
+                        "type": "string",
+                        "default": "+,.2f"
+                      },
+                      "deltaPctFormat": {
+                        "type": "string",
+                        "default": "+.2%"
+                      },
+                      "polarity": {
+                        "type": "string",
+                        "enum": [
+                          "up-is-good",
+                          "down-is-good",
+                          "neutral"
+                        ],
+                        "default": "up-is-good"
+                      }
+                    },
+                    "required": [
+                      "compareTo"
+                    ],
+                    "additionalProperties": false
                   }
                 },
                 "required": [
