@@ -122,7 +122,7 @@ export function DataTable({
                     }
                     className={cn(
                       'sticky top-[0] bg-(--table-bg) font-[inherit]',
-                      'border-b-(length:--border-width-hairline) border-solid border-(color:--table-row-border)',
+                      'border-0 border-b-(length:--border-width-hairline) border-solid border-(color:--table-row-border)',
                       end ? 'text-end' : 'text-start',
                     )}
                   >
@@ -151,7 +151,7 @@ export function DataTable({
             {visible.map((row, i) => (
               <tr
                 key={i}
-                className="border-b-(length:--border-width-hairline) border-solid border-(color:--table-row-border) hover:bg-(--table-row-hover-bg)"
+                className="border-0 border-b-(length:--border-width-hairline) border-solid border-(color:--table-row-border) hover:bg-(--table-row-hover-bg)"
               >
                 {columns.map((col) => {
                   const end = (col.align ?? (numeric[col.field] ? 'end' : 'start')) === 'end';
