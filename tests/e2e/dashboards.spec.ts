@@ -38,11 +38,10 @@ for (const spec of specs) {
         `${spec.id}--${id}.png`,
         { animations: 'disabled' },
       );
-    // Full page for humans reviewing PRs; looser threshold.
+    // Full page for humans reviewing PRs.
     await expect(page).toHaveScreenshot(`${spec.id}.png`, {
       fullPage: true,
       animations: 'disabled',
-      maxDiffPixelRatio: 0.01,
     });
   });
 }
