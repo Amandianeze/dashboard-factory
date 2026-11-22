@@ -22,6 +22,20 @@
           "$type": "color",
           "$value": "{color.data.negative}"
         }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": "{space.inline.sm}"
+      }
+    },
+    "comparison": {
+      "text": {
+        "$type": "color",
+        "$value": "{color.text.muted}"
+      },
+      "typography": {
+        "$type": "typography",
+        "$value": "{typography.caption}"
       }
     }
   }

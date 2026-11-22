@@ -67,48 +67,33 @@ export type ResolvedTheme = {
       readonly 'stacked-min-height': number;
     };
   };
-  readonly chart: {
-    readonly label: {
-      readonly typography: Typography;
-      readonly text: string;
-      readonly 'text-strong': string;
-    };
-    readonly axis: {
-      readonly domain: string;
-      readonly 'title-weight': number;
-    };
-    readonly grid: string;
-    readonly baseline: string;
-    readonly mark: {
-      readonly 'bar-radius': number;
-      readonly 'line-width': number;
-      readonly 'point-diameter': number;
-      readonly 'point-opacity': number;
-    };
-    readonly legend: {
-      readonly 'gradient-length': number;
-    };
-    readonly padding: number;
-    readonly inset: {
-      readonly left: number;
-      readonly right: number;
-      readonly top: number;
-      readonly 'top-legend': number;
-      readonly bottom: number;
-    };
-    readonly 'ranked-bars': {
-      readonly 'label-width': number;
-      readonly 'value-width': number;
-      readonly 'label-gap': number;
-      readonly 'value-gap': number;
-    };
-  };
   readonly color: {
+    readonly bg: {
+      readonly 'surface-raised': string;
+      readonly accent: string;
+      readonly 'accent-hover': string;
+      readonly surface: string;
+      readonly canvas: string;
+      readonly pressed: string;
+    };
+    readonly border: {
+      readonly subtle: string;
+      readonly control: string;
+    };
     readonly text: {
-      readonly muted: string;
       readonly primary: string;
+      readonly muted: string;
       readonly 'on-accent': string;
       readonly danger: string;
+    };
+    readonly status: {
+      readonly info: string;
+      readonly success: string;
+      readonly warning: string;
+      readonly danger: string;
+    };
+    readonly focus: {
+      readonly ring: string;
     };
     readonly data: {
       readonly axis: string;
@@ -157,26 +142,116 @@ export type ResolvedTheme = {
       readonly neutral: string;
       readonly highlight: string;
     };
-    readonly bg: {
-      readonly surface: string;
-      readonly accent: string;
-      readonly 'accent-hover': string;
-      readonly canvas: string;
-      readonly pressed: string;
-      readonly 'surface-raised': string;
+  };
+  readonly badge: {
+    readonly bg: string;
+    readonly border: string;
+    readonly text: string;
+    readonly neutral: {
+      readonly dot: string;
     };
-    readonly border: {
-      readonly control: string;
-      readonly subtle: string;
+    readonly info: {
+      readonly dot: string;
+    };
+    readonly success: {
+      readonly dot: string;
+    };
+    readonly warning: {
+      readonly dot: string;
+    };
+    readonly danger: {
+      readonly dot: string;
+    };
+    readonly radius: number;
+    readonly padding: {
+      readonly x: number;
+      readonly y: number;
+    };
+    readonly gap: number;
+    readonly 'dot-size': number;
+    readonly typography: Typography;
+  };
+  readonly button: {
+    readonly primary: {
+      readonly bg: string;
+      readonly text: string;
+      readonly hover: {
+        readonly bg: string;
+        readonly text: string;
+      };
+    };
+    readonly secondary: {
+      readonly bg: string;
+      readonly text: string;
+      readonly border: string;
+      readonly hover: {
+        readonly bg: string;
+        readonly text: string;
+      };
+    };
+    readonly ghost: {
+      readonly bg: string;
+      readonly text: string;
+      readonly hover: {
+        readonly bg: string;
+        readonly text: string;
+      };
+    };
+    readonly pressed: {
+      readonly bg: string;
+      readonly text: string;
+    };
+    readonly disabled: {
+      readonly bg: string;
+      readonly text: string;
     };
     readonly focus: {
       readonly ring: string;
+      readonly width: number;
+      readonly offset: number;
     };
-    readonly status: {
-      readonly danger: string;
-      readonly warning: string;
-      readonly success: string;
-      readonly info: string;
+    readonly radius: number;
+    readonly padding: {
+      readonly x: number;
+      readonly y: number;
+    };
+    readonly gap: number;
+    readonly typography: Typography;
+  };
+  readonly chart: {
+    readonly label: {
+      readonly typography: Typography;
+      readonly text: string;
+      readonly 'text-strong': string;
+    };
+    readonly axis: {
+      readonly domain: string;
+      readonly 'title-weight': number;
+    };
+    readonly grid: string;
+    readonly baseline: string;
+    readonly mark: {
+      readonly 'bar-radius': number;
+      readonly 'line-width': number;
+      readonly 'point-diameter': number;
+      readonly 'point-opacity': number;
+    };
+    readonly legend: {
+      readonly 'gradient-length': number;
+    };
+    readonly padding: number;
+    readonly inset: {
+      readonly left: number;
+      readonly right: number;
+      readonly top: number;
+      readonly 'top-legend': number;
+      readonly bottom: number;
+    };
+    readonly 'ranked-bars': {
+      readonly 'label-width': number;
+      readonly 'value-width': number;
+      readonly 'label-gap': number;
+      readonly 'value-gap': number;
     };
   };
   readonly chip: {
@@ -228,6 +303,30 @@ export type ResolvedTheme = {
       readonly gap: number;
     };
   };
+  readonly delta: {
+    readonly neutral: {
+      readonly text: string;
+    };
+    readonly gap: number;
+    readonly typography: Typography;
+  };
+  readonly 'empty-state': {
+    readonly title: {
+      readonly text: string;
+      readonly typography: Typography;
+    };
+    readonly description: {
+      readonly text: string;
+      readonly typography: Typography;
+    };
+    readonly error: {
+      readonly text: string;
+    };
+    readonly icon: {
+      readonly color: string;
+    };
+    readonly gap: number;
+  };
   readonly kpi: {
     readonly value: {
       readonly typography: Typography;
@@ -240,6 +339,11 @@ export type ResolvedTheme = {
       readonly negative: {
         readonly text: string;
       };
+      readonly gap: number;
+    };
+    readonly comparison: {
+      readonly text: string;
+      readonly typography: Typography;
     };
   };
   readonly page: {
@@ -278,28 +382,69 @@ export type ResolvedTheme = {
       readonly error: string;
     };
   };
+  readonly table: {
+    readonly bg: string;
+    readonly text: string;
+    readonly header: {
+      readonly text: string;
+      readonly typography: Typography;
+    };
+    readonly row: {
+      readonly border: string;
+      readonly hover: {
+        readonly bg: string;
+        readonly text: string;
+      };
+    };
+    readonly cell: {
+      readonly padding: {
+        readonly x: number;
+        readonly y: number;
+      };
+      readonly typography: Typography;
+    };
+    readonly sort: {
+      readonly icon: string;
+    };
+    readonly focus: {
+      readonly ring: string;
+    };
+  };
+  readonly tooltip: {
+    readonly bg: string;
+    readonly text: string;
+    readonly border: string;
+    readonly radius: number;
+    readonly padding: {
+      readonly x: number;
+      readonly y: number;
+    };
+    readonly 'max-width': number;
+    readonly offset: number;
+    readonly typography: Typography;
+  };
 };
 
 /** Spacing for one density. */
 export type ResolvedDensity = {
   readonly space: {
-    readonly inset: {
-      readonly 'control-x': number;
-      readonly 'control-y': number;
-      readonly page: number;
-      readonly panel: number;
-    };
     readonly inline: {
       readonly sm: number;
       readonly xs: number;
     };
     readonly stack: {
+      readonly '2xs': number;
+      readonly xs: number;
       readonly lg: number;
       readonly xl: number;
-      readonly '2xs': number;
       readonly sm: number;
-      readonly xs: number;
       readonly md: number;
+    };
+    readonly inset: {
+      readonly 'control-x': number;
+      readonly 'control-y': number;
+      readonly page: number;
+      readonly panel: number;
     };
     readonly grid: {
       readonly gap: number;
@@ -385,29 +530,19 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
       card: { 'min-width': 280 },
       panel: { 'stacked-min-height': 360 },
     },
-    chart: {
-      label: {
-        typography: {
-          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
-          fontSize: 11,
-          fontWeight: 400,
-          letterSpacing: 0,
-          lineHeight: 1.3,
-        },
-        text: '#6b6b66',
-        'text-strong': '#1d1d1b',
-      },
-      axis: { domain: '#e4e4e0', 'title-weight': 500 },
-      grid: '#ececea',
-      baseline: '#6b6b66',
-      mark: { 'bar-radius': 2, 'line-width': 2, 'point-diameter': 6, 'point-opacity': 0.7 },
-      legend: { 'gradient-length': 160 },
-      padding: 4,
-      inset: { left: 56, right: 12, top: 8, 'top-legend': 36, bottom: 44 },
-      'ranked-bars': { 'label-width': 96, 'value-width': 64, 'label-gap': 8, 'value-gap': 6 },
-    },
     color: {
-      text: { muted: '#6b6b66', primary: '#1d1d1b', 'on-accent': '#ffffff', danger: '#b42318' },
+      bg: {
+        'surface-raised': '#ffffff',
+        accent: '#2f5bea',
+        'accent-hover': '#1f3ea6',
+        surface: '#ffffff',
+        canvas: '#f7f7f5',
+        pressed: '#e4e4e0',
+      },
+      border: { subtle: '#e4e4e0', control: '#8b8b85' },
+      text: { primary: '#1d1d1b', muted: '#6b6b66', 'on-accent': '#ffffff', danger: '#b42318' },
+      status: { info: '#2f5bea', success: '#056306', warning: '#b54708', danger: '#b42318' },
+      focus: { ring: '#2f5bea' },
       data: {
         axis: '#e4e4e0',
         gridline: '#ececea',
@@ -455,17 +590,71 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         neutral: '#8b8b85',
         highlight: '#2f5bea',
       },
-      bg: {
-        surface: '#ffffff',
-        accent: '#2f5bea',
-        'accent-hover': '#1f3ea6',
-        canvas: '#f7f7f5',
-        pressed: '#e4e4e0',
-        'surface-raised': '#ffffff',
+    },
+    badge: {
+      bg: '#ffffff',
+      border: '#e4e4e0',
+      text: '#1d1d1b',
+      neutral: { dot: '#6b6b66' },
+      info: { dot: '#2f5bea' },
+      success: { dot: '#056306' },
+      warning: { dot: '#b54708' },
+      danger: { dot: '#b42318' },
+      radius: 999,
+      padding: { x: 6, y: 4 },
+      gap: 4,
+      'dot-size': 6,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 12,
+        fontWeight: 400,
+        letterSpacing: 0,
+        lineHeight: 1.35,
       },
-      border: { control: '#8b8b85', subtle: '#e4e4e0' },
-      focus: { ring: '#2f5bea' },
-      status: { danger: '#b42318', warning: '#b54708', success: '#056306', info: '#2f5bea' },
+    },
+    button: {
+      primary: { bg: '#2f5bea', text: '#ffffff', hover: { bg: '#1f3ea6', text: '#ffffff' } },
+      secondary: {
+        bg: '#ffffff',
+        text: '#1d1d1b',
+        border: '#8b8b85',
+        hover: { bg: '#f7f7f5', text: '#1d1d1b' },
+      },
+      ghost: { bg: '#ffffff', text: '#1d1d1b', hover: { bg: '#f7f7f5', text: '#1d1d1b' } },
+      pressed: { bg: '#e4e4e0', text: '#1d1d1b' },
+      disabled: { bg: '#f7f7f5', text: '#6b6b66' },
+      focus: { ring: '#2f5bea', width: 2, offset: 2 },
+      radius: 999,
+      padding: { x: 12, y: 4 },
+      gap: 6,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 13,
+        fontWeight: 500,
+        letterSpacing: 0,
+        lineHeight: 1.4,
+      },
+    },
+    chart: {
+      label: {
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 11,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.3,
+        },
+        text: '#6b6b66',
+        'text-strong': '#1d1d1b',
+      },
+      axis: { domain: '#e4e4e0', 'title-weight': 500 },
+      grid: '#ececea',
+      baseline: '#6b6b66',
+      mark: { 'bar-radius': 2, 'line-width': 2, 'point-diameter': 6, 'point-opacity': 0.7 },
+      legend: { 'gradient-length': 160 },
+      padding: 4,
+      inset: { left: 56, right: 12, top: 8, 'top-legend': 36, bottom: 44 },
+      'ranked-bars': { 'label-width': 96, 'value-width': 64, 'label-gap': 8, 'value-gap': 6 },
     },
     chip: {
       bg: '#ffffff',
@@ -493,6 +682,42 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
       disabled: { bg: '#ffffff', text: '#6b6b66', border: '#e4e4e0' },
     },
     filter: { gap: 6, label: { text: '#6b6b66', gap: 4 } },
+    delta: {
+      neutral: { text: '#6b6b66' },
+      gap: 4,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 13,
+        fontWeight: 500,
+        letterSpacing: 0,
+        lineHeight: 1.4,
+      },
+    },
+    'empty-state': {
+      title: {
+        text: '#1d1d1b',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 13,
+          fontWeight: 500,
+          letterSpacing: 0,
+          lineHeight: 1.4,
+        },
+      },
+      description: {
+        text: '#6b6b66',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 13,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.4,
+        },
+      },
+      error: { text: '#b42318' },
+      icon: { color: '#6b6b66' },
+      gap: 6,
+    },
     kpi: {
       value: {
         typography: {
@@ -504,7 +729,17 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         },
         text: '#1d1d1b',
       },
-      delta: { positive: { text: '#056306' }, negative: { text: '#ce2e75' } },
+      delta: { positive: { text: '#056306' }, negative: { text: '#ce2e75' }, gap: 6 },
+      comparison: {
+        text: '#6b6b66',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 12,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.35,
+        },
+      },
     },
     page: {
       bg: '#f7f7f5',
@@ -557,6 +792,49 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         },
         text: '#6b6b66',
         error: '#b42318',
+      },
+    },
+    table: {
+      bg: '#ffffff',
+      text: '#1d1d1b',
+      header: {
+        text: '#6b6b66',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 11,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.3,
+        },
+      },
+      row: { border: '#e4e4e0', hover: { bg: '#f7f7f5', text: '#1d1d1b' } },
+      cell: {
+        padding: { x: 6, y: 6 },
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 13,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.4,
+        },
+      },
+      sort: { icon: '#6b6b66' },
+      focus: { ring: '#2f5bea' },
+    },
+    tooltip: {
+      bg: '#ffffff',
+      text: '#1d1d1b',
+      border: '#e4e4e0',
+      radius: 2,
+      padding: { x: 6, y: 4 },
+      'max-width': 280,
+      offset: 6,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 12,
+        fontWeight: 400,
+        letterSpacing: 0,
+        lineHeight: 1.35,
       },
     },
   },
@@ -637,29 +915,19 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
       card: { 'min-width': 280 },
       panel: { 'stacked-min-height': 360 },
     },
-    chart: {
-      label: {
-        typography: {
-          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
-          fontSize: 11,
-          fontWeight: 400,
-          letterSpacing: 0,
-          lineHeight: 1.3,
-        },
-        text: '#a3a39d',
-        'text-strong': '#ededea',
-      },
-      axis: { domain: '#3c3c37', 'title-weight': 500 },
-      grid: '#33332f',
-      baseline: '#a3a39d',
-      mark: { 'bar-radius': 2, 'line-width': 2, 'point-diameter': 6, 'point-opacity': 0.7 },
-      legend: { 'gradient-length': 160 },
-      padding: 4,
-      inset: { left: 56, right: 12, top: 8, 'top-legend': 36, bottom: 44 },
-      'ranked-bars': { 'label-width': 96, 'value-width': 64, 'label-gap': 8, 'value-gap': 6 },
-    },
     color: {
-      text: { muted: '#a3a39d', primary: '#ededea', 'on-accent': '#000000', danger: '#f97066' },
+      bg: {
+        'surface-raised': '#2d2d2a',
+        accent: '#4c6cff',
+        'accent-hover': '#7a85fe',
+        surface: '#242422',
+        canvas: '#171716',
+        pressed: '#3c3c37',
+      },
+      border: { subtle: '#3c3c37', control: '#787873' },
+      text: { primary: '#ededea', muted: '#a3a39d', 'on-accent': '#000000', danger: '#f97066' },
+      status: { info: '#4c6cff', success: '#26efc9', warning: '#fdb022', danger: '#f97066' },
+      focus: { ring: '#4c6cff' },
       data: {
         axis: '#3c3c37',
         gridline: '#33332f',
@@ -707,17 +975,71 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         neutral: '#73736e',
         highlight: '#4c6cff',
       },
-      bg: {
-        surface: '#242422',
-        accent: '#4c6cff',
-        'accent-hover': '#7a85fe',
-        canvas: '#171716',
-        pressed: '#3c3c37',
-        'surface-raised': '#2d2d2a',
+    },
+    badge: {
+      bg: '#2d2d2a',
+      border: '#3c3c37',
+      text: '#ededea',
+      neutral: { dot: '#a3a39d' },
+      info: { dot: '#4c6cff' },
+      success: { dot: '#26efc9' },
+      warning: { dot: '#fdb022' },
+      danger: { dot: '#f97066' },
+      radius: 999,
+      padding: { x: 6, y: 4 },
+      gap: 4,
+      'dot-size': 6,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 12,
+        fontWeight: 400,
+        letterSpacing: 0,
+        lineHeight: 1.35,
       },
-      border: { control: '#787873', subtle: '#3c3c37' },
-      focus: { ring: '#4c6cff' },
-      status: { danger: '#f97066', warning: '#fdb022', success: '#26efc9', info: '#4c6cff' },
+    },
+    button: {
+      primary: { bg: '#4c6cff', text: '#000000', hover: { bg: '#7a85fe', text: '#000000' } },
+      secondary: {
+        bg: '#242422',
+        text: '#ededea',
+        border: '#787873',
+        hover: { bg: '#171716', text: '#ededea' },
+      },
+      ghost: { bg: '#242422', text: '#ededea', hover: { bg: '#171716', text: '#ededea' } },
+      pressed: { bg: '#3c3c37', text: '#ededea' },
+      disabled: { bg: '#171716', text: '#a3a39d' },
+      focus: { ring: '#4c6cff', width: 2, offset: 2 },
+      radius: 999,
+      padding: { x: 12, y: 4 },
+      gap: 6,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 13,
+        fontWeight: 500,
+        letterSpacing: 0,
+        lineHeight: 1.4,
+      },
+    },
+    chart: {
+      label: {
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 11,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.3,
+        },
+        text: '#a3a39d',
+        'text-strong': '#ededea',
+      },
+      axis: { domain: '#3c3c37', 'title-weight': 500 },
+      grid: '#33332f',
+      baseline: '#a3a39d',
+      mark: { 'bar-radius': 2, 'line-width': 2, 'point-diameter': 6, 'point-opacity': 0.7 },
+      legend: { 'gradient-length': 160 },
+      padding: 4,
+      inset: { left: 56, right: 12, top: 8, 'top-legend': 36, bottom: 44 },
+      'ranked-bars': { 'label-width': 96, 'value-width': 64, 'label-gap': 8, 'value-gap': 6 },
     },
     chip: {
       bg: '#242422',
@@ -745,6 +1067,42 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
       disabled: { bg: '#242422', text: '#a3a39d', border: '#3c3c37' },
     },
     filter: { gap: 6, label: { text: '#a3a39d', gap: 4 } },
+    delta: {
+      neutral: { text: '#a3a39d' },
+      gap: 4,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 13,
+        fontWeight: 500,
+        letterSpacing: 0,
+        lineHeight: 1.4,
+      },
+    },
+    'empty-state': {
+      title: {
+        text: '#ededea',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 13,
+          fontWeight: 500,
+          letterSpacing: 0,
+          lineHeight: 1.4,
+        },
+      },
+      description: {
+        text: '#a3a39d',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 13,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.4,
+        },
+      },
+      error: { text: '#f97066' },
+      icon: { color: '#a3a39d' },
+      gap: 6,
+    },
     kpi: {
       value: {
         typography: {
@@ -756,7 +1114,17 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         },
         text: '#ededea',
       },
-      delta: { positive: { text: '#26efc9' }, negative: { text: '#e76e44' } },
+      delta: { positive: { text: '#26efc9' }, negative: { text: '#e76e44' }, gap: 6 },
+      comparison: {
+        text: '#a3a39d',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 12,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.35,
+        },
+      },
     },
     page: {
       bg: '#171716',
@@ -809,6 +1177,49 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         },
         text: '#a3a39d',
         error: '#f97066',
+      },
+    },
+    table: {
+      bg: '#242422',
+      text: '#ededea',
+      header: {
+        text: '#a3a39d',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 11,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.3,
+        },
+      },
+      row: { border: '#3c3c37', hover: { bg: '#171716', text: '#ededea' } },
+      cell: {
+        padding: { x: 6, y: 6 },
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 13,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.4,
+        },
+      },
+      sort: { icon: '#a3a39d' },
+      focus: { ring: '#4c6cff' },
+    },
+    tooltip: {
+      bg: '#2d2d2a',
+      text: '#ededea',
+      border: '#3c3c37',
+      radius: 2,
+      padding: { x: 6, y: 4 },
+      'max-width': 280,
+      offset: 6,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 12,
+        fontWeight: 400,
+        letterSpacing: 0,
+        lineHeight: 1.35,
       },
     },
   },
@@ -889,29 +1300,19 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
       card: { 'min-width': 280 },
       panel: { 'stacked-min-height': 360 },
     },
-    chart: {
-      label: {
-        typography: {
-          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
-          fontSize: 11,
-          fontWeight: 400,
-          letterSpacing: 0,
-          lineHeight: 1.3,
-        },
-        text: '#474742',
-        'text-strong': '#000000',
-      },
-      axis: { domain: '#1d1d1b', 'title-weight': 500 },
-      grid: '#b7b6b0',
-      baseline: '#1d1d1b',
-      mark: { 'bar-radius': 2, 'line-width': 2, 'point-diameter': 6, 'point-opacity': 0.7 },
-      legend: { 'gradient-length': 160 },
-      padding: 4,
-      inset: { left: 56, right: 12, top: 8, 'top-legend': 36, bottom: 44 },
-      'ranked-bars': { 'label-width': 96, 'value-width': 64, 'label-gap': 8, 'value-gap': 6 },
-    },
     color: {
-      text: { muted: '#474742', primary: '#000000', 'on-accent': '#ffffff', danger: '#ac1912' },
+      bg: {
+        'surface-raised': '#ffffff',
+        accent: '#1f3ea6',
+        'accent-hover': '#000000',
+        surface: '#ffffff',
+        canvas: '#ffffff',
+        pressed: '#b7b6b0',
+      },
+      border: { subtle: '#6b6b66', control: '#000000' },
+      text: { primary: '#000000', muted: '#474742', 'on-accent': '#ffffff', danger: '#ac1912' },
+      status: { info: '#1f3ea6', success: '#056306', warning: '#b54708', danger: '#ac1912' },
+      focus: { ring: '#000000' },
       data: {
         axis: '#1d1d1b',
         gridline: '#b7b6b0',
@@ -959,17 +1360,71 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         neutral: '#6b6b66',
         highlight: '#1f3ea6',
       },
-      bg: {
-        surface: '#ffffff',
-        accent: '#1f3ea6',
-        'accent-hover': '#000000',
-        canvas: '#ffffff',
-        pressed: '#b7b6b0',
-        'surface-raised': '#ffffff',
+    },
+    badge: {
+      bg: '#ffffff',
+      border: '#6b6b66',
+      text: '#000000',
+      neutral: { dot: '#474742' },
+      info: { dot: '#1f3ea6' },
+      success: { dot: '#056306' },
+      warning: { dot: '#b54708' },
+      danger: { dot: '#ac1912' },
+      radius: 999,
+      padding: { x: 6, y: 4 },
+      gap: 4,
+      'dot-size': 6,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 12,
+        fontWeight: 400,
+        letterSpacing: 0,
+        lineHeight: 1.35,
       },
-      border: { control: '#000000', subtle: '#6b6b66' },
-      focus: { ring: '#000000' },
-      status: { danger: '#ac1912', warning: '#b54708', success: '#056306', info: '#1f3ea6' },
+    },
+    button: {
+      primary: { bg: '#1f3ea6', text: '#ffffff', hover: { bg: '#000000', text: '#ffffff' } },
+      secondary: {
+        bg: '#ffffff',
+        text: '#000000',
+        border: '#000000',
+        hover: { bg: '#ffffff', text: '#000000' },
+      },
+      ghost: { bg: '#ffffff', text: '#000000', hover: { bg: '#ffffff', text: '#000000' } },
+      pressed: { bg: '#b7b6b0', text: '#000000' },
+      disabled: { bg: '#ffffff', text: '#474742' },
+      focus: { ring: '#000000', width: 2, offset: 2 },
+      radius: 999,
+      padding: { x: 12, y: 4 },
+      gap: 6,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 13,
+        fontWeight: 500,
+        letterSpacing: 0,
+        lineHeight: 1.4,
+      },
+    },
+    chart: {
+      label: {
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 11,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.3,
+        },
+        text: '#474742',
+        'text-strong': '#000000',
+      },
+      axis: { domain: '#1d1d1b', 'title-weight': 500 },
+      grid: '#b7b6b0',
+      baseline: '#1d1d1b',
+      mark: { 'bar-radius': 2, 'line-width': 2, 'point-diameter': 6, 'point-opacity': 0.7 },
+      legend: { 'gradient-length': 160 },
+      padding: 4,
+      inset: { left: 56, right: 12, top: 8, 'top-legend': 36, bottom: 44 },
+      'ranked-bars': { 'label-width': 96, 'value-width': 64, 'label-gap': 8, 'value-gap': 6 },
     },
     chip: {
       bg: '#ffffff',
@@ -997,6 +1452,42 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
       disabled: { bg: '#ffffff', text: '#474742', border: '#6b6b66' },
     },
     filter: { gap: 6, label: { text: '#474742', gap: 4 } },
+    delta: {
+      neutral: { text: '#474742' },
+      gap: 4,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 13,
+        fontWeight: 500,
+        letterSpacing: 0,
+        lineHeight: 1.4,
+      },
+    },
+    'empty-state': {
+      title: {
+        text: '#000000',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 13,
+          fontWeight: 500,
+          letterSpacing: 0,
+          lineHeight: 1.4,
+        },
+      },
+      description: {
+        text: '#474742',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 13,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.4,
+        },
+      },
+      error: { text: '#ac1912' },
+      icon: { color: '#474742' },
+      gap: 6,
+    },
     kpi: {
       value: {
         typography: {
@@ -1008,7 +1499,17 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         },
         text: '#000000',
       },
-      delta: { positive: { text: '#056306' }, negative: { text: '#a3175a' } },
+      delta: { positive: { text: '#056306' }, negative: { text: '#a3175a' }, gap: 6 },
+      comparison: {
+        text: '#474742',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 12,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.35,
+        },
+      },
     },
     page: {
       bg: '#ffffff',
@@ -1063,23 +1564,66 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         error: '#ac1912',
       },
     },
+    table: {
+      bg: '#ffffff',
+      text: '#000000',
+      header: {
+        text: '#474742',
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 11,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.3,
+        },
+      },
+      row: { border: '#6b6b66', hover: { bg: '#ffffff', text: '#000000' } },
+      cell: {
+        padding: { x: 6, y: 6 },
+        typography: {
+          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+          fontSize: 13,
+          fontWeight: 400,
+          letterSpacing: 0,
+          lineHeight: 1.4,
+        },
+      },
+      sort: { icon: '#474742' },
+      focus: { ring: '#000000' },
+    },
+    tooltip: {
+      bg: '#ffffff',
+      text: '#000000',
+      border: '#6b6b66',
+      radius: 2,
+      padding: { x: 6, y: 4 },
+      'max-width': 280,
+      offset: 6,
+      typography: {
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        fontSize: 12,
+        fontWeight: 400,
+        letterSpacing: 0,
+        lineHeight: 1.35,
+      },
+    },
   },
 };
 
 export const densities: Record<DensityName, ResolvedDensity> = {
   comfortable: {
     space: {
-      inset: { 'control-x': 12, 'control-y': 4, page: 16, panel: 16 },
       inline: { sm: 6, xs: 4 },
-      stack: { lg: 24, xl: 48, '2xs': 4, sm: 8, xs: 6, md: 16 },
+      stack: { '2xs': 4, xs: 6, lg: 24, xl: 48, sm: 8, md: 16 },
+      inset: { 'control-x': 12, 'control-y': 4, page: 16, panel: 16 },
       grid: { gap: 16 },
     },
   },
   compact: {
     space: {
-      inset: { 'control-x': 8, 'control-y': 2, page: 12, panel: 12 },
       inline: { sm: 4, xs: 2 },
-      stack: { lg: 16, xl: 32, '2xs': 2, sm: 6, xs: 4, md: 12 },
+      stack: { '2xs': 2, xs: 4, lg: 16, xl: 32, sm: 6, md: 12 },
+      inset: { 'control-x': 8, 'control-y': 2, page: 12, panel: 12 },
       grid: { gap: 12 },
     },
   },
