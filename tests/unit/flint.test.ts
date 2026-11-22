@@ -155,6 +155,36 @@ describe('buildFlintSpec trimWidth (fitting a heatmap that overflows its panel)'
   });
 });
 
+describe('buildFlintSpec text floor', () => {
+  const sp500 = listSpecFiles()
+    .map((f) => checkSpecFile(f).spec)
+    .find((d) => d?.id === 'sp500-today')!;
+  const intraday = sp500.panels.intraday as FlintPanel;
+  const ds = sp500.datasets[intraday.dataset]!;
+  const bars = loadFixture('sp500_intraday.json') as Row[];
+  const sizes = (node: unknown): number[] =>
+    Array.isArray(node)
+      ? node.flatMap(sizes)
+      : node && typeof node === 'object'
+        ? Object.entries(node).flatMap(([k, v]) =>
+            k === 'data' ? [] : /FontSize$/.test(k) && typeof v === 'number' ? [v] : sizes(v),
+          )
+        : [];
+
+  it('keeps every axis and legend font at or above the 11px chart-label floor', () => {
+    // Flint 1.0.1 shrinks the 78-candle chart's tick labels to 9px on its own.
+    const spec = buildFlintSpec(intraday, bars, ds.semantics, { width: 1374, height: 280 });
+    expect(Math.min(...sizes(spec))).toBeGreaterThanOrEqual(11);
+  });
+
+  it('lets Vega-Lite drop tick labels that collide at the larger size', () => {
+    const spec = buildFlintSpec(intraday, bars, ds.semantics, { width: 1374, height: 280 }) as {
+      encoding?: { x?: { axis?: { labelOverlap?: unknown } } };
+    };
+    expect(spec.encoding?.x?.axis?.labelOverlap).toBe(true);
+  });
+});
+
 describe('flint spec validation', () => {
   it('collects fields from every encoding shape', () => {
     expect(flintFieldRefs({ x: 'a', y: { field: 'b' }, color: [{ field: 'c' }, 'a'] })).toEqual([
