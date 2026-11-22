@@ -421,8 +421,8 @@ UI:
   neutral.
 - Do keep interactive boundaries at 3:1 or more (`outline-control`); `outline` is for decoration only.
 - Do show the focus ring on keyboard focus (`:focus-visible`), never on mouse click.
-- Don't hard-code a colour, size or font anywhere outside `src/theme/`; if a value is missing, add a
-  token (`npm run lint:no-raw-values` enforces this).
+- Don't hard-code a colour, size or font in a component or chart; use a token from the front matter,
+  and if the value you need is missing, add a token rather than a one-off value.
 - Don't introduce shadows, gradients or a second accent colour without an ADR.
 - Don't use more than three font weights in a view.
 
