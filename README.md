@@ -16,6 +16,8 @@ npm run test:e2e                   # build, render every dashboard, per-panel sc
 Screenshot baselines are per-OS (`*-chromium-linux.png` ships with the repo for Linux CI). On
 macOS, run `npm run test:e2e -- --update-snapshots` once to create local `*-darwin.png` baselines
 (gitignored: compare and update the committed ones in Docker, see the `visual-baselines` skill).
+The Linux baselines need Inter: in that container, run
+`apt-get update && apt-get install -y fonts-inter` before Playwright, as CI does.
 
 ## How it works
 

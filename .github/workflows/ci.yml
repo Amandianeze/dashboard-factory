@@ -1,0 +1,65 @@
+# The merge gate: `npm run verify` plus the browser tests against the committed Linux baselines.
+# Runs on every pull request, and from pages.yml before anything is published.
+name: CI
+
+on:
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Verify and browser tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    # The baselines are rendered in this image (visual-baselines skill). Keep the tag equal to the
+    # @playwright/test version in package-lock.json, and review the baselines when it changes.
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # design:diff reads DESIGN.md at the base commit
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      # design:diff passes silently when it can't read its base, so fail here if git can't.
+      - name: Resolve the design:diff base
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before || 'HEAD^' }}
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git cat-file -e "$BASE:DESIGN.md"
+          echo "DESIGN_DIFF_BASE=$BASE" >> "$GITHUB_ENV"
+      # The app uses Inter where installed and bundles no font (DESIGN.md). Without it the image
+      # falls back to a single-weight face, and screenshots can't catch a font-weight regression.
+      - name: Install Inter
+        run: |
+          apt-get update -qq
+          apt-get install -y -qq --no-install-recommends fonts-inter
+          dpkg-query -W fonts-inter
+          test "$(fc-match -f '%{family[0]}' 'Inter:weight=semibold')" = Inter
+      - run: npm ci
+      - run: npm run verify
+      # Also when verify fails, so one run reports both.
+      - if: ${{ !cancelled() }}
+        run: npm run test:e2e -- --reporter=list
+      - if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7

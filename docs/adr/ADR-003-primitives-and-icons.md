@@ -53,7 +53,7 @@ What the current sources say (checked 2026-11-21):
   skills, and rerun it before Phase 5 adds the packages.
 - Revisit if Base UI drops a component we need that Radix has, or shadcn reverses its default.
 
-## Amendment, Phase 5 (2026-11-22): proposed, awaiting the owner's confirmation
+## Amendment, Phase 5 (2026-11-22): accepted (Gate 5a, 2026-11-22)
 
 - **Tailwind is utilities only.** The consequence above said Phase 5 would add a generated `@theme`
   block. It didn't: `src/theme/tailwind.css` loads utilities with no theme and no preflight, and
