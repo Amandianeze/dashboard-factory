@@ -4,6 +4,7 @@
  * exactly what the CSS variables resolve to. Stand-in for the Storybook Foundations page (Phase 5).
  */
 import type { CSSProperties } from 'react';
+import { TitleBand } from '../components/ui/title-band';
 import { DENSITIES, THEMES, densities, themes, type ThemeName } from '../theme/generated/themes';
 
 const THEME_LABEL: Record<ThemeName, string> = {
@@ -127,13 +128,15 @@ export function FoundationsPage() {
   const t = themes.light.typography;
   return (
     <main className="dashboard" data-testid="foundations">
-      <header className="dashboard-header">
-        <h1>Foundations</h1>
-        <p>
-          Generated from <code>tokens/</code>. Values are placeholders until the rebrand. Contrast
-          results: <code>docs/tokens/contrast-matrix.md</code>.
-        </p>
-      </header>
+      <TitleBand
+        title="Foundations"
+        description={
+          <>
+            Generated from <code>tokens/</code>. Values are placeholders until the rebrand. Contrast
+            results: <code>docs/tokens/contrast-matrix.md</code>.
+          </>
+        }
+      />
 
       <div className="foundations-themes">
         {THEMES.map((theme) => (

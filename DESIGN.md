@@ -504,9 +504,10 @@ may restyle the **semantic** tier only: canvas, surface, text, outline, primary 
 through the same names. It may not change data-viz palettes, sign colours or the type scale without
 an ADR, so a chart means the same thing in every host.
 
-- Theme selection: `?theme=light|dark|hc` in the URL, else the system preference
-  (`prefers-contrast: more` → hc, `prefers-color-scheme: dark` → dark). A visible theme switch waits
-  for Storybook's toolbar (Gate 1 decision).
+- Theme selection: `?theme=light|dark|hc` in the URL, else the **Theme** picker in the title band
+  (System, Light, Dark, High contrast; saved in the browser), else the system preference
+  (`prefers-contrast: more` → hc, `prefers-color-scheme: dark` → dark). Picking a theme drops
+  `?theme=` from the URL. An embedding host leaves the picker out and themes the page itself.
 - Density: `?density=compact`.
 - Host theme adapters (`useHostTheme()`) arrive with the `theme` pack (Phase 7) and map the host's
   payload onto the semantic tier.

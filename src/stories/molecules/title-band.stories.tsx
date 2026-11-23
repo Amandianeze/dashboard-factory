@@ -1,5 +1,6 @@
 import { expect } from 'storybook/test';
 import preview from '../../../.storybook/preview';
+import { Select } from '../../components/ui/select';
 import { TitleBand } from '../../components/ui/title-band';
 
 const meta = preview.meta({
@@ -22,5 +23,24 @@ export const LongTitle = meta.story({
   args: {
     title:
       'Revenue, orders and active products by region, product line and week for the North American and European sales teams',
+  },
+});
+/** Page actions sit right of the text and wrap below it when narrow (try the mobile viewport). */
+export const WithActions = meta.story({
+  args: {
+    title:
+      'Revenue, orders and active products by region, product line and week for the North American and European sales teams',
+    actions: (
+      <Select
+        label="Theme"
+        options={['Light', 'Dark', 'High contrast']}
+        value={null}
+        allLabel="System"
+        onChange={() => {}}
+      />
+    ),
+  },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('combobox', { name: 'Theme' })).toBeVisible();
   },
 });

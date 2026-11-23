@@ -3,11 +3,14 @@ import type { TitleBandProps } from '../../../docs/lld/title-band.props';
 
 export type { TitleBandProps };
 
-export function TitleBand({ title, description }: TitleBandProps) {
+export function TitleBand({ title, description, actions }: TitleBandProps) {
   return (
     <header className="dashboard-header">
-      <h1>{title}</h1>
-      {description && <p>{description}</p>}
+      <div className="dashboard-header-text">
+        <h1>{title}</h1>
+        {description && <p>{description}</p>}
+      </div>
+      {actions && <div className="dashboard-header-actions">{actions}</div>}
     </header>
   );
 }

@@ -371,6 +371,9 @@ export type ResolvedTheme = {
       readonly color: string;
       readonly gap: number;
     };
+    readonly actions: {
+      readonly gap: number;
+    };
   };
   readonly panel: {
     readonly bg: string;
@@ -781,6 +784,7 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         color: '#6b6b66',
         gap: 4,
       },
+      actions: { gap: 8 },
     },
     panel: {
       bg: '#ffffff',
@@ -1173,6 +1177,7 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         color: '#a3a39d',
         gap: 4,
       },
+      actions: { gap: 8 },
     },
     panel: {
       bg: '#242422',
@@ -1565,6 +1570,7 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         color: '#474742',
         gap: 4,
       },
+      actions: { gap: 8 },
     },
     panel: {
       bg: '#ffffff',

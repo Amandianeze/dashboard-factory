@@ -823,8 +823,9 @@
   --space-stack-xl: 48px;
   --page-padding-bottom: 48px;
   --page-description-gap: 4px;
-  --panel-padding: 16px;
   --space-stack-sm: 8px;
+  --page-actions-gap: 8px;
+  --panel-padding: 16px;
   --panel-title-gap: 8px;
   --table-cell-padding-x: 6px;
   --table-cell-padding-y: 6px;
@@ -863,8 +864,9 @@
   --space-stack-xl: 32px;
   --page-padding-bottom: 32px;
   --page-description-gap: 2px;
-  --panel-padding: 12px;
   --space-stack-sm: 6px;
+  --page-actions-gap: 6px;
+  --panel-padding: 12px;
   --panel-title-gap: 6px;
   --table-cell-padding-x: 4px;
   --table-cell-padding-y: 4px;

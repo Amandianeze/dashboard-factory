@@ -44,3 +44,24 @@ test('foundations shows every theme', async ({ page }) => {
     animations: 'disabled',
   });
 });
+
+test('the theme picker switches, remembers, and goes back to the system', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/?theme=hc#/d/revenue-overview');
+  const picker = page.getByRole('combobox', { name: 'Theme' });
+  await expect(picker).toHaveValue('High contrast');
+
+  await picker.selectOption('Dark');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  expect(new URL(page.url()).searchParams.has('theme')).toBe(false);
+  await expect(page.getByTestId('panel-orders_vs_revenue').locator('svg').first()).toBeVisible();
+
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(picker).toHaveValue('Dark');
+
+  await picker.selectOption('System');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+});

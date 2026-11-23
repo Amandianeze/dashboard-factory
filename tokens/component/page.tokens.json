@@ -39,6 +39,13 @@
         "$type": "dimension",
         "$value": "{space.stack.2xs}"
       }
+    },
+    "actions": {
+      "gap": {
+        "$type": "dimension",
+        "$value": "{space.stack.sm}",
+        "$description": "Between the title block and page actions (theme picker), across and when wrapped."
+      }
     }
   }
 }
