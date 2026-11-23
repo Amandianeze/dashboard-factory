@@ -124,7 +124,10 @@ panels:
       valueFormat: '$.3~s'
 
   orders_vs_revenue:
-    title: Orders vs revenue per product-day
+    title: Orders vs revenue per product, region and day
+    description: >-
+      Coloured by product: each product sells in its own price band, so its points form one line.
+      Regions overlap completely here; use the region filter to compare them.
     dataset: sales
     kind: chart-panel
     renderer: plotly
@@ -132,8 +135,16 @@ panels:
       type: scatter
       x: orders
       y: revenue
-      groupBy: region
+      groupBy: product
       mode: markers
+    layout:
+      xaxis:
+        title:
+          text: Orders
+      yaxis:
+        title:
+          text: Revenue
+        tickformat: '$,.0f'
 
   heatmap:
     title: Revenue by region and product

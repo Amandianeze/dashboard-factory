@@ -66,4 +66,38 @@ describe('buildPlotlyFigure', () => {
     expect((data[0] as { y: number[] }).y).toEqual([10, 30]);
     expect(layout.showlegend).toBe(true);
   });
+
+  it('labels up to 4 scatter series directly at their rightmost point instead of a legend', () => {
+    const scatter: PlotlyPanel = {
+      ...panel,
+      trace: { type: 'scatter', x: 'orders', y: 'revenue', groupBy: 'region', mode: 'markers' },
+    };
+    const points = [
+      { region: 'North', orders: 1, revenue: 5 },
+      { region: 'North', orders: 3, revenue: 7 },
+      { region: 'North', orders: 3, revenue: 9 },
+      { region: 'South', orders: 2, revenue: 4 },
+    ];
+    const { layout } = buildPlotlyFigure(scatter, points);
+    expect(layout.showlegend).toBe(false);
+    expect(layout.annotations?.map((a) => [a.x, a.y, a.text?.endsWith(' North')])).toEqual([
+      [3, 9, true],
+      [2, 4, false],
+    ]);
+    const many = ['A', 'B', 'C', 'D', 'E'].map((region) => ({ region, orders: 1, revenue: 1 }));
+    expect(buildPlotlyFigure(scatter, many).layout).toMatchObject({ showlegend: true });
+    expect(buildPlotlyFigure(scatter, many).layout.annotations).toBeUndefined();
+  });
+
+  it('merges axis overrides into the themed axis instead of replacing it', () => {
+    const themed = buildPlotlyFigure(panel, rows).layout.yaxis!;
+    const { layout } = buildPlotlyFigure(
+      { ...panel, layout: { yaxis: { title: { text: 'Revenue' }, tickformat: '$,.0f' } } },
+      rows,
+    );
+    expect(layout.yaxis?.tickformat).toBe('$,.0f');
+    expect(layout.yaxis?.title).toEqual({ ...themed.title, text: 'Revenue' });
+    expect(layout.yaxis?.gridcolor).toBe(themed.gridcolor);
+    expect(layout.xaxis?.title?.text).toBe('product');
+  });
 });

@@ -1,9 +1,38 @@
-import type { Data, Datum, Layout } from 'plotly.js';
+import type { Annotations, Data, Datum, Layout } from 'plotly.js';
 import { exactFormat, type ChartData } from '../data/chartData';
 import { groupAggregate, type Row } from '../data/transforms';
 import type { PlotlyPanel } from '../spec/types';
 import { plotlyTheme } from '../theme/generated/engines';
 import type { ThemeName } from '../theme/generated/themes';
+
+/** DESIGN.md: prefer direct labels to a legend for this many series or fewer. */
+export const MAX_DIRECT_LABELS = 4;
+
+/**
+ * A label at the far end of each series of a grouped scatter: its rightmost point (highest when
+ * tied), in the label type with a dot in the series colour. Plotly widens the x range to fit the
+ * labels. Computed from the plotted points, so they follow filters.
+ */
+function directLabels(data: Data[], colors: string[], font: Partial<Annotations['font']>) {
+  return data.map((trace, i): Partial<Annotations> => {
+    const { name, x, y } = trace as { name: string; x: number[]; y: number[] };
+    let end = 0;
+    x.forEach((v, j) => {
+      if (v > x[end]! || (v === x[end] && y[j]! > y[end]!)) end = j;
+    });
+    return {
+      x: x[end],
+      y: y[end],
+      xref: 'x',
+      yref: 'y',
+      xanchor: 'left',
+      xshift: 6,
+      showarrow: false,
+      text: `<span style="color:${colors[i]}">●</span> ${name}`,
+      font,
+    };
+  });
+}
 
 /** Pure: turn a Plotly panel spec + rows into a themed figure. Unit-testable without a DOM. */
 export function buildPlotlyFigure(
@@ -38,13 +67,35 @@ export function buildPlotlyFigure(
     });
 
   const { layout: base } = t;
+  const labelled =
+    type === 'scatter' && groups.size > 1 && groups.size <= MAX_DIRECT_LABELS && !!groupBy;
+  const labelFont = base.legend?.font ?? {};
+  const names = data.map((d) => (d as { name: string }).name); // sorted, as the colours are
+  const over = (panel.layout ?? {}) as Partial<Layout>;
+  // A spec's axis overrides (a title, a tickformat) merge into the themed axis instead of
+  // replacing it, so they keep the token fonts, colours and gridlines. Titles default to the field.
+  const axis = (key: 'xaxis' | 'yaxis', field: string) => ({
+    ...base[key],
+    ...over[key],
+    title: { ...base[key]?.title, text: field, ...over[key]?.title },
+  });
   const layout: Partial<Layout> = {
     ...base,
-    margin: { ...base.margin, t: groups.size > 1 ? t.marginTopWithLegend : base.margin?.t },
-    showlegend: groups.size > 1,
-    xaxis: { ...base.xaxis, title: { ...base.xaxis?.title, text: x } },
-    yaxis: { ...base.yaxis, title: { ...base.yaxis?.title, text: y } },
-    ...(panel.layout as Partial<Layout>),
+    margin: {
+      ...base.margin,
+      t: groups.size > 1 && !labelled ? t.marginTopWithLegend : base.margin?.t,
+    },
+    showlegend: groups.size > 1 && !labelled,
+    ...(labelled && {
+      annotations: directLabels(
+        data,
+        names.map((_, i) => t.colorway[i % t.colorway.length]!),
+        labelFont,
+      ),
+    }),
+    ...over,
+    xaxis: axis('xaxis', x),
+    yaxis: axis('yaxis', y),
   };
   return { data, layout };
 }
