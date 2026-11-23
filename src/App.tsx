@@ -5,6 +5,7 @@ import { TitleBand } from './components/ui/title-band';
 import { DashboardView } from './dashboard/DashboardView';
 import { dashboards } from './dashboard/registry';
 import { FoundationsPage } from './foundations/FoundationsPage';
+import { ThemePicker } from './theme/ThemePicker';
 
 const currentId = () => /^#\/d\/([^/]+)/.exec(window.location.hash)?.[1];
 const currentPage = () => (window.location.hash === '#/foundations' ? 'foundations' : undefined);
@@ -26,12 +27,14 @@ export function App() {
     : undefined;
 
   if (page === 'foundations') return <FoundationsPage />;
-  if (entry?.result.ok) return <DashboardView key={id} spec={entry.result.spec} />;
+  if (entry?.result.ok)
+    return <DashboardView key={id} spec={entry.result.spec} actions={<ThemePicker />} />;
 
   return (
     <main className="dashboard">
       <TitleBand
         title="Dashboards"
+        actions={<ThemePicker />}
         description={
           <>
             Each card is a spec in /dashboards. Invalid specs show their validation errors. Design

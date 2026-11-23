@@ -19,6 +19,7 @@ tokens:
     page.description.typography,
     page.description.color,
     page.description.gap,
+    page.actions.gap,
   ]
 newTokens: []
 props: ./title-band.props.ts
@@ -42,14 +43,14 @@ at the top. **Don't use it** for panel titles (panel-frame) or section headings.
 ## Anatomy
 
 ```
-① h1 title
+① h1 title                         ③ actions (optional, e.g. Theme ▾)
 ② description (muted)
 ```
 
 ## Props and variants
 
-`TitleBandProps { title, description? }`. Today inlined in `DashboardView` and the index page
-(`.dashboard-header`).
+`TitleBandProps { title, description?, actions? }`. Used by `DashboardView` and the index page
+(`.dashboard-header`). `actions` holds page-level controls (the app's theme picker).
 
 ## States
 
@@ -61,6 +62,7 @@ Default only. **Overflow:** long titles wrap; no truncation.
 | ----------- | ----------------- | ------------------------------------------- |
 | Title       | font, colour      | `page.title.typography`, `page.title.color` |
 | Description | font, colour, gap | `page.description.*`                        |
+| Actions     | gap               | `page.actions.gap`                          |
 
 ## Data binding and formatting
 
@@ -68,7 +70,8 @@ Static text from the spec (`title`, `description`).
 
 ## Responsive and density
 
-Wraps; no change by density.
+Wraps; no change by density. The text takes the row (at least `layout.card-min-width`); actions
+sit at the right and wrap below the text when the page is narrower.
 
 ## Accessibility
 
@@ -84,7 +87,8 @@ None.
 
 ## Test plan
 
-- **a11y:** one h1. **visual:** page baselines. **break-ui:** 120-character title, empty description.
+- **a11y:** one h1. **visual:** page baselines. **break-ui:** 120-character title, empty description,
+  long title with actions.
 
 ## Open questions
 

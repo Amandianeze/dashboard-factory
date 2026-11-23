@@ -12,7 +12,7 @@ import { FilterBar } from './FilterBar';
 
 export type { DashboardTemplateProps };
 
-export function DashboardView({ spec }: DashboardTemplateProps) {
+export function DashboardView({ spec, actions }: DashboardTemplateProps) {
   const datasets = useDatasets(spec.datasets);
   const [filterState, setFilterState] = useState<FilterState>({});
 
@@ -28,7 +28,7 @@ export function DashboardView({ spec }: DashboardTemplateProps) {
 
   return (
     <main className="dashboard" data-testid={`dashboard-${spec.id}`}>
-      <TitleBand title={spec.title} description={spec.description} />
+      <TitleBand title={spec.title} description={spec.description} actions={actions} />
 
       {datasets.status === 'loading' && <p className="status">Loading data…</p>}
       {datasets.status === 'error' && (

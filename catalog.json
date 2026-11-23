@@ -1052,7 +1052,8 @@
         "page.title.color",
         "page.description.typography",
         "page.description.color",
-        "page.description.gap"
+        "page.description.gap",
+        "page.actions.gap"
       ],
       "newTokens": [],
       "props": "./title-band.props.ts",

@@ -6,4 +6,6 @@ export interface TitleBandProps {
   title: string;
   /** Who the page is for and which decisions it supports. Plain text or inline links. */
   description?: ReactNode;
+  /** Page-level controls (the theme picker), beside the title; wraps below it when narrow. */
+  actions?: ReactNode;
 }

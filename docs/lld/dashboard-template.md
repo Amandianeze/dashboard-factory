@@ -62,8 +62,9 @@ main.dashboard
 
 ## Props and variants
 
-`DashboardTemplateProps { spec }`. Rows come from `spec.layout.rows` (height in px, cells with
-`span`). No variants.
+`DashboardTemplateProps { spec, actions? }`. Rows come from `spec.layout.rows` (height in px,
+cells with `span`). `actions` are page-level controls from the app shell (the theme picker), passed
+to the title band; an embedding host leaves them out. No variants.
 
 ## States
 

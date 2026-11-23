@@ -3672,6 +3672,17 @@
           }
         },
         {
+          "name": "page/actions/gap",
+          "type": "FLOAT",
+          "description": "Between the title block and page actions (theme picker), across and when wrapped.",
+          "valuesByMode": {
+            "Value": {
+              "type": "VARIABLE_ALIAS",
+              "name": "space/stack/sm"
+            }
+          }
+        },
+        {
           "name": "panel/bg",
           "type": "COLOR",
           "valuesByMode": {
