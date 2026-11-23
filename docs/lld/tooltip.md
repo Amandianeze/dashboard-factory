@@ -34,7 +34,7 @@ a11y:
   }
 motion:
   {
-    enter: 'fade 120ms motion.easing.out after tooltip.delay',
+    enter: 'fade 120ms motion.easing.out after tooltip.delay; in a TooltipGroup, neighbours open at once without the fade',
     reducedMotion: 'appear without fade',
   }
 perfBudget: { renderMs: 1, bundleKb: 4 }
@@ -68,7 +68,8 @@ interactive content (a popover), or for chart data tips (the engines handle thos
 ## Props and variants
 
 `TooltipProps { content, children, side? }`. Built on Base UI `Tooltip` (Provider, Trigger with
-`render`, Positioner, Popup).
+`render`, Positioner, Popup). `TooltipGroup` wraps the app once (Base UI `Tooltip.Provider` with the
+same delay) so adjacent tooltips share it; a tooltip works without one.
 
 ## States
 
@@ -96,7 +97,9 @@ APG tooltip pattern: `aria-describedby`, shows on focus, Escape closes, hoverabl
 ## Motion
 
 Fade in after the delay with `motion.duration.fast` and `motion.easing.out`; no motion with
-`prefers-reduced-motion`. Reviewed in Phase 6 (`review-animations`).
+`prefers-reduced-motion`. Inside a `TooltipGroup`, once one tooltip has opened, moving to a
+neighbour within 400 ms opens it at once and without the fade (`data-instant`): the first tooltip
+earns the delay, the rest shouldn't re-ask. Phase 6 motion pass.
 
 ## Dependencies and bundle
 

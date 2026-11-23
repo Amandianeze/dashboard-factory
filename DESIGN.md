@@ -463,14 +463,20 @@ charts look like one system because every engine config is generated from the sa
 
 ## Motion
 
-There's little motion today, and that's deliberate: dashboards update data, and data shouldn't
-dance. Tokens exist for the motion that will come (`tokens/motion.tokens.json`): durations
-`instant` / `fast` / `base` / `slow`, and easings `out` (enter), `in-out` (moves) and `spring`
-(rare). They're provisional until the Phase 6 motion pass.
+There's little motion, and that's deliberate: dashboards update data, and data shouldn't dance.
+The tokens (`tokens/motion.tokens.json`) are durations `instant` / `fast` / `base` / `slow` and
+easings `out` (enter), `in-out` (moves) and `spring` (rare). The Phase 6 motion pass confirmed them
+and the rules below.
 
 - Enter animations ease out; nothing animates on keyboard-driven actions.
 - Under `prefers-reduced-motion` every duration is 0ms (generated CSS).
-- Charts don't animate on filter changes until the motion pass decides they should.
+- Charts don't animate on filter changes. Filters are the most frequent action, and a tween
+  between two datasets suggests values in between that never existed; the new chart replaces the
+  old one at once.
+- Buttons and filter chips change state instantly (no press scale): Space and Enter press them
+  too, and keyboard actions don't animate.
+- Tooltips fade in on hover (`fast`, `out`); keyboard focus and neighbours in the same group open
+  them at once, without the fade.
 
 ## Content & Formatting
 

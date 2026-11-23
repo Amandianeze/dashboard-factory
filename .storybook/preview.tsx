@@ -8,6 +8,7 @@ import { definePreview } from '@storybook/react-vite';
 import '../src/theme/generated/tokens.css';
 import '../src/theme/tailwind.css';
 import '../src/styles.css';
+import { TooltipGroup } from '../src/components/ui/tooltip';
 import type { DensityName, ThemeName } from '../src/theme/generated/themes';
 import { ThemeProvider } from '../src/theme/ThemeProvider';
 
@@ -61,9 +62,11 @@ export default definePreview({
       root.dataset.motion = String(globals.motion);
       return (
         <ThemeProvider theme={globals.theme as ThemeName} density={globals.density as DensityName}>
-          <div className="sb-canvas">
-            <Story />
-          </div>
+          <TooltipGroup>
+            <div className="sb-canvas">
+              <Story />
+            </div>
+          </TooltipGroup>
         </ThemeProvider>
       );
     },
