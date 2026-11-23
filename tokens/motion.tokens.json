@@ -2,7 +2,7 @@
   "motion": {
     "duration": {
       "$type": "duration",
-      "$description": "Reduced motion maps every duration to 0 (generated CSS). Values are provisional until the Phase 6 motion pass.",
+      "$description": "Reduced motion maps every duration to 0 (generated CSS). Confirmed in the Phase 6 motion pass.",
       "instant": {
         "$value": {
           "value": 0,

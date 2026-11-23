@@ -567,7 +567,7 @@
         "minContrast": 4.5
       },
       "motion": {
-        "enter": "fade 120ms motion.easing.out after tooltip.delay",
+        "enter": "fade 120ms motion.easing.out after tooltip.delay; in a TooltipGroup, neighbours open at once without the fade",
         "reducedMotion": "appear without fade"
       },
       "perfBudget": { "renderMs": 1, "bundleKb": 4 },

@@ -41,3 +41,30 @@ export const LongContent = meta.story({
       'Revenue is recognised on shipment, net of refunds and discounts, converted to US dollars at the daily reference rate of the order date.',
   },
 });
+
+/** In a TooltipGroup, once one tooltip has opened its neighbour opens at once, without the fade. */
+export const AdjacentOpensInstantly = meta.story({
+  render: () => (
+    <div className="flex gap-(--space-inline-sm)">
+      <Tooltip content="Revenue after refunds.">
+        <Button variant="ghost" size="sm" aria-label="About revenue">
+          ⓘ
+        </Button>
+      </Tooltip>
+      <Tooltip content="Orders shipped.">
+        <Button variant="ghost" size="sm" aria-label="About orders">
+          ⓘ
+        </Button>
+      </Tooltip>
+    </div>
+  ),
+  play: async ({ canvas, canvasElement }) => {
+    const page = within(canvasElement.ownerDocument.body);
+    await userEvent.hover(canvas.getByRole('button', { name: 'About revenue' }));
+    await waitFor(() => expect(page.getByText('Revenue after refunds.')).toBeVisible());
+    await userEvent.unhover(canvas.getByRole('button', { name: 'About revenue' }));
+    await userEvent.hover(canvas.getByRole('button', { name: 'About orders' }));
+    await waitFor(() => expect(page.getByText('Orders shipped.')).toBeVisible());
+    await expect(page.getByText('Orders shipped.')).toHaveAttribute('data-instant');
+  },
+});
