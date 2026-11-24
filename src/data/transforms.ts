@@ -16,6 +16,26 @@ export function applyFilters(
   return rows.filter((r) => active.every((f) => state[f.id]!.includes(String(r[f.field]))));
 }
 
+/**
+ * What a screen reader hears after a filter change (a polite status, not on first load): the
+ * selection in force, and how many panels it leaves empty.
+ */
+export function filterAnnouncement(
+  filters: FilterSpec[],
+  state: FilterState,
+  emptyPanels: number,
+): string {
+  const active = filters
+    .filter((f) => state[f.id]?.length)
+    .map((f) => `${f.label}: ${state[f.id]!.join(', ')}`);
+  if (!active.length) return 'Filters cleared. Showing all data.';
+  const empty =
+    emptyPanels === 0
+      ? ''
+      : ` ${emptyPanels} ${emptyPanels === 1 ? 'panel has' : 'panels have'} no matching data.`;
+  return `Filtered by ${active.join('; ')}.${empty}`;
+}
+
 export function distinctValues(rows: Row[], field: string): string[] {
   return [...new Set(rows.map((r) => String(r[field])))].sort((a, b) =>
     a.localeCompare(b, undefined, { numeric: true }),

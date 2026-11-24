@@ -3,7 +3,13 @@ import { compile, type TopLevelSpec } from 'vega-lite';
 import { describe, expect, it } from 'vitest';
 import { checkSpecFile, listSpecFiles, loadFixture } from '../../scripts/lib/specs';
 import { d3Charts, isD3ChartName } from '../../src/components/d3/charts';
-import { exactFormat, sourceData, summarize, type ChartData } from '../../src/data/chartData';
+import {
+  exactFormat,
+  fieldLabel,
+  sourceData,
+  summarize,
+  type ChartData,
+} from '../../src/data/chartData';
 import { aggregate, type Row } from '../../src/data/transforms';
 import { buildFlintSpec } from '../../src/renderers/flintSpec';
 import { buildPlotlyFigure, plotlyChartData } from '../../src/renderers/plotlyFigure';
@@ -76,7 +82,7 @@ describe('every dashboard chart', () => {
   it('trend: weekly sums per region, labelled like the axis', async () => {
     const data = (await drawnBy('trend'))!;
     expect(data.rows).toHaveLength(68);
-    expect(data.columns.map((c) => c.label)).toEqual(['Week', 'region', 'Revenue']);
+    expect(data.columns.map((c) => c.label)).toEqual(['Week', 'Region', 'Revenue']);
     expect(data.rows[0]!.utcyearweek_date).toBe('2026 W14');
     expect(data.columns[2]!.format).toBe('$,.0f');
     expect(total(data, 'sum_revenue')).toBeCloseTo(revenue);
@@ -85,7 +91,7 @@ describe('every dashboard chart', () => {
   it('heatmap: one row per cell, in dollars', async () => {
     const data = (await drawnBy('heatmap'))!;
     expect(data.rows).toHaveLength(16);
-    expect(data.columns.map((c) => c.label)).toEqual(['product', 'region', 'Revenue']);
+    expect(data.columns.map((c) => c.label)).toEqual(['Product', 'Region', 'Revenue']);
     expect(data.columns[2]!.format).toBe('$,.2~f');
     expect(total(data, 'revenue_sum')).toBeCloseTo(revenue);
   });
@@ -134,7 +140,7 @@ describe('vegaChartData', () => {
       mark: 'bar',
       encoding: { x: { field: 'v', bin: true }, y: { aggregate: 'count' } },
     }))!;
-    expect(data.columns.map((c) => c.label)).toEqual(['v', 'Count']);
+    expect(data.columns.map((c) => c.label)).toEqual(['V', 'Count']);
     expect(Object.values(data.rows[0]!)[0]).toMatch(/^\d[\d.]* to \d[\d.]*$/);
   });
 
@@ -222,8 +228,17 @@ describe('summarize', () => {
     );
   });
 
+  it('turns field names into headers', () => {
+    expect(['product', 'close_price', 'sum of revenue', 'Week'].map(fieldLabel)).toEqual([
+      'Product',
+      'Close price',
+      'Sum of revenue',
+      'Week',
+    ]);
+  });
+
   it('says when it is describing source rows', () => {
-    expect(summarize(sourceData([{ v: 4 }], { v: 'quantitative' }))).toBe('1 source row. v is 4.');
+    expect(summarize(sourceData([{ v: 4 }], { v: 'quantitative' }))).toBe('1 source row. V is 4.');
   });
 
   it('replaces abbreviating formats with exact ones', () => {

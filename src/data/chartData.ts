@@ -26,6 +26,12 @@ export type OnChartData = (data: ChartData | null) => void;
 
 export const DEFAULT_FORMAT = ',.6~f';
 
+/** A field name as a column header and in the read-out summary: `close_price` → "Close price". */
+export function fieldLabel(field: string): string {
+  const words = field.replace(/[_-]+/g, ' ').trim();
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 /** Axis formats abbreviate ($1.5M); a table is for looking up the exact value. */
 export function exactFormat(spec: string | undefined): string {
   if (!spec) return DEFAULT_FORMAT;
@@ -37,7 +43,7 @@ export function exactFormat(spec: string | undefined): string {
 export function sourceData(rows: Row[], fields: Record<string, string>): ChartData {
   const columns = Object.entries(fields).map(([field, type]) => {
     const measure = type === 'quantitative';
-    return { field, label: field, measure, format: measure ? DEFAULT_FORMAT : undefined };
+    return { field, label: fieldLabel(field), measure, format: measure ? DEFAULT_FORMAT : undefined };
   });
   return { columns, rows, from: 'source' };
 }

@@ -23,14 +23,27 @@ export const KeyboardFocus = meta.story({
   play: async ({ canvas, canvasElement }) => {
     const page = within(canvasElement.ownerDocument.body);
     await userEvent.tab();
-    await expect(canvas.getByRole('button', { name: 'About revenue' })).toHaveFocus();
+    const trigger = canvas.getByRole('button', { name: 'About revenue' });
+    await expect(trigger).toHaveFocus();
     await waitFor(() =>
       expect(page.getByText('Revenue after refunds, in US dollars.')).toBeVisible(),
     );
     await userEvent.keyboard('{Escape}');
     await waitFor(() =>
-      expect(page.queryByText('Revenue after refunds, in US dollars.')).not.toBeInTheDocument(),
+      expect(page.getByText('Revenue after refunds, in US dollars.')).not.toBeVisible(),
     );
+  },
+});
+
+/** Screen readers get the content as the trigger's description, whether or not it is showing. */
+export const DescribesTrigger = meta.story({
+  play: async ({ canvas, canvasElement }) => {
+    const page = within(canvasElement.ownerDocument.body);
+    const trigger = canvas.getByRole('button', { name: 'About revenue' });
+    await expect(trigger).toHaveAccessibleDescription('Revenue after refunds, in US dollars.');
+    await userEvent.hover(trigger);
+    await waitFor(() => expect(page.getByRole('tooltip')).toBeVisible());
+    await expect(trigger).toHaveAccessibleDescription('Revenue after refunds, in US dollars.');
   },
 });
 

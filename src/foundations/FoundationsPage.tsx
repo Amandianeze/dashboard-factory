@@ -15,7 +15,7 @@ const THEME_LABEL: Record<ThemeName, string> = {
 
 const SEMANTIC = [
   ['bg', ['canvas', 'surface', 'surface-raised', 'accent', 'accent-hover']],
-  ['text', ['primary', 'muted', 'on-accent', 'danger']],
+  ['text', ['primary', 'muted', 'link', 'on-accent', 'danger']],
   ['border', ['subtle', 'control']],
   ['status', ['danger', 'warning', 'success', 'info']],
 ] as const;

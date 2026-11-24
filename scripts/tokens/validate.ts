@@ -118,7 +118,12 @@ export function validate(
     };
     const backgrounds = ['color.bg.canvas', 'color.bg.surface', 'color.bg.surface-raised'];
     for (const bg of backgrounds) {
-      for (const fg of ['color.text.primary', 'color.text.muted', 'color.text.danger'])
+      for (const fg of [
+        'color.text.primary',
+        'color.text.muted',
+        'color.text.link',
+        'color.text.danger',
+      ])
         check(fg, bg, textMin);
       check('color.border.control', bg, RULES.nonText);
       check('color.focus.ring', bg, RULES.nonText);

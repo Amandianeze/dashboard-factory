@@ -234,6 +234,19 @@
           }
         },
         {
+          "name": "color/brand/200",
+          "type": "COLOR",
+          "description": "Link text on dark surfaces (5.85:1 on the raised surface).",
+          "valuesByMode": {
+            "Value": {
+              "r": 0.6,
+              "g": 0.6314,
+              "b": 1,
+              "a": 1
+            }
+          }
+        },
+        {
           "name": "color/brand/300",
           "type": "COLOR",
           "valuesByMode": {
@@ -1776,6 +1789,24 @@
             "hc": {
               "type": "VARIABLE_ALIAS",
               "name": "color/rose/800"
+            }
+          }
+        },
+        {
+          "name": "color/text/link",
+          "type": "COLOR",
+          "valuesByMode": {
+            "light": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/500"
+            },
+            "dark": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/200"
+            },
+            "hc": {
+              "type": "VARIABLE_ALIAS",
+              "name": "color/brand/700"
             }
           }
         },

@@ -140,6 +140,14 @@
     },
     "brand": {
       "$type": "color",
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.6, 0.6314, 1],
+          "hex": "#99a1ff"
+        },
+        "$description": "Link text on dark surfaces (5.85:1 on the raised surface)."
+      },
       "300": {
         "$value": {
           "colorSpace": "srgb",

@@ -1,5 +1,5 @@
 import { useMemo, useState, type CSSProperties } from 'react';
-import { applyFilters, type FilterState } from '../data/transforms';
+import { applyFilters, filterAnnouncement, type FilterState } from '../data/transforms';
 import { useDatasets } from '../data/useDatasets';
 import { PanelRenderer } from '../renderers/PanelRenderer';
 import type { DashboardTemplateProps } from '../../docs/lld/dashboard-template.props';
@@ -15,6 +15,12 @@ export type { DashboardTemplateProps };
 export function DashboardView({ spec, actions }: DashboardTemplateProps) {
   const datasets = useDatasets(spec.datasets);
   const [filterState, setFilterState] = useState<FilterState>({});
+  // Silent until the first change: on load the page itself is the news.
+  const [filtersChanged, setFiltersChanged] = useState(false);
+  const changeFilters = (next: FilterState) => {
+    setFilterState(next);
+    setFiltersChanged(true);
+  };
 
   const panelRows = useMemo(() => {
     if (datasets.status !== 'ready') return {};
@@ -25,6 +31,14 @@ export function DashboardView({ spec, actions }: DashboardTemplateProps) {
       ]),
     );
   }, [datasets, spec, filterState]);
+
+  const announcement = filtersChanged
+    ? filterAnnouncement(
+        spec.filters,
+        filterState,
+        Object.values(panelRows).filter((rows) => rows.length === 0).length,
+      )
+    : '';
 
   return (
     <main className="dashboard" data-testid={`dashboard-${spec.id}`}>
@@ -41,8 +55,11 @@ export function DashboardView({ spec, actions }: DashboardTemplateProps) {
             filters={spec.filters}
             data={datasets.data}
             state={filterState}
-            onChange={setFilterState}
+            onChange={changeFilters}
           />
+          <p role="status" className="sr-only" data-testid="filter-status">
+            {announcement}
+          </p>
           {spec.layout.rows.map((row, r) => (
             <div key={r} className="row" style={{ '--row-h': `${row.height}px` } as CSSProperties}>
               {row.cells.map(({ panel: id, span }) => {
@@ -51,7 +68,7 @@ export function DashboardView({ spec, actions }: DashboardTemplateProps) {
                 const noRows = (
                   <NoRows
                     filtered={(datasets.data[panel.dataset] ?? []).length > 0}
-                    onClear={() => setFilterState(clearFor(id, spec.filters, filterState))}
+                    onClear={() => changeFilters(clearFor(id, spec.filters, filterState))}
                   />
                 );
                 if (panel.renderer !== 'kpi' && panel.renderer !== 'table')

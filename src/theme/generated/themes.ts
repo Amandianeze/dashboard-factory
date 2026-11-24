@@ -85,6 +85,7 @@ export type ResolvedTheme = {
       readonly muted: string;
       readonly 'on-accent': string;
       readonly danger: string;
+      readonly link: string;
     };
     readonly status: {
       readonly info: string;
@@ -552,7 +553,13 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         pressed: '#e4e4e0',
       },
       border: { subtle: '#e4e4e0', control: '#8b8b85' },
-      text: { primary: '#1d1d1b', muted: '#6b6b66', 'on-accent': '#ffffff', danger: '#b42318' },
+      text: {
+        primary: '#1d1d1b',
+        muted: '#6b6b66',
+        'on-accent': '#ffffff',
+        danger: '#b42318',
+        link: '#2f5bea',
+      },
       status: { info: '#2f5bea', success: '#056306', warning: '#b54708', danger: '#b42318' },
       focus: { ring: '#2f5bea' },
       data: {
@@ -945,7 +952,13 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         pressed: '#3c3c37',
       },
       border: { subtle: '#3c3c37', control: '#787873' },
-      text: { primary: '#ededea', muted: '#a3a39d', 'on-accent': '#000000', danger: '#f97066' },
+      text: {
+        primary: '#ededea',
+        muted: '#a3a39d',
+        'on-accent': '#000000',
+        danger: '#f97066',
+        link: '#99a1ff',
+      },
       status: { info: '#4c6cff', success: '#26efc9', warning: '#fdb022', danger: '#f97066' },
       focus: { ring: '#4c6cff' },
       data: {
@@ -1338,7 +1351,13 @@ export const themes: Record<ThemeName, ResolvedTheme> = {
         pressed: '#b7b6b0',
       },
       border: { subtle: '#6b6b66', control: '#000000' },
-      text: { primary: '#000000', muted: '#474742', 'on-accent': '#ffffff', danger: '#ac1912' },
+      text: {
+        primary: '#000000',
+        muted: '#474742',
+        'on-accent': '#ffffff',
+        danger: '#ac1912',
+        link: '#1f3ea6',
+      },
       status: { info: '#1f3ea6', success: '#056306', warning: '#b54708', danger: '#ac1912' },
       focus: { ring: '#000000' },
       data: {

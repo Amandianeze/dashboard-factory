@@ -92,7 +92,10 @@ Base UI positioner flips at viewport edges. On touch, a tap on the trigger toggl
 ## Accessibility
 
 APG tooltip pattern: `aria-describedby`, shows on focus, Escape closes, hoverable and persistent
-(WCAG 1.4.13). The trigger must be focusable (replaces `title=` on the panel h2).
+(WCAG 1.4.13). The trigger must be focusable (replaces `title=` on the panel h2). Base UI doesn't
+wire the description, so the component does: the popup gets `role="tooltip"` and an id, the
+trigger points `aria-describedby` at it, and the portal stays mounted (hidden while closed) so
+the description is announced on focus even before, or without, the tooltip showing.
 
 ## Motion
 
@@ -107,7 +110,7 @@ Base UI Tooltip (~4 kB gzip incl. the positioner). Shared with other popups once
 
 ## Test plan
 
-- **interaction:** hover delay, focus opens, Escape closes. **a11y:** describedby wiring.
+- **interaction:** hover delay, focus opens, Escape closes. **a11y:** describedby wiring, open and closed (`DescribesTrigger` story).
 - **visual:** sides, long text.
 
 ## Open questions
