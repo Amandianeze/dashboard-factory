@@ -95,7 +95,9 @@ and gaps through density tokens.
 ## Accessibility
 
 One `main`, one h1 (title band), each panel a `section` labelled by its h2. Reading and tab order
-follow the spec order.
+follow the spec order. A visually hidden `role="status"` line under the filter bar announces each
+filter change politely: the selection in force and how many panels it leaves empty
+(`filterAnnouncement` in `src/data/transforms.ts`). It stays silent on first load.
 
 ## Motion
 
@@ -108,7 +110,7 @@ React only; engines load per panel (see chart-panel).
 ## Test plan
 
 - **visual:** full-page baselines per dashboard.
-- **a11y:** landmarks and heading order.
+- **a11y:** landmarks and heading order; the filter status line (unit + e2e `chart-alternatives`).
 - **break-ui:** 20 panels, a row of 12 span-1 KPIs, a 900 px row.
 
 ## Open questions

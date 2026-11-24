@@ -3,9 +3,11 @@
  * focus at once, closes on Escape, stays open while hovered (WCAG 1.4.13). Fades with motion
  * tokens; no fade under prefers-reduced-motion. Inside a TooltipGroup, once one tooltip has opened
  * its neighbours open at once and without the fade, so scanning a row of ⓘ icons doesn't wait.
+ * The popup stays mounted (hidden while closed) so the trigger's aria-describedby always resolves:
+ * a screen reader announces the description on focus, before or without the tooltip showing.
  */
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
-import type { ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
 import type { TooltipProps } from '../../../docs/lld/tooltip.props';
 import { cn } from '../../lib/cn';
 import { useTheme } from '../../theme/ThemeProvider';
@@ -20,12 +22,19 @@ export function TooltipGroup({ children }: { children: ReactNode }) {
 
 export function Tooltip({ content, children, side = 'top' }: TooltipProps) {
   const { tokens } = useTheme();
+  const id = useId();
   return (
     <BaseTooltip.Root>
-      <BaseTooltip.Trigger render={children} delay={tokens.motion.duration.base} />
-      <BaseTooltip.Portal>
+      <BaseTooltip.Trigger
+        render={children}
+        delay={tokens.motion.duration.base}
+        aria-describedby={id}
+      />
+      <BaseTooltip.Portal keepMounted>
         <BaseTooltip.Positioner side={side} sideOffset={tokens.tooltip.offset}>
           <BaseTooltip.Popup
+            id={id}
+            role="tooltip"
             className={cn(
               'max-w-(--tooltip-max-width) rounded-(--tooltip-radius) px-(--tooltip-padding-x) py-(--tooltip-padding-y)',
               'bg-(--tooltip-bg) text-(color:--tooltip-text)',

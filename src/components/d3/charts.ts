@@ -8,7 +8,7 @@
  * The React implementation lives in registry.tsx under the same key.
  */
 import { z } from 'zod';
-import { exactFormat, type ChartData } from '../../data/chartData';
+import { exactFormat, fieldLabel, type ChartData } from '../../data/chartData';
 import { groupAggregate, type Row } from '../../data/transforms';
 import { D3FormatString } from '../../spec/d3Format';
 
@@ -52,10 +52,13 @@ export const d3Charts = {
     chartData: (rows, props) => ({
       from: 'plotted',
       columns: [
-        { field: 'key', label: props.category, measure: false },
+        { field: 'key', label: fieldLabel(props.category), measure: false },
         {
           field: 'value',
-          label: props.aggregate === 'count' ? 'Count' : `${props.aggregate} of ${props.value}`,
+          label:
+            props.aggregate === 'count'
+              ? 'Count'
+              : fieldLabel(`${props.aggregate} of ${props.value}`),
           measure: true,
           format: exactFormat(props.valueFormat),
         },

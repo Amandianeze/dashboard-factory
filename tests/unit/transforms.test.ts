@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { aggregate, applyFilters, distinctValues, groupAggregate } from '../../src/data/transforms';
+import {
+  aggregate,
+  applyFilters,
+  distinctValues,
+  filterAnnouncement,
+  groupAggregate,
+} from '../../src/data/transforms';
 import { buildPlotlyFigure } from '../../src/renderers/plotlyFigure';
 import type { FilterSpec, PlotlyPanel } from '../../src/spec/types';
 
@@ -25,6 +31,30 @@ describe('applyFilters', () => {
   });
   it('treats an empty selection as no filter', () => {
     expect(applyFilters(rows, 'p1', [regionFilter], { region: [] })).toBe(rows);
+  });
+});
+
+describe('filterAnnouncement', () => {
+  const productFilter: FilterSpec = { ...regionFilter, id: 'product', label: 'Product' };
+  it('names the selection in force', () => {
+    expect(
+      filterAnnouncement(
+        [regionFilter, productFilter],
+        { region: ['North', 'South'], product: ['A'] },
+        0,
+      ),
+    ).toBe('Filtered by Region: North, South; Product: A.');
+  });
+  it('counts the panels left empty', () => {
+    expect(filterAnnouncement([regionFilter], { region: ['East'] }, 1)).toBe(
+      'Filtered by Region: East. 1 panel has no matching data.',
+    );
+    expect(filterAnnouncement([regionFilter], { region: ['East'] }, 3)).toMatch(/3 panels have/);
+  });
+  it('says when everything is cleared', () => {
+    expect(filterAnnouncement([regionFilter], { region: [] }, 0)).toBe(
+      'Filters cleared. Showing all data.',
+    );
   });
 });
 

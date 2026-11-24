@@ -306,7 +306,9 @@ The UI palette is warm greys plus a single accent. Data colours live in their ow
 never reused as UI colours, except `primary`, which is also series 1.
 
 - **primary** (with `primary-hover`, `on-primary`): the only interactive accent: selected chips,
-  links, focus rings, highlighted data. Use it for at most one prominent action per view.
+  focus rings, highlighted data. Use it for at most one prominent action per view. Link text uses
+  `color.text.link`, the same hue tuned per theme to pass 4.5:1 as text on every surface (the
+  accent fill itself doesn't, in dark), and is always underlined.
 - **neutral**: the page canvas, a warm off-white so panels (`surface`) read as raised without shadows.
 - **surface / surface-pressed**: panels and controls; `surface-pressed` is the pressed state of a
   control, never a resting background.

@@ -42,3 +42,21 @@ test('an open table and the summary follow the filters', async ({ page }) => {
   await expect(rows).toHaveCount(4);
   await expect(el.locator('[id$="-summary"]')).toHaveText(/4 data points/);
 });
+
+test('a filter change is announced, and panel descriptions reach screen readers', async ({
+  page,
+}) => {
+  await page.goto('/#/d/revenue-overview');
+  const announced = page.getByTestId('filter-status');
+  await expect(page.getByTestId('panel-trend')).toBeVisible();
+  await expect(announced).toHaveText('');
+  await page
+    .getByRole('group', { name: 'Filters' })
+    .getByRole('button', { name: 'East', exact: true })
+    .click();
+  await expect(announced).toHaveText('Filtered by Region: East.');
+  await expect(announced).toHaveRole('status');
+
+  const about = page.getByTestId('panel-by_product').getByRole('button', { name: /^About / });
+  await expect(about).toHaveAccessibleDescription('Bespoke D3 chart from the component catalog.');
+});

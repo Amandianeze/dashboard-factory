@@ -1,5 +1,5 @@
 import type { Annotations, Data, Datum, Layout } from 'plotly.js';
-import { exactFormat, type ChartData } from '../data/chartData';
+import { exactFormat, fieldLabel, type ChartData } from '../data/chartData';
 import { groupAggregate, type Row } from '../data/transforms';
 import type { PlotlyPanel } from '../spec/types';
 import { plotlyTheme } from '../theme/generated/engines';
@@ -113,7 +113,7 @@ export function plotlyChartData(
   const column = (key: 'x' | 'y') => {
     const axis = figure.layout[`${key}axis`];
     const title = axis?.title?.text ?? panel.trace[key];
-    const label = key === 'y' && aggregate ? `${aggregate} of ${title}` : title;
+    const label = fieldLabel(key === 'y' && aggregate ? `${aggregate} of ${title}` : title);
     const measure = rows.some((r) => typeof r[key] === 'number');
     return {
       field: key,
@@ -122,6 +122,6 @@ export function plotlyChartData(
       format: measure ? exactFormat(axis?.tickformat) : undefined,
     };
   };
-  const group = groupBy ? [{ field: 'group', label: groupBy, measure: false }] : [];
+  const group = groupBy ? [{ field: 'group', label: fieldLabel(groupBy), measure: false }] : [];
   return { from: 'plotted', columns: [column('x'), ...group, column('y')], rows };
 }

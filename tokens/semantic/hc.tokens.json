@@ -28,6 +28,9 @@
       "muted": {
         "$value": "{color.neutral.700}"
       },
+      "link": {
+        "$value": "{color.brand.700}"
+      },
       "on-accent": {
         "$value": "{color.neutral.0}"
       },

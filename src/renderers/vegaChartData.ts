@@ -3,7 +3,13 @@
  * vega-embed, so dashboards without Vega charts don't pay for it.
  */
 import { format, timeFormat, utcFormat } from 'd3';
-import { DEFAULT_FORMAT, exactFormat, type ChartColumn, type ChartData } from '../data/chartData';
+import {
+  DEFAULT_FORMAT,
+  exactFormat,
+  fieldLabel,
+  type ChartColumn,
+  type ChartData,
+} from '../data/chartData';
 import type { Row } from '../data/transforms';
 
 /** Without a spec format, a column shares one precision (7,699.80 under 7,699.25), up to 4 places. */
@@ -168,7 +174,7 @@ function titleOf(def: Json): string | undefined {
 function defaultLabel(def: Json): string {
   if (def.aggregate === 'count') return 'Count';
   const field = String(def.field);
-  return typeof def.aggregate === 'string' ? `${def.aggregate} of ${field}` : field;
+  return fieldLabel(typeof def.aggregate === 'string' ? `${def.aggregate} of ${field}` : field);
 }
 
 /** A tooltip's format is the exact one; axis and legend formats are often abbreviated. */
