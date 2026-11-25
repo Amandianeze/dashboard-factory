@@ -1,0 +1,47 @@
+table 'FP Scenario Values'
+	lineageTag: de6777c8-ad9d-4ed3-a92d-b92ad9b576c2
+
+	column 'FP Scenario Values'
+		dataType: string
+		lineageTag: b5a67c6b-605c-40d0-9ea3-3ba98d90e3ad
+		summarizeBy: none
+		sortByColumn: 'FP Scenario Selection - Demo Order'
+		sourceColumn: [Value1]
+
+	column 'FP Scenario Selection - Demo Fields'
+		dataType: string
+		isHidden
+		lineageTag: bba2d418-9fc3-4083-b355-9f06c9b23525
+		summarizeBy: none
+		sortByColumn: 'FP Scenario Selection - Demo Order'
+		sourceColumn: [Value2]
+
+	column 'FP Scenario Selection - Demo Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c21be7ad-fbc9-476c-9a32-0c424ae3a222
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+	column 'Scenario Name Key'
+		dataType: string
+		lineageTag: 63aac266-0068-4513-8d08-f7318291f96a
+		summarizeBy: none
+		sourceColumn: [Value4]
+
+	column 'Metric Name Key'
+		dataType: string
+		lineageTag: 51a45f27-3ff6-4dfc-b1ec-8e2cf0e06105
+		summarizeBy: none
+		sourceColumn: [Value5]
+
+	partition 'FP Scenario Values' = calculated
+		mode: import
+		source = ```
+
+			{
+			    ("PY", NAMEOF('_Measures Main'[_Revenue PY | Equalized]),       0, "PY", "Value"),
+			    ("TG", NAMEOF('_Measures Main'[_Revenue Target]),               1, "TG", "Value")
+			}
+			```

@@ -1,0 +1,77 @@
+table 'FP Row Breakdown | V1 - Demo'
+	lineageTag: c1f2f887-7d44-4bbb-9a89-2113d06f5703
+
+	measure '_FP Row Breakdown Title | V1 - Demo' = ```
+
+
+		VAR __Row_Name      = SELECTEDVALUE ( 'FP Row Breakdown | V1 - Demo'[Item Name])
+
+		VAR __Row_Breakdown =  __Row_Name
+
+		VAR __Result = "Revenue - Portfolio Overview - YoY Comparison" & " | " & __Row_Breakdown
+
+		RETURN __Result
+
+		```
+		lineageTag: b3f136a9-9b7d-43fd-9544-6c75eb1cd68f
+
+	measure '_FP Row Breakdown Title | V1 - Demo Alt.' = ```
+
+
+		VAR __Row_Name      = SELECTEDVALUE ( 'FP Row Breakdown | V1 - Demo'[Item Name])
+
+		VAR __Row_Breakdown =  __Row_Name
+
+		VAR __Result = "Revenue - " & __Row_Breakdown & " Portfolio Overview - YoY Comparison" 
+
+		RETURN __Result
+
+		```
+		lineageTag: 6bb98e63-5707-47ec-8afd-99d30655a97d
+
+	column 'FP Row Breakdown | V1 - Demo'
+		dataType: string
+		lineageTag: 61f27862-9796-4afa-a8f2-d4c0320d2545
+		summarizeBy: none
+		sortByColumn: 'FP Row Breakdown | V1 - Demo Order'
+		sourceColumn: [Value1]
+
+	column 'FP Row Breakdown | V1 - Demo Fields'
+		dataType: string
+		isHidden
+		lineageTag: 3fd9590e-4a6e-41c1-931b-3ced429223d3
+		summarizeBy: none
+		sortByColumn: 'FP Row Breakdown | V1 - Demo Order'
+		sourceColumn: [Value2]
+
+	column 'FP Row Breakdown | V1 - Demo Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c6406af4-7da7-46d8-a325-8dabfb146168
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+	column 'Row ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 281903ab-b0fb-4287-bf52-b9da9963aece
+		summarizeBy: count
+		sourceColumn: [Value4]
+
+	column 'Item Name'
+		dataType: string
+		lineageTag: 634849ba-f01d-4f10-bb34-63b597a0b241
+		summarizeBy: none
+		sourceColumn: [Value5]
+
+	partition 'FP Row Breakdown | V1 - Demo' = calculated
+		mode: import
+		source = ```
+
+			{
+			    ("Segment",     NAMEOF('DIM_Customers'[Segment]),       0, 1, "Segment"),
+			    ("Country",     NAMEOF( DIM_Customers[Country]),        1, 2, "Country"),
+			    ("Customer",    NAMEOF('DIM_Customers'[Customer_Name]), 2, 3, "Customer")
+			}
+			```

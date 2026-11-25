@@ -1,0 +1,170 @@
+# yaml-language-server: $schema=./dashboard.schema.json
+version: 1
+id: fp-scenario-v2
+title: FP - Scenario Selection V2
+description: Imported from Power BI (fp-scenario-v2 · FP - Scenario Selection V2).
+datasets:
+  fct_summarized_data:
+    source: fixture
+    path: fp-scenario-v2.json
+    description: Denormalized from FCT_Summarized_Data via TMDL relationships.
+    fields:
+      revenue: quantitative
+      start_of_month: temporal
+      segment: nominal
+      year_text: nominal
+      business_line: nominal
+    semantics:
+      revenue:
+        semanticType: Amount
+        unit: USD
+      start_of_month: Date
+      segment: Category
+      year_text: Category
+      business_line: Category
+filters:
+  - id: year_selection
+    label: Year Selection
+    type: select
+    dataset: fct_summarized_data
+    field: year_text
+    appliesTo:
+      - revenue_ac
+      - ac
+      - revenue_development_over_time
+      - revenue_development_over_time_2
+      - revenue_structure_by_segment
+      - revenue_structure_by_segment_2
+  - id: business_line
+    label: Business Line
+    type: multiselect
+    dataset: fct_summarized_data
+    field: business_line
+    appliesTo:
+      - revenue_ac
+      - ac
+      - revenue_development_over_time
+      - revenue_development_over_time_2
+      - revenue_structure_by_segment
+      - revenue_structure_by_segment_2
+layout:
+  rows:
+    - height: 132
+      cells:
+        - panel: ac
+          span: 6
+        - panel: revenue_ac
+          span: 6
+    - height: 400
+      cells:
+        - panel: revenue_development_over_time
+          span: 5
+        - panel: revenue_development_over_time_2
+          span: 7
+    - height: 300
+      cells:
+        - panel: revenue_structure_by_segment_2
+          span: 5
+        - panel: revenue_structure_by_segment
+          span: 7
+panels:
+  revenue_ac:
+    title: Revenue AC
+    dataset: fct_summarized_data
+    kind: kpi-card
+    renderer: kpi
+    field: revenue
+    aggregate: sum
+    format: ",.0f"
+  ac:
+    title: AC
+    dataset: fct_summarized_data
+    kind: kpi-card
+    renderer: kpi
+    field: revenue
+    aggregate: sum
+    format: ",.0f"
+  revenue_development_over_time:
+    title: Revenue Development Over Time
+    dataset: fct_summarized_data
+    kind: chart-panel
+    renderer: vega-lite
+    spec:
+      mark:
+        type: bar
+      encoding:
+        x:
+          field: start_of_month
+          type: temporal
+          title: null
+        y:
+          field: revenue
+          aggregate: sum
+          type: quantitative
+          title: AC
+        tooltip:
+          - field: start_of_month
+            type: temporal
+            title: Start of Month
+          - field: revenue
+            aggregate: sum
+            type: quantitative
+            title: AC
+            format: ",.0f"
+  revenue_development_over_time_2:
+    title: Revenue Development Over Time
+    dataset: fct_summarized_data
+    kind: chart-panel
+    renderer: vega-lite
+    spec:
+      mark:
+        type: bar
+      encoding:
+        x:
+          field: start_of_month
+          type: temporal
+          title: null
+        y:
+          field: revenue
+          aggregate: sum
+          type: quantitative
+          title: AC
+        tooltip:
+          - field: start_of_month
+            type: temporal
+            title: Start of Month
+          - field: revenue
+            aggregate: sum
+            type: quantitative
+            title: AC
+            format: ",.0f"
+  revenue_structure_by_segment:
+    title: Revenue Structure by Segment
+    dataset: fct_summarized_data
+    kind: data-table
+    renderer: table
+    columns:
+      - field: segment
+        label: Segment
+      - field: revenue
+        label: AC
+        format: ",.0f"
+    sort:
+      field: revenue
+      order: desc
+    limit: 50
+  revenue_structure_by_segment_2:
+    title: Revenue Structure by Segment
+    dataset: fct_summarized_data
+    kind: data-table
+    renderer: table
+    columns:
+      - field: segment
+        label: Segment
+      - field: revenue
+        label: AC
+        format: ",.0f"
+    sort:
+      field: revenue
+      order: desc
+    limit: 50

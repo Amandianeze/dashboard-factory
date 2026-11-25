@@ -1,0 +1,62 @@
+table DIM_Customers
+	lineageTag: d29a5167-f4e2-4507-8c1d-39430969fe79
+
+	column Customer_Name
+		dataType: string
+		lineageTag: 1a5826b3-d6f1-488c-b0a5-7e902064faf8
+		summarizeBy: none
+		sortByColumn: 'Sort ID'
+		sourceColumn: Customer_Name
+
+	column Business_Line
+		dataType: string
+		lineageTag: 368a55d6-c7a9-41af-a274-1d68a5e2ebbf
+		summarizeBy: none
+		sourceColumn: Business_Line
+
+	column Country
+		dataType: string
+		lineageTag: 031c55d2-2e17-48cc-be00-309af8e93213
+		summarizeBy: none
+		sourceColumn: Country
+
+	column 'Sort ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5ddf2bb6-d414-49e3-af0b-116fd43d1103
+		summarizeBy: count
+		sourceColumn: Sort ID
+
+	column Segment
+		dataType: string
+		lineageTag: a982723d-a54e-45a9-a793-0a7f81fe2f4d
+		summarizeBy: none
+		sourceColumn: Segment
+
+	column Customer_ID
+		dataType: string
+		isHidden
+		lineageTag: d47075c2-6ad2-4e2b-ab84-3427fe99faa3
+		summarizeBy: none
+		sourceColumn: Customer_ID
+
+	column 'Sales Manager'
+		dataType: string
+		lineageTag: 75f915d6-fbdd-407d-b1b4-91305b08ecf4
+		summarizeBy: none
+		sourceColumn: Sales Manager
+
+	partition DIM_Customers = m
+		mode: import
+		source = ```
+			let
+			    Source = Excel.Workbook(File.Contents("C:\Users\gusta\OneDrive\Pulpit\Technology,  Revenue Analysis.xlsx"), null, true),
+			    _Contractors_Table = Source{[Item="DIM_Customers",Kind="Table"]}[Data],
+			    #"Changed Type" = Table.TransformColumnTypes(_Contractors_Table,{{"Customer_ID", type text}, {"Customer_Name", type text}, {"Business_Line", type text}, {"Segment", type text}, {"Country", type text}}),
+			    #"Added Index" = Table.AddIndexColumn(#"Changed Type", "Index", 1, 1, Int64.Type),
+			    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Sort ID"}}),
+			    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"Sort ID", "Customer_ID", "Customer_Name", "Business_Line", "Segment", "Country"})
+			in
+			    #"Reordered Columns"
+			```

@@ -1,0 +1,52 @@
+table 'FP Scenario Variances'
+	lineageTag: c9024213-3e26-4a66-9031-56d5dcc967d4
+
+	column 'FP Variances'
+		dataType: string
+		lineageTag: 7cbfc676-091b-420c-bed0-3ff1a8f09392
+		summarizeBy: none
+		sortByColumn: 'FP Variances Order'
+		sourceColumn: [Value1]
+
+	column 'FP Variances Fields'
+		dataType: string
+		isHidden
+		lineageTag: d5dcba66-2be2-41c1-83ac-72f609f548ec
+		summarizeBy: none
+		sortByColumn: 'FP Variances Order'
+		sourceColumn: [Value2]
+
+	column 'FP Variances Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ee2866e9-ecb1-42e5-abe5-016d0a9acd9b
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+	column 'Scenario Name Key'
+		dataType: string
+		lineageTag: da626d57-3b42-40f0-90ce-4e4b256d794c
+		summarizeBy: none
+		sourceColumn: [Value4]
+
+	column 'Metric Name Key'
+		dataType: string
+		lineageTag: af46bb92-82f7-488b-a10e-8fd488653175
+		summarizeBy: none
+		sourceColumn: [Value5]
+
+	partition 'FP Scenario Variances' = calculated
+		mode: import
+		source = ```
+
+			{
+			    ("ΔPY",     NAMEOF([_Revenue Variance abs. PY]),                0, "PY", "Abs. Var"),
+			    ("ΔPY ",    NAMEOF([_Revenue Variance abs. PY | Data Bar]),     1, "PY", "Abs. Var"),
+			    ("ΔPY%",    NAMEOF([_Revenue Variance rel. PY]),                2, "PY", "Rel. Var"),
+
+			    ("ΔTG",     NAMEOF([_Revenue Variance abs. Target]),            3, "TG", "Abs. Var"),
+			    ("ΔTG ",    NAMEOF([_Revenue Variance abs. Target Data Bar]),   4, "TG", "Abs. Var"),
+			    ("ΔTG%",    NAMEOF([_Revenue Variance rel. Target]),            5, "TG", "Rel. Var")
+			}
+			```

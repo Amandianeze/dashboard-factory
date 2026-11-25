@@ -1,0 +1,30 @@
+table Sales
+	measure 'Total Revenue' = SUM(Sales[Revenue])
+		formatString: $#,0
+
+	measure 'Avg Order Value' = AVERAGE(Sales[Revenue])
+		formatString: $#,0.00
+
+	measure 'Active Customers' = DISTINCTCOUNT(Sales[CustomerId])
+		formatString: #,0
+
+	column 'Order Date'
+		dataType: dateTime
+		sourceColumn: Order Date
+
+	column Product
+		dataType: string
+		sourceColumn: Product
+
+	column RegionId
+		dataType: string
+		sourceColumn: RegionId
+
+	column CustomerId
+		dataType: string
+		sourceColumn: CustomerId
+
+	column Revenue
+		dataType: double
+		formatString: $#,0
+		sourceColumn: Revenue

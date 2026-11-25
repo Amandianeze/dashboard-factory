@@ -1,0 +1,57 @@
+{
+  "name": "v_slicer_region",
+  "position": {
+    "x": 20,
+    "y": 20,
+    "width": 200,
+    "height": 680,
+    "z": 1000
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Regions"
+                    }
+                  },
+                  "Property": "Region"
+                }
+              },
+              "queryRef": "Regions.Region",
+              "nativeQueryRef": "Region"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Region'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

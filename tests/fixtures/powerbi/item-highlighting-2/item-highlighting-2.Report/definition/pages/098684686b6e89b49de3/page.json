@@ -1,0 +1,251 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "098684686b6e89b49de3",
+  "displayName": "Item Highlighting II",
+  "displayOption": "FitToPage",
+  "height": 1321,
+  "width": 2350,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "682a8b1287870157a4e5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_Calendar"
+              }
+            },
+            "Property": "Year"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "Dim_Calendar",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Year"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "2023L"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "2024L"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "95423c2879e840b8550d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_Pages_Suppl"
+              }
+            },
+            "Property": "ID"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_Pages_Suppl",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "ID"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "70L"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Data Forge Full Left Pane v2.svg'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Data_Forge_Full_Left_Pane_v212487627155910219.svg"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fill'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          },
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "ThemeDataColor": {
+                    "ColorId": 0,
+                    "Percent": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "325L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "a378004e056d10e8cde0",
+      "target": "dd53c2b0962d0309c61e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "a378004e056d10e8cde0",
+      "target": "5296e9e00a81e90ba2c7",
+      "type": "NoFilter"
+    },
+    {
+      "source": "a378004e056d10e8cde0",
+      "target": "9718893cbde703b128d4",
+      "type": "NoFilter"
+    },
+    {
+      "source": "9718893cbde703b128d4",
+      "target": "ef77860418aec1309005",
+      "type": "NoFilter"
+    },
+    {
+      "source": "9718893cbde703b128d4",
+      "target": "dd53c2b0962d0309c61e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "9718893cbde703b128d4",
+      "target": "5296e9e00a81e90ba2c7",
+      "type": "NoFilter"
+    },
+    {
+      "source": "89399722d4552e4c0247",
+      "target": "ed54c9f0d6567770e04c",
+      "type": "DataFilter"
+    },
+    {
+      "source": "80d303c19635d601a26b",
+      "target": "953f350f9792c4a74e05",
+      "type": "DataFilter"
+    },
+    {
+      "source": "821892016345a1528868",
+      "target": "953f350f9792c4a74e05",
+      "type": "DataFilter"
+    },
+    {
+      "source": "89399722d4552e4c0247",
+      "target": "953f350f9792c4a74e05",
+      "type": "NoFilter"
+    },
+    {
+      "source": "953f350f9792c4a74e05",
+      "target": "89399722d4552e4c0247",
+      "type": "NoFilter"
+    }
+  ]
+}

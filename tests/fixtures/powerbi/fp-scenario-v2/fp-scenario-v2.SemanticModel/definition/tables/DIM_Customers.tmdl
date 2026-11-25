@@ -1,0 +1,164 @@
+table DIM_Customers
+	lineageTag: c3bde74a-fc5d-44fb-9ef4-e07cf526d407
+
+	measure '_Image URL | Country Flag Circle | Inscope' = ```
+
+
+		IF (
+		    ISINSCOPE ( DIM_Customers[Country Name] )   || 
+		    ISINSCOPE ( DIM_Customers[Country] )        || 
+		    ISINSCOPE ( DIM_Customers[Country Name PBI Adjusted] ),
+		    
+		    SELECTEDVALUE ( DIM_Customers[Flag URL (Circle SVG)] ),
+		    BLANK()
+		)
+
+		```
+		dataCategory: ImageUrl
+		lineageTag: 2e8e2d0d-f4bb-42e1-b9a3-55c50f256f8e
+
+	measure '_Image URL | Country Flag Default | Inscope' = ```
+
+
+		IF (
+		    ISINSCOPE ( DIM_Customers[Country Name] )   || 
+		    ISINSCOPE ( DIM_Customers[Country] )        || 
+		    ISINSCOPE ( DIM_Customers[Country Name PBI Adjusted] ),
+		    
+		    SELECTEDVALUE ( DIM_Customers[Flag URL (Square)] ),
+		    BLANK()
+		)
+
+		```
+		dataCategory: ImageUrl
+		lineageTag: 383434de-ac95-49a3-b804-24da6922b6b6
+
+	measure '_Image URL | Country Flag Default' = ```
+
+
+		SELECTEDVALUE ( DIM_Customers[Flag URL (Square)] )
+
+
+		```
+		dataCategory: ImageUrl
+		lineageTag: 8c5728ac-99a1-4e85-a2f6-c96ff74193e8
+
+	column Customer_ID
+		dataType: string
+		isHidden
+		lineageTag: d5ab59a1-56a6-4a36-ac0e-c35e35ba63d2
+		summarizeBy: none
+		sourceColumn: Customer_ID
+
+	column Customer_Name
+		dataType: string
+		lineageTag: 47604e08-61a0-44e9-862a-ff4f01809f0f
+		summarizeBy: none
+		sourceColumn: Customer_Name
+
+	column Business_Line
+		dataType: string
+		lineageTag: 799168ed-1998-4bf3-b6ae-459a477fabe9
+		summarizeBy: none
+		sourceColumn: Business_Line
+
+	column Segment
+		dataType: string
+		lineageTag: 0f3867b2-37ef-4aa9-a956-39ed0bfbfcee
+		summarizeBy: none
+		sourceColumn: Segment
+
+	column 'Sales Manager'
+		dataType: string
+		lineageTag: 9c119c74-05e6-414d-b24e-69df56a473dd
+		summarizeBy: none
+		sourceColumn: Sales Manager
+
+	column 'Country ISO Alpha-3'
+		dataType: string
+		lineageTag: a936d53d-6341-4ea5-b62a-1c16d5361564
+		summarizeBy: none
+		sourceColumn: Country ISO Alpha-3
+
+	column Country
+		dataType: string
+		lineageTag: a6d8ab8b-9729-4399-a4f6-58b1953de0c0
+		summarizeBy: none
+		sourceColumn: Country
+
+	column 'Country Name'
+		dataType: string
+		lineageTag: 606e0747-0c6e-4100-9f06-a98c8509eb54
+		summarizeBy: none
+		sourceColumn: Country Name
+
+	column 'Country Name PBI Adjusted'
+		dataType: string
+		lineageTag: cc57ba08-3240-4cd1-a825-1161724f37f9
+		summarizeBy: none
+		sourceColumn: Country Name PBI Adjusted
+
+	column 'ISO Alpha-3'
+		dataType: string
+		lineageTag: 5a6de19d-ac6e-4ac4-bcff-58f6cc02f9a7
+		summarizeBy: none
+		sourceColumn: ISO Alpha-3
+
+	column Latitude
+		dataType: double
+		lineageTag: 3772c653-e961-434f-9be6-d1141438e523
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+	column Longitude
+		dataType: double
+		lineageTag: ba184508-9821-49a0-8f05-7388e2a4f1c6
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+	column 'Flag URL (Rectangle)'
+		dataType: string
+		dataCategory: ImageUrl
+		lineageTag: 6df679d8-b6e0-445d-b758-96107e166f24
+		summarizeBy: none
+		sourceColumn: Flag URL (Rectangle)
+
+	column 'Flag URL (Circle SVG)'
+		dataType: string
+		dataCategory: ImageUrl
+		lineageTag: 740f24b9-c322-45ed-81d1-27b30164d082
+		summarizeBy: none
+		sourceColumn: Flag URL (Circle SVG)
+
+	column 'Flag URL (Square)'
+		dataType: string
+		dataCategory: ImageUrl
+		lineageTag: 9d65fb17-d3f8-404b-ba9d-38c125ed2434
+		summarizeBy: none
+		sourceColumn: Flag URL (Square)
+
+	column 'Region Business 4 Group'
+		dataType: string
+		lineageTag: aeba26fa-0b07-4ccf-8090-9115aa3c8e41
+		summarizeBy: none
+		sourceColumn: Region Business 4 Group
+
+	column 'Region Business 4 Group ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 66d35f71-02dd-4eb6-80aa-8b36408ba71b
+		summarizeBy: count
+		sourceColumn: Region Business 4 Group ID
+
+	partition DIM_Customers = m
+		mode: import
+		source = ```
+			let
+			    Source = Excel.Workbook(File.Contents("C:\Users\gusta\OneDrive\Pulpit\Technology,  Revenue Analysis.xlsx"), null, true),
+			    DIM_Customers_Table = Source{[Item="DIM_Customers",Kind="Table"]}[Data],
+			    #"Changed Type" = Table.TransformColumnTypes(DIM_Customers_Table,{{"Customer_ID", type text}, {"Customer_Name", type text}, {"Business_Line", type text}, {"Segment", type text}, {"Country", type text}}),
+			    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"Country"}, DIM_Geo_Country_Level, {"Country Name PBI Adjusted"}, "DIM_Geo", JoinKind.LeftOuter),
+			    #"Expanded DIM_Geo" = Table.ExpandTableColumn(#"Merged Queries", "DIM_Geo", {"Country Name", "Country Name PBI Adjusted", "ISO Alpha-3", "Latitude", "Longitude", "Region Business 4 Group", "Region Business 4 Group ID", "Flag URL (Rectangle)", "Flag URL (Circle SVG)", "Flag URL (Square)"}, {"Country Name", "Country Name PBI Adjusted", "ISO Alpha-3", "Latitude", "Longitude", "Region Business 4 Group", "Region Business 4 Group ID", "Flag URL (Rectangle)", "Flag URL (Circle SVG)", "Flag URL (Square)"})
+			in
+			    #"Expanded DIM_Geo"
+			```

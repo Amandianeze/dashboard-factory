@@ -1,0 +1,187 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "ec99f2dc20ecc0bbee86",
+  "position": {
+    "x": 1178.6138613861385,
+    "y": 28.514851485148515,
+    "z": 15000,
+    "height": 71.96605374823197,
+    "width": 714.2291371994343,
+    "tabOrder": 15000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Stable Customer Segment ",
+                    "textStyle": {
+                      "color": "#246974"
+                    }
+                  },
+                  {
+                    "value": "is NOT",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "color": "#246974"
+                    }
+                  },
+                  {
+                    "value": " based on ",
+                    "textStyle": {
+                      "color": "#246974"
+                    }
+                  },
+                  {
+                    "value": "Threshold",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "color": "#246974"
+                    }
+                  },
+                  {
+                    "value": " ",
+                    "textStyle": {
+                      "color": "#246974"
+                    }
+                  },
+                  {
+                    "value": "Range",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "color": "#246974"
+                    }
+                  },
+                  {
+                    "value": " (so only if customer has PY = AC will be classified as \"Stable\" - which is a relatively rare use-case). For more complex/extended approach based on the Threshold Range for Stable - please refer to \"",
+                    "textStyle": {
+                      "color": "#246974"
+                    }
+                  },
+                  {
+                    "value": "Variance Waterfall - Extended | Threshold",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "color": "#246974"
+                    }
+                  },
+                  {
+                    "value": "\" Page",
+                    "textStyle": {
+                      "color": "#246974"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 9,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "76D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 9,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            },
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

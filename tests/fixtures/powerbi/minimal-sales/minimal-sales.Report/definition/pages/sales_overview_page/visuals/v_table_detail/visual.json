@@ -1,0 +1,99 @@
+{
+  "name": "v_table_detail",
+  "position": {
+    "x": 240,
+    "y": 440,
+    "width": 1020,
+    "height": 260,
+    "z": 6000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Regions"
+                    }
+                  },
+                  "Property": "Region"
+                }
+              },
+              "queryRef": "Regions.Region",
+              "nativeQueryRef": "Region"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Product"
+                }
+              },
+              "queryRef": "Sales.Product",
+              "nativeQueryRef": "Product"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                }
+              },
+              "queryRef": "Sales.Total Revenue",
+              "nativeQueryRef": "Total Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Avg Order Value"
+                }
+              },
+              "queryRef": "Sales.Avg Order Value",
+              "nativeQueryRef": "Avg Order Value"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sales Breakdown'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

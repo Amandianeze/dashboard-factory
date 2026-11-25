@@ -1,0 +1,52 @@
+table 'TBL Page Sort Order'
+	lineageTag: 2b2bab19-3b9a-4965-bd85-e31b08a4cff4
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: f33b435c-c31e-4914-bd6a-0a30ce07e186
+		summarizeBy: count
+		sourceColumn: ID
+
+	column Name
+		dataType: string
+		lineageTag: 33bfa36e-6a28-4be7-97b2-84299372343c
+		summarizeBy: none
+		sourceColumn: Name
+
+	column 'Name Display'
+		dataType: string
+		lineageTag: 2c16ab72-8525-4a8f-9194-07f0161b0e57
+		summarizeBy: none
+		sourceColumn: Name Display
+
+	column 'Name Display Short'
+		dataType: string
+		lineageTag: f949af17-acdc-4003-a11f-5f94e13c1016
+		summarizeBy: none
+		sourceColumn: Name Display Short
+
+	column 'Name Display Short Image'
+		dataType: string
+		lineageTag: c66cf4ad-d329-44df-b7e7-c90d93f54ba8
+		summarizeBy: none
+		sortByColumn: ID
+		sourceColumn: Name Display Short Image
+
+	column 'Name Display Short V2'
+		dataType: string
+		lineageTag: 3c6baee0-0a06-4cdc-a87e-3becb414ac1a
+		summarizeBy: none
+		sortByColumn: ID
+		sourceColumn: Name Display Short V2
+
+	partition 'TBL Page Sort Order' = m
+		mode: import
+		source = ```
+			let
+			    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUfLPSUktLsHK+DB/cqsCunCsTrSSEZDrl1oOEcdkgPWhC4P0GQO5zhlF+Xn5OfnpmcmJOTmVeET0YEYhuDAWyDATIN8xpyAjMSm1BK4TuwDEpClLFBx1o0BiQDI2FgA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, Name = _t, #"Name Display" = _t, #"Name Display Short" = _t, #"Name Display Short Image" = _t, #"Name Display Short Image.1" = _t]),
+			    #"Renamed Columns" = Table.RenameColumns(Source,{{"Name Display Short Image.1", "Name Display Short V2"}}),
+			    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"ID", Int64.Type}, {"Name", type text}, {"Name Display", type text}, {"Name Display Short", type text}, {"Name Display Short Image", type text}})
+			in
+			    #"Changed Type"
+			```

@@ -1,0 +1,267 @@
+table 'TBL Customer Breakdown'
+	lineageTag: fff96e8e-67f9-4781-8452-d9099ea44ae2
+
+	measure '_Customer Count | Breakdown Switch' = ```
+
+
+		VAR __Breakdown = SELECTEDVALUE ( 'TBL Customer Breakdown'[Name] )
+
+		VAR __Result =
+		    SWITCH (
+		        __Breakdown,
+		            "New",          [_Customer Count | New (YoY)],
+		            "Growing",      [_Customer Count | Growing (YoY)],
+		            "Declining",    [_Customer Count | Downsell (YoY)],
+		            "Stable",       [_Customer Count | Retained (YoY)],
+		            "Lost",         [_Customer Count | Lost (YoY)]
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		lineageTag: 64b073d2-ac29-4a4f-ba32-c209544ec027
+
+	measure '_Customer Var. PY | Breakdown Switch' = ```
+
+
+		VAR __Breakdown = SELECTEDVALUE ( 'TBL Customer Breakdown'[Name] )
+
+		VAR __Result =
+		    IF (
+		        ISINSCOPE ( 'TBL Customer Breakdown'[Name]) || ISINSCOPE ( 'TBL Customer Breakdown'[Name Alt] ),
+		            SWITCH (
+		                __Breakdown,
+		                    "New",          [_Customer Revenue | New (YoY)],
+		                    "Growing",      [_Customer YoY Var | Growing (YoY)],
+		                    "Declining",    [_Customer YoY Var | Declining (YoY)],
+		                    "Stable",        0,
+		                    "Lost",         [_Customer Revenue | Lost (YoY)]
+		            ),
+		        [_Revenue Variance abs. PY] // (To handle Table Totals)
+		    )
+
+		RETURN __Result
+		```
+		lineageTag: 2e99716b-f838-41b5-bc2d-e8ceefacf3bb
+
+	measure '_Customer Var. PY | FX Font Color' = ```
+
+
+		VAR __Breakdown = SELECTEDVALUE ( 'TBL Customer Breakdown'[Type] )
+
+		VAR __Sentiment_Color =
+		    SWITCH (
+		        __Breakdown,
+		            "Positive", [_Positive Variance color],
+		            "Negative", [_Negative Variance color], 
+		            "Neutral",  [_Neutral Variance color]
+		    )
+
+		RETURN __Sentiment_Color
+
+
+		```
+		lineageTag: ef0decff-3edf-43d3-9f33-8b73d3647a5f
+
+	measure '_Selected Customer Segment' = ```
+
+		SELECTEDVALUE ( 'TBL Customer Breakdown'[Name] )
+		```
+		lineageTag: 8012f1e5-458c-4199-b356-c8034c40ec2e
+
+	measure '_Customer Var. PY | Breakdown Switch | Threshold' = ```
+
+
+		VAR __Breakdown = SELECTEDVALUE ( 'TBL Customer Breakdown'[Name] )
+
+		VAR __Result =
+		    IF (
+		        ISINSCOPE ( 'TBL Customer Breakdown'[Name]) || ISINSCOPE ( 'TBL Customer Breakdown'[Name Alt] ),
+		            SWITCH (
+		                __Breakdown,
+		                    "New",          [_Customer Revenue | New (YoY)],
+		                    "Growing",      [_Customer YoY Var | Growing (YoY) | Threshold],
+		                    "Declining",    [_Customer YoY Var | Declining (YoY) | Threshold],
+		                    "Stable",       [_Customer Revenue | Retained (YoY) | Threshold],
+		                    "Lost",         [_Customer Revenue | Lost (YoY)]
+		            ),
+		        [_Revenue Variance abs. PY] // (To handle Table Totals)
+		    )
+
+		RETURN __Result
+		```
+		lineageTag: f807ce71-da25-4b23-a95f-3fea592207a5
+
+	measure '_Revenue AC | Customer (YoY)' = ```
+
+
+		VAR __Threshold          = 0.05
+		VAR __Customer_Breakdown = VALUES ( 'TBL Customer Breakdown'[Name] )
+
+		VAR __BaseTable =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_Name]),
+		        "@Sales",   [_Revenue AC],
+		        "@SalesPY", [_Revenue PY | Equalized]
+		    )
+
+		VAR __WithVariance =
+		    ADDCOLUMNS (
+		        __BaseTable,
+		        "@Variance", DIVIDE ( [@Sales] - [@SalesPY], [@SalesPY] )
+		    )
+
+		VAR __WithSegment =
+		    ADDCOLUMNS (
+		        __WithVariance,
+		        "@Segment",
+		            SWITCH (
+		                TRUE (),
+		                NOT ISBLANK ( [@Sales] ) && ISBLANK ( [@SalesPY] ),                                   "New",
+		                ISBLANK ( [@Sales] )     && NOT ISBLANK ( [@SalesPY] ),                               "Lost",
+		                NOT ISBLANK ( [@Sales] ) && NOT ISBLANK ( [@SalesPY] ) && [@Variance] >  __Threshold, "Growing",
+		                NOT ISBLANK ( [@Sales] ) && NOT ISBLANK ( [@SalesPY] ) && [@Variance] < -__Threshold, "Declining",
+		                NOT ISBLANK ( [@Sales] ) && NOT ISBLANK ( [@SalesPY] ),                               "Stable"
+		            )
+		    )
+
+		VAR __FilteredTable =
+		    FILTER (
+		        __WithSegment,
+		        [@Segment] IN __Customer_Breakdown
+		    )
+
+		VAR __Result =
+		    SUMX ( __FilteredTable, [@Sales] )
+
+		RETURN __Result
+		```
+		lineageTag: 19e76968-c00e-42fd-80ec-4fb41e7a1dd9
+
+	measure '_Revenue PY Equalized | Customer (YoY)' = ```
+
+
+		VAR __Threshold          = 0.05
+		VAR __Customer_Breakdown = VALUES ( 'TBL Customer Breakdown'[Name] )
+
+		VAR __BaseTable =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_Name]),
+		        "@Sales",   [_Revenue AC],
+		        "@SalesPY", [_Revenue PY | Equalized]
+		    )
+
+		VAR __WithVariance =
+		    ADDCOLUMNS (
+		        __BaseTable,
+		        "@Variance", DIVIDE ( [@Sales] - [@SalesPY], [@SalesPY] )
+		    )
+
+		VAR __WithSegment =
+		    ADDCOLUMNS (
+		        __WithVariance,
+		        "@Segment",
+		            SWITCH (
+		                TRUE (),
+		                NOT ISBLANK ( [@Sales] ) && ISBLANK ( [@SalesPY] ),                                   "New",
+		                ISBLANK ( [@Sales] )     && NOT ISBLANK ( [@SalesPY] ),                               "Lost",
+		                NOT ISBLANK ( [@Sales] ) && NOT ISBLANK ( [@SalesPY] ) && [@Variance] >  __Threshold, "Growing",
+		                NOT ISBLANK ( [@Sales] ) && NOT ISBLANK ( [@SalesPY] ) && [@Variance] < -__Threshold, "Declining",
+		                NOT ISBLANK ( [@Sales] ) && NOT ISBLANK ( [@SalesPY] ),                               "Stable"
+		            )
+		    )
+
+		VAR __FilteredTable =
+		    FILTER (
+		        __WithSegment,
+		        [@Segment] IN __Customer_Breakdown
+		    )
+
+		VAR __Result =
+		    SUMX ( __FilteredTable, [@SalesPY] )
+
+		RETURN __Result
+		```
+		lineageTag: 71633296-3271-4713-839a-288bed7772cb
+
+	measure '_Revenue Nominal Variance | Customer (YoY)' = ```
+
+
+		VAR __Actual        = [_Revenue AC | Customer (YoY)]
+		VAR __Comparative   = [_Revenue PY Equalized | Customer (YoY)]
+
+		VAR __Nominal_Variance = 
+		    __Actual   - __Comparative 
+
+		VAR __Result = __Nominal_Variance
+
+		RETURN __Result
+		```
+		lineageTag: f896003a-cc50-4407-b57c-2e590321d758
+
+	measure '_Revenue Nominal Variance Data Bar | Customer (YoY)' = ```
+
+
+		[_Revenue Nominal Variance | Customer (YoY)]
+		```
+		formatString: ;;;
+		lineageTag: c524ac14-83ce-4afd-abb1-5c8f16ce79dd
+
+	column ID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2e543295-b518-4c9d-b2a3-b57c41984b1d
+		summarizeBy: count
+		sourceColumn: ID
+
+	column Name
+		dataType: string
+		lineageTag: 5f63963e-f2c0-432e-9583-36e8f9f2d9fb
+		summarizeBy: none
+		sortByColumn: ID
+		sourceColumn: Name
+
+	column 'Name Alt'
+		dataType: string
+		lineageTag: fb196580-506d-4517-9b7d-9d2948f8014f
+		summarizeBy: none
+		sortByColumn: ID
+		sourceColumn: Name Alt
+
+	column 'Name Group'
+		dataType: string
+		lineageTag: aadf598b-b9ff-4b7f-a927-8896d7dde19d
+		summarizeBy: none
+		sourceColumn: Name Group
+
+	column Type
+		dataType: string
+		lineageTag: 0dc9e8ca-90d9-4ec9-b007-0e74725e4ee2
+		summarizeBy: none
+		sourceColumn: Type
+
+	column 'Name Alt. v2'
+		dataType: string
+		lineageTag: 070cc337-4f27-42a5-bd43-1de73078ebed
+		summarizeBy: none
+		sortByColumn: 'Name Alt. v2 Sort'
+		sourceColumn: Name Alt. v2
+
+	column 'Name Alt. v2 Sort'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2c0004f5-023b-43e6-9573-5cbe107f4f14
+		summarizeBy: sum
+		sourceColumn: Name Alt. v2 Sort
+
+	partition 'TBL Customer Breakdown' = m
+		mode: import
+		source = ```
+			let
+			    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("bZBLCoMwEECvIlnbhb8T9EdBpLRLcZHaQQJpApNJ7fE7aLARu0kej8xjSNuKTKSigXE+k713ZF+AbrFX6xSpNyyiFF3aipzpjHZUZmA6fpQjxmSXXEyPIB08Wd+g94jzk6jzm8umVsF0gF4rs6mx/ltrYJChFk/mU69kupN8aFjHTlrSpuMJpY4HiqlRMdXWUbhWHxN8tEMwlei6Lw==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, Name = _t, #"Name Alt" = _t, #"Name Group" = _t, Type = _t, #"Name Alt. v2" = _t, #"Name Alt. v2 Sort" = _t]),
+			    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}, {"Name", type text}, {"Name Alt", type text}, {"Name Group", type text}, {"Name Alt. v2 Sort", Int64.Type}})
+			in
+			    #"Changed Type"
+			```

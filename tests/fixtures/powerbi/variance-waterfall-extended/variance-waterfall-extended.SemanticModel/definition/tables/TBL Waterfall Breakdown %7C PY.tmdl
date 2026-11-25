@@ -1,0 +1,302 @@
+table 'TBL Waterfall Breakdown | PY'
+	lineageTag: 56d66d9f-a414-4dd7-a045-48c9e1debea7
+
+	measure '_Waterfall By Customer Segment | Basic' = ```
+
+		VAR __SelectedCategory =  SELECTEDVALUE ( 'TBL Waterfall Breakdown | PY'[Name Short])
+
+		VAR __Breakdown_Scope_Check =       
+		    ISINSCOPE ( 'TBL Customer Breakdown'[Name]) || 
+		    ISINSCOPE ( 'TBL Customer Breakdown'[Name Alt] )
+
+		VAR __Value_Variance =      [_Customer Var. PY | Breakdown Switch]
+		VAR __Value_Actuals =       COALESCE ( [_Revenue AC], 0 )
+		VAR __Value_Comparison =    COALESCE ( [_Revenue PY | Equalized], 0 )
+
+		VAR __Result =
+		    SWITCH (
+		        __SelectedCategory,
+		            "PY", 
+		                IF (
+		                    __Breakdown_Scope_Check, __Value_Variance * (-1),
+		                    __Value_Comparison
+		                ),
+		            "AC", 
+		                IF (
+		                     __Breakdown_Scope_Check, IF ( ISBLANK ( __Value_Variance ), BLANK(), 0),
+		                     __Value_Actuals
+		                )
+		    )
+
+		RETURN __Result
+
+
+		```
+		formatStringDefinition = ```
+			VAR __Breakdown_Scope_Check =       
+			    ISINSCOPE ( 'TBL Customer Breakdown'[Name]) || 
+			    ISINSCOPE ( 'TBL Customer Breakdown'[Name Alt] )
+
+			VAR __Format_Variance = "+#,0,.0;-#,0,.0;0"
+			VAR __Format_Standard = "#,0,.0;-#,0,.0;0"
+
+			VAR __Result =
+			    SWITCH (
+			        TRUE(),
+			            __Breakdown_Scope_Check, 
+			            __Format_Variance,
+			            __Format_Standard
+			    )
+
+			RETURN __Result
+			```
+		lineageTag: c526cec7-28d2-48af-9db8-9a9eb7f8c404
+
+	measure '_Waterfall Format String | Customer Segment' = ```
+
+
+		VAR __Breakdown_Scope_Check =       
+		    ISINSCOPE ( 'TBL Customer Breakdown'[Name]) || 
+		    ISINSCOPE ( 'TBL Customer Breakdown'[Name Alt] )
+
+		VAR __Format_Variance = "+#,0,.0;-#,0,.0;0"
+		VAR __Format_Standard = "#,0,.0;-#,0,.0;0"
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __Breakdown_Scope_Check, 
+		            __Format_Variance,
+		            __Format_Standard
+		    )
+
+		RETURN __Result
+		```
+		lineageTag: fa7f4fb2-a580-4d56-a36c-5b4bc91922d0
+
+	measure '_Waterfall By Country | Basic | Format String' = ```
+
+
+		VAR __Breakdown_Scope_Check =       
+		    ISINSCOPE ( DIM_Customers[Country] )
+
+		VAR __Format_Variance = "+#,0,.0;-#,0,.0;0"
+		VAR __Format_Standard = "#,0,.0;-#,0,.0;0"
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __Breakdown_Scope_Check, 
+		            __Format_Variance,
+		            __Format_Standard
+		    )
+
+		RETURN __Result
+		```
+		lineageTag: 6c5c54df-5afb-4368-9e30-9c6a8fa3a1d3
+
+	measure '_Waterfall By Country | Basic' = ```
+
+		VAR __SelectedCategory =  
+		    SELECTEDVALUE ( 'TBL Waterfall Breakdown | PY'[Name Short])
+
+		VAR __Breakdown_Scope_Check =       
+		    ISINSCOPE ( DIM_Customers[Country] )
+
+		VAR __Value_Variance =      [_Revenue Variance abs. PY]
+		VAR __Value_Actuals =       COALESCE ( [_Revenue AC], 0 )
+		VAR __Value_Comparison =    COALESCE ( [_Revenue PY | Equalized], 0 )
+
+		VAR __Result =
+		    SWITCH (
+		        __SelectedCategory,
+		            "PY", 
+		                IF (
+		                    __Breakdown_Scope_Check, __Value_Variance * (-1),
+		                    __Value_Comparison
+		                ),
+		            "AC", 
+		                IF (
+		                     __Breakdown_Scope_Check, IF ( ISBLANK ( __Value_Variance ), BLANK(), 0),
+		                     __Value_Actuals
+		                )
+		    )
+
+		RETURN __Result
+
+
+		```
+		formatStringDefinition = [_Waterfall By Country | Basic | Format String]
+		lineageTag: 08a5e396-6d9d-4acd-a988-e4346693daa3
+
+	measure '_Waterfall General | Basic | Variance Color' = ```
+
+
+		VAR __Variance = [_Revenue Variance abs. PY]
+
+		VAR __Sentiment_Color =
+		    SWITCH (
+		        TRUE(),
+		            __Variance > 0 , [_Positive Variance color],
+		            __Variance = 0 , [_Neutral Variance color],
+		            __Variance < 0 , [_Negative Variance color]
+		    )
+
+		RETURN __Sentiment_Color
+		```
+		lineageTag: bfcbe1f4-bb74-4f84-aaf1-a2542690557a
+
+	measure '_Waterfall by Customer Segment | Max Ceiling' = ```
+
+
+		VAR __Comparative_Value = [_Revenue PY | Equalized]
+		VAR __Value_Growing     = [_Customer YoY Var | Growing (YoY)]
+		VAR __Value_New         = [_Customer Revenue | New (YoY)]
+
+		VAR __Sum = __Comparative_Value + __Value_Growing + __Value_New
+
+		VAR __Result = __Sum * 1.2
+
+		RETURN __Result
+		```
+		lineageTag: e0bed78b-a638-41cd-ac8a-5e131696ef65
+
+	measure '_Waterfall By Customer | Top and Bottom Contributors' = ```
+
+		VAR __SelectedCategory =  SELECTEDVALUE ( 'TBL Waterfall Breakdown | PY'[Name Short])
+
+		VAR __Breakdown_Scope_Check =       
+		    ISINSCOPE ( DIM_Customers_Supplemental[Customer]) 
+
+		VAR __Value_Variance =      [_Revenue AC | Top Bottom Others]
+		VAR __Value_Actuals =       COALESCE ( [_Revenue AC], 0 )
+		VAR __Value_Comparison =    COALESCE ( [_Revenue PY | Equalized], 0 )
+
+		VAR __Result =
+		    SWITCH (
+		        __SelectedCategory,
+		            "PY", 
+		                IF (
+		                    __Breakdown_Scope_Check, __Value_Variance * (-1),
+		                    __Value_Comparison
+		                ),
+		            "AC", 
+		                IF (
+		                     __Breakdown_Scope_Check, IF ( ISBLANK ( __Value_Variance ), BLANK(), 0),
+		                     __Value_Actuals
+		                )
+		    )
+
+		RETURN __Result
+
+
+		```
+		formatStringDefinition = ```
+
+			VAR __Breakdown_Scope_Check =     
+			     ISINSCOPE ( DIM_Customers_Supplemental[Customer] )
+
+			VAR __Format_Variance = "+#,0,.0;-#,0,.0;0.0"
+			VAR __Format_Nominal  = "#,0,.0;-#,0,.0;0.0"
+			VAR __Format_Empty    = ";;;"
+
+			VAR __Result =
+			    SWITCH (
+			        TRUE(),
+			            __Breakdown_Scope_Check, 
+			            __Format_Variance,
+			            __Format_Nominal
+			    )
+
+			RETURN __Result
+			```
+		lineageTag: fb71d908-97c8-440d-87e1-6aa353fefd61
+
+	measure '_Waterfall By Customer Segment | Basic | Threshold' = ```
+
+		VAR __SelectedCategory =  SELECTEDVALUE ( 'TBL Waterfall Breakdown | PY'[Name Short])
+
+		VAR __Breakdown_Scope_Check =       
+		    ISINSCOPE ( 'TBL Customer Breakdown'[Name]) || 
+		    ISINSCOPE ( 'TBL Customer Breakdown'[Name Alt] )
+
+		VAR __Value_Variance =      [_Customer Var. PY | Breakdown Switch | Threshold]
+		VAR __Value_Actuals =       COALESCE ( [_Revenue AC], 0 )
+		VAR __Value_Comparison =    COALESCE ( [_Revenue PY | Equalized], 0 )
+
+		VAR __Result =
+		    SWITCH (
+		        __SelectedCategory,
+		            "PY", 
+		                IF (
+		                    __Breakdown_Scope_Check, __Value_Variance * (-1),
+		                    __Value_Comparison
+		                ),
+		            "AC", 
+		                IF (
+		                     __Breakdown_Scope_Check, IF ( ISBLANK ( __Value_Variance ), BLANK(), 0),
+		                     __Value_Actuals
+		                )
+		    )
+
+		RETURN __Result
+
+
+		```
+		formatStringDefinition = ```
+			VAR __Breakdown_Scope_Check =       
+			    ISINSCOPE ( 'TBL Customer Breakdown'[Name]) || 
+			    ISINSCOPE ( 'TBL Customer Breakdown'[Name Alt] )
+
+			VAR __Format_Variance = "+#,0,.0;-#,0,.0;0"
+			VAR __Format_Standard = "#,0,.0;-#,0,.0;0"
+
+			VAR __Result =
+			    SWITCH (
+			        TRUE(),
+			            __Breakdown_Scope_Check, 
+			            __Format_Variance,
+			            __Format_Standard
+			    )
+
+			RETURN __Result
+
+			```
+		lineageTag: eff3a324-8f62-4c4b-a6ba-9b35367cf554
+
+	column ID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ae1cf2bb-359b-47d4-8bc1-84678e950f75
+		summarizeBy: count
+		sourceColumn: ID
+
+	column 'Name Short'
+		dataType: string
+		lineageTag: 82706413-0f20-4601-8685-75fb714f7457
+		summarizeBy: none
+		sortByColumn: ID
+		sourceColumn: Name Short
+
+	column 'Name Alt'
+		dataType: string
+		lineageTag: 281100b6-5d4e-4e9c-a82a-8e03d7b0c833
+		summarizeBy: none
+		sourceColumn: Name Alt
+
+	column 'Name Alt Short'
+		dataType: string
+		lineageTag: 9aaa94a7-ae00-4a1a-be9f-0bd1ffdc4178
+		summarizeBy: none
+		sourceColumn: Name Alt Short
+
+	partition 'TBL Waterfall Breakdown | PY' = m
+		mode: import
+		source = ```
+			let
+			    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUQqIBBFFqWWZ+aXFCgGpRZn5KSCRAKVYnWglIyDT0RlIOJcWFaXmlSAUAEVjYwE=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, #"Name Short" = _t, #"Name Alt" = _t, #"Name Alt Short" = _t]),
+			    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}, {"Name Short", type text}, {"Name Alt", type text}, {"Name Alt Short", type text}})
+			in
+			    #"Changed Type"
+			```

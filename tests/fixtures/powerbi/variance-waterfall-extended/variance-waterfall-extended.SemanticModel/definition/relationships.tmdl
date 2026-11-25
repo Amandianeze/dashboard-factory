@@ -1,0 +1,62 @@
+relationship '561c6cd5-55ed-b594-ccc8-2fec0510695f'
+	fromColumn: FCT_Summarized_Data.Date
+	toColumn: 'Dim Calendar'.Date
+
+relationship '95ea02dc-3e43-d77e-51de-7745a1b9e8d5'
+	fromColumn: FCT_Summarized_Data.Customer_ID
+	toColumn: DIM_Customers.Customer_ID
+
+relationship 'e2698533-e0ed-19f2-1840-47de5a0b2140'
+	isActive: false
+	fromColumn: 'Dim Calendar'.Date
+	toColumn: 'Dim Calendar Suppl'.Date
+
+relationship '1d3fdd5a-b663-d1b1-ea62-a6472ee41251'
+	fromColumn: 'FP Scenario Variances'.'Scenario Name Key'
+	toColumn: 'TBL Scenario Selection'.Name
+
+relationship 'bf161609-bf23-a271-78d7-845a8ac96e21'
+	fromColumn: 'FP Scenario Variances'.'Metric Name Key'
+	toColumn: 'TBL Metric Selection'.Name
+
+relationship 'e863f7b0-a1f4-c948-c8f2-25290cedbeb3'
+	fromColumn: 'FP Scenario TG Value'.'Scenario Name Key'
+	toColumn: 'TBL Scenario Selection'.Name
+
+relationship '403e509f-cf12-5a95-31e4-0ec6b9c46c11'
+	fromColumn: 'FP Scenario TG Value'.'Metric Name Key'
+	toColumn: 'TBL Metric Selection'.Name
+
+relationship '4689c4b2-6887-750e-e258-1dfff7db6792'
+	fromColumn: DIM_Customers.Customer_ID
+	toColumn: DIM_Customers_Supplemental.'Customer ID'
+
+relationship 'cef4cf6a-14dc-782a-5b3d-18d0d1e97d5d'
+	fromColumn: 'FP Scenario PY Value'.'Scenario Name Key'
+	toColumn: 'TBL Scenario Selection'.Name
+
+relationship '85d1bddf-b5b3-8f49-cdad-dedf9a174132'
+	fromColumn: 'FP Scenario PY Value'.'Metric Name Key'
+	toColumn: 'TBL Metric Selection'.Name
+
+relationship 'a050ad90-a337-e997-3bcc-d20ac7f442d3'
+	fromColumn: 'FP Scenario Values'.'Scenario Name Key'
+	toColumn: 'TBL Scenario Selection'.Name
+
+relationship 'd191e9f1-7514-5250-5abb-dda768d379cd'
+	fromColumn: 'FP Scenario Values'.'Metric Name Key'
+	toColumn: 'TBL Metric Selection'.Name
+
+relationship '88d011b5-d102-bedd-a8ff-6b58e1e021d7'
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'Dynamic Axis - Items'.Customer_ID
+	toColumn: DIM_Customers.Customer_ID
+
+relationship 'fe9adcef-a43c-70e4-0eba-c9e9d62aa727'
+	fromColumn: DIM_Customers.Business_Line
+	toColumn: DIM_BusinessLine_Supplemental.'Business Line'
+
+relationship 'd97b4b4b-19e1-2322-fa2e-f4aed72748ae'
+	crossFilteringBehavior: bothDirections
+	fromColumn: TBL_Stack_BusinessLine.'Business Line'
+	toColumn: DIM_BusinessLine_Supplemental.'Business Line'

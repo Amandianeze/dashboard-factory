@@ -1,0 +1,14 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+
+ref table DIM_Customers
+ref table 'DIM_Customers_Supplemental alt'
+ref table DIM_Pages
+ref table Dim_Calendar
+ref table FCT_Summarized_Data
+ref table 'TBL Item Highlighting'
+ref table 'TBL Page Sort Order'
+ref table 'TBL Segment | Quadrant | Short'
+ref table '_Measures Main'
+ref table '_Measures Supplemental'

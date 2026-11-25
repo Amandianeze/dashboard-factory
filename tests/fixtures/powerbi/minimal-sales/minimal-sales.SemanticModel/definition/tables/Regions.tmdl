@@ -1,0 +1,9 @@
+table Regions
+	column RegionId
+		dataType: string
+		isKey
+		sourceColumn: RegionId
+
+	column Region
+		dataType: string
+		sourceColumn: Region

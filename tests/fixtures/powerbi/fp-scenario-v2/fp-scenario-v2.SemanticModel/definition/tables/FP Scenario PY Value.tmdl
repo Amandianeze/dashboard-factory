@@ -1,0 +1,46 @@
+table 'FP Scenario PY Value'
+	lineageTag: e68014d2-9ca6-4722-bf49-3500d68b3dc9
+
+	column 'FP PY Value'
+		dataType: string
+		lineageTag: a6d5aeec-82df-466b-8739-5017efaa4a3b
+		summarizeBy: none
+		sortByColumn: 'FP PY Value Order'
+		sourceColumn: [Value1]
+
+	column 'FP PY Value Fields'
+		dataType: string
+		isHidden
+		lineageTag: 1e93b7a4-ddc3-41c3-a0e8-a18f8914d453
+		summarizeBy: none
+		sortByColumn: 'FP PY Value Order'
+		sourceColumn: [Value2]
+
+	column 'FP PY Value Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 238bdb4e-14cf-4299-8eab-bf656f6afaf6
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+	column 'Scenario Name Key'
+		dataType: string
+		lineageTag: d83482d3-2dcf-491f-9fc2-e69faac65000
+		summarizeBy: none
+		sourceColumn: [Value4]
+
+	column 'Metric Name Key'
+		dataType: string
+		lineageTag: 28c2506e-45b7-4729-9909-b1f6ba951d9c
+		summarizeBy: none
+		sourceColumn: [Value5]
+
+	partition 'FP Scenario PY Value' = calculated
+		mode: import
+		source = ```
+
+			{
+			    ("PY", NAMEOF( [_Revenue PY | Equalized] ), 0, "PY", "Value")
+			}
+			```

@@ -1,0 +1,150 @@
+# yaml-language-server: $schema=./dashboard.schema.json
+version: 1
+id: minimal-sales
+title: Minimal Sales Overview
+description: Imported from Power BI (minimal-sales · Minimal Sales Overview).
+datasets:
+  sales:
+    source: fixture
+    path: minimal-sales.json
+    description: Denormalized from Sales via TMDL relationships.
+    fields:
+      revenue: quantitative
+      customerid: nominal
+      order_date: temporal
+      region: nominal
+      product: nominal
+    semantics:
+      revenue:
+        semanticType: Amount
+        unit: USD
+      customerid: Name
+      order_date: Date
+      region: Region
+      product: Category
+filters:
+  - id: region
+    label: Region
+    type: multiselect
+    dataset: sales
+    field: region
+    appliesTo:
+      - total_revenue
+      - active_customers
+      - revenue_trend_by_region
+      - revenue_by_product
+      - sales_breakdown
+layout:
+  rows:
+    - height: 132
+      cells:
+        - panel: total_revenue
+          span: 6
+        - panel: active_customers
+          span: 6
+    - height: 320
+      cells:
+        - panel: revenue_trend_by_region
+          span: 8
+        - panel: revenue_by_product
+          span: 4
+    - height: 320
+      cells:
+        - panel: sales_breakdown
+          span: 12
+panels:
+  total_revenue:
+    title: Total Revenue
+    dataset: sales
+    kind: kpi-card
+    renderer: kpi
+    field: revenue
+    aggregate: sum
+    format: $,.0f
+  active_customers:
+    title: Active Customers
+    dataset: sales
+    kind: kpi-card
+    renderer: kpi
+    field: customerid
+    aggregate: distinct
+    format: ",.0f"
+  revenue_trend_by_region:
+    title: Revenue Trend by Region
+    dataset: sales
+    kind: chart-panel
+    renderer: vega-lite
+    spec:
+      mark:
+        type: line
+      encoding:
+        x:
+          field: order_date
+          type: temporal
+          title: null
+        y:
+          field: revenue
+          aggregate: sum
+          type: quantitative
+          title: Total Revenue
+        color:
+          field: region
+          type: nominal
+          title: null
+        tooltip:
+          - field: order_date
+            type: temporal
+            title: Order Date
+          - field: region
+            type: nominal
+            title: Region
+          - field: revenue
+            aggregate: sum
+            type: quantitative
+            title: Total Revenue
+            format: $,.0f
+  revenue_by_product:
+    title: Revenue by Product
+    dataset: sales
+    kind: chart-panel
+    renderer: vega-lite
+    spec:
+      mark:
+        type: bar
+      encoding:
+        y:
+          field: product
+          type: nominal
+          title: null
+          sort: -x
+        x:
+          field: revenue
+          aggregate: sum
+          type: quantitative
+          title: Total Revenue
+        tooltip:
+          - field: product
+            type: nominal
+            title: Product
+          - field: revenue
+            aggregate: sum
+            type: quantitative
+            title: Total Revenue
+            format: $,.0f
+  sales_breakdown:
+    title: Sales Breakdown
+    dataset: sales
+    kind: data-table
+    renderer: table
+    columns:
+      - field: region
+        label: Region
+      - field: product
+        label: Product
+      - field: revenue
+        label: Total Revenue
+        format: $,.0f
+    sort:
+      field: revenue
+      order: desc
+    limit: 50

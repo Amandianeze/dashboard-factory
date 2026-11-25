@@ -1,0 +1,403 @@
+table 'TBL Item Highlighting'
+	lineageTag: 86ff96bf-7cd7-407b-b134-ee71540cc548
+
+	measure '_Revenue | Item Highlighting' = ```
+
+
+		VAR __Selected_Mode_ID =
+		    SELECTEDVALUE ( 'TBL Item Highlighting'[ID] )
+
+		VAR __Customer_Dimension_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Selected_Customers =
+		    VALUES ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Customer_Table =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Customer_ID] ),
+		        "@Highlighting_Mode_ID",
+		            SWITCH (
+		                TRUE(),
+		                    NOT __Customer_Dimension_Is_Filtered,               1,
+		                    DIM_Customers[Customer_ID] IN __Selected_Customers, 1,
+		                    2
+		            )
+		    )
+
+		VAR __Customer_Table_Filtered =
+		    FILTER (
+		        __Customer_Table,
+		        ISBLANK ( __Selected_Mode_ID ) || [@Highlighting_Mode_ID] = __Selected_Mode_ID
+		    )
+
+		VAR __Customer_Filter =
+		    SELECTCOLUMNS (
+		        __Customer_Table_Filtered,
+		        "@Customer_Filter_ID", DIM_Customers[Customer_ID]
+		    )
+
+		VAR __Result =
+		    CALCULATE (
+		        [_Revenue],
+		        KEEPFILTERS (
+		            TREATAS (
+		                __Customer_Filter,
+		                DIM_Customers[Customer_ID]
+		            )
+		        )
+		    )
+
+		RETURN __Result
+
+		```
+		formatString: #,0;-#,0;0
+		displayFolder: 02. Selected vs Unselected via Measure\01. Variant I
+		lineageTag: ec5f55e3-8566-4b35-8337-c1eb5be07e76
+
+	measure '_Gross Margin % Perc | Item Highlighting' = ```
+
+
+
+		VAR __Selected_Mode_ID =
+		    SELECTEDVALUE ( 'TBL Item Highlighting'[ID] )
+
+		VAR __Customer_Dimension_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Selected_Customers =
+		    VALUES ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Customer_Table =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Customer_ID] ),
+		        "@Highlighting_Mode_ID",
+		            SWITCH (
+		                TRUE(),
+		                    NOT __Customer_Dimension_Is_Filtered,               1,
+		                    DIM_Customers[Customer_ID] IN __Selected_Customers, 1,
+		                    2
+		            )
+		    )
+
+		VAR __Customer_Table_Filtered =
+		    FILTER (
+		        __Customer_Table,
+		        ISBLANK ( __Selected_Mode_ID ) || [@Highlighting_Mode_ID] = __Selected_Mode_ID
+		    )
+
+		VAR __Customer_Filter =
+		    SELECTCOLUMNS (
+		        __Customer_Table_Filtered,
+		        "@Customer_Filter_ID", DIM_Customers[Customer_ID]
+		    )
+
+		VAR __Result =
+		    CALCULATE (
+		        [_Gross Margin % Perc],
+		        KEEPFILTERS (
+		            TREATAS (
+		                __Customer_Filter,
+		                DIM_Customers[Customer_ID]
+		            )
+		        )
+		    )
+
+		RETURN __Result
+
+
+
+
+
+
+
+
+
+
+		// VAR __HighlightingModeID =
+		//     SELECTEDVALUE ( 'TBL Item Highlighting'[ID] )
+
+		// VAR __Is_At_Customer_Level =
+		//     ISINSCOPE ( DIM_Customers[Customer_ID] ) || ISINSCOPE ( DIM_Customers[Customer_Name] )
+
+		// VAR __Customer_Dimension_Is_Filtered =
+		//     ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		// VAR __Is_Matched =
+		//     NOT ISEMPTY (
+		//         INTERSECT (
+		//             VALUES ( 'DIM_Customers_Supplemental alt'[Customer_ID] ),
+		//             VALUES ( DIM_Customers[Customer_ID] )
+		//         )
+		//     )
+
+		// VAR __SelectedCustomerIDs =
+		//     SELECTCOLUMNS (
+		//         VALUES ( 'DIM_Customers_Supplemental alt'[Customer_ID] ),
+		//         "Customer_ID", 'DIM_Customers_Supplemental alt'[Customer_ID]
+		//     )
+
+		// VAR __AllCustomerIDs =
+		//     SELECTCOLUMNS (
+		//         ALLSELECTED ( DIM_Customers[Customer_ID] ),
+		//         "Customer_ID", DIM_Customers[Customer_ID]
+		//     )
+
+		// VAR __NonSelectedCustomerIDs =
+		//     EXCEPT (
+		//         __AllCustomerIDs,
+		//         __SelectedCustomerIDs
+		//     )
+
+		// VAR __Value =
+		//     [_Gross Margin % Perc]
+
+		// VAR __Value_Selected =
+		//     CALCULATE (
+		//         [_Gross Margin % Perc],
+		//         KEEPFILTERS (
+		//             TREATAS (
+		//                 __SelectedCustomerIDs,
+		//                 DIM_Customers[Customer_ID]
+		//             )
+		//         )
+		//     )
+
+		// VAR __Value_NonSelected =
+		//     CALCULATE (
+		//         [_Gross Margin % Perc],
+		//         KEEPFILTERS (
+		//             TREATAS (
+		//                 __NonSelectedCustomerIDs,
+		//                 DIM_Customers[Customer_ID]
+		//             )
+		//         )
+		//     )
+
+		// VAR __Result =
+		//     SWITCH (
+		//         TRUE(),
+		//             NOT __Customer_Dimension_Is_Filtered,           __Value,
+
+		//             __HighlightingModeID = 1 && __Is_Matched,       __Value,
+		//             __HighlightingModeID = 1,                       __Value_Selected,
+
+		//             __HighlightingModeID = 2 &&  NOT __Is_Matched,  __Value,
+		//             __HighlightingModeID = 2,                       __Value_NonSelected,
+
+		//             __Value
+		//     )
+
+		// RETURN __Result
+		```
+		formatString: 0.0%;-0.0%;0%
+		displayFolder: 02. Selected vs Unselected via Measure\01. Variant I
+		lineageTag: 9038a5d0-b533-42ac-97be-440086c6f15a
+
+	measure '_Item Highlighting | Tag' = ```
+
+
+		VAR __HighlightingModeID =
+		    SELECTEDVALUE ( 'TBL Item Highlighting'[ID] )
+
+		VAR __Customer_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Is_Matched =
+		    NOT ISEMPTY (
+		        INTERSECT (
+		            VALUES ( 'DIM_Customers_Supplemental alt'[Customer_ID] ),
+		            VALUES ( DIM_Customers[Customer_ID] )
+		        )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __HighlightingModeID = 1 && NOT __Customer_Is_Filtered,  1,
+		            __HighlightingModeID = 1 && __Is_Matched,                1,
+		            __HighlightingModeID = 2 && NOT __Is_Matched,            1,
+		            BLANK()
+		    )
+
+		RETURN __Result
+
+
+
+		//With INSCOPE
+		// VAR __HighlightingModeID =
+		//     SELECTEDVALUE ( 'TBL Item Highlighting'[ID] )
+
+		// VAR __Is_At_Customer_Level =
+		//     ISINSCOPE ( DIM_Customers[Customer_ID] ) || ISINSCOPE ( DIM_Customers[Customer_Name] )
+
+		// VAR __Customer_Dimension_Is_Filtered =
+		//     ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		// VAR __Is_Matched =
+		//     NOT ISEMPTY (
+		//         INTERSECT (
+		//             VALUES ( 'DIM_Customers_Supplemental alt'[Customer_ID] ),
+		//             VALUES ( DIM_Customers[Customer_ID] )
+		//         )
+		//     )
+
+		// VAR __Result =
+		//     SWITCH (
+		//         TRUE(),
+		//             NOT __Is_At_Customer_Level, BLANK(),
+
+		//             __HighlightingModeID = 1 && NOT __Customer_Dimension_Is_Filtered, BLANK(),
+		//             __HighlightingModeID = 1 && __Is_Matched,                         1,
+
+		//             __HighlightingModeID = 2 && NOT __Customer_Dimension_Is_Filtered, 1,
+		//             __HighlightingModeID = 2 && NOT __Is_Matched,                     1,
+
+		//             BLANK()
+		//     )
+
+		// RETURN __Result
+		```
+		displayFolder: 01. Highlighting Flag
+		lineageTag: 5cc56634-e1f6-486f-b90d-3ea94143f04a
+
+	measure '_Revenue | Item Highlighting | Tabular Variant' = ```
+
+
+		VAR __Selected_Mode_ID =
+		    SELECTEDVALUE ( 'TBL Item Highlighting'[ID] )
+
+		VAR __Customer_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Selected_Customers =
+		    SELECTCOLUMNS (
+		        VALUES ( 'DIM_Customers_Supplemental alt'[Customer_ID] ),
+		        "Customer_ID", 'DIM_Customers_Supplemental alt'[Customer_ID]
+		    )
+
+		VAR __Customer_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Revenue", [_Revenue]
+		    )
+
+		VAR __Customer_Table_Classified =
+		    ADDCOLUMNS (
+		        __Customer_Table,
+		        "@Highlighting_Mode_ID",
+		            SWITCH (
+		                TRUE(),
+		                    NOT __Customer_Is_Filtered,                     1,
+		                    CONTAINS (
+		                        __Selected_Customers,
+		                        [Customer_ID], DIM_Customers[Customer_ID]
+		                    ),                                              1,
+		                    2
+		            )
+		    )
+
+		VAR __Customer_Table_Filtered =
+		    FILTER (
+		        __Customer_Table_Classified,
+		        ISBLANK ( __Selected_Mode_ID ) || [@Highlighting_Mode_ID] = __Selected_Mode_ID
+		    )
+
+		VAR __Result =
+		    SUMX ( __Customer_Table_Filtered, [@Revenue] )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Selected vs Unselected via Measure\02. Variant II
+		lineageTag: ebef3db0-a5d3-48e2-976d-4e2ebb68d6d5
+
+	measure '_Gross Margin % Perc | Item Highlighting | Tabular Variant' = ```
+
+
+		VAR __Selected_Mode_ID =
+		    SELECTEDVALUE ( 'TBL Item Highlighting'[ID] )
+
+		VAR __Customer_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Selected_Customers =
+		    SELECTCOLUMNS (
+		        VALUES ( 'DIM_Customers_Supplemental alt'[Customer_ID] ),
+		        "Customer_ID", 'DIM_Customers_Supplemental alt'[Customer_ID]
+		    )
+
+		VAR __Customer_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Revenue",     [_Revenue],
+		        "@GrossProfit", [_Gross Profit]
+		    )
+
+		VAR __Customer_Table_Classified =
+		    ADDCOLUMNS (
+		        __Customer_Table,
+		        "@Highlighting_Mode_ID",
+		            SWITCH (
+		                TRUE(),
+		                    NOT __Customer_Is_Filtered,                     1,
+		                    CONTAINS (
+		                        __Selected_Customers,
+		                        [Customer_ID], DIM_Customers[Customer_ID]
+		                    ),                                              1,
+		                                                                    2
+		            )
+		    )
+
+		VAR __Customer_Table_Filtered =
+		    FILTER (
+		        __Customer_Table_Classified,
+		        ISBLANK ( __Selected_Mode_ID ) || [@Highlighting_Mode_ID] = __Selected_Mode_ID
+		    )
+
+		VAR __Revenue       = SUMX ( __Customer_Table_Filtered, [@Revenue] )
+		VAR __GrossProfit   = SUMX ( __Customer_Table_Filtered, [@GrossProfit] )
+		VAR __Result        = DIVIDE ( __GrossProfit, __Revenue )
+
+		RETURN __Result
+		```
+		formatString: 0.0%;-0.0%;0%
+		displayFolder: 02. Selected vs Unselected via Measure\02. Variant II
+		lineageTag: 48f78c2f-6000-4d76-8885-e54d904924ec
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: bb8feba1-3a22-476d-911e-9fe8a64c7532
+		summarizeBy: count
+		sourceColumn: ID
+
+	column 'Mode Name'
+		dataType: string
+		lineageTag: 1683cdad-f3b1-4b28-af4c-1b09d887b0d3
+		summarizeBy: none
+		sortByColumn: 'Sort ID'
+		sourceColumn: Mode Name
+
+	column 'Mode name Alt.'
+		dataType: string
+		lineageTag: 74c949de-906f-4998-94d7-8c5e7e621328
+		summarizeBy: none
+		sortByColumn: 'Sort ID'
+		sourceColumn: Mode name Alt.
+
+	column 'Sort ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: ddb56463-3aad-4fc7-903c-7f3063c960b6
+		summarizeBy: count
+		sourceColumn: Sort ID
+
+	partition 'TBL Item Highlighting' = m
+		mode: import
+		source = ```
+			let
+			    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUTICYo/M9IwcIC5JTQHyglNzUpNBzFidaLA0SJlffp4uqrLQvGK4wlgA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, #"Sort ID" = _t, #"Mode Name" = _t, #"Mode name Alt." = _t]),
+			    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}, {"Mode Name", type text}, {"Mode name Alt.", type text}, {"Sort ID", Int64.Type}})
+			in
+			    #"Changed Type"
+			```

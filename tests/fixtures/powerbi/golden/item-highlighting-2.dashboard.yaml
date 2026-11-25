@@ -1,0 +1,228 @@
+# yaml-language-server: $schema=./dashboard.schema.json
+version: 1
+id: item-highlighting-2
+title: Item Highlighting II
+description: Imported from Power BI (item-highlighting-2 · Item Highlighting II).
+datasets:
+  dim_customers:
+    source: fixture
+    path: item-highlighting-2.json
+    description: Denormalized from DIM_Customers via TMDL relationships.
+    fields:
+      mode_name_alt: nominal
+      customer_name: nominal
+      revenue: quantitative
+      revenue_item_highlighting: quantitative
+      gross_margin_perc_item_highlighting: quantitative
+      revenue_item_highlighting_tabular_variant: quantitative
+      gross_margin_perc_item_highlighting_tabular_variant: quantitative
+      start_of_month: temporal
+      gross_margin_perc: quantitative
+      country: nominal
+      business_line: nominal
+    semantics:
+      mode_name_alt: Name
+      customer_name: Name
+      revenue:
+        semanticType: Amount
+        unit: USD
+      revenue_item_highlighting:
+        semanticType: Amount
+        unit: USD
+      gross_margin_perc_item_highlighting: Percentage
+      revenue_item_highlighting_tabular_variant:
+        semanticType: Amount
+        unit: USD
+      gross_margin_perc_item_highlighting_tabular_variant: Percentage
+      start_of_month: Date
+      gross_margin_perc: Percentage
+      country: Country
+      business_line: Category
+filters:
+  - id: country
+    label: Country
+    type: select
+    dataset: dim_customers
+    field: country
+    appliesTo:
+      - customer_portfolio_analysis
+      - customer_portfolio_analysis_2
+      - selected_unselected_by_date
+      - selected_unselected_aggregated
+      - scatter_chart_highlighting_through_legend_field_section
+  - id: business_line
+    label: Business_Line
+    type: multiselect
+    dataset: dim_customers
+    field: business_line
+    appliesTo:
+      - customer_portfolio_analysis
+      - customer_portfolio_analysis_2
+      - selected_unselected_by_date
+      - selected_unselected_aggregated
+      - scatter_chart_highlighting_through_legend_field_section
+layout:
+  rows:
+    - height: 380
+      cells:
+        - panel: customer_portfolio_analysis
+          span: 5
+        - panel: customer_portfolio_analysis_2
+          span: 7
+    - height: 260
+      cells:
+        - panel: scatter_chart_highlighting_through_legend_field_section
+          span: 5
+        - panel: selected_unselected_by_date
+          span: 4
+        - panel: selected_unselected_aggregated
+          span: 3
+panels:
+  customer_portfolio_analysis:
+    title: Customer Portfolio Analysis
+    dataset: dim_customers
+    kind: data-table
+    renderer: table
+    columns:
+      - field: mode_name_alt
+        label: Selection Type - Customer
+      - field: customer_name
+        label: Customer
+      - field: revenue
+        label: Revenue
+        format: ",.1f"
+    sort:
+      field: revenue
+      order: desc
+    limit: 50
+  customer_portfolio_analysis_2:
+    title: Customer Portfolio Analysis
+    dataset: dim_customers
+    kind: data-table
+    renderer: table
+    columns:
+      - field: mode_name_alt
+        label: Selection Type - Customer
+      - field: customer_name
+        label: Customer
+      - field: revenue_item_highlighting
+        label: Revenue
+        format: ",.0f"
+      - field: gross_margin_perc_item_highlighting
+        label: GM%
+        format: .1%
+      - field: revenue_item_highlighting_tabular_variant
+        label: Revenue
+        format: ",.0f"
+      - field: gross_margin_perc_item_highlighting_tabular_variant
+        label: GM%
+        format: .1%
+    sort:
+      field: revenue_item_highlighting
+      order: desc
+    limit: 50
+  selected_unselected_by_date:
+    title: Selected/Unselected by date
+    dataset: dim_customers
+    kind: chart-panel
+    renderer: vega-lite
+    spec:
+      mark:
+        type: bar
+      encoding:
+        x:
+          field: start_of_month
+          type: temporal
+          title: null
+        y:
+          field: revenue_item_highlighting
+          aggregate: sum
+          type: quantitative
+          title: Revenue | Item Highlighting
+        color:
+          field: mode_name_alt
+          type: nominal
+          title: null
+        tooltip:
+          - field: start_of_month
+            type: temporal
+            title: Start of Month
+          - field: mode_name_alt
+            type: nominal
+            title: Customer
+          - field: revenue_item_highlighting
+            aggregate: sum
+            type: quantitative
+            title: Revenue | Item Highlighting
+            format: ",.0f"
+  selected_unselected_aggregated:
+    title: Selected/Unselected - Aggregated
+    dataset: dim_customers
+    kind: chart-panel
+    renderer: vega-lite
+    spec:
+      mark:
+        type: arc
+        innerRadius: 50
+      encoding:
+        theta:
+          field: revenue_item_highlighting
+          aggregate: sum
+          type: quantitative
+        color:
+          field: mode_name_alt
+          type: nominal
+          title: null
+        tooltip:
+          - field: mode_name_alt
+            type: nominal
+            title: Customer
+          - field: revenue_item_highlighting
+            aggregate: sum
+            type: quantitative
+            title: Revenue | Item Highlighting
+            format: ",.0f"
+  scatter_chart_highlighting_through_legend_field_section:
+    title: Scatter Chart - Highlighting through Legend Field/Section
+    dataset: dim_customers
+    kind: chart-panel
+    renderer: vega-lite
+    spec:
+      mark:
+        type: point
+        filled: true
+      encoding:
+        x:
+          field: revenue
+          aggregate: sum
+          type: quantitative
+          title: Revenue
+        y:
+          field: gross_margin_perc
+          aggregate: sum
+          type: quantitative
+          title: GM%
+        detail:
+          field: customer_name
+          type: nominal
+        color:
+          field: mode_name_alt
+          type: nominal
+          title: null
+        tooltip:
+          - field: customer_name
+            type: nominal
+            title: Customer
+          - field: mode_name_alt
+            type: nominal
+            title: Selection Mode
+          - field: revenue
+            aggregate: sum
+            type: quantitative
+            title: Revenue
+            format: ",.1f"
+          - field: gross_margin_perc
+            aggregate: sum
+            type: quantitative
+            title: GM%
+            format: .2%

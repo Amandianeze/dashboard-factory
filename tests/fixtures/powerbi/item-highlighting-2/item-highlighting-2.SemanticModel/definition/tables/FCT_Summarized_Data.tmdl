@@ -1,0 +1,63 @@
+table FCT_Summarized_Data
+	lineageTag: 7666fae5-3bda-4355-b73f-35dc10255d66
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		displayFolder: 00. Default Columns
+		lineageTag: d0eee80b-92e2-4e3a-941b-2e65f9de466b
+		summarizeBy: none
+		sourceColumn: Date
+
+	column Revenue
+		dataType: double
+		isHidden
+		displayFolder: 00. Default Columns
+		lineageTag: 4a5fe8b8-c66c-448c-add7-e77f3630d62c
+		summarizeBy: sum
+		sourceColumn: Revenue
+
+	column Volume
+		dataType: int64
+		isHidden
+		formatString: 0
+		displayFolder: 00. Default Columns
+		lineageTag: caffdee9-08c0-4436-91ae-8f14e0a5c142
+		summarizeBy: sum
+		sourceColumn: Volume
+
+	column Gross_Profit
+		dataType: double
+		isHidden
+		displayFolder: 00. Default Columns
+		lineageTag: 80384776-b7c2-4a27-a79f-c9c0f5bd9d4c
+		summarizeBy: sum
+		sourceColumn: Gross_Profit
+
+	column Costs
+		dataType: double
+		isHidden
+		displayFolder: 00. Default Columns
+		lineageTag: 70c1093d-cd91-451e-acee-ff88241ada1e
+		summarizeBy: sum
+		sourceColumn: Costs
+
+	column Customer_ID
+		dataType: string
+		displayFolder: 00. Default Columns
+		lineageTag: 4c87193d-f443-46ff-b1bf-341a31ff9669
+		summarizeBy: none
+		sourceColumn: Customer_ID
+
+	partition FCT_Summarized_Data = m
+		mode: import
+		source = ```
+			let
+			    Source = Excel.Workbook(File.Contents("C:\Users\gusta\OneDrive\Pulpit\Technology,  Revenue Analysis.xlsx"), null, true),
+			    FCT_Summarized_Data_Table = Source{[Item="FCT_Summarized_Data",Kind="Table"]}[Data],
+			    #"Changed Type2" = Table.TransformColumnTypes(FCT_Summarized_Data_Table,{{"Customer_ID", type text}, {"Date", type date}, {"Revenue", type number}, {"Volume", Int64.Type}, {"Costs", type number}, {"Gross_Profit", type number}}),
+			    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type2",{{"Customer_ID", type text}, {"Date", type datetime}, {"Revenue", type number}, {"Volume", Int64.Type}}),
+			    #"Changed Type" = Table.TransformColumnTypes(#"Changed Type1",{{"Customer_ID", type text}, {"Date", type date}, {"Revenue", type number}, {"Volume", Int64.Type}, {"Costs", type number}, {"Gross_Profit", type number}})
+			in
+			    #"Changed Type"
+			```

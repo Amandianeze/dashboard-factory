@@ -1,0 +1,764 @@
+table Dim_Calendar
+	dataCategory: Time
+	lineageTag: 99a89571-eb01-4c63-a8e8-df772948ff42
+
+	measure '_DateInt Max' = ```
+
+
+		MAX ( 'Dim_Calendar'[DateInt] )
+		```
+		displayFolder: 01. Main
+		lineageTag: 81e7999a-c63f-446d-9cc5-10249c26b09b
+
+	measure '_Max Month Offset' = -8
+		lineageTag: 3c84cc69-b45c-4ff2-8302-7aa28c1b8f0f
+
+	measure '_Max Quarter Offset' = -2
+		lineageTag: 37607a10-351a-4c79-94e3-59ba6c380664
+
+	measure '_Date Slicer Filter' = ```
+
+
+		VAR __Granularity = SELECTEDVALUE ( 'TBL Granularity'[Name Short] )
+		VAR __Min_Offset = -100
+
+		VAR __Result = 
+		    SWITCH (
+		        TRUE(),
+		            __Granularity = "M"  
+		            && MAX ( 'Dim_Calendar'[CurrMonthOffset] ) >= __Min_Offset
+		            && MAX ( 'Dim_Calendar'[CurrMonthOffset] ) <= [_Max Month Offset]
+		            && NOT ( ISBLANK ( MAX ( 'Dim_Calendar'[CurrMonthOffset] ) ) ), 
+		            1,
+
+		            __Granularity = "Q"  
+		            && MAX ( 'Dim_Calendar'[CurrQuarterOffset] ) >= __Min_Offset
+		            && MAX ( 'Dim_Calendar'[CurrQuarterOffset] ) <= [_Max Quarter Offset]
+		            && NOT ( ISBLANK ( MAX ( 'Dim_Calendar'[CurrQuarterOffset] ) ) ), 
+		            1,
+
+		            __Granularity = "Y"  
+		            && MAX ( 'Dim_Calendar'[CurrYearOffset] ) >= __Min_Offset
+		            && MAX ( 'Dim_Calendar'[CurrYearOffset] ) <= 0
+		            && NOT ( ISBLANK ( MAX ( 'Dim_Calendar'[CurrYearOffset] ) ) ), 
+		            1
+		    )
+
+		RETURN __Result
+
+
+		     
+		```
+		lineageTag: 41074342-1032-416c-9a6c-73e161ef7752
+
+	measure '_Month Short Slicer Order Alt. 3x4 Grid' = ```
+
+
+		VAR __Month_Number = MAX ( 'Dim_Calendar'[Month] )
+
+		VAR __Result =
+		    SWITCH (
+		       __Month_Number,
+		            1, 1, 
+		            2, 4, 
+		            3, 7, 
+		            4, 10, 
+		            5, 2, 
+		            6, 5, 
+		            7, 8,
+		            8, 11, 
+		            9, 3,
+		            10, 6, 
+		            11, 9, 
+		            12, 12
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Main
+		lineageTag: a716d74f-6c8b-4a2a-a21c-b38b64032b36
+
+	measure '_Month Short Slicer Order Alt. 4x3 Grid' = ```
+
+
+		VAR __Month_Number = MAX ( 'Dim_Calendar'[Month] )
+
+		VAR __Result =
+		    SWITCH (
+		       __Month_Number,
+		            1, 1, 
+		            2, 5, 
+		            3, 9, 
+		            4, 2,  
+		            5, 6, 
+		            6, 10, 
+		            7, 3,
+		            8, 7, 
+		            9, 11,
+		            10, 4, 
+		            11, 8, 
+		            12, 12
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Main
+		lineageTag: 9300ccca-5da3-4021-89fc-4ace7da210f0
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: dd.mm.yyyy
+		displayFolder: 01. Main
+		lineageTag: 3461629e-05fe-4f5b-866a-2bcf4d22515a
+		summarizeBy: none
+		sourceColumn: Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		displayFolder: 07. Year-related
+		lineageTag: b7d8f98c-496c-4a28-b51e-2d994632800a
+		summarizeBy: sum
+		sourceColumn: Year
+
+	column 'Quarter & Year'
+		dataType: string
+		displayFolder: 06. Quarter-related
+		lineageTag: c8a93886-008f-4bb0-8013-4c448f0be2e8
+		summarizeBy: none
+		sortByColumn: 'Start of Quarter'
+		sourceColumn: Quarter & Year
+
+	column DateInt
+		dataType: int64
+		formatString: 0
+		displayFolder: 01. Main
+		lineageTag: e698334f-a7f7-406c-954e-6792dec50386
+		summarizeBy: sum
+		sourceColumn: DateInt
+
+	column 'Week & Year'
+		dataType: string
+		displayFolder: 04. Week-related
+		lineageTag: 82cd9287-3531-41e6-b6bd-173490360f9e
+		summarizeBy: none
+		sourceColumn: Week & Year
+
+	column 'Start of Month'
+		dataType: dateTime
+		formatString: dd.mm.yyyy
+		displayFolder: 01. Main
+		lineageTag: 8974dc6c-2216-4c43-ae2e-d528f7d7c28b
+		summarizeBy: none
+		sourceColumn: Start of Month
+
+	column 'mmm''yy'
+		dataType: string
+		displayFolder: 05. Month-related
+		lineageTag: 594aff97-5c7f-4fa1-a9d0-1645ad36c0a1
+		summarizeBy: none
+		sortByColumn: 'Start of Month'
+		sourceColumn: mmm'yy
+
+	column qqyy
+		dataType: string
+		displayFolder: 06. Quarter-related
+		lineageTag: 54192682-0729-410b-b775-dbdeac67820d
+		summarizeBy: none
+		sortByColumn: 'Start of Quarter'
+		sourceColumn: qqyy
+
+	column 'Start of Week'
+		dataType: dateTime
+		formatString: Long Date
+		displayFolder: 01. Main
+		lineageTag: 202aad1e-7cbd-432d-910b-897894364d46
+		summarizeBy: none
+		sourceColumn: Start of Week
+
+	column 'Start of Quarter'
+		dataType: dateTime
+		formatString: mmm-yyyy
+		displayFolder: 01. Main
+		lineageTag: 5d8aaf2b-718d-411e-8e29-2396fdf356c2
+		summarizeBy: none
+		sourceColumn: Start of Quarter
+
+	column 'Year Text'
+		dataType: string
+		displayFolder: 07. Year-related
+		lineageTag: 3490f099-80d1-44ad-b1f1-3b0bbc4f491a
+		summarizeBy: none
+		sortByColumn: Year
+		sourceColumn: Year Text
+
+	column 'Quarter of Year'
+		dataType: string
+		displayFolder: 06. Quarter-related
+		lineageTag: 1120424d-b6c5-46c2-8c13-75f38b6efd53
+		summarizeBy: none
+		sourceColumn: Quarter of Year
+
+	column WeeknYear
+		dataType: int64
+		formatString: 0
+		displayFolder: 04. Week-related
+		lineageTag: 9ea4c7fa-8a79-4d4e-b373-02e95a587c2d
+		summarizeBy: sum
+		sourceColumn: WeeknYear
+
+	column 'Week and Year'
+		dataType: string
+		displayFolder: 04. Week-related
+		lineageTag: b256ce5f-a22e-47c0-be4c-db3d441f42e8
+		summarizeBy: none
+		sortByColumn: 'Start of Week'
+		sourceColumn: Week and Year
+
+	column 'Start of Year'
+		dataType: dateTime
+		formatString: Long Date
+		displayFolder: 01. Main
+		lineageTag: d4795e5e-69ac-4eff-ba0c-17241afbf811
+		summarizeBy: none
+		sourceColumn: Start of Year
+
+	column 'Calc. Col. mmm''yy with space' = ```
+
+
+		REPT (" ",10) & 'Dim_Calendar'[mmm'yy]
+		```
+		dataType: string
+		displayFolder: 09. Space-added
+		lineageTag: 7d196914-69e0-4341-a9e6-337aad9639ad
+		summarizeBy: none
+		sortByColumn: 'Start of Month'
+
+	column 'Calc. Col. qq''yy with space' = ```
+
+
+		REPT (" ",10) & 'Dim_Calendar'[qqyy]
+		```
+		dataType: string
+		displayFolder: 09. Space-added
+		lineageTag: 84b10434-351a-4e70-b8d9-411914a22005
+		summarizeBy: none
+		sortByColumn: 'Start of Quarter'
+
+	column 'Month Initial'
+		dataType: string
+		displayFolder: 05. Month-related
+		lineageTag: a9bf7ce3-f945-4934-a35b-fa6904a8f64b
+		summarizeBy: none
+		sourceColumn: Month Initial
+
+	column 'Week of Year ID'
+		dataType: int64
+		formatString: 0
+		displayFolder: 04. Week-related
+		lineageTag: d779c6ab-09c1-4c92-97d0-016032a6c630
+		summarizeBy: count
+		sourceColumn: Week of Year ID
+
+	column 'Week of Year Short'
+		dataType: string
+		displayFolder: 04. Week-related
+		lineageTag: bd857ab8-ba2c-4bbc-8694-99ac502fb759
+		summarizeBy: none
+		sourceColumn: Week of Year Short
+
+	column 'Month In Quarter'
+		dataType: int64
+		formatString: 0
+		displayFolder: 05. Month-related
+		lineageTag: 9b105221-5f87-422f-b9a8-434a67aa6513
+		summarizeBy: sum
+		sourceColumn: Month In Quarter
+
+	column 'mmm''yy with space'
+		dataType: string
+		displayFolder: 09. Space-added
+		lineageTag: 03025cef-49d7-4aa4-a823-bf58a43c5722
+		summarizeBy: none
+		sortByColumn: 'Start of Month'
+		sourceColumn: mmm'yy with space
+
+	column 'qq''yy with space'
+		dataType: string
+		displayFolder: 09. Space-added
+		lineageTag: 20af4fe3-22db-4100-8ac6-8915b7442ef6
+		summarizeBy: none
+		sortByColumn: 'Start of Quarter'
+		sourceColumn: qq'yy with space
+
+	column QuarternYear
+		dataType: int64
+		formatString: 0
+		displayFolder: 06. Quarter-related
+		lineageTag: c8073da4-60f4-464e-9abf-cf70d9a62b5f
+		summarizeBy: sum
+		sourceColumn: QuarternYear
+
+	column 'Month Name'
+		dataType: string
+		displayFolder: 05. Month-related
+		lineageTag: 82cd7413-4dd8-496e-9391-72a1c90f80e4
+		summarizeBy: none
+		sourceColumn: Month Name
+
+	column 'Month & Year'
+		dataType: string
+		displayFolder: 05. Month-related
+		lineageTag: f0943d1a-240e-4d29-be6b-e480c2bdb462
+		summarizeBy: none
+		sourceColumn: Month & Year
+
+	column MonthnYear
+		dataType: int64
+		formatString: 0
+		displayFolder: 05. Month-related
+		lineageTag: 458d114d-baff-4fc0-9c30-25d2eadf179b
+		summarizeBy: sum
+		sourceColumn: MonthnYear
+
+	column 'Day Type'
+		dataType: string
+		displayFolder: 03. Day-related
+		lineageTag: 125dc876-eb57-4a2c-a8db-7ce83fac32d7
+		summarizeBy: none
+		sourceColumn: Day Type
+
+	column IsAfterToday
+		dataType: boolean
+		formatString: "TRUE";"TRUE";"FALSE"
+		displayFolder: 10. Supplemental
+		lineageTag: 08a8baa9-6f01-423c-999b-a1144c5c16f1
+		summarizeBy: none
+		sourceColumn: IsAfterToday
+
+	column 'qq''yyyy'
+		dataType: string
+		displayFolder: 06. Quarter-related
+		lineageTag: 3674ec37-8952-45cf-9723-d2e3cce44a06
+		summarizeBy: none
+		sortByColumn: 'Start of Quarter'
+		sourceColumn: qq'yyyy
+
+	column 'mmm''yyyy'
+		dataType: string
+		displayFolder: 05. Month-related
+		lineageTag: 455ff248-eb33-416b-a48a-e5b87b68cc9a
+		summarizeBy: none
+		sourceColumn: mmm'yyyy
+
+	column 'Day of Week Alt.'
+		dataType: int64
+		formatString: 0
+		displayFolder: 03. Day-related
+		lineageTag: f55a0f85-1edd-48e8-b514-4724b778b850
+		summarizeBy: sum
+		sourceColumn: Day of Week Alt.
+
+	column CurrYearOffset
+		dataType: int64
+		formatString: 0
+		displayFolder: 02. Offsets
+		lineageTag: 8a055dd0-1fc3-4b07-a660-22e66c5d3cfe
+		summarizeBy: sum
+		sourceColumn: CurrYearOffset
+
+	column 'Quarter Number'
+		dataType: int64
+		formatString: 0
+		displayFolder: 06. Quarter-related
+		lineageTag: 4f742428-3812-4306-881b-0e67e07ce37a
+		summarizeBy: sum
+		sortByColumn: Quarter
+		sourceColumn: Quarter Number
+
+	column Quarter
+		dataType: string
+		displayFolder: 06. Quarter-related
+		lineageTag: 1ff7b022-5857-455c-ad18-48832b3f1a75
+		summarizeBy: none
+		sourceColumn: Quarter
+
+	column CurrQuarterOffset
+		dataType: int64
+		formatString: 0
+		displayFolder: 02. Offsets
+		lineageTag: ed7e0d89-a2a8-4f8c-b527-7c8758d1b7dd
+		summarizeBy: sum
+		sourceColumn: CurrQuarterOffset
+
+	column Month
+		dataType: int64
+		formatString: 0
+		displayFolder: 05. Month-related
+		lineageTag: 2ca8f6f9-f602-40cd-a8f0-e8fa9c7b7706
+		summarizeBy: sum
+		sourceColumn: Month
+
+	column CurrMonthOffset
+		dataType: int64
+		formatString: 0
+		displayFolder: 02. Offsets
+		lineageTag: ee526e33-2afe-4e2b-a766-58435185086b
+		summarizeBy: sum
+		sourceColumn: CurrMonthOffset
+
+	column 'Month Short'
+		dataType: string
+		displayFolder: 05. Month-related
+		lineageTag: c4a1abdb-77d8-4e55-ae25-3e99d7a00982
+		summarizeBy: none
+		sortByColumn: Month
+		sourceColumn: Month Short
+
+	column 'Day of Month'
+		dataType: int64
+		formatString: 0
+		displayFolder: 03. Day-related
+		lineageTag: cd60c024-16f1-4070-97a8-cfb8dfb44026
+		summarizeBy: sum
+		sourceColumn: Day of Month
+
+	column 'Week Number'
+		dataType: int64
+		formatString: 0
+		displayFolder: 04. Week-related
+		lineageTag: cb6a5a2a-d2aa-4be9-8697-a66398ea0f52
+		summarizeBy: sum
+		sourceColumn: Week Number
+
+	column 'End of Week'
+		dataType: dateTime
+		formatString: Long Date
+		displayFolder: 04. Week-related
+		lineageTag: 19a19892-ceb0-4cf2-8da0-f916567f7d19
+		summarizeBy: none
+		sourceColumn: End of Week
+
+	column CurrWeekOffset
+		dataType: int64
+		formatString: 0
+		displayFolder: 02. Offsets
+		lineageTag: a1ae7d25-5ee4-420f-9bbd-9241874252a4
+		summarizeBy: sum
+		sourceColumn: CurrWeekOffset
+
+	column 'Day of Week Number'
+		dataType: int64
+		formatString: 0
+		displayFolder: 03. Day-related
+		lineageTag: 00bcf5f7-c23f-4d00-b096-88af80c5f0fd
+		summarizeBy: sum
+		sourceColumn: Day of Week Number
+
+	column 'Day of Week Name'
+		dataType: string
+		displayFolder: 03. Day-related
+		lineageTag: fc523ea2-c20d-42e0-befb-2c540003542e
+		summarizeBy: none
+		sourceColumn: Day of Week Name
+
+	column 'Day of Week Initial'
+		dataType: string
+		displayFolder: 03. Day-related
+		lineageTag: 7f798b50-73ad-4ef6-954b-9fae55ebb3f9
+		summarizeBy: none
+		sourceColumn: Day of Week Initial
+
+	column CurrDayOffset
+		dataType: int64
+		formatString: 0
+		displayFolder: 02. Offsets
+		lineageTag: efae7e0e-629c-49ab-b374-d57c741b4718
+		summarizeBy: sum
+		sourceColumn: CurrDayOffset
+
+	column All
+		dataType: string
+		displayFolder: 10. Supplemental
+		lineageTag: 83647751-2305-4723-a3e8-922a9e456fc7
+		summarizeBy: none
+		sourceColumn: All
+
+	column 'Week of Year'
+		dataType: string
+		lineageTag: 74af20f7-541a-4c1f-8caa-ce8b9408ff5f
+		summarizeBy: none
+		sourceColumn: Week of Year
+
+	column 'Day Name Short'
+		dataType: string
+		lineageTag: dd62aee7-329a-4ff8-a328-2fc6e9827c4c
+		summarizeBy: none
+		sourceColumn: Day Name Short
+
+	column 'Week of Year with space'
+		dataType: string
+		lineageTag: 6bf18a57-92d8-4442-aca9-591a8388d2a2
+		summarizeBy: none
+		sourceColumn: Week of Year with space
+
+	column 'Year with space'
+		dataType: string
+		lineageTag: a10827da-b516-49cb-a88c-160b6a5fa2d7
+		summarizeBy: none
+		sourceColumn: Year with space
+
+	column 'Year Display'
+		dataType: string
+		lineageTag: 8ac065c8-5f6a-4413-874f-c3a19fb38f3e
+		summarizeBy: none
+		sortByColumn: Year
+		sourceColumn: Year Display
+
+	column 'Year Slicer Display' = ```
+
+
+		VAR __Result = 
+		    SWITCH (
+		        TRUE (),
+		        'Dim_Calendar'[CurrYearOffset] = 0, "Current Year",
+		        'Dim_Calendar'[Year Text]
+		    )
+
+		RETURN __Result
+		```
+		dataType: string
+		lineageTag: 2ae168a9-ab46-428c-a6c7-d064d4ffaa7a
+		summarizeBy: none
+
+	column 'Quarter Slicer Display' = ```
+
+
+		VAR __Result = 
+		    SWITCH (
+		        TRUE (),
+		        'Dim_Calendar'[CurrQuarterOffset] = 0, "Current Quarter",
+		        'Dim_Calendar'[qqyy]
+		    )
+
+		RETURN __Result
+		```
+		dataType: string
+		lineageTag: fb1c7d01-c502-41f2-ad76-5b386368c206
+		summarizeBy: none
+
+	column 'Month Slicer Display' = ```
+
+
+		VAR __Result = 
+		    SWITCH (
+		        TRUE (),
+		        'Dim_Calendar'[CurrMonthOffset] = 0, "Current Month",
+		        'Dim_Calendar'[mmm'yy]
+		    )
+
+		RETURN __Result
+		```
+		dataType: string
+		lineageTag: ca3b6c29-d47e-4dd6-bb3c-810f5c027240
+		summarizeBy: none
+
+	partition Dim_Calendar = m
+		mode: import
+		source = ```
+			let
+			    //-------------------------------------------------------------------------
+			    //  ⬛  SOURCE CALENDAR
+			    //-------------------------------------------------------------------------
+			    sourceCalendar =
+			        CalendarQuery ( #date(2023, 1, 1), #date(2025, 12, 31), null, null, null ),
+
+
+			    //-------------------------------------------------------------------------
+			    //  ⬛  BASIC COLUMNS
+			    //-------------------------------------------------------------------------
+			    basicColumns =
+			        Table.SelectColumns (
+			            sourceCalendar,
+			            {
+			                "Date", 
+			                "DateInt", "CurrDayOffset",
+			                "Year", "CurrYearOffset",
+			                "Quarter Number", "Quarter", "Start of Quarter", "Quarter & Year", "QuarternYear", "CurrQuarterOffset",
+			                "Month", "Start of Month", "Month & Year", "MonthnYear", "CurrMonthOffset",
+			                "Month Name", "Month Short", "Month Initial",
+			                "Week Number", "Start of Week", "End of Week", "Week & Year", "WeeknYear", "CurrWeekOffset",
+			                "Day of Month", "Day of Week Number", "Day of Week Name", "Day of Week Initial", "Day Type",
+			                "IsAfterToday"
+			            }
+			        ),
+
+			    addStartOfYear =
+			        Table.AddColumn ( basicColumns, "Start of Year", each Date.StartOfYear ( [Date] ), type date ),
+
+
+			    //-------------------------------------------------------------------------
+			    //  ⬛  TEXT-FORMAT COLUMNS (YEAR / MONTH / QUARTER)
+			    //-------------------------------------------------------------------------
+			    addYearText =
+			        Table.AddColumn ( addStartOfYear, "Year Text", each Text.From ( Date.Year ( [Date] ) ) ),
+
+			    addMonthYearShort =
+			        Table.AddColumn (
+			            addYearText, "mmm'yy",
+			            each Text.Combine (
+			                {
+			                    Date.ToText ( [Date], "MMM" ),
+			                    "'",
+			                    Text.End ( Text.From ( Date.Year ( [Date] ) ), 2 )
+			                }
+			            )
+			        ),
+
+			    addQuarterYearShort =
+			        Table.AddColumn (
+			            addMonthYearShort, "qq'yy",
+			            each
+			                Text.From ( Date.QuarterOfYear ( [Date] ) )
+			                & "Q'"
+			                & Text.End ( Text.From ( Date.Year ( [Date] ) ), 2 )
+			        ),
+
+			    addQuarterYearLong =
+			        Table.AddColumn (
+			            addQuarterYearShort, "qq'yyyy",
+			            each
+			                Text.From ( Date.QuarterOfYear ( [Date] ) )
+			                & "Q'"
+			                & Text.From ( Date.Year ( [Date] ) )
+			        ),
+
+			    addMonthYearLong =
+			        Table.AddColumn (
+			            addQuarterYearLong, "mmm'yyyy",
+			            each Date.ToText ( [Date], "MMM" ) & "'" & Text.From ( Date.Year ( [Date] ) )
+			        ),
+
+
+			    //-------------------------------------------------------------------------
+			    //  ⬛  WEEK / QUARTER TEXT TRANSFORMATIONS
+			    //-------------------------------------------------------------------------
+			    addQuarterLabel =
+			        Table.AddColumn (
+			            addMonthYearLong, "Quarter of Year",
+			            each "Q" & Text.From ( Date.QuarterOfYear ( [Date] ) )
+			        ),
+
+			    addWeekYear =
+			    Table.AddColumn (
+			        addQuarterLabel, "Week and Year",
+			        each
+			            "W"
+			            & Text.PadStart( Text.From( Number.Mod( [WeeknYear], 100 ) ), 2, "0" )
+			            & " "
+			            & Text.From( Number.IntegerDivide( [WeeknYear], 100 ) )
+			    ),
+
+			    addWeekLabel =
+			    Table.AddColumn (
+			        addWeekYear, "Week of Year",
+			        each "W" & Text.PadStart( Text.From( Number.Mod( [WeeknYear], 100 ) ), 2, "0" )
+			    ),
+			    
+			    addWeekID =
+			    Table.AddColumn (
+			        addWeekLabel, "Week of Year ID",
+			        each Number.Mod( [WeeknYear], 100 ),
+			        Int64.Type
+			    ),
+
+
+			    //-------------------------------------------------------------------------
+			    //  ⬛  DAY-OF-WEEK VARIANTS
+			    //-------------------------------------------------------------------------
+			    addDayOfWeekAlt =
+			        Table.AddColumn (
+			            addWeekID, "Day of Week Alt.",
+			            each let d = Date.DayOfWeek ( [Date] ) in if d = 0 then 7 else d,
+			            Int64.Type
+			        ),
+
+			    addDayNameShort =
+			        Table.AddColumn (
+			            addDayOfWeekAlt, "Day Name Short",
+			            each Text.Start ( [Day of Week Name], 3 )
+			        ),
+
+
+			    //-------------------------------------------------------------------------
+			    //  ⬛  EXTRA “SPACE” COLUMNS (FOR PRETTY HEADERS)
+			    //-------------------------------------------------------------------------
+			    addWeekShort =
+			        Table.AddColumn (
+			            addDayNameShort, "Week of Year Short",
+			            each
+			                Text.BeforeDelimiter ( [Week and Year], " " )
+			                & "'"
+			                & Text.End ( Text.From ( Text.AfterDelimiter ( [Week and Year], " " ) ), 2 )
+			        ),
+
+			    addWeekShortPadded =
+			        Table.AddColumn (
+			            addWeekShort, "Week of Year with space",
+			            each Text.Repeat ( Character.FromNumber ( 160 ), 8 ) & [Week of Year Short]
+			        ),
+
+			    addYearPadded =
+			        Table.AddColumn (
+			            addWeekShortPadded, "Year with space",
+			            each Text.Repeat ( Character.FromNumber ( 160 ), 10 ) & [Year Text]
+			        ),
+
+			    addMonthYearPadded =
+			        Table.AddColumn (
+			            addYearPadded, "mmm'yy with space",
+			            each Text.Repeat ( Character.FromNumber ( 160 ), 8 ) & [#"mmm'yy"]
+			        ),
+
+			    addQuarterYearPadded =
+			        Table.AddColumn (
+			            addMonthYearPadded, "qq'yy with space",
+			            each Text.Repeat ( Character.FromNumber ( 160 ), 10 ) & [#"qq'yy"]
+			        ),
+
+
+			    //-------------------------------------------------------------------------
+			    //  ⬛  OTHER SUPPLEMENTAL COLUMNS
+			    //-------------------------------------------------------------------------
+			    addMonthInQuarter =
+			        Table.AddColumn (
+			            addQuarterYearPadded, "Month In Quarter",
+			            each Number.Mod ( Date.Month ( [Date] ) - 1, 3 ) + 1,
+			            Int64.Type
+			        ),
+			    
+			    addYearLabel =
+			        Table.AddColumn ( 
+			            addMonthInQuarter, "Year Display", 
+			            each if [#"CurrYearOffset"] = 0 
+			                then "Current Year" 
+			                else Text.From ( [Year] ), 
+			            type text
+			        ),
+
+			    addAllFlag =
+			        Table.AddColumn(
+			            addYearLabel,
+			            "All",
+			            each "All",
+			            type text     
+			    ),
+
+
+			    //-------------------------------------------------------------------------
+			    RESULT = addAllFlag,
+			    #"Renamed Columns" = Table.RenameColumns(RESULT,{{"qq'yy", "qqyy"}})
+			in
+			    #"Renamed Columns"
+			```

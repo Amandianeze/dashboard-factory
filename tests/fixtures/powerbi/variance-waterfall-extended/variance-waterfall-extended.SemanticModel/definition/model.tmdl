@@ -1,0 +1,11 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+
+ref table DIM_Customers
+ref table 'Dim Calendar'
+ref table FCT_Summarized_Data
+ref table 'FP Row Breakdown | V1 - Demo'
+ref table 'TBL Customer Breakdown'
+ref table 'TBL Waterfall Breakdown | PY'
+ref table '_Measures Main'
