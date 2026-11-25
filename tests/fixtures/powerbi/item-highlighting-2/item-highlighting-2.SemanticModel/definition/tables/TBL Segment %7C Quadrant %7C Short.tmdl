@@ -1,0 +1,114 @@
+table 'TBL Segment | Quadrant | Short'
+	lineageTag: 35df5f03-eb59-4cf5-b707-d0f913a06c5c
+
+	measure '_Segment ID alt.' = ```
+
+		    SELECTEDVALUE ( 'TBL Segment | Quadrant | Short'[Alt ID v2] )
+		```
+		lineageTag: 241060c2-0f88-4e60-b5bd-562fc37ce900
+
+	measure '_Quadrant Name Long' = ```
+
+		    SELECTEDVALUE ( 'TBL Segment | Quadrant | Short'[Name Long] )
+		```
+		lineageTag: 498b8035-a4a2-4091-a3f3-494e9c4fcf7b
+
+	measure '_Unichar Icon - Circle Filled' = ```
+
+
+		"⏺" // UNICHAR(9210)
+		```
+		dataCategory: Uncategorized
+		lineageTag: 5a818d4c-cc44-498e-8fc9-cc0a4c038ec2
+
+	measure '_Quadrant - Color Alternative' = ```
+
+
+		SELECTEDVALUE ( 'TBL Segment | Quadrant | Short'[Colot Alt.] )
+		```
+		lineageTag: 395ed7c7-f6e1-423d-8e49-4ce71e8fe7d7
+
+	measure '_Quadrant Circle Image' = ```
+
+		    SELECTEDVALUE ( 'TBL Segment | Quadrant | Short'[Icon Circle Color Alt.] )
+		```
+		dataCategory: Uncategorized
+		lineageTag: 7516ce5a-4057-4fa1-b9d0-ee039e1fa2e8
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 8c259416-8540-483e-b0fa-9f7e9b4a5e3c
+		summarizeBy: count
+		sourceColumn: ID
+
+	column 'Short Name'
+		dataType: string
+		lineageTag: 54264bd8-150a-4955-80af-f6b7855a14f3
+		summarizeBy: none
+		sortByColumn: ID
+		sourceColumn: Short Name
+
+	column 'Alt ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: af268a56-ca8e-44f8-ab1a-f040749b8ec6
+		summarizeBy: count
+		sourceColumn: Alt ID
+
+	column 'Alt ID v2'
+		dataType: int64
+		formatString: 0
+		lineageTag: 77a08b71-b3c2-4055-8074-3997d7f7cd6a
+		summarizeBy: sum
+		sourceColumn: Alt ID v2
+
+	column Color
+		dataType: string
+		lineageTag: 41e26d43-a319-40bc-880e-11734dfc5e60
+		summarizeBy: none
+		sourceColumn: Color
+
+	column 'Colot Alt.'
+		dataType: string
+		lineageTag: 9e73fb75-ce9b-4cd0-be1f-581defe50bcc
+		summarizeBy: none
+		sourceColumn: Colot Alt.
+
+	column 'Name Long'
+		dataType: string
+		lineageTag: 5060c0cc-de90-4c55-8fa4-0075ca3514f8
+		summarizeBy: none
+		sortByColumn: 'Alt ID v2'
+		sourceColumn: Name Long
+
+	column 'Matrix Row ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: caa8c755-3021-47c7-9c9a-faa8a0f3a2ee
+		summarizeBy: count
+		sourceColumn: Matrix Row ID
+
+	column 'Matrix Column ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: f72a9b97-3a6a-4c5b-af0d-81d0da9b93d2
+		summarizeBy: count
+		sourceColumn: Matrix Column ID
+
+	column 'Icon Circle Color Alt.'
+		dataType: string
+		dataCategory: ImageUrl
+		lineageTag: dc2ed8b4-4792-4fd1-99ec-4b2ad9752bf7
+		summarizeBy: none
+		sourceColumn: Icon Circle Color Alt.
+
+	partition 'TBL Segment | Quadrant | Short' = m
+		mode: import
+		source = ```
+			let
+			    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("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", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, #"Alt ID" = _t, #"Alt ID v2" = _t, #"Short Name" = _t, Color = _t, #"Colot Alt." = _t, #"Name Long" = _t, #"Matrix Row ID" = _t, #"Matrix Column ID" = _t, #"Icon Circle Color Alt." = _t]),
+			    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}, {"Short Name", type text}, {"Alt ID", Int64.Type}, {"Alt ID v2", Int64.Type}, {"Matrix Row ID", Int64.Type}, {"Matrix Column ID", Int64.Type}})
+			in
+			    #"Changed Type"
+			```

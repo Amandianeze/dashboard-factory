@@ -1,0 +1,127 @@
+# yaml-language-server: $schema=./dashboard.schema.json
+version: 1
+id: variance-waterfall-extended
+title: Variance Waterfall - Extended
+description: Imported from Power BI (variance-waterfall-extended · Variance Waterfall - Extended).
+datasets:
+  fct_summarized_data:
+    source: fixture
+    path: variance-waterfall-extended.json
+    description: Denormalized from FCT_Summarized_Data via TMDL relationships.
+    fields:
+      waterfall_by_customer_segment_basic: quantitative
+      name: nominal
+      customer_name: nominal
+      revenue: quantitative
+      customer_rev_extended_yoy: quantitative
+      start_of_month: temporal
+      year_text: nominal
+      month_short: nominal
+      business_line: nominal
+    semantics:
+      waterfall_by_customer_segment_basic: Count
+      name: Name
+      customer_name: Name
+      revenue:
+        semanticType: Amount
+        unit: USD
+      customer_rev_extended_yoy: Count
+      start_of_month: Date
+      year_text: Category
+      month_short: Category
+      business_line: Category
+filters:
+  - id: year_selection
+    label: Year Selection
+    type: select
+    dataset: fct_summarized_data
+    field: year_text
+    appliesTo:
+      - yoy_variance_by_customer_segment
+      - breakdown_by_customer
+      - revenue_development_by_dates
+  - id: month_selection
+    label: Month Selection
+    type: multiselect
+    dataset: fct_summarized_data
+    field: month_short
+    appliesTo:
+      - yoy_variance_by_customer_segment
+      - breakdown_by_customer
+      - revenue_development_by_dates
+  - id: business_line
+    label: Business Line
+    type: multiselect
+    dataset: fct_summarized_data
+    field: business_line
+    appliesTo:
+      - yoy_variance_by_customer_segment
+      - breakdown_by_customer
+      - revenue_development_by_dates
+layout:
+  rows:
+    - height: 520
+      cells:
+        - panel: breakdown_by_customer
+          span: 6
+        - panel: yoy_variance_by_customer_segment
+          span: 6
+    - height: 300
+      cells:
+        - panel: revenue_development_by_dates
+          span: 12
+panels:
+  yoy_variance_by_customer_segment:
+    title: YoY Variance by Customer Segment
+    dataset: fct_summarized_data
+    kind: chart-panel
+    renderer: flint
+    chart:
+      chartType: Waterfall Chart
+      encodings:
+        x: name
+        y:
+          field: waterfall_by_customer_segment_basic
+          aggregate: sum
+  breakdown_by_customer:
+    title: Breakdown by Customer
+    dataset: fct_summarized_data
+    kind: data-table
+    renderer: table
+    columns:
+      - field: customer_name
+        label: Customer
+      - field: revenue
+        label: AC
+        format: ",.0f"
+    sort:
+      field: revenue
+      order: desc
+    limit: 50
+  revenue_development_by_dates:
+    title: Revenue Development By Dates
+    dataset: fct_summarized_data
+    kind: chart-panel
+    renderer: vega-lite
+    spec:
+      mark:
+        type: bar
+      encoding:
+        x:
+          field: start_of_month
+          type: temporal
+          title: null
+        y:
+          field: customer_rev_extended_yoy
+          aggregate: sum
+          type: quantitative
+          title: Customer Rev | Extended (YoY)
+        tooltip:
+          - field: start_of_month
+            type: temporal
+            title: Start of Month
+          - field: customer_rev_extended_yoy
+            aggregate: sum
+            type: quantitative
+            title: Customer Rev | Extended (YoY)
+            format: ",.0f"

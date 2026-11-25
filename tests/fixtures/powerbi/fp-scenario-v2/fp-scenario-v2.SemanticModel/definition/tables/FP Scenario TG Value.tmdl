@@ -1,0 +1,46 @@
+table 'FP Scenario TG Value'
+	lineageTag: 4bc5f2a0-dfa9-4e07-ad4d-82a56062776e
+
+	column 'FP TG Value'
+		dataType: string
+		lineageTag: e8a1321e-b5be-4c8c-a62f-5979d9b8fa6c
+		summarizeBy: none
+		sortByColumn: 'FP TG Value Order'
+		sourceColumn: [Value1]
+
+	column 'FP TG Value Fields'
+		dataType: string
+		isHidden
+		lineageTag: 38f9e13e-402c-4fcd-80cb-628147ce5cf8
+		summarizeBy: none
+		sortByColumn: 'FP TG Value Order'
+		sourceColumn: [Value2]
+
+	column 'FP TG Value Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b166f1c0-ace9-4dc6-9dce-0f911257b722
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+	column 'Scenario Name Key'
+		dataType: string
+		lineageTag: 3a249193-e1a7-4918-8171-5d7969480bd7
+		summarizeBy: none
+		sourceColumn: [Value4]
+
+	column 'Metric Name Key'
+		dataType: string
+		lineageTag: 324d7c78-f3e4-45c0-9029-0e72e4241555
+		summarizeBy: none
+		sourceColumn: [Value5]
+
+	partition 'FP Scenario TG Value' = calculated
+		mode: import
+		source = ```
+
+			{
+			    ("TG", NAMEOF( [_Revenue Target] ), 0, "TG", "Value")
+			}
+			```

@@ -13,7 +13,7 @@ const RULES = [
   ],
   [
     /^public\/data\//,
-    'Fixtures are generated; edit scripts/generate-fixtures.ts then run `npm run data:fixtures`.',
+    'Fixtures are generated; edit scripts/generate-fixtures.ts then run `npm run data:fixtures` (or use `npm run import:powerbi` for Power BI imports).',
   ],
   [
     /-snapshots\//,

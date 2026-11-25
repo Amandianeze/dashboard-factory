@@ -1,0 +1,34 @@
+table 'TBL Metric Selection'
+	lineageTag: 72c0b0ed-2acb-4da1-8057-c030cb395b9d
+
+	column ID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3a761538-46f5-47c2-a618-6d649a01431f
+		summarizeBy: count
+		sourceColumn: ID
+
+	column Name
+		dataType: string
+		lineageTag: b876b4a0-1cab-4207-abc2-601adad54762
+		summarizeBy: none
+		sortByColumn: ID
+		sourceColumn: Name
+
+	column 'Name Display'
+		dataType: string
+		lineageTag: 545e5c7f-cd06-448f-9774-e8a6e3d8fb97
+		summarizeBy: none
+		sortByColumn: ID
+		sourceColumn: Name Display
+
+	partition 'TBL Metric Selection' = m
+		mode: import
+		source = ```
+			let
+			    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUQpLzClNBdLO+bkFegoQXqxOtJIRUMwxqRgkVITMBMkZAwWCUnNgcnBmbCwA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, Name = _t, #"Name Display" = _t]),
+			    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}, {"Name", type text}})
+			in
+			    #"Changed Type"
+			```

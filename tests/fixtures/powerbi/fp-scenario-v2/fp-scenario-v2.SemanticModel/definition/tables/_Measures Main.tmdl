@@ -1,0 +1,4658 @@
+table '_Measures Main'
+	lineageTag: b6fb4e86-38de-41f9-b238-fe0954a17f59
+
+	measure '_Revenue AC' = ```
+
+
+		DIVIDE ( 
+		    SUM  ( FCT_Summarized_Data[Revenue] ),
+		    [_Denominator]
+		)
+
+		```
+		formatStringDefinition = [_Value Format] & ""
+		displayFolder: 01. Basic Calculations\01. Core
+		lineageTag: a30f2fa8-c45a-44aa-80e4-fb303b4e407d
+
+	measure '_Revenue PY | Equalized' = ```
+
+
+		VAR __Last_Closed_Period =
+		    MAXX ( 
+		        CALCULATETABLE (
+		            FILTER ( 
+		                ADDCOLUMNS (
+		                    ALL ( 'Dim Calendar'[Date] ),
+		                    "Value", [_Revenue AC]
+		                ),
+		                NOT ISBLANK ( [Value] )
+		            ),
+		            REMOVEFILTERS()
+		        ),
+		        'Dim Calendar'[Date]
+		    )
+
+		VAR __Date_Table = 
+		    VALUES ( 'Dim Calendar'[Date] )
+
+		VAR __Dates_Till_Closed = 
+		    FILTER ( 
+		        __Date_Table, 
+		        'Dim Calendar'[Date] <= __Last_Closed_Period
+		    )
+
+		VAR __Result = 
+		    CALCULATE ( 
+		        [_Revenue AC],
+		        DATEADD ( __Dates_Till_Closed, -1, YEAR )
+		    )
+
+		RETURN __Result
+
+		// CALCULATE ( 
+		//     [_Revenue AC],
+		//     DATEADD ('Dim Calendar'[Date], -1, YEAR )
+		// )
+
+		//----or Alternatively-----//
+		// CALCULATE (
+		//     [_Revenue],
+		//     SAMEPERIODLASTYEAR ( 'Dim Calendar'[Date] )
+		// )
+		```
+		formatStringDefinition = [_Value Format] & ""
+		displayFolder: 01. Basic Calculations\01. Core
+		lineageTag: aae14113-4556-47a3-9241-03ac4cd0f09a
+
+	measure '_Revenue Variance abs. PY' = ```
+
+
+		VAR __Current =         [_Revenue AC]
+		VAR __Previous_Year =   [_Revenue PY | Equalized]
+		VAR __Result =          __Current - __Previous_Year
+
+		RETURN __Result
+		```
+		formatStringDefinition = [_Variance Format] & ""
+		displayFolder: 02. Supplemental Calculations\02. Variances\01. PY\01. Core
+		lineageTag: 9a0989a7-b189-473a-8fda-b4d6cd7f961d
+
+	measure '_Revenue Variance abs. PY FX Color' = ```
+
+
+		VAR __Variance = [_Revenue Variance abs. PY]
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            ISBLANK ( __Variance ), [_Transparent Color],
+		            __Variance > 0,         [_Positive Variance color],
+		            __Variance = 0,         [_Neutral Variance color],
+		            __Variance < 0,         [_Negative Variance color]
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\01. PY\02. Supplemental
+		lineageTag: 80de4a7b-7586-4f90-b8e2-3a4b2b1e7a0c
+
+	measure '_Negative Variance color' = "#B34E4E"
+		displayFolder: 09. Technical\01. Sentiment & Supplemental Colors
+		lineageTag: d83970fc-e60a-45e4-8789-3c5fb316ec02
+
+	measure '_Neutral Variance color' = "#858D9A"
+		displayFolder: 09. Technical\01. Sentiment & Supplemental Colors
+		lineageTag: 3d45738c-efef-4384-ad53-cf460d00c20a
+
+	measure '_Positive Variance color' = "#308C9A"
+		displayFolder: 09. Technical\01. Sentiment & Supplemental Colors
+		lineageTag: 7f67a9ec-9baa-4559-bb5a-d40b33a87cd0
+
+	measure '_Revenue Variance rel. PY' = ```
+
+
+		VAR __AC_Value = [_Revenue AC]
+		VAR __PY_Value = [_Revenue PY | Equalized]
+
+		VAR __Check = 
+		    ISBLANK ( __AC_Value ) || 
+		    ISBLANK ( __PY_Value ) ||
+		    __AC_Value <= 0 || 
+		    __PY_Value <= 0
+
+		VAR __Relative_Variance = 
+		    DIVIDE ( 
+		        __AC_Value - __PY_Value,
+		        __PY_Value
+		    )
+
+		VAR __Result =
+		    IF (
+		        __Check, BLANK(),
+		        __Relative_Variance
+		    )
+
+		RETURN __Result
+		```
+		formatString: +0.0%;-0.0%;0%
+		displayFolder: 02. Supplemental Calculations\02. Variances\01. PY\01. Core
+		lineageTag: a253f59e-117e-466d-8efc-ef35103bef69
+
+	measure '_Max value x Factor | AC & PY' = ```
+
+
+		VAR __Base_Table =
+
+		CALCULATETABLE (
+		    ADDCOLUMNS (
+		        VALUES ( 'Dim Calendar'[MonthnYear] ),
+		        "@Value", MAX ( [_Revenue AC], [_Revenue PY | Equalized] )
+		    ),
+		    ALLSELECTED ( 'Dim Calendar' )
+		)
+
+		VAR __Max_Value =
+		    MAXX ( __Base_Table, [@Value] )
+
+		VAR __Result = __Max_Value * 1.3
+
+		RETURN __Result
+
+
+
+
+		```
+		displayFolder: 09. Technical\09. Others\02. Max Values x Factor
+		lineageTag: 1af3f13b-afd1-45b2-891d-c1fc4671b2dd
+
+	measure '_Month Short Slicer Order 4Rx3C Grid' = ```
+
+
+		VAR __Month_Number = MAX ( 'Dim Calendar'[Month] )
+
+		VAR __Result =
+		    SWITCH (
+		       __Month_Number,
+		            1, 1, 
+		            2, 5, 
+		            3, 9, 
+		            4, 2,  
+		            5, 6, 
+		            6, 10, 
+		            7, 3,
+		            8, 7, 
+		            9, 11,
+		            10, 4, 
+		            11, 8, 
+		            12, 12
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\Slicer Month Order
+		lineageTag: a4099989-c495-403f-b901-5cb2df6981ea
+
+	measure '_% Share | AC | DIM Customer Context' = ```
+
+
+		VAR __Value =
+		    DIVIDE (
+		        [_Revenue AC],
+		        CALCULATE (
+		            [_Revenue AC],
+		            REMOVEFILTERS ( 
+		                DIM_Customers[Segment],
+		                DIM_Customers[Country],
+		                DIM_Customers[Country Name],
+		                DIM_Customers[Customer_Name],
+		                DIM_Customers[Customer_ID]
+		            ),
+		            ALLSELECTED ( DIM_Customers[Business_Line] )
+		        )
+		    )
+
+		VAR __Result = __Value
+
+		RETURN __Result
+
+
+
+		```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 02. Supplemental Calculations\01. % of Total & Share\02. Dim Customer Context
+		lineageTag: 97358721-2c90-4f0b-b229-3febac83597f
+
+	measure '_% Share | PY | DIM Customer Context' = ```
+
+
+		VAR __Value =
+		    DIVIDE (
+		        [_Revenue PY | Equalized],
+		        CALCULATE (
+		            [_Revenue PY | Equalized],
+		            REMOVEFILTERS ( 
+		                DIM_Customers[Segment],
+		                DIM_Customers[Country],
+		                DIM_Customers[Country Name],
+		                DIM_Customers[Customer_Name],
+		                DIM_Customers[Customer_ID]
+		            ),
+		            ALLSELECTED ( DIM_Customers[Business_Line] )
+		        )
+		    )
+
+		VAR __Result = __Value
+
+		RETURN __Result
+
+
+		```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 02. Supplemental Calculations\01. % of Total & Share\02. Dim Customer Context
+		lineageTag: 35e25692-5362-47db-8fd8-03813e6f339f
+
+	measure '_% Share | abs. PY | DIM Customer Context' = ```
+
+
+		( [_% Share | AC | DIM Customer Context] - [_% Share | PY | DIM Customer Context] ) * 100
+
+
+
+
+		```
+		formatString: +0.0pp;-0.0pp;0pp
+		displayFolder: 02. Supplemental Calculations\01. % of Total & Share\02. Dim Customer Context
+		lineageTag: 38072d4b-0190-4f5c-b39a-a32d1006c052
+
+	measure '_% Share | abs. PY | Data Bar | DIM Customer Context' = ```
+
+
+		[_% Share | abs. PY | DIM Customer Context]
+
+
+
+
+		```
+		formatString: ;;;
+		displayFolder: 02. Supplemental Calculations\01. % of Total & Share\02. Dim Customer Context
+		lineageTag: 98babf9e-9ba7-422a-932e-14022d8619a1
+
+	measure 'Placeholder v1' = BLANK()
+		formatString: 0
+		displayFolder: 09. Technical\02. Placeholders
+		lineageTag: 4a38926b-e8f2-4c14-9d82-5e304f9b4be1
+
+	measure '_Revenue Variance abs. PY | Data Bar' = ```
+
+
+		[_Revenue Variance abs. PY]
+		```
+		formatString: ;;;
+		displayFolder: 02. Supplemental Calculations\02. Variances\01. PY\02. Supplemental
+		lineageTag: f29b3a05-1e6b-4446-ae11-f11079b2913e
+
+	measure '_Perc % of Grand Total | AC' = ```
+
+
+		DIVIDE (
+		    [_Revenue AC],
+		    CALCULATE (
+		        [_Revenue AC],
+		        ALLSELECTED()
+		    )
+		)
+		```
+		formatString: 0.0%;-0.0%;0%
+		displayFolder: 02. Supplemental Calculations\01. % of Total & Share\01. Core
+		lineageTag: 55475357-483b-46c6-8557-3b626fad72ae
+
+	measure '_Revenue Variance rel. PY | Data Bar' = ```
+
+
+		[_Revenue Variance rel. PY]
+		```
+		formatString: ;;;
+		displayFolder: 02. Supplemental Calculations\02. Variances\01. PY\02. Supplemental
+		lineageTag: 9774553f-f308-49f8-a26e-cd10bf44467e
+
+	measure '_Revenue Variance rel. PY | Data Bar | Cut-off' = ```
+
+
+		VAR __Relative_Variance     = [_Revenue Variance rel. PY]
+		VAR __Cap_Threshold         = [_Cut-off Point | Relative Variance | Cut-off Threshold]
+		VAR __Neg_Cap_Threshold     = __Cap_Threshold * (-1)
+
+		VAR __Result = 
+		    SWITCH (
+		        TRUE(),
+		            __Relative_Variance > __Cap_Threshold,     __Cap_Threshold,
+		            __Relative_Variance < __Neg_Cap_Threshold, __Neg_Cap_Threshold,
+		            __Relative_Variance
+		    )
+		            
+		RETURN __Result
+
+		```
+		formatString: ;;;
+		displayFolder: 02. Supplemental Calculations\02. Variances\06. Relative Var. PY | Cut-off Logic\02. Data Bars
+		lineageTag: 9b9d63a0-63a4-4af7-9658-cd37517c4804
+
+	measure '_Revenue Variance rel. PY | Data Bar | Cut-off | Values' = ```
+
+
+		VAR __Relative_Variance     = [_Revenue Variance rel. PY]
+		VAR __Cap_Threshold         = [_Cut-off Point | Relative Variance | Cut-off Threshold]
+		VAR __Neg_Cap_Threshold     = __Cap_Threshold * (-1)
+
+		VAR __Result = 
+		    SWITCH (
+		        TRUE(),
+		            __Relative_Variance > __Cap_Threshold,     __Cap_Threshold,
+		            __Relative_Variance < __Neg_Cap_Threshold, __Neg_Cap_Threshold,
+		            __Relative_Variance
+		    )
+		            
+		RETURN __Result
+		```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 02. Supplemental Calculations\02. Variances\06. Relative Var. PY | Cut-off Logic\02. Data Bars
+		lineageTag: adac0ae3-d21a-42b4-b556-1a8184ad79fe
+
+	measure '_Revenue Variance rel. PY | Icon Up/Down | Cut-off' = ```
+
+
+		VAR __Relative_Variance     = [_Revenue Variance rel. PY]
+		VAR __Cap_Threshold         = [_Cut-off Point | Relative Variance | Cut-off Threshold]
+		VAR __Neg_Cap_Threshold     = __Cap_Threshold * (-1)
+
+		VAR __Icon_Positive         = [_Icon | Double Arrow | Up | Green]
+		VAR __Icon_Negative         = [_Icon | Double Arrow | Down | Red]
+
+		VAR __Result = 
+		    SWITCH (
+		        TRUE(),
+		            __Relative_Variance > __Cap_Threshold,     __Icon_Positive & "",  
+		            __Relative_Variance < __Neg_Cap_Threshold, __Icon_Negative & "",
+		            BLANK()
+		    )
+		            
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\06. Relative Var. PY | Cut-off Logic\03. Icons
+		dataCategory: ImageUrl
+		lineageTag: 8626d0d5-3d45-4459-8f17-ea8a8676eabb
+
+	measure 'Placeholder v2' = BLANK()
+		formatString: 0
+		displayFolder: 09. Technical\02. Placeholders
+		lineageTag: 7a44d81e-fc6e-4d49-8e1b-db97552d910c
+
+	measure 'Placeholder v3' = BLANK()
+		formatString: 0
+		displayFolder: 09. Technical\02. Placeholders
+		lineageTag: e2f9e799-0ebf-4410-8d8f-f2335a92c3d7
+
+	measure '_Revenue Variance rel. PY | Icon Right | Cut-off' = ```
+
+
+		VAR __Relative_Variance     = [_Revenue Variance rel. PY]
+		VAR __Cap_Threshold         = [_Cut-off Point | Relative Variance | Cut-off Threshold]
+		VAR __Icon_Positive         = [_Icon | Double Arrow | Right | Green]
+
+		VAR __Result = 
+		    IF (
+		         __Relative_Variance > __Cap_Threshold, __Icon_Positive & "" ,  
+		        BLANK()
+		    )
+		            
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\06. Relative Var. PY | Cut-off Logic\03. Icons
+		lineageTag: 3a9801e3-e059-424f-8f8c-33b5b86cc66f
+
+	measure '_Revenue Variance rel. PY | Icon Left | Cut-off' = ```
+
+
+		VAR __Relative_Variance     = [_Revenue Variance rel. PY]
+		VAR __Cap_Threshold         = [_Cut-off Point | Relative Variance | Cut-off Threshold]
+		VAR __Neg_Cap_Threshold     = __Cap_Threshold * (-1)
+
+		VAR __Icon_Negative         = [_Icon | Double Arrow | Left | Red]
+
+		VAR __Result = 
+		    IF (
+		        __Relative_Variance < __Neg_Cap_Threshold, __Icon_Negative & "",
+		        BLANK()
+		    )
+		            
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\06. Relative Var. PY | Cut-off Logic\03. Icons
+		lineageTag: e5c655a4-5bff-4413-8d64-5b7b2a3ac5b1
+
+	measure '_Cut-off Point | Relative Variance | Cut-off Threshold' = ```
+
+		[Dynamic Relative Variance Cut-off] //2.0 // e.g 1 equals 100%
+		```
+		formatString: 0%;-0%;0%
+		displayFolder: 02. Supplemental Calculations\02. Variances\06. Relative Var. PY | Cut-off Logic\01. Threshold
+		lineageTag: 126bab32-b9ef-41c2-84f6-c2b22b40f7ab
+
+	measure 'Placeholder v4' = BLANK()
+		formatString: 0
+		displayFolder: 09. Technical\02. Placeholders
+		lineageTag: fbbb4c04-5e5a-4632-9dd6-eb43a8562bf7
+
+	measure '_Max value x Factor | AC & PY | Alt.' = ```
+
+
+		VAR __Base_Table =
+
+		CALCULATETABLE (
+		    ADDCOLUMNS (
+		        VALUES ( 'Dim Calendar'[MonthnYear] ),
+		        "@AC", [_Revenue AC],
+		        "@PY", [_Revenue PY | Equalized]
+		    ),
+		    ALLSELECTED ( 'Dim Calendar' )
+		)
+
+		VAR __Max_Value =
+		    MAXX ( __Base_Table, MAX ( [@AC], [@PY] )  )
+
+		VAR __Result = __Max_Value * 1.3
+
+		RETURN __Result
+
+		// MAXX (
+		//     ALLSELECTED ( 'Dim Calendar'[mmm'yy], 'Dim Calendar'[MonthnYear] ),
+		//     MAX ( [_Revenue AC], [_Revenue PY] )
+		// )
+		```
+		displayFolder: 09. Technical\09. Others\02. Max Values x Factor
+		lineageTag: caef71d1-482b-4ecd-b713-1e01cfc4dce5
+
+	measure '_Revenue Target' = ```
+
+
+		[_Revenue PY | Equalized] * 2.5
+
+		```
+		formatStringDefinition = [_Value Format] & ""
+		displayFolder: 01. Basic Calculations\01. Core
+		lineageTag: 7a59da4e-ff3c-4564-92bb-4ce42a254c07
+
+	measure '_Max value x Factor | AC & PY & Target | Alt.' = ```
+
+
+		VAR __Base_Table =
+
+		CALCULATETABLE (
+		    ADDCOLUMNS (
+		        VALUES ( 'Dim Calendar'[MonthnYear] ),
+		        "@AC",      [_Revenue AC],
+		        "@PY",      [_Revenue PY | Equalized],
+		        "@PY Alt.", [_Revenue Target]
+		    ),
+		    ALLSELECTED ( 'Dim Calendar' )
+		)
+
+		VAR __Max_Value =
+		    MAXX ( 
+		        __Base_Table, 
+		        MAXX ( 
+		            {[@AC], [@PY], [@PY Alt.]}, 
+		            [Value] 
+		        ) 
+		    )
+
+		VAR __Result = __Max_Value * 1.3
+
+		RETURN __Result
+
+
+		```
+		displayFolder: 09. Technical\09. Others\02. Max Values x Factor
+		lineageTag: 32ec0283-6ceb-4618-a820-6c2a667c4055
+
+	measure '_Max value | AC & PY' = ```
+
+
+		VAR __Base_Table =
+
+		CALCULATETABLE (
+		    ADDCOLUMNS (
+		        VALUES ( 'Dim Calendar'[MonthnYear] ),
+		        "@Value", MAX ( [_Revenue AC], [_Revenue PY | Equalized] )
+		    ),
+		    ALLSELECTED ( 'Dim Calendar' )
+		)
+
+		VAR __Max_Value =
+		    MAXX ( __Base_Table, [@Value] )
+
+		VAR __Result = __Max_Value 
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\01. Min & Max Values
+		lineageTag: a7b31b5e-2ff8-4467-a465-a767ffe41fe0
+
+	measure '_Max value | AC & PY | Alt.' = ```
+
+
+		VAR __Base_Table =
+
+		CALCULATETABLE (
+		    ADDCOLUMNS (
+		        VALUES ( 'Dim Calendar'[MonthnYear] ),
+		        "@AC", [_Revenue AC],
+		        "@PY", [_Revenue PY | Equalized]
+		    ),
+		    ALLSELECTED ( 'Dim Calendar' )
+		)
+
+		VAR __Max_Value =
+		    MAXX ( __Base_Table, MAX ( [@AC], [@PY] )  )
+
+		VAR __Result = __Max_Value 
+
+		RETURN __Result
+
+		// MAXX (
+		//     ALLSELECTED ( 'Dim Calendar'[mmm'yy], 'Dim Calendar'[MonthnYear] ),
+		//     MAX ( [_Revenue AC], [_Revenue PY] )
+		// )
+		```
+		displayFolder: 09. Technical\09. Others\01. Min & Max Values
+		lineageTag: b896b6de-18e4-4b4e-ab59-2fb031ad77a7
+
+	measure '_Max value | AC & PY & Target | Alt.' = ```
+
+
+		VAR __Base_Table =
+
+		CALCULATETABLE (
+		    ADDCOLUMNS (
+		        VALUES ( 'Dim Calendar'[MonthnYear] ),
+		        "@AC",      [_Revenue AC],
+		        "@PY",      [_Revenue PY | Equalized],
+		        "@PY Alt.", [_Revenue Target]
+		    ),
+		    ALLSELECTED ( 'Dim Calendar' )
+		)
+
+		VAR __Max_Value =
+		    MAXX ( 
+		        __Base_Table, 
+		        MAXX ( 
+		            {[@AC], [@PY], [@PY Alt.]}, 
+		            [Value] 
+		        ) 
+		    )
+
+		VAR __Result = __Max_Value 
+
+		RETURN __Result
+
+
+		```
+		displayFolder: 09. Technical\09. Others\01. Min & Max Values
+		lineageTag: 48fb0818-38a2-4929-ba99-9560c0a2bccc
+
+	measure '_Max value x Factor | AC' = ```
+
+
+		VAR __Base_Table =
+
+		CALCULATETABLE (
+		    ADDCOLUMNS (
+		        VALUES ( 'Dim Calendar'[MonthnYear] ),
+		        "@Value", [_Revenue AC]
+		    ),
+		    ALLSELECTED ( 'Dim Calendar' )
+		)
+
+		VAR __Max_Value =
+		    MAXX ( __Base_Table, [@Value] )
+
+		VAR __Result = __Max_Value * 1.3
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\02. Max Values x Factor
+		lineageTag: 9f1b158a-e91e-4e37-a51c-d77cc909a0bc
+
+	measure '_Selected Segment' = ```
+
+
+		SELECTEDVALUE ( DIM_Customers[Segment], "Multiple Segments Selected" )
+		```
+		displayFolder: 09. Technical\09. Others\Selected Items & Units & Granularities & Date Ranges
+		lineageTag: 6c49f7c2-9914-4f46-beac-6f76afee4e77
+
+	measure '_Error Bar | Positive' = ```
+
+
+		VAR __AC            = [_Revenue AC]
+		VAR __Comparision   = [_Revenue PY | Equalized]
+
+		VAR __Result =
+		    IF (
+		      __AC > __Comparision,
+		      __AC
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\09. Other
+		isHidden
+		lineageTag: c545bec6-7b98-4fd8-9be5-41ac59fdb417
+
+	measure '_Error Bar | Negative' = ```
+
+
+		VAR __AC            = [_Revenue AC]
+		VAR __Comparision   = [_Revenue PY | Equalized]
+
+		VAR __Result =
+		    IF (
+		      __AC < __Comparision,
+		      __Comparision
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\09. Other
+		isHidden
+		lineageTag: a199b4a6-a80c-4d2c-b399-6d43add72981
+
+	measure '_Standard Cal. Date Range | Multiple periods' = ```
+
+
+		VAR __Min_date      =  MIN ( 'Dim Calendar'[Date] )
+		VAR __Max_date      =  MAX ( 'Dim Calendar'[Date] )
+
+		VAR __Min_date_F    =  FORMAT ( __Min_date , "mmm'yy")
+		VAR __Max_date_F    =  FORMAT ( __Max_date, "mmm'yy")
+
+		VAR __Total_months_Count    = DATEDIFF ( __Min_date, __Max_date, MONTH) + 1
+		VAR __Selected_Months_Count = DISTINCTCOUNT ( 'Dim Calendar'[CurrMonthOffset] )
+
+		VAR __Result =
+		        SWITCH(
+		            TRUE(),
+		                __Max_date_F = __Min_date_F, __Max_date_F,
+		                __Total_months_Count <> __Selected_Months_Count, "Multiple periods",
+		                __Min_date_F & " - " & __Max_date_F
+		        )
+
+		RETURN __Result
+
+
+
+		// VAR __Max_date      =  CALCULATE ( MAX ( 'Dim Calendar'[Date] ), KEEPFILTERS ( 'Dim Calendar'[_Is Closed Period] = 1 ) )
+		// VAR __Max_date      =  [_Standard Cal. Max Date] -- Based on the Last Invoice Date // Optionally change to -> MAX ( 'Dim Calendar'[Date] )
+		```
+		displayFolder: 09. Technical\09. Others\Selected Items & Units & Granularities & Date Ranges
+		lineageTag: e5d50382-a8a6-42a9-9398-7f0f6207ddfc
+
+	measure '_Revenue PY KPI Card | Simplified V1' = ```
+
+		// Icon Indicator on the left side
+
+		VAR __Metric_abs = [_Revenue Variance abs. PY]
+		VAR __Metric_rel = [_Revenue Variance rel. PY]
+
+		VAR __Format_Rel     =  "+0.0%;-0.0% ;0%"
+		VAR __Format_Abs     =  "▲ +#,0,K;▼ -#,0,K;0" // Fixed as Thousands without decimals
+
+		VAR __Formatted_Abs     = FORMAT ( __Metric_abs, __Format_Abs )
+		VAR __Formatted_Rel     = FORMAT ( __Metric_rel, __Format_Rel )
+
+		VAR __Divider       =  " 𝄀 "
+		VAR __Space         =  " "
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		        __Metric_abs = 0, "no change",                                         
+		        ISBLANK ( __Metric_rel ), __Space & __Formatted_Abs & __Space,          
+		        __Space & __Formatted_Abs & __Divider & __Formatted_Rel & __Space 
+		    )
+
+		RETURN __Result
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// _Revenue PY KPI Card | Simplified V1 = 
+		// // Icon Indicator on the left side
+
+		// VAR __Metric_abs = [_Revenue Variance abs. PY]
+		// VAR __Metric_rel = [_Revenue Variance rel. PY]
+
+		// VAR __Format_Rel     =  "+0.0% ;-0.0% ;0%"
+		// VAR __Format_Abs     =  "▲ +#,0,K;▼ -#,0,K;0" // Fixed as Thousands without decimals
+		// VAR __Local_Format   =  "en-US"
+
+		// VAR __Formatted_Abs     = FORMAT ( __Metric_abs, __Format_Abs, __Local_Format )
+		// VAR __Formatted_Rel     = FORMAT ( __Metric_rel, __Format_Rel, __Local_Format )
+
+		// VAR __Divider       =  " 𝄀 "
+		// VAR __Space         =  " "
+
+		// VAR __Result =
+		//     SWITCH (
+		//         TRUE(),
+		//         __Metric_abs = 0, "no change",                                         
+		//         ISBLANK ( __Metric_rel ), __Space & __Formatted_Abs & __Space,          
+		//         __Space & __Formatted_Abs & __Divider & __Formatted_Rel & __Space 
+		//     )
+
+		// RETURN __Result
+
+
+
+
+
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\01. PY\02. Supplemental
+		lineageTag: 8866ff12-2feb-4abb-84df-a68a9ae6bc32
+
+	measure '_Unit And Date Range' = ```
+
+
+		VAR __Unit       = "USD"
+		VAR __Date_Range = [_Standard Cal. Date Range | Multiple periods]
+
+		VAR __Result =
+		    __Unit & " | " & __Date_Range
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\Selected Items & Units & Granularities & Date Ranges
+		lineageTag: 0656be6a-e85d-4097-a062-83d330fb083b
+
+	measure '_Revenue PY KPI Card | Simplified V2' = ```
+
+		// Icon Indicator on the right side
+
+		VAR __Metric_abs = [_Revenue Variance abs. PY]
+		VAR __Metric_rel = [_Revenue Variance rel. PY]
+
+		VAR __Format_Rel =  "+0.0%;-0.0%;0%"
+		VAR __Format_Abs =  "+#,0,K;-#,0,K;0" // Fixed as Thousands without decimals
+
+		VAR __Local_Format = "en-US"
+
+		VAR __Formatted_Abs     = FORMAT ( __Metric_abs, __Format_Abs, __Local_Format )
+		VAR __Formatted_Rel     = FORMAT ( __Metric_rel, __Format_Rel, __Local_Format )
+
+		VAR __Icon_Up       =  "▲ "
+		VAR __Icon_Down     =  "▼ "
+		VAR __Divider       =  " 𝄀 "
+		VAR __Space         =  " "
+		VAR __Icon          =  __Space & SWITCH ( TRUE (), __Metric_abs > 0 , __Icon_Up,  __Icon_Down )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		        __Metric_abs = 0, "no change",                                         
+		        ISBLANK ( __Metric_rel ), __Space & __Formatted_Abs & __Icon,         
+		        __Space & __Formatted_Abs & __Divider & __Formatted_Rel & __Icon     
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\01. PY\02. Supplemental
+		lineageTag: 6715e9f2-3fec-4bf4-a2b5-e31f76b3ccd0
+
+	measure '_Revenue Variance abs. Target' = ```
+
+
+		VAR __Current =  [_Revenue AC]
+		VAR __Target  =  [_Revenue Target]
+		VAR __Result  =  __Current - __Target
+
+		RETURN __Result
+		```
+		formatStringDefinition = ```
+			[_Variance Format] & ""
+
+			// "+#,0;-#,0;0"
+			```
+		displayFolder: 02. Supplemental Calculations\02. Variances\02. Target\01. Core
+		lineageTag: dd5aa9f9-e6c6-43d6-92ad-2f84208a2713
+
+	measure '_Revenue Variance rel. Target' = ```
+
+
+		VAR __AC_Value = [_Revenue AC]
+		VAR __Target_Value = [_Revenue Target]
+
+		VAR __Check = 
+		    ISBLANK ( __AC_Value ) || 
+		    ISBLANK ( __Target_Value ) ||
+		    __AC_Value <= 0 || 
+		    __Target_Value <= 0
+
+		VAR __Relative_Variance = 
+		    DIVIDE ( 
+		        __AC_Value - __Target_Value,
+		        __Target_Value
+		    )
+
+		VAR __Result =
+		    IF (
+		        __Check, BLANK(),
+		        __Relative_Variance
+		    )
+
+		RETURN __Result
+		```
+		formatString: +0.0%;-0.0%;0%
+		displayFolder: 02. Supplemental Calculations\02. Variances\02. Target\01. Core
+		lineageTag: 040aba2e-b938-442e-b625-cf2baa43a9d7
+
+	measure '_Revenue Target KPI Card | Simplified V1' = ```
+
+		// Icon Indicator on the left side
+
+		VAR __Metric_abs = [_Revenue Variance abs. Target]
+		VAR __Metric_rel = [_Revenue Variance rel. Target]
+
+		VAR __Format_Rel     =  "+0.0% ;-0.0% ;0%"
+		VAR __Format_Abs     =  "▲ +#,0,K;▼ -#,0,K;0" // Fixed as Thousands without decimals
+		VAR __Local_Format   =  "en-US"
+
+		VAR __Formatted_Abs     = FORMAT ( __Metric_abs, __Format_Abs, __Local_Format )
+		VAR __Formatted_Rel     = FORMAT ( __Metric_rel, __Format_Rel, __Local_Format )
+
+		VAR __Divider       =  " 𝄀 "
+		VAR __Space         =  " "
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		        __Metric_abs = 0, "no change",                                         
+		        ISBLANK ( __Metric_rel ), __Space & __Formatted_Abs & __Space,          
+		        __Space & __Formatted_Abs & __Divider & __Formatted_Rel & __Space 
+		    )
+
+		RETURN __Result
+
+
+
+
+
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\02. Target\02. Supplemental
+		lineageTag: 24cc4b49-7f62-46e9-b590-89e90f12ef41
+
+	measure '_Revenue Variance abs. Target FX Color' = ```
+
+
+		VAR __Variance = [_Revenue Variance abs. Target]
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            ISBLANK ( __Variance ), [_Transparent Color],
+		            __Variance > 0,         [_Positive Variance color],
+		            __Variance = 0,         [_Neutral Variance color],
+		            __Variance < 0,         [_Negative Variance color]
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\02. Target\02. Supplemental
+		lineageTag: 427edc2a-f956-4484-8b19-65dfebe89e7e
+
+	measure '_Revenue Scenario' = ```
+
+
+		VAR __Selected_Scenario = SELECTEDVALUE ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Result =
+		    SWITCH (
+		       __Selected_Scenario,
+		            "PY", [_Revenue PY | Equalized],
+		            "TG", [_Revenue Target]
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Basic Calculations\01. Core
+		lineageTag: 88f4dd65-ccbd-4f79-bfa6-256027d33b8d
+
+	measure '_Revenue Variance abs. Scenario' = ```
+
+
+		VAR __Current  =  [_Revenue AC]
+		VAR __Scenario =  [_Revenue Scenario]
+		VAR __Result   =  __Current - __Scenario
+
+		RETURN __Result
+		```
+		formatString: +#,0;-#,0;0
+		displayFolder: 02. Supplemental Calculations\02. Variances\03. Dynamic Scenario\01. Core
+		lineageTag: 60d3f28a-23bb-452c-b459-b0016dfe4681
+
+	measure '_Revenue Variance rel. Scenario' = ```
+
+
+		VAR __AC_Value       = [_Revenue AC]
+		VAR __Scenario_Value = [_Revenue Scenario]
+
+		VAR __IsValid = 
+		    NOT ISBLANK ( __AC_Value )       && 
+		    NOT ISBLANK ( __Scenario_Value ) &&
+		    __AC_Value       > 0             && 
+		    __Scenario_Value > 0
+
+		VAR __Result =
+		    IF (
+		        __IsValid,
+		            DIVIDE ( 
+		                __AC_Value - __Scenario_Value,
+		                __Scenario_Value
+		            )
+		    )
+
+		RETURN __Result
+		```
+		formatString: +0.0%;-0.0%;0%
+		displayFolder: 02. Supplemental Calculations\02. Variances\03. Dynamic Scenario\01. Core
+		lineageTag: 60ea4286-45b5-4abf-b95d-7640b8fa725e
+
+	measure '_Revenue Scenario KPI Card | Simplified V1' = ```
+
+		// Icon Indicator on the left side
+
+		VAR __Metric_abs = [_Revenue Variance abs. Scenario]
+		VAR __Metric_rel = [_Revenue Variance rel. Scenario]
+
+		VAR __Format_Rel     =  "+0.0% ;-0.0% ;0%"
+		VAR __Format_Abs     =  "▲ +#,0,K;▼ -#,0,K;0" // Fixed as Thousands without decimals
+		VAR __Local_Format   =  "en-US"
+
+		VAR __Formatted_Abs     = FORMAT ( __Metric_abs, __Format_Abs, __Local_Format )
+		VAR __Formatted_Rel     = FORMAT ( __Metric_rel, __Format_Rel, __Local_Format )
+
+		VAR __Divider       =  " 𝄀 "
+		VAR __Space         =  " "
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            ISBLANK ( SELECTEDVALUE ( 'TBL Scenario Selection'[Name] ) ), BLANK(),
+		            __Metric_abs = 0, "no change",                                         
+		            ISBLANK ( __Metric_rel ), __Space & __Formatted_Abs & __Space,          
+		            __Space & __Formatted_Abs & __Divider & __Formatted_Rel & __Space 
+		    )
+
+		RETURN __Result
+
+
+
+
+
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\03. Dynamic Scenario\02. Supplemental
+		lineageTag: 99d5b941-13b9-4369-bb75-59906724b4e0
+
+	measure '_Revenue Variance abs. Scenario FX Color' = ```
+
+
+		VAR __Variance = [_Revenue Variance abs. Scenario]
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __Variance > 0, [_Positive Variance color],
+		            __Variance = 0, [_Neutral Variance color],
+		            __Variance < 0, [_Negative Variance color]
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\03. Dynamic Scenario\02. Supplemental
+		lineageTag: f65cc2d6-1a44-4e2d-bb91-33bf0dc01486
+
+	measure '_Revenue Target KPI Card | Simplified V2' = ```
+
+		// Icon Indicator on the right side
+
+		VAR __Metric_abs = [_Revenue Variance abs. Target]
+		VAR __Metric_rel = [_Revenue Variance rel. Target]
+
+		VAR __Format_Rel =  "+0.0%;-0.0%;0%"
+		VAR __Format_Abs =  "+#,0,K;-#,0,K;0" // Fixed as Thousands without decimals
+
+		VAR __Local_Format = "en-US"
+
+		VAR __Formatted_Abs     = FORMAT ( __Metric_abs, __Format_Abs, __Local_Format )
+		VAR __Formatted_Rel     = FORMAT ( __Metric_rel, __Format_Rel, __Local_Format )
+
+		VAR __Icon_Up       =  "▲ "
+		VAR __Icon_Down     =  "▼ "
+		VAR __Divider       =  " 𝄀 "
+		VAR __Space         =  " "
+		VAR __Icon          =  __Space & SWITCH ( TRUE (), __Metric_abs > 0 , __Icon_Up,  __Icon_Down )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		        __Metric_abs = 0, "no change",                                         
+		        ISBLANK ( __Metric_rel ), __Space & __Formatted_Abs & __Icon,         
+		        __Space & __Formatted_Abs & __Divider & __Formatted_Rel & __Icon     
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\02. Target\02. Supplemental
+		lineageTag: 98b0d092-e490-4bad-85e2-0fc80b9fa2f3
+
+	measure '_% Share | Data Points | Monthly Gran.' = ```
+
+
+		VAR __Table =
+		    CALCULATETABLE ( 
+		        FILTER ( 
+		            ADDCOLUMNS ( 
+		                VALUES ( 'Dim Calendar'[CurrMonthOffset] ),
+		                "@Value", [_% Share | AC | DIM Customer Context]
+		            ),
+		            NOT ISBLANK ( [@Value] )
+		        ),
+		        ALLSELECTED ( 'Dim Calendar' )
+		    )
+
+		VAR __Min_Date_Offset   =  MINX ( __Table, 'Dim Calendar'[CurrMonthOffset] )       // First Date Point
+		VAR __Max_Date_Offset   =  MAXX ( __Table, 'Dim Calendar'[CurrMonthOffset] )       // Last Date Point
+		VAR __Min_Val           =  MINX ( FILTER ( __Table, [@Value] <> 0 ), [@Value] )    // Min Value
+		VAR __Max_Val           =  MAXX ( __Table, [@Value] )                              // Max Value
+
+		VAR __Xaxis_Date_Offset =  SELECTEDVALUE ( 'Dim Calendar'[CurrMonthOffset] )       // Current X-axis Date Point
+		VAR __Xaxis_Val         =  MAXX ( FILTER ( __Table, 'Dim Calendar'[CurrMonthOffset] = __Xaxis_Date_Offset  ), [@Value] )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __Xaxis_Date_Offset IN { __Min_Date_Offset, __Max_Date_Offset } ||
+		            __Xaxis_Val  IN { __Min_Val, __Max_Val },
+		            __Xaxis_Val,
+		            BLANK()
+		    )
+
+		RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others\04. Data Points
+		lineageTag: 805e5fa0-aae3-450d-a820-f69e7466ce73
+
+	measure '_% Share Data Points | Monthly Gran. | Last' = ```
+
+
+		VAR __Table =
+		    CALCULATETABLE ( 
+		        FILTER ( 
+		            ADDCOLUMNS ( 
+		                VALUES ( 'Dim Calendar'[CurrMonthOffset] ),
+		                "@Value", [_% Share | AC | DIM Customer Context]
+		            ),
+		            NOT ISBLANK ( [@Value] )
+		        ),
+		        ALLSELECTED ( 'Dim Calendar' )
+		    )
+
+		VAR __Max_Date =    MAXX ( __Table, 'Dim Calendar'[CurrMonthOffset] )  // Last Date Point
+		VAR __Xaxis_Date =  SELECTEDVALUE ( 'Dim Calendar'[CurrMonthOffset] ) // Current X-axis Date Point
+		VAR __Xaxis_Val =   MAXX ( FILTER ( __Table, 'Dim Calendar'[CurrMonthOffset] = __Xaxis_Date  ), [@Value] )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __Xaxis_Date IN { __Max_Date },
+		            __Xaxis_Val,
+		            BLANK()
+		    )
+
+		RETURN __Result
+
+		```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 09. Technical\09. Others\04. Data Points
+		lineageTag: 608fabde-fa91-40b9-8081-50d53468e5b6
+
+	measure '_Customer Count' = ```
+
+
+		VAR __Table =
+		    ADDCOLUMNS (                               
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev AC", [_Revenue AC]                            
+		    )
+
+		VAR __Result =
+		    COUNTROWS ( 
+		        FILTER ( 
+		            __Table, 
+		            NOT ISBLANK ( [@Rev AC] )
+		        )
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\01. General
+		lineageTag: 8ba2a6fe-a67e-40e4-a34e-40d02a702214
+
+	measure '_Customer Count | Lost (YoY)' = ```
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC] ,
+		        "@Rev_PY",      [_Revenue PY | Equalized] 
+		    )
+
+		VAR __Churned_Customers =
+		    FILTER (
+		        __Base_Table,
+		        ISBLANK ( [@Rev_Current] )  &&
+		        NOT ISBLANK ( [@Rev_PY] )       
+		    )
+
+		VAR __Result =
+		    COUNTROWS ( __Churned_Customers )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\03. Logic Based on YoY
+		lineageTag: a759e2fa-2b22-4aea-86a2-a0634a10f043
+
+	measure '_Customer Count | Downsell (YoY)' = ```
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC] ,
+		        "@Rev_PY",      [_Revenue PY | Equalized] 
+		    )
+
+		VAR __Downsell_Customers =
+		    FILTER (
+		        __Base_Table,
+		        NOT ISBLANK ( [@Rev_Current] )  &&
+		        NOT ISBLANK ( [@Rev_PY] )       &&
+		        [@Rev_Current] < [@Rev_PY]
+		    )
+
+		VAR __Result =
+		    COUNTROWS ( __Downsell_Customers )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\03. Logic Based on YoY
+		lineageTag: 29a48859-84b6-40a9-81c4-88de612f77d0
+
+	measure '_Customer Count | Lost' = ```
+
+		VAR __Current_Dates =
+		    VALUES ( 'Dim Calendar'[Date] )
+
+		VAR __Base_Table =
+		    CALCULATETABLE (                  
+		        ADDCOLUMNS (                        
+		            VALUES ( DIM_Customers[Customer_ID] ), 
+		            "@Last_Date", 
+		                CALCULATE ( 
+		                    EOMONTH ( MAX ( FCT_Summarized_Data[Date] ), 1 ),  
+		                    REMOVEFILTERS ( 'Dim Calendar' )
+		                    )
+		                ),
+		        REMOVEFILTERS ( 'Dim Calendar' )
+		    )
+		    
+		VAR __Lost_Customers =
+		    FILTER (
+		        __Base_Table,
+		        [@Last_Date] IN __Current_Dates
+		    )
+
+		VAR __Result =
+		    COUNTROWS ( __Lost_Customers )
+
+		RETURN __Result
+
+		```
+		formatString: #,0;-#,0;
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\02. Logic Based on Dates
+		lineageTag: f0af6d72-8f1d-4d6a-8a6e-3299662e6953
+
+	measure '_Customer Count | New' = ```
+
+		VAR __Current_Dates =
+		    VALUES ( 'Dim Calendar'[Date] )
+
+		VAR __Base_Table =
+		    CALCULATETABLE (                  
+		        ADDCOLUMNS (                        
+		            VALUES ( DIM_Customers[Customer_ID] ), 
+		            "@First_Date", 
+		                CALCULATE ( 
+		                    MIN ( FCT_Summarized_Data[Date] ), 
+		                    REMOVEFILTERS ( 'Dim Calendar' )
+		                    )
+		                ),
+		        REMOVEFILTERS ( 'Dim Calendar' )
+		    )
+		    
+		VAR __New_Customers =
+		    FILTER (
+		        __Base_Table,
+		        [@First_Date] IN __Current_Dates
+		    )
+
+		VAR __Result =
+		    COALESCE ( COUNTROWS ( __New_Customers ), 0 )
+
+		RETURN __Result
+
+
+
+		```
+		formatString: #,0;-#,0;
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\02. Logic Based on Dates
+		lineageTag: b458dbb2-35cc-46f5-96b1-55e3c2f3d38c
+
+	measure '_Customer Count | Growing (YoY)' = ```
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC] ,
+		        "@Rev_PY",      [_Revenue PY | Equalized] 
+		    )
+
+		VAR __Growing_Customers =
+		    FILTER (
+		        __Base_Table,
+		        NOT ISBLANK ( [@Rev_Current] )  &&
+		        NOT ISBLANK ( [@Rev_PY] )       &&
+		        [@Rev_Current] > [@Rev_PY]
+		    )
+
+		VAR __Result =
+		    COUNTROWS ( __Growing_Customers )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\03. Logic Based on YoY
+		lineageTag: e6e0856e-cb15-493d-a8e3-d9cf25b2c34d
+
+	measure '_Customer Count | New (YoY)' = ```
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC] ,
+		        "@Rev_PY",      [_Revenue PY | Equalized] 
+		    )
+
+		VAR __Upsell_Customers =
+		    FILTER (
+		        __Base_Table,
+		        NOT ISBLANK ( [@Rev_Current] )  &&
+		        ISBLANK ( [@Rev_PY] ) 
+		    )
+
+		VAR __Result =
+		    COALESCE ( COUNTROWS ( __Upsell_Customers ), 0 )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\03. Logic Based on YoY
+		lineageTag: 33ab79b3-f9c7-45da-af11-ca9c88779f05
+
+	measure '_Customer Count | Retained (YoY)' = ```
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC] ,
+		        "@Rev_PY",      [_Revenue PY | Equalized] 
+		    )
+
+		VAR __Retained_Customers =
+		    FILTER (
+		        __Base_Table,
+		        NOT ISBLANK ( [@Rev_Current] )  &&
+		        NOT ISBLANK ( [@Rev_PY] )       &&
+		        [@Rev_Current] = [@Rev_PY]
+		    )
+
+		VAR __Result =
+		    COALESCE ( COUNTROWS ( __Retained_Customers ), 0 )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\03. Logic Based on YoY
+		lineageTag: 63ac6795-f1f4-4990-8a06-a9c2839bc5cb
+
+	measure '_Customer Revenue | Lost (YoY)' = ```
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC] ,
+		        "@Rev_PY",      [_Revenue PY | Equalized] 
+		    )
+
+		VAR __Lost_Customers =
+		    FILTER (
+		        __Base_Table,
+		        ISBLANK ( [@Rev_Current] )  &&
+		        NOT ISBLANK ( [@Rev_PY] )       
+		    )
+
+		VAR __Result =
+		    SUMX ( __Lost_Customers, [@Rev_PY] *-1 )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\02. Customer Revenue or Variance
+		lineageTag: 9c78bfe3-97a4-4a80-a3c4-fae31f09d4b0
+
+	measure '_Customer YoY Var | Declining (YoY)' = ```
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC] ,
+		        "@Rev_PY",      [_Revenue PY | Equalized] 
+		    )
+
+		VAR __Declining_Customers =
+		ADDCOLUMNS ( 
+		    FILTER (
+		        __Base_Table,
+		        NOT ISBLANK ( [@Rev_Current] )  &&
+		        NOT ISBLANK ( [@Rev_PY] )       &&
+		        [@Rev_Current] < [@Rev_PY]
+		    ),
+		    "Variance", [_Revenue AC] - [@Rev_PY]
+		)
+
+		VAR __Result =
+		    SUMX ( __Declining_Customers, [Variance] )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\02. Customer Revenue or Variance
+		lineageTag: 561b96b3-aba3-4667-a7f7-ee5b893c38f5
+
+	measure '_Customer Revenue | New (YoY)' = ```
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC] ,
+		        "@Rev_PY",      [_Revenue PY | Equalized] 
+		    )
+
+		VAR __Upsell_Customers =
+		    FILTER (
+		        __Base_Table,
+		        NOT ISBLANK ( [@Rev_Current] )  &&
+		        ISBLANK ( [@Rev_PY] ) 
+		    )
+
+		VAR __Result =
+		    SUMX ( __Upsell_Customers, [@Rev_Current] )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\02. Customer Revenue or Variance
+		lineageTag: f2183535-26ce-4a0b-a67f-5f15741f8504
+
+	measure '_Customer YoY Var | Growing (YoY)' = ```
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC] ,
+		        "@Rev_PY",      [_Revenue PY | Equalized] 
+		    )
+
+		VAR __Growing_Customers =
+		ADDCOLUMNS ( 
+		    FILTER (
+		        __Base_Table,
+		        NOT ISBLANK ( [@Rev_Current] )  &&
+		        NOT ISBLANK ( [@Rev_PY] )       &&
+		        [@Rev_Current] > [@Rev_PY]
+		    ),
+		    "Variance", [_Revenue AC] - [@Rev_PY]
+		)
+
+		VAR __Result =
+		    SUMX ( __Growing_Customers, [Variance] )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\02. Customer Revenue or Variance
+		lineageTag: fc0e1f24-d8f8-45fb-9700-0678fbe21556
+
+	measure '_Customer Revenue | Retained (YoY)' = ```
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC] ,
+		        "@Rev_PY",      [_Revenue PY | Equalized] 
+		    )
+
+		VAR __Retained_Customers =
+		    FILTER (
+		        __Base_Table,
+		        NOT ISBLANK ( [@Rev_Current] )  &&
+		        NOT ISBLANK ( [@Rev_PY] )       &&
+		        [@Rev_Current] = [@Rev_PY]
+		    )
+
+		VAR __Result =
+		    SUMX ( __Retained_Customers, [@Rev_Current] )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\02. Customer Revenue or Variance
+		lineageTag: d3e7add4-08b7-45f4-82f8-9970bb826801
+
+	measure '_Customer FX' = ```
+
+
+		SWITCH (
+		    TRUE(),
+		    [_Customer Count | Lost] >=1, "#C27171",
+		    [_Customer Count | New] >=1, "#4C80B7",
+		    ISBLANK ([_Revenue AC] ), "#EDF1F4"
+		)
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\02. Logic Based on Dates
+		lineageTag: 473b51fe-b391-4968-a14c-36b19c2a36a0
+
+	measure '_Customer FX Font' = ```
+
+
+		IF (
+		    ISINSCOPE ( DIM_Customers[Customer_Name] ),
+		        SWITCH (
+		            TRUE(),
+		            [_Customer Count | Lost] >=1, "#ffffff",
+		            [_Customer Count | New] >=1, "#ffffff",
+		            "#3D5671"
+		        ),
+		    "#3D5671"
+		)
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\02. Logic Based on Dates
+		lineageTag: e7560822-e43d-48c2-a3e1-73cc093c572d
+
+	measure '_Customer Count | Lost Or New' = ```
+
+		VAR __Metric = [_Revenue AC]
+		VAR __Current_Dates =
+		    VALUES ( 'Dim Calendar'[Date] )
+
+		VAR __Base_Table =
+		    CALCULATETABLE (                  
+		        ADDCOLUMNS (                        
+		            VALUES ( DIM_Customers[Customer_ID] ), 
+		            "@First_Date", 
+		                CALCULATE ( 
+		                    MIN ( FCT_Summarized_Data[Date] ), 
+		                    REMOVEFILTERS ( 'Dim Calendar' )
+		                ),
+		            "@Last_Date", 
+		                CALCULATE ( 
+		                    EOMONTH ( MAX ( FCT_Summarized_Data[Date] ), 1 ),  
+		                    REMOVEFILTERS ( 'Dim Calendar' )
+		                    )
+		                ),
+		        REMOVEFILTERS ( 'Dim Calendar' )
+		    )
+
+		VAR __New_Customers         = FILTER ( __Base_Table, [@First_Date] IN __Current_Dates )
+		VAR __Lost_Customers        = FILTER ( __Base_Table, [@Last_Date] IN __Current_Dates )
+		VAR __New_Customers_Count   = COUNTROWS ( __New_Customers )
+		VAR __Lost_Customers_Count  = COUNTROWS ( __Lost_Customers )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __New_Customers_Count  >=1,  1,
+		            __Lost_Customers_Count >=1,  2,
+		            NOT ISBLANK ( __Metric ),    3,
+		            BLANK()
+		    )
+
+		RETURN __Result
+
+
+
+
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\02. Logic Based on Dates
+		lineageTag: ebbb99bc-17d7-4067-81b4-6b6796879aff
+
+	measure '_Customer Count | Extended (YoY)' = ```
+
+		VAR __Selected_Segment = VALUES ( 'TBL Customer Breakdown'[Name] )
+		VAR __Customer_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC],
+		        "@Rev_PY",      [_Revenue PY | Equalized]
+		    )
+
+		VAR __Customer_Table_Segment =
+		    ADDCOLUMNS (
+		     __Customer_Table,
+		        "@Segment",
+		            SWITCH (
+		                TRUE(),
+		                    NOT ISBLANK ( [@Rev_Current] )  && NOT ISBLANK ( [@Rev_PY] ) && [@Rev_Current] > [@Rev_PY], "Growing",
+		                    NOT ISBLANK ( [@Rev_Current] )  && NOT ISBLANK ( [@Rev_PY] ) && [@Rev_Current] < [@Rev_PY], "Declining",
+		                    NOT ISBLANK ( [@Rev_Current] )  && NOT ISBLANK ( [@Rev_PY] ) && [@Rev_Current] = [@Rev_PY], "Stable",
+		                    NOT ISBLANK ( [@Rev_Current] )  && ISBLANK ( [@Rev_PY] ),                                   "New",
+		                    ISBLANK ( [@Rev_Current] )      && NOT ISBLANK ( [@Rev_PY] ),                               "Lost"
+		            )
+		    )
+
+		VAR __Customer_Table_Segment_Filtered =
+		    FILTER (
+		        __Customer_Table_Segment,
+		        [@Segment] IN __Selected_Segment
+		    )
+
+		VAR __Result = COUNTROWS ( __Customer_Table_Segment_Filtered )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\03. Logic Based on YoY
+		lineageTag: 23c381a8-5752-438a-bfc2-8cb79fe58d05
+
+	measure '_Customer Rev | Extended (YoY)' = ```
+
+		VAR __Selected_Segment = VALUES ( 'TBL Customer Breakdown'[Name] )
+		VAR __Customer_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", CALCULATE ( [_Revenue AC], ALLSELECTED ( 'Dim Calendar' ) ) ,
+		        "@Rev_PY",      CALCULATE ( [_Revenue PY | Equalized], ALLSELECTED ( 'Dim Calendar' ) ),
+		        "@Rev", [_Revenue AC]
+		    )
+
+		VAR __Customer_Table_Segment =
+		    ADDCOLUMNS (
+		     __Customer_Table,
+		        "@Segment",
+		            SWITCH (
+		                TRUE(),
+		                    NOT ISBLANK ( [@Rev_Current] )  && NOT ISBLANK ( [@Rev_PY] ) && [@Rev_Current] > [@Rev_PY], "Growing",
+		                    NOT ISBLANK ( [@Rev_Current] )  && NOT ISBLANK ( [@Rev_PY] ) && [@Rev_Current] < [@Rev_PY], "Declining",
+		                    NOT ISBLANK ( [@Rev_Current] )  && NOT ISBLANK ( [@Rev_PY] ) && [@Rev_Current] = [@Rev_PY], "Stable",
+		                    NOT ISBLANK ( [@Rev_Current] )  && ISBLANK ( [@Rev_PY] ),                                   "New",
+		                    ISBLANK ( [@Rev_Current] )      && NOT ISBLANK ( [@Rev_PY] ),                               "Lost"
+		            )
+		    )
+
+		VAR __Customer_Table_Segment_Filtered =
+		    FILTER (
+		        __Customer_Table_Segment,
+		        [@Segment] IN __Selected_Segment
+		    )
+
+		VAR __Result = SUMX ( __Customer_Table_Segment_Filtered, [@Rev] )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\03. Logic Based on YoY
+		lineageTag: c3ee52cd-f686-4695-a1e1-c29bbbc37373
+
+	measure '_Customer Count | Extended (YoY) Name' = ```
+
+		VAR __Selected_Segment = VALUES ( 'TBL Customer Breakdown'[Name] )
+		VAR __Customer_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC],
+		        "@Rev_PY",      [_Revenue PY | Equalized]
+		    )
+
+		VAR __Customer_Table_Segment =
+		    ADDCOLUMNS (
+		     __Customer_Table,
+		        "@Segment",
+		            SWITCH (
+		                TRUE(),
+		                    NOT ISBLANK ( [@Rev_Current] )  && NOT ISBLANK ( [@Rev_PY] ) && [@Rev_Current] > [@Rev_PY], "Growing",
+		                    NOT ISBLANK ( [@Rev_Current] )  && NOT ISBLANK ( [@Rev_PY] ) && [@Rev_Current] < [@Rev_PY], "Declining",
+		                    NOT ISBLANK ( [@Rev_Current] )  && NOT ISBLANK ( [@Rev_PY] ) && [@Rev_Current] = [@Rev_PY], "Stable",
+		                    NOT ISBLANK ( [@Rev_Current] )  && ISBLANK ( [@Rev_PY] ),                                   "New",
+		                    ISBLANK ( [@Rev_Current] )      && NOT ISBLANK ( [@Rev_PY] ),                               "Lost"
+		            )
+		    )
+
+		VAR __Customer_Table_Segment_Filtered =
+		    FILTER (
+		        __Customer_Table_Segment,
+		        [@Segment] IN __Selected_Segment
+		    )
+
+		VAR __Result = 
+		    IF (
+		        ISINSCOPE ( DIM_Customers[Customer_Name] ),
+		        MAXX ( __Customer_Table_Segment_Filtered, [@Segment] )
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\03. Logic Based on YoY
+		lineageTag: 345cf068-cf18-431f-8cb3-f55f09df18b1
+
+	measure '_Revenue Variance rel. Target Data Bar' = ```
+
+
+		[_Revenue Variance rel. Target]
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\02. Target\02. Supplemental
+		lineageTag: c513337b-f0a2-4cc6-8504-e8c7fb9ef30e
+
+	measure '_Revenue Variance abs. Target Data Bar' = ```
+
+
+		[_Revenue Variance abs. Target]
+		```
+		formatString: ;;;
+		displayFolder: 02. Supplemental Calculations\02. Variances\02. Target\02. Supplemental
+		lineageTag: 842c3a38-402b-4142-9dff-3ce3a40b609d
+
+	measure '_Revenue | Data Points | Monthly Gran.' = ```
+
+
+		VAR __Table =
+		    CALCULATETABLE ( 
+		        FILTER ( 
+		            ADDCOLUMNS ( 
+		                VALUES ( 'Dim Calendar'[CurrMonthOffset] ),
+		                "@Value", [_Revenue AC]
+		            ),
+		            NOT ISBLANK ( [@Value] )
+		        ),
+		        ALLSELECTED ( 'Dim Calendar' )
+		    )
+
+		VAR __Min_Date =    MINX ( __Table, 'Dim Calendar'[CurrMonthOffset] )       // First Date Point
+		VAR __Max_Date =    MAXX ( __Table, 'Dim Calendar'[CurrMonthOffset] )       // Last Date Point
+		VAR __Min_Val =     MINX ( FILTER ( __Table, [@Value] <> 0 ), [@Value] )    // Min Value
+		VAR __Max_Val =     MAXX ( __Table, [@Value] )                              // Max Value
+
+		VAR __Xaxis_Date =  SELECTEDVALUE ( 'Dim Calendar'[CurrMonthOffset] ) // Current X-axis Date Point
+		VAR __Xaxis_Val =   MAXX ( FILTER ( __Table, 'Dim Calendar'[CurrMonthOffset] = __Xaxis_Date  ), [@Value] )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __Xaxis_Date IN { __Min_Date, __Max_Date } ||
+		            __Xaxis_Val  IN { __Min_Val, __Max_Val },
+		            __Xaxis_Val,
+		            BLANK()
+		    )
+
+		RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others\04. Data Points
+		lineageTag: 8b4235dd-beb1-4f69-b5cb-9a2132e0cc2d
+
+	measure '_Revenue | Data Points | Monthly Gran. AVG' = ```
+
+
+		VAR __Table =
+		    CALCULATETABLE ( 
+		        FILTER ( 
+		            ADDCOLUMNS ( 
+		                VALUES ( 'Dim Calendar'[CurrMonthOffset] ),
+		                "@Value", [_% Share | AC | DIM Customer Context]
+		            ),
+		            NOT ISBLANK ( [@Value] )
+		        ),
+		        ALLSELECTED ( 'Dim Calendar' )
+		    )
+
+		VAR __Min_Date =    MINX ( __Table, 'Dim Calendar'[CurrMonthOffset] )       // First Date Point
+		VAR __Max_Date =    MAXX ( __Table, 'Dim Calendar'[CurrMonthOffset] )       // Last Date Point
+
+		VAR __Avg_Val =     AVERAGEX ( __Table, [@Value] )                              // Max Value
+
+		VAR __Xaxis_Date =  SELECTEDVALUE ( 'Dim Calendar'[CurrMonthOffset] ) // Current X-axis Date Point
+		VAR __Xaxis_Val =   MAXX ( FILTER ( __Table, 'Dim Calendar'[CurrMonthOffset] = __Xaxis_Date  ), [@Value] )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __Xaxis_Date >= __Min_Date  && __Xaxis_Date <= __Max_Date ,
+		            __Avg_Val ,
+		            BLANK()
+		    )
+
+		RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others\03. Averages
+		lineageTag: 8538ee3d-7474-4b09-b855-6c396e2e7d28
+
+	measure '_Unit And Date Range and Scenario Multi-select' = ```
+
+
+		VAR __Unit          = "USD"
+		VAR __Date_Range    = [_Standard Cal. Date Range | Multiple periods]
+		VAR __Scenario      = [_Selected Scenario (Multiple options) Title]
+
+		VAR __Result =
+		    __Unit & " | " & __Date_Range & " | " & __Scenario
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\Selected Items & Units & Granularities & Date Ranges
+		lineageTag: a6ca4519-1a4c-4244-9702-7b539fe33cc5
+
+	measure '_Revenue PY Suppression | Basic' = ```
+
+
+		VAR __Scenario_Value    = [_Revenue PY | Equalized]
+		VAR __Scenario_Name     = "PY"
+
+		VAR __Scenario_Check = 
+		    COUNTROWS ( 
+		        FILTER ( 
+		            'TBL Scenario Selection', 'TBL Scenario Selection'[Name] IN { __Scenario_Name } 
+		        ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Scenario_Check > 0,
+		        __Scenario_Value
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\03. Suppresion (hiding metrics)
+		lineageTag: b51f585a-e931-492d-a4f2-deef5e8cdc26
+
+	measure '_Revenue Variance abs. PY Suppression' = ```
+
+
+		VAR __Current  =  [_Revenue AC]
+		VAR __Scenario =  [_Revenue PY Suppression | Basic]
+		VAR __Result   =  
+		    IF (
+		        NOT ISBLANK ( __Scenario ),
+		        __Current - __Scenario
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\04. PY Suppression\01. Core
+		lineageTag: c0bf1039-aa7a-4b41-9a55-2811d732508a
+
+	measure '_Revenue Variance abs. Target Suppression' = ```
+
+
+		VAR __Current  =  [_Revenue AC]
+		VAR __Scenario =  [_Revenue Target Suppression | Basic]
+		VAR __Result   =  
+		    IF (
+		        NOT ISBLANK ( __Scenario ),
+		        __Current - __Scenario
+		    )
+		    
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\05. Target Suppression\01. Core
+		lineageTag: d6cb0dfc-8e1c-4f8b-a594-5a5987467921
+
+	measure '_Revenue Variance rel. PY Suppression' = ```
+
+
+		VAR __AC_Value       = [_Revenue AC]
+		VAR __Scenario_Value = [_Revenue PY Suppression | Basic]
+
+		VAR __Check = 
+		    ISBLANK ( __AC_Value ) || 
+		    ISBLANK ( __Scenario_Value ) ||
+		    __AC_Value <= 0 || 
+		    __Scenario_Value <= 0
+
+		VAR __Relative_Variance = 
+		    DIVIDE ( 
+		        __AC_Value - __Scenario_Value,
+		        __Scenario_Value
+		    )
+
+		VAR __Result =
+		    IF (
+		        __Check, BLANK(),
+		        __Relative_Variance
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\04. PY Suppression\01. Core
+		lineageTag: 250a8e3f-1f0c-4a2c-afb9-76077efa4c10
+
+	measure '_Revenue Variance rel. Target Suppression' = ```
+
+
+		VAR __AC_Value       = [_Revenue AC]
+		VAR __Scenario_Value = [_Revenue Target Suppression | Basic]
+
+		VAR __Check = 
+		    ISBLANK ( __AC_Value ) || 
+		    ISBLANK ( __Scenario_Value ) ||
+		    __AC_Value <= 0 || 
+		    __Scenario_Value <= 0
+
+		VAR __Relative_Variance = 
+		    DIVIDE ( 
+		        __AC_Value - __Scenario_Value,
+		        __Scenario_Value
+		    )
+
+		VAR __Result =
+		    IF (
+		        __Check, BLANK(),
+		        __Relative_Variance
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\05. Target Suppression\01. Core
+		lineageTag: eba2585f-614b-4691-a7fe-dd38e10f9b35
+
+	measure '_Revenue PY Suppression KPI Card | Simplified V1' = ```
+
+		// Icon Indicator on the left side
+
+		VAR __Metric_abs = [_Revenue Variance abs. PY Suppression]
+		VAR __Metric_rel = [_Revenue Variance rel. PY Suppression]
+
+		VAR __Format_Rel     =  "+0.0% ;-0.0% ;0%"
+		VAR __Format_Abs     =  "▲ +#,0,K;▼ -#,0,K;0" // Fixed as Thousands without decimals
+		VAR __Local_Format   =  "en-US"
+
+		VAR __Formatted_Abs     = FORMAT ( __Metric_abs, __Format_Abs, __Local_Format )
+		VAR __Formatted_Rel     = FORMAT ( __Metric_rel, __Format_Rel, __Local_Format )
+
+		VAR __Divider       =  " 𝄀 "
+		VAR __Space         =  " "
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		        ISBLANK ( __Metric_abs ), BLANK(),
+		        __Metric_abs = 0, "no change",                                         
+		        ISBLANK ( __Metric_rel ), __Space & __Formatted_Abs & __Space,          
+		        __Space & __Formatted_Abs & __Divider & __Formatted_Rel & __Space 
+		    )
+
+		RETURN __Result
+
+
+
+
+
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\04. PY Suppression\02. Supplemental
+		lineageTag: 7b55555d-5dcd-4d01-8369-06fa0dcf7422
+
+	measure '_Revenue Target Suppression KPI Card | Simplified V1' = ```
+
+		// Icon Indicator on the left side
+
+		VAR __Metric_abs = [_Revenue Variance abs. Target Suppression]
+		VAR __Metric_rel = [_Revenue Variance rel. Target Suppression]
+
+		VAR __Format_Rel     =  "+0.0% ;-0.0% ;0%"
+		VAR __Format_Abs     =  "▲ +#,0,K;▼ -#,0,K;0" // Fixed as Thousands without decimals
+		VAR __Local_Format   =  "en-US"
+
+		VAR __Formatted_Abs     = FORMAT ( __Metric_abs, __Format_Abs, __Local_Format )
+		VAR __Formatted_Rel     = FORMAT ( __Metric_rel, __Format_Rel, __Local_Format )
+
+		VAR __Divider       =  " 𝄀 "
+		VAR __Space         =  " "
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		        ISBLANK ( __Metric_abs ), BLANK(),
+		        __Metric_abs = 0, "no change",                                         
+		        ISBLANK ( __Metric_rel ), __Space & __Formatted_Abs & __Space,          
+		        __Space & __Formatted_Abs & __Divider & __Formatted_Rel & __Space 
+		    )
+
+		RETURN __Result
+
+
+
+
+
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\05. Target Suppression\02. Supplemental
+		lineageTag: fe80fa1d-e5dc-4da1-88af-2d8ae65c9cd8
+
+	measure '_Revenue Variance abs. PY Suppresion FX Color' = ```
+
+
+		VAR __Variance = [_Revenue Variance abs. PY Suppression]
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            ISBLANK ( __Variance ), [_Transparent Color],
+		            __Variance > 0,         [_Positive Variance color],
+		            __Variance = 0,         [_Neutral Variance color],
+		            __Variance < 0,         [_Negative Variance color]
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\04. PY Suppression\02. Supplemental
+		lineageTag: 76b73ac4-e906-41ad-ba22-839724071756
+
+	measure '_Revenue Variance abs. Target Suppression FX Color' = ```
+
+
+		VAR __Variance = [_Revenue Variance abs. Target Suppression]
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            ISBLANK ( __Variance ), [_Transparent Color],
+		            __Variance > 0,         [_Positive Variance color],
+		            __Variance = 0,         [_Neutral Variance color],
+		            __Variance < 0,         [_Negative Variance color]
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\02. Variances\05. Target Suppression\02. Supplemental
+		lineageTag: 5a17a3ba-2097-49f0-a9df-f8691379297c
+
+	measure '_Transparent Color' = ```
+
+		    "#00000000" // Alt: "#ffffff00"
+		```
+		displayFolder: 09. Technical\01. Sentiment & Supplemental Colors
+		lineageTag: 7888b572-a845-471a-8186-ee3df13f3ea0
+
+	measure '_Revenue Target Suppression | Basic' = ```
+
+
+		VAR __Scenario_Value    = [_Revenue Target]
+		VAR __Scenario_Name     = "TG"
+		// VAR __Is_Filtered_Check = ISCROSSFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Scenario_Check = 
+		    COUNTROWS ( 
+		        FILTER ( 
+		            'TBL Scenario Selection', 'TBL Scenario Selection'[Name] IN { __Scenario_Name } 
+		        ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Scenario_Check > 0,
+		        __Scenario_Value
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\03. Suppresion (hiding metrics)
+		lineageTag: 994ffd70-81d1-4e84-a99b-56371968187d
+
+	measure '_Normalized with PY Variance | Segment' = ```
+
+		VAR __Table =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Segment] ),
+		        "@PY", [_Revenue Variance abs. PY] ,
+		        "@TG", [_Revenue Variance abs. Target]
+		    )
+		    
+		VAR __MinValue =
+		    MINX (
+		        __Table,
+		        MINX ( { [@PY], [@TG] }, [Value] )
+		    )
+
+		VAR __MaxValue =
+		    MAXX (
+		        __Table,
+		        MAXX ( { [@PY], [@TG] }, [Value] )
+		    )
+
+		VAR __AbsMax =
+		    MAX ( ABS ( __MinValue ), ABS ( __MaxValue ) )
+
+		VAR __Result =
+		    DIVIDE ( [_Revenue Variance abs. PY], __AbsMax )
+
+		RETURN __Result
+
+		// VAR __Current_Segment = 
+		//     SELECTEDVALUE ( DIM_Customers[Segment] )
+		    
+		// VAR __Table =
+		// CALCULATETABLE(
+		//     FILTER (
+		//         ADDCOLUMNS (
+		//             VALUES ( DIM_Customers[Segment] ),
+		//             "@VariancePY", [_Revenue Variance abs. PY],
+		//             "@VarianceTG", [_Revenue Variance abs. Target]
+		//         ),
+		//         NOT ISBLANK ( [@VariancePY] ) || NOT ISBLANK ( [@VarianceTG] )
+		//     ),
+		//     ALLSELECTED()
+		// )
+		    
+		// VAR __MinVal =
+		//     MINX (
+		//         __Table,
+		//         VAR _Variance_PY = [@VariancePY]
+		//         VAR _Variance_TG = [@VarianceTG]
+		//         RETURN COALESCE ( MIN ( _Variance_PY, _Variance_TG ), _Variance_PY, _Variance_TG )   
+		//     )
+		 
+		// VAR __MaxVal =
+		//     MAXX (
+		//         __Table,
+		//         VAR _Variance_PY = [@VariancePY]
+		//         VAR _Variance_TG = [@VarianceTG]
+		//         RETURN COALESCE ( MAX ( _Variance_PY, _Variance_TG ), _Variance_PY, _Variance_TG )       
+		//     )
+
+		// VAR __AbsMax =
+		//     MAX ( ABS ( __MinVal ), ABS ( __MaxVal ) )
+
+		// VAR __Variance_Current_Row =  
+		//     MAXX ( FILTER ( __Table, DIM_Customers[Segment] = __Current_Segment), [@VariancePY])
+
+		// VAR __Result = // Normalized Value
+		//     DIVIDE ( 
+		//          __Variance_Current_Row,
+		//          __AbsMax
+		//     )
+
+		// RETURN __Result
+
+
+
+		```
+		displayFolder: 09. Technical\09. Others\05. Normalized Values\02. Normalized Var. PY & Var TG
+		lineageTag: 931c18d9-d275-48ac-be3d-c1f51fa87d48
+
+	measure '_Normalized with TG Variance | Segment' = ```
+
+		VAR __Table =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Segment] ),
+		        "@PY", [_Revenue Variance abs. PY] ,
+		        "@TG", [_Revenue Variance abs. Target]
+		    )
+		    
+		VAR __MinValue =
+		    MINX (
+		        __Table,
+		        MINX ( { [@PY], [@TG] }, [Value] )
+		    )
+
+		VAR __MaxValue =
+		    MAXX (
+		        __Table,
+		        MAXX ( { [@PY], [@TG] }, [Value] )
+		    )
+
+		VAR __AbsMax =
+		    MAX ( ABS ( __MinValue ), ABS ( __MaxValue ) )
+
+		VAR __Result =
+		    DIVIDE ( [_Revenue Variance abs. Target], __AbsMax )
+
+		RETURN __Result
+
+		// VAR __Current_Segment= 
+		//     SELECTEDVALUE ( DIM_Customers[Segment] )
+		    
+		// VAR __Table =
+		// CALCULATETABLE(
+		//     FILTER (
+		//         ADDCOLUMNS (
+		//             VALUES ( DIM_Customers[Segment] ),
+		//             "@VariancePY", [_Revenue Variance abs. PY],
+		//             "@VarianceTG", [_Revenue Variance abs. Target]
+		//         ),
+		//         NOT ISBLANK ( [@VariancePY] ) || NOT ISBLANK ( [@VarianceTG] )
+		//     ),
+		//     ALLSELECTED()
+		// )
+		    
+		// VAR __MinVal =
+		//     MINX (
+		//         __Table,
+		//         VAR _Variance_PY = [@VariancePY]
+		//         VAR _Variance_TG = [@VarianceTG]
+		//         RETURN COALESCE ( MIN ( _Variance_PY, _Variance_TG ), _Variance_PY, _Variance_TG )   
+		//     )
+		 
+		// VAR __MaxVal =
+		//     MAXX (
+		//         __Table,
+		//         VAR _Variance_PY = [@VariancePY]
+		//         VAR _Variance_TG = [@VarianceTG]
+		//         RETURN COALESCE ( MAX ( _Variance_PY, _Variance_TG ), _Variance_PY, _Variance_TG )       
+		//     )
+
+		// VAR __AbsMax =
+		//     MAX ( ABS ( __MinVal ), ABS ( __MaxVal ) )
+
+		// VAR __Variance_Current_Row =  
+		//     MAXX ( FILTER ( __Table, DIM_Customers[Segment] = __Current_Segment), [@VarianceTG])
+
+		// VAR __Result = // Normalized Value
+		//     DIVIDE ( 
+		//          __Variance_Current_Row,
+		//          __AbsMax
+		//     )
+
+		// RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others\05. Normalized Values\02. Normalized Var. PY & Var TG
+		lineageTag: de2562fd-5906-4c71-8778-9428bafba35a
+
+	measure '_Normalized with PY Variance | Summarize' = ```
+
+		VAR __Current_Segment= SELECTEDVALUE ( DIM_Customers[Segment] )
+		VAR __Main_Metric = [_Revenue Variance abs. PY]
+		VAR __Table =
+		    CALCULATETABLE(
+		        FILTER (
+		            SUMMARIZECOLUMNS (
+		                DIM_Customers[Business_Line],
+		                DIM_Customers[Segment],
+		                "@VariancePY", [_Revenue Variance abs. PY],
+		                "@VarianceTG", [_Revenue Variance abs. Target]
+		            ),
+		            NOT ISBLANK ( [@VariancePY] ) || NOT ISBLANK ( [@VarianceTG] )
+		        ),
+		        ALLSELECTED()
+		    )
+		    
+		VAR __MinVal =
+		    MINX (
+		        __Table,
+		        VAR _Variance_PY = [@VariancePY]
+		        VAR _Variance_TG = [@VarianceTG]
+		        RETURN COALESCE ( MIN ( _Variance_PY, _Variance_TG ), _Variance_PY, _Variance_TG )   
+		    )
+		 
+		VAR __MaxVal =
+		    MAXX (
+		        __Table,
+		        VAR _Variance_PY = [@VariancePY]
+		        VAR _Variance_TG = [@VarianceTG]
+		        RETURN COALESCE ( MAX ( _Variance_PY, _Variance_TG ), _Variance_PY, _Variance_TG )       
+		    )
+
+		VAR __AbsMax =
+		    MAX ( ABS ( __MinVal ), ABS ( __MaxVal ) )
+
+		VAR __Variance_Current_Row =  
+		    // MAXX ( FILTER ( __Table, DIM_Customers[Segment] = __Current_Segment ), [@VariancePY])
+		    __Main_Metric
+		VAR __NormValue = 
+		    DIVIDE ( 
+		         __Variance_Current_Row,
+		         __AbsMax
+		    )
+
+		VAR __Result = __NormValue
+
+		RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\09. Other
+		lineageTag: 24e551cc-5d22-45af-af31-0c6cb716c8db
+
+	measure '_Normalized with TG Variance | Summarize' = ```
+
+		VAR __Current_Segment= SELECTEDVALUE ( DIM_Customers[Segment] )
+		VAR __Main_Metric = [_Revenue Variance abs. Target]
+		VAR __Table =
+		    CALCULATETABLE(
+		        FILTER (
+		            SUMMARIZECOLUMNS (
+		                DIM_Customers[Business_Line],
+		                DIM_Customers[Segment],
+		                "@VariancePY", [_Revenue Variance abs. PY],
+		                "@VarianceTG", [_Revenue Variance abs. Target]
+		            ),
+		            NOT ISBLANK ( [@VariancePY] ) || NOT ISBLANK ( [@VarianceTG] )
+		        ),
+		        ALLSELECTED()
+		    )
+		    
+		VAR __MinVal =
+		    MINX (
+		        __Table,
+		        VAR _Variance_PY = [@VariancePY]
+		        VAR _Variance_TG = [@VarianceTG]
+		        RETURN COALESCE ( MIN ( _Variance_PY, _Variance_TG ), _Variance_PY, _Variance_TG )   
+		    )
+		 
+		VAR __MaxVal =
+		    MAXX (
+		        __Table,
+		        VAR _Variance_PY = [@VariancePY]
+		        VAR _Variance_TG = [@VarianceTG]
+		        RETURN COALESCE ( MAX ( _Variance_PY, _Variance_TG ), _Variance_PY, _Variance_TG )       
+		    )
+
+		VAR __AbsMax =
+		    MAX ( ABS ( __MinVal ), ABS ( __MaxVal ) )
+
+		VAR __Variance_Current_Row =  
+		    // MAXX ( FILTER ( __Table, DIM_Customers[Segment] = __Current_Segment ), [@VariancePY])
+		    __Main_Metric
+		VAR __NormValue = 
+		    DIVIDE ( 
+		         __Variance_Current_Row,
+		         __AbsMax
+		    )
+
+		VAR __Result = __NormValue
+
+		RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\09. Other
+		lineageTag: 9a341dc0-27eb-40b7-9cf9-970ea0be0b43
+
+	measure '_Normalized PY Variance -1..1 | Segment | Incl. AC' = ```
+
+		VAR __Table =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Segment] ),
+		        "@AC", [_Revenue AC],
+		        "@PY", [_Revenue Variance abs. PY] ,
+		        "@TG", [_Revenue Variance abs. Target]
+		    )
+
+		VAR __MinValue =
+		    MINX (
+		        __Table,
+		        MINX ( { [@AC], [@PY], [@TG] }, [Value] )
+		    )
+
+		VAR __MaxValue =
+		    MAXX (
+		        __Table,
+		        MAXX ( { [@AC], [@PY], [@TG] }, [Value] )
+		    )
+
+		VAR __AbsMax =
+		    MAX ( ABS ( __MinValue ), ABS ( __MaxValue ) )
+
+		VAR __Result =
+		    DIVIDE ( [_Revenue Variance abs. PY], __AbsMax )
+
+		RETURN __Result
+
+
+		// VAR __Current_Segment= SELECTEDVALUE ( DIM_Customers[Segment] )
+		// VAR __Table =
+		// CALCULATETABLE(
+		//     FILTER (
+		//         ADDCOLUMNS (
+		//             VALUES ( DIM_Customers[Segment] ),
+		//             "@VariancePY", [_Revenue Variance abs. PY],
+		//             "@VarianceTG", [_Revenue Variance abs. Target],
+		//             "@Actuals",    [_Revenue AC]
+		//         ),
+		//         NOT ISBLANK ( [@VariancePY] ) || NOT ISBLANK ( [@VarianceTG] )
+		//     ),
+		//     ALLSELECTED()
+		// )
+		    
+		// VAR __MinVal =
+		//     MINX (
+		//         __Table,
+		//         VAR _Variance_PY = [@VariancePY]
+		//         VAR _Variance_TG = [@VarianceTG]
+		//         VAR _Actuals     = [@Actuals]
+		//         RETURN COALESCE ( MINX ( {_Variance_PY, _Variance_TG, _Actuals}, [Value] ), _Variance_PY, _Variance_TG, _Actuals )   
+		//     )
+		 
+		// VAR __MaxVal =
+		//     MAXX (
+		//         __Table,
+		//         VAR _Variance_PY = [@VariancePY]
+		//         VAR _Variance_TG = [@VarianceTG]
+		//         VAR _Actuals     = [@Actuals]
+		//         RETURN COALESCE ( MAXX ( {_Variance_PY, _Variance_TG, _Actuals}, [Value] ), _Variance_PY, _Variance_TG, _Actuals )       
+		//     )
+
+		// VAR __AbsMax =
+		//     MAX ( ABS ( __MinVal ), ABS ( __MaxVal ) )
+
+		// VAR __Variance_Current_Row =  
+		//     MAXX ( FILTER ( __Table, DIM_Customers[Segment] = __Current_Segment), [@VariancePY])
+
+		// VAR __NormValue = 
+		//     DIVIDE ( 
+		//          __Variance_Current_Row,
+		//          __AbsMax
+		//     )
+
+		// VAR __Result = __NormValue
+
+		// RETURN __Result
+
+
+
+		```
+		displayFolder: 09. Technical\09. Others\05. Normalized Values\03. Normalized AC & Var. PY & Var TG
+		lineageTag: 8c06045a-5739-4cea-8b0c-83c1487bef4c
+
+	measure '_Normalized TG Variance -1..1 | Segment | Incl. AC' = ```
+
+		VAR __Table =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Segment] ),
+		        "@AC", [_Revenue AC],
+		        "@PY", [_Revenue Variance abs. PY] ,
+		        "@TG", [_Revenue Variance abs. Target]
+		    )
+		    
+		VAR __MinValue =
+		    MINX (
+		        __Table,
+		        MINX ( { [@AC], [@PY], [@TG] }, [Value] )
+		    )
+
+		VAR __MaxValue =
+		    MAXX (
+		        __Table,
+		        MAXX ( { [@AC], [@PY], [@TG] }, [Value] )
+		    )
+
+		VAR __AbsMax =
+		    MAX ( ABS ( __MinValue ), ABS ( __MaxValue ) )
+
+		VAR __Result =
+		    DIVIDE ( [_Revenue Variance abs. Target], __AbsMax )
+
+		RETURN __Result
+
+		// VAR __Current_Segment= SELECTEDVALUE ( DIM_Customers[Segment] )
+		// VAR __Table =
+		// CALCULATETABLE(
+		//     FILTER (
+		//         ADDCOLUMNS (
+		//             VALUES ( DIM_Customers[Segment] ),
+		//             "@VariancePY", [_Revenue Variance abs. PY],
+		//             "@VarianceTG", [_Revenue Variance abs. Target],
+		//             "@Actuals",    [_Revenue AC]
+		//         ),
+		//         NOT ISBLANK ( [@VariancePY] ) || NOT ISBLANK ( [@VarianceTG] )
+		//     ),
+		//     ALLSELECTED()
+		// )
+		    
+		// VAR __MinVal =
+		//     MINX (
+		//         __Table,
+		//         VAR _Variance_PY = [@VariancePY]
+		//         VAR _Variance_TG = [@VarianceTG]
+		//         VAR _Actuals     = [@Actuals]
+		//         RETURN COALESCE ( MINX ( {_Variance_PY, _Variance_TG, _Actuals}, [Value] ), _Variance_PY, _Variance_TG, _Actuals )   
+		//     )
+		 
+		// VAR __MaxVal =
+		//     MAXX (
+		//         __Table,
+		//         VAR _Variance_PY = [@VariancePY]
+		//         VAR _Variance_TG = [@VarianceTG]
+		//         VAR _Actuals     = [@Actuals]
+		//         RETURN COALESCE ( MAXX ( {_Variance_PY, _Variance_TG, _Actuals}, [Value] ), _Variance_PY, _Variance_TG, _Actuals )       
+		//     )
+
+		// VAR __AbsMax =
+		//     MAX ( ABS ( __MinVal ), ABS ( __MaxVal ) )
+
+		// VAR __Variance_Current_Row =  
+		//     MAXX ( FILTER ( __Table, DIM_Customers[Segment] = __Current_Segment), [@VarianceTG])
+
+		// VAR __NormValue = 
+		//     DIVIDE ( 
+		//          __Variance_Current_Row,
+		//          __AbsMax
+		//     )
+
+		// VAR __Result = __NormValue
+
+		// RETURN __Result
+
+
+
+		```
+		formatString: ;;;
+		displayFolder: 09. Technical\09. Others\05. Normalized Values\03. Normalized AC & Var. PY & Var TG
+		lineageTag: dd36264c-0932-448d-a362-40005e212c6d
+
+	measure '_Normalized AC -1..1 | Segment | Incl. AC' = ```
+
+		VAR __Table =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Segment] ),
+		        "@AC", [_Revenue AC],
+		        "@PY", [_Revenue Variance abs. PY] ,
+		        "@TG", [_Revenue Variance abs. Target]
+		    )
+		    
+		VAR __MinValue =
+		    MINX (
+		        __Table,
+		        MINX ( { [@AC], [@PY], [@TG] }, [Value] )
+		    )
+
+		VAR __MaxValue =
+		    MAXX (
+		        __Table,
+		        MAXX ( { [@AC], [@PY], [@TG] }, [Value] )
+		    )
+
+		VAR __AbsMax =
+		    MAX ( ABS ( __MinValue ), ABS ( __MaxValue ) )
+
+		VAR __Result =
+		    DIVIDE ( [_Revenue AC], __AbsMax )
+
+		RETURN __Result
+
+
+		// VAR __Current_Segment= SELECTEDVALUE ( DIM_Customers[Segment] )
+		// VAR __Table =
+		// CALCULATETABLE(
+		//     FILTER (
+		//         ADDCOLUMNS (
+		//             VALUES ( DIM_Customers[Segment] ),
+		//             "@VariancePY", [_Revenue Variance abs. PY],
+		//             "@VarianceTG", [_Revenue Variance abs. Target],
+		//             "@Actuals",    [_Revenue AC]
+		//         ),
+		//         NOT ISBLANK ( [@VariancePY] ) || NOT ISBLANK ( [@VarianceTG] )
+		//     ),
+		//     ALLSELECTED()
+		// )
+		    
+		// VAR __MinVal =
+		//     MINX (
+		//         __Table,
+		//         VAR _Variance_PY = [@VariancePY]
+		//         VAR _Variance_TG = [@VarianceTG]
+		//         VAR _Actuals     = [@Actuals]
+		//         RETURN COALESCE ( MINX ( {_Variance_PY, _Variance_TG, _Actuals}, [Value] ), _Variance_PY, _Variance_TG, _Actuals )   
+		//     )
+		 
+		// VAR __MaxVal =
+		//     MAXX (
+		//         __Table,
+		//         VAR _Variance_PY = [@VariancePY]
+		//         VAR _Variance_TG = [@VarianceTG]
+		//         VAR _Actuals     = [@Actuals]
+		//         RETURN COALESCE ( MAXX ( {_Variance_PY, _Variance_TG, _Actuals}, [Value] ), _Variance_PY, _Variance_TG, _Actuals )       
+		//     )
+
+		// VAR __AbsMax =
+		//     MAX ( ABS ( __MinVal ), ABS ( __MaxVal ) )
+
+		// VAR __Variance_Current_Row =  
+		//     MAXX ( FILTER ( __Table, DIM_Customers[Segment] = __Current_Segment), [_Revenue AC])
+
+		// VAR __NormValue = 
+		//     DIVIDE ( 
+		//          __Variance_Current_Row,
+		//          __AbsMax
+		//     )
+
+		// VAR __Result = __NormValue
+
+		// RETURN __Result
+
+
+
+		```
+		displayFolder: 09. Technical\09. Others\05. Normalized Values\03. Normalized AC & Var. PY & Var TG
+		lineageTag: 056fde8e-185f-4fe4-bbaf-5add20281e9e
+
+	measure '_Max value | AC, Delta PY & Target' = ```
+
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Segment] ),
+		        "@AC",           [_Revenue AC],
+		        "@Delta_PY",     [_Revenue Variance abs. PY],
+		        "@Delta_Target", [_Revenue Variance abs. Target]
+		    )
+
+		VAR __Result =
+		    MAXX ( 
+		        __Base_Table, 
+		        MAXX ( 
+		            {[@AC], [@Delta_PY], [@Delta_Target] }, 
+		            [Value] 
+		        ) 
+		    ) * 1.3
+
+		RETURN __Result
+
+
+
+		// CALCULATETABLE (
+		//     ADDCOLUMNS (
+		//         VALUES ( DIM_Customers[Segment] ),
+		//         "@AC",           [_Revenue AC],
+		//         "@Delta_PY",     [_Revenue Variance abs. PY],
+		//         "@Delta_Target", [_Revenue Variance abs. Target]
+		//     ),
+		//     ALLSELECTED ( DIM_Customers[Segment] )
+		// )
+		```
+		displayFolder: 09. Technical\09. Others\01. Min & Max Values
+		lineageTag: ae16d36b-8fbc-45df-9caa-4ec1f64049c3
+
+	measure '_Min value | AC, Delta PY & Target' = ```
+
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Segment] ),
+		        "@AC",           [_Revenue AC],
+		        "@Delta_PY",     [_Revenue Variance abs. PY],
+		        "@Delta_Target", [_Revenue Variance abs. Target]
+		    )
+
+		VAR __Result =
+		    MINX ( 
+		        __Base_Table, 
+		        MINX ( 
+		            {0, [@AC], [@Delta_PY], [@Delta_Target] }, 
+		            [Value] 
+		        ) 
+		    ) * 1.3
+
+		RETURN __Result
+
+
+		// CALCULATETABLE (
+		//     ADDCOLUMNS (
+		//         VALUES ( DIM_Customers[Segment] ),
+		//         "@AC",           [_Revenue AC],
+		//         "@Delta_PY",     [_Revenue Variance abs. PY],
+		//         "@Delta_Target", [_Revenue Variance abs. Target]
+		//     ),
+		//     ALLSELECTED ( DIM_Customers[Segment] )
+		// )
+		```
+		displayFolder: 09. Technical\09. Others\01. Min & Max Values
+		lineageTag: 91879551-3bd0-4634-a213-45308fe56033
+
+	measure '_Unit And Date Range and Scenario Single-select' = ```
+
+
+		VAR __Unit          = "USD"
+		VAR __Date_Range    = [_Standard Cal. Date Range | Multiple periods]
+		VAR __Scenario      = [_Selected Scenario (Single selection) Title]
+
+		VAR __Result =
+		    __Unit & " | " & __Date_Range & " | " & __Scenario
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\Selected Items & Units & Granularities & Date Ranges
+		lineageTag: 5b506c69-4018-41e8-81cf-49c115d13304
+
+	measure '_Revenue PY Suppression | Extended' = ```
+
+
+		VAR __Scenario_Value    = [_Revenue PY | Equalized]
+		VAR __Scenario_Name     = "PY" // -> Manual Input
+		VAR __Is_Filtered       = ISCROSSFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Is_Selected = 
+		    NOT ISEMPTY ( 
+		        FILTER ( 
+		            'TBL Scenario Selection', 
+		            'TBL Scenario Selection'[Name] IN { __Scenario_Name } ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Is_Filtered && __Is_Selected,
+		        __Scenario_Value
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\03. Suppresion (hiding metrics)
+		lineageTag: 31fbe85f-704a-426e-a7ce-07b3654c3495
+
+	measure '_Revenue Target Suppression | Extended' = ```
+
+
+		VAR __Scenario_Value    = [_Revenue Target]
+		VAR __Scenario_Name     = "TG" // -> Manual Input
+		VAR __Is_Filtered       = ISCROSSFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Is_Selected = 
+		    NOT ISEMPTY ( 
+		        FILTER ( 
+		            'TBL Scenario Selection', 
+		            'TBL Scenario Selection'[Name] IN { __Scenario_Name } ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Is_Filtered && __Is_Selected,
+		        __Scenario_Value
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\03. Suppresion (hiding metrics)
+		lineageTag: f3c67398-5ab5-4a80-a576-60eaf277cac3
+
+	measure '_Unit And Date Range and Scenario Multi-select | Suppression' = ```
+
+
+		VAR __Unit          = "USD"
+		VAR __Date_Range    = [_Standard Cal. Date Range | Multiple periods]
+		VAR __Scenario      = [_Selected Scenario (Multiple options) Title | Suppression]
+
+		VAR __Result =
+		    __Unit & " | " & __Date_Range & " | " & __Scenario
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\Selected Items & Units & Granularities & Date Ranges
+		lineageTag: 839b57d9-a884-40d1-bd6e-e38b95fa968f
+
+	measure '_Month Short Slicer Order 2Rx6C Grid' = ```
+
+
+		VAR __Month_Number = MAX ( 'Dim Calendar'[Month] )
+
+		VAR __Result =
+		    SWITCH (
+		       __Month_Number,
+		            1, 1, 
+		            2, 3, 
+		            3, 5, 
+		            4, 7,  
+		            5, 9, 
+		            6, 11, 
+		            7, 2,
+		            8, 4, 
+		            9, 6,
+		            10, 8, 
+		            11, 10, 
+		            12, 12
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\Slicer Month Order
+		lineageTag: 70457203-3136-421f-89e9-1a6ecfe43653
+
+	measure '_Month Short Slicer Order 3Rx4C Grid' = ```
+
+
+		VAR __Month_Number = MAX ( 'Dim Calendar'[Month] )
+
+		VAR __Result =
+		    SWITCH (
+		       __Month_Number,
+		            1, 1, 
+		            2, 4, 
+		            3, 7, 
+		            4, 10, 
+		            5, 2, 
+		            6, 5, 
+		            7, 8,
+		            8, 11, 
+		            9, 3,
+		            10, 6, 
+		            11, 9, 
+		            12, 12
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\Slicer Month Order
+		lineageTag: b71754c5-3d7a-4d9b-9d86-919306c5eae7
+
+	measure '_Revenue Target Suppression | Extended | Legend Circle' = ```
+
+
+		VAR __Scenario_Legend_Text   = "  🞅TG" // UNICHAR(128901)
+		VAR __Scenario_Name          = "TG"
+		VAR __Is_Filtered            = ISFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Scenario_Check = 
+		    COUNTROWS ( 
+		        FILTER ( 'TBL Scenario Selection', 'TBL Scenario Selection'[Name] IN { __Scenario_Name } ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Is_Filtered && __Scenario_Check > 0 ,
+		        __Scenario_Legend_Text
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\03. Suppresion (hiding metrics)
+		lineageTag: f8d45e50-53a4-46cb-96cf-305685e56d49
+
+	measure '_Revenue PY Suppression | Extended | Legend Circle' = ```
+
+
+		VAR __Scenario_Legend_Text   = "⏺PY  " // UNICHAR(9210)
+		VAR __Scenario_Name          = "PY"
+		VAR __Is_Filtered            = ISFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Scenario_Check = 
+		    COUNTROWS ( 
+		        FILTER ( 'TBL Scenario Selection', 'TBL Scenario Selection'[Name] IN { __Scenario_Name } ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Is_Filtered && __Scenario_Check > 0 ,
+		        __Scenario_Legend_Text
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\03. Suppresion (hiding metrics)
+		lineageTag: abf72ac1-be1c-485f-8bdc-b780a87b086b
+
+	measure '_Revenue PY Suppression | Extended | Legend Square' = ```
+
+
+		VAR __Scenario_Legend_Text   = "  ⏹PY" // UNICHAR(9209)
+		VAR __Scenario_Name          = "PY"
+		VAR __Is_Filtered            = ISFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Scenario_Check = 
+		    COUNTROWS ( 
+		        FILTER ( 'TBL Scenario Selection', 'TBL Scenario Selection'[Name] IN { __Scenario_Name } ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Is_Filtered && __Scenario_Check > 0 ,
+		        __Scenario_Legend_Text
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\03. Suppresion (hiding metrics)
+		lineageTag: a4ba8f7b-01f0-4e35-b66e-6dc5f2610c6a
+
+	measure '_Revenue Target Suppression | Extended | Legend Square' = ```
+
+
+		VAR __Scenario_Legend_Text   = "  🞏TG" // UNICHAR(128911)
+		VAR __Scenario_Name          = "TG"
+		VAR __Is_Filtered            = ISFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Scenario_Check = 
+		    COUNTROWS ( 
+		        FILTER ( 'TBL Scenario Selection', 'TBL Scenario Selection'[Name] IN { __Scenario_Name } ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Is_Filtered && __Scenario_Check > 0 ,
+		        __Scenario_Legend_Text
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\03. Suppresion (hiding metrics)
+		lineageTag: e96ba093-9bb5-4815-9e88-92922d203c02
+
+	measure '_Last Date Non Blank Revenue' = ```
+
+
+		VAR __Last_Period =
+		    MAXX ( 
+		        CALCULATETABLE (
+		            FILTER ( 
+		                ADDCOLUMNS (
+		                    ALL ( 'Dim Calendar'[Date] ),
+		                    "Value", [_Revenue AC]
+		                ),
+		                NOT ISBLANK ( [Value] )
+		            ),
+		            REMOVEFILTERS()
+		        ),
+		        'Dim Calendar'[Date]
+		    )
+		        
+		RETURN __Last_Period
+		```
+		formatString: General Date
+		displayFolder: 01. Basic Calculations\01. Core
+		lineageTag: a46ee630-f9c7-4c8c-9a3c-8ce207633747
+
+	measure '_Last FCT Date' = ```
+
+
+		VAR __Last_FctDate =
+		     MAXX ( 
+		        ALL ( FCT_Summarized_Data[Date] ), 
+		        FCT_Summarized_Data[Date]
+		    )
+
+		VAR __Result = __Last_FctDate
+
+		RETURN __Result
+		```
+		formatString: General Date
+		displayFolder: 09. Technical\09. Others\01. Min & Max Values
+		lineageTag: 8780a06f-b8a9-4dd3-a63c-2f21b744ec5e
+
+	measure '_Last FCT Date (by nonblank)' = ```
+
+		VAR __LastDate =
+		    MAXX (
+		        FILTER (
+		            ALL ( 'Dim Calendar'[Date] ),
+		            NOT ISBLANK ( [_Revenue AC]  )
+		        ),
+		        'Dim Calendar'[Date]
+		    )
+		RETURN __LastDate
+		```
+		formatString: General Date
+		displayFolder: 09. Technical\09. Others\01. Min & Max Values
+		lineageTag: 166b1327-9d67-4c97-b397-d51d27d8533d
+
+	measure 'Zero 0 Value' = 0
+		formatString: 0
+		displayFolder: 09. Technical\02. Placeholders
+		lineageTag: 93eba7cd-bc8f-4b79-bc1e-1b6216c5de8e
+
+	measure '_Revenue AC | Is > PY' = ```
+
+
+		VAR __AC            = [_Revenue AC]
+		VAR __Comparative   = [_Revenue PY | Equalized]
+
+		VAR __Result =
+		    IF (
+		       __AC >= __Comparative,
+		       __AC 
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\04. Error bar Techniques
+		lineageTag: 5c5acaa6-1dba-4538-93b8-082b6e675b86
+
+	measure '_Revenue AC | Is < PY' = ```
+
+
+		VAR __AC            = [_Revenue AC]
+		VAR __Comparative   = [_Revenue PY | Equalized]
+
+		VAR __Result =
+		    IF (
+		       __AC < __Comparative,
+		       __AC 
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\04. Error bar Techniques
+		lineageTag: d17b23b7-c967-4bfe-8ea3-0ed3eb56e96b
+
+	measure '_Revenue AC | Is < Target' = ```
+
+
+		VAR __AC            = [_Revenue AC]
+		VAR __Comparative   = [_Revenue Target]
+
+		VAR __Result =
+		    IF (
+		       __AC < __Comparative,
+		       __AC 
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\04. Error bar Techniques
+		lineageTag: 5ff7ce69-68ca-455b-8a79-0fc6fe684527
+
+	measure '_Revenue AC | Is > Target' = ```
+
+
+		VAR __AC            = [_Revenue AC]
+		VAR __Comparative   = [_Revenue Target]
+
+		VAR __Result =
+		    IF (
+		       __AC >= __Comparative,
+		       __AC 
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\04. Error bar Techniques
+		lineageTag: 90813cca-771a-4fb5-a2b9-6b9f5b8fc082
+
+	measure '_Revenue Target | Is < AC' = ```
+
+
+		VAR __Target        = [_Revenue Target]
+		VAR __Comparative   = [_Revenue AC]
+
+		VAR __Result =
+		    IF (
+		       __Target < __Comparative,
+		       __Target 
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\04. Error bar Techniques
+		lineageTag: 2dfab260-bb33-4ce0-afe5-42846412db6c
+
+	measure '_Revenue Target | Is > AC' = ```
+
+
+		VAR __Target        = [_Revenue Target]
+		VAR __Comparative   = [_Revenue AC]
+
+		VAR __Result =
+		    IF (
+		       __Target >= __Comparative,
+		       __Target 
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\04. Error bar Techniques
+		lineageTag: af23eae1-5fe9-4bbb-b436-981348774419
+
+	measure 'Zero 0 Value v2' = 0
+		formatString: 0
+		displayFolder: 09. Technical\02. Placeholders
+		lineageTag: 01a6ca2b-0892-46f1-aecd-d43f80523e1f
+
+	measure '_Revenue AC Duplicate' = ```
+
+		[_Revenue AC]
+		```
+		displayFolder: 01. Basic Calculations\01. Core
+		lineageTag: d6189f85-8eb1-4f30-8d15-8ecb1600d18c
+
+	measure '_Customer Revenue | Retained (YoY) | Threshold' = ```
+
+
+		VAR __Threshold = 0.05
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC],
+		        "@Rev_PY",      [_Revenue PY | Equalized]
+		    )
+
+		VAR __Stable_Customers =
+		ADDCOLUMNS (
+		    FILTER (
+		        __Base_Table,
+		        NOT ISBLANK ( [@Rev_Current] ) &&
+		        NOT ISBLANK ( [@Rev_PY] ) &&
+		        ABS ( DIVIDE ( [@Rev_Current] - [@Rev_PY], [@Rev_PY] ) ) <= __Threshold
+		    ),
+		    "@Variance", [@Rev_Current] - [@Rev_PY]
+		)
+
+		VAR __Result =
+		    SUMX ( __Stable_Customers, [@Variance] )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\02. Customer Revenue or Variance
+		lineageTag: b97f9f1a-a3e3-4b92-8613-6d86066ec41c
+
+	measure '_Customer YoY Var | Growing (YoY) | Threshold' = ```
+
+
+		VAR __Threshold = 0.05
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC],
+		        "@Rev_PY",      [_Revenue PY | Equalized]
+		    )
+
+		VAR __Growing_Customers =
+		    ADDCOLUMNS (
+		        FILTER (
+		            __Base_Table,
+		            NOT ISBLANK ( [@Rev_Current] ) &&
+		            NOT ISBLANK ( [@Rev_PY] ) &&
+		            DIVIDE ( [@Rev_Current] - [@Rev_PY], [@Rev_PY] ) > __Threshold
+		        ),
+		        "@Variance", [@Rev_Current] - [@Rev_PY]
+		    )
+
+		VAR __Result =
+		    SUMX ( __Growing_Customers, [@Variance] )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\02. Customer Revenue or Variance
+		lineageTag: fc0f2e85-c5d8-45ec-be2e-0ee0c7c7679c
+
+	measure '_Customer YoY Var | Declining (YoY) | Threshold' = ```
+
+
+		VAR __Threshold = 0.05
+
+		VAR __Base_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC],
+		        "@Rev_PY",      [_Revenue PY | Equalized]
+		    )
+
+		VAR __Declining_Customers =
+		    ADDCOLUMNS (
+		        FILTER (
+		            __Base_Table,
+		            NOT ISBLANK ( [@Rev_Current] ) &&
+		            NOT ISBLANK ( [@Rev_PY] ) &&
+		            DIVIDE ( [@Rev_Current] - [@Rev_PY], [@Rev_PY] ) < -__Threshold
+		        ),
+		        "@Variance", [@Rev_Current] - [@Rev_PY]
+		    )
+
+		VAR __Result =
+		    SUMX ( __Declining_Customers, [@Variance] )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\02. Customer Revenue or Variance
+		lineageTag: cf6bfde1-7445-4d8f-a8db-b2cff827faee
+
+	measure '_Customer Count | Extended (YoY) Name | Threshold' = ```
+
+
+		VAR __Selected_Segment = VALUES ( 'TBL Customer Breakdown'[Name] )
+		VAR __Threshold = 0.05
+
+		VAR __Customer_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC],
+		        "@Rev_PY",      [_Revenue PY | Equalized]
+		    )
+
+		VAR __Customer_Table_With_Variance =
+		    ADDCOLUMNS (
+		        __Customer_Table,
+		        "@Variance", DIVIDE ( [@Rev_Current] - [@Rev_PY], [@Rev_PY] )
+		    )
+
+		VAR __Customer_Table_Segment =
+		    ADDCOLUMNS (
+		        __Customer_Table_With_Variance,
+		        "@Segment",
+		            SWITCH (
+		                TRUE(),
+		                    NOT ISBLANK ( [@Rev_Current] ) && ISBLANK ( [@Rev_PY] ),                                        "New",
+		                    ISBLANK ( [@Rev_Current] )     && NOT ISBLANK ( [@Rev_PY] ),                                    "Lost",
+
+		                    NOT ISBLANK ( [@Rev_Current] ) && NOT ISBLANK ( [@Rev_PY] ) && [@Variance] > __Threshold,       "Growing",
+		                    NOT ISBLANK ( [@Rev_Current] ) && NOT ISBLANK ( [@Rev_PY] ) && [@Variance] < -__Threshold,      "Declining",
+
+		                    NOT ISBLANK ( [@Rev_Current] ) && NOT ISBLANK ( [@Rev_PY] ),                                    "Stable"
+		            )
+		    )
+		    
+		VAR __Customer_Table_Segment_Filtered =
+		    FILTER (
+		        __Customer_Table_Segment,
+		        [@Segment] IN __Selected_Segment
+		    )
+
+		VAR __Result = 
+		    IF (
+		        ISINSCOPE ( DIM_Customers[Customer_Name] ),
+		        MAXX ( __Customer_Table_Segment_Filtered, [@Segment] )
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\03. Logic Based on YoY
+		lineageTag: 9c941021-6bd4-4184-8e1f-9dcfb5719e61
+
+	measure '_Customer Count | Extended (YoY) | Threshold' = ```
+
+
+		VAR __Selected_Segment = VALUES ( 'TBL Customer Breakdown'[Name] )
+		VAR __Threshold = 0.05
+
+		VAR __Customer_Table =
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Customer_ID] ),
+		        "@Rev_Current", [_Revenue AC],
+		        "@Rev_PY",      [_Revenue PY | Equalized]
+		    )
+
+		VAR __Customer_Table_With_Variance =
+		    ADDCOLUMNS (
+		        __Customer_Table,
+		        "@Variance", DIVIDE ( [@Rev_Current] - [@Rev_PY], [@Rev_PY] )
+		    )
+
+		VAR __Customer_Table_Segment =
+		    ADDCOLUMNS (
+		        __Customer_Table_With_Variance,
+		        "@Segment",
+		            SWITCH (
+		                TRUE (),
+		                NOT ISBLANK ( [@Rev_Current] ) && ISBLANK ( [@Rev_PY] ),                                   "New",
+		                ISBLANK ( [@Rev_Current] )     && NOT ISBLANK ( [@Rev_PY] ),                               "Lost",
+
+		                NOT ISBLANK ( [@Rev_Current] ) && NOT ISBLANK ( [@Rev_PY] ) && [@Variance] > __Threshold,  "Growing",
+		                NOT ISBLANK ( [@Rev_Current] ) && NOT ISBLANK ( [@Rev_PY] ) && [@Variance] < -__Threshold, "Declining",
+
+		                NOT ISBLANK ( [@Rev_Current] ) && NOT ISBLANK ( [@Rev_PY] ),                               "Stable"
+		                        
+		            )
+		    )
+
+		VAR __Customer_Table_Segment_Filtered =
+		    FILTER (
+		        __Customer_Table_Segment,
+		        [@Segment] IN __Selected_Segment
+		    )
+
+		VAR __Result = 
+		    COUNTROWS ( __Customer_Table_Segment_Filtered )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others\99. Not assigned yet or To Be Verified\Customer Segmentation\01. Customer Count\03. Logic Based on YoY
+		lineageTag: 977d6408-ee42-4657-b3bb-de465e952717
+
+	measure '_Customer Above Threshold | Basic | Based on Value' = ```
+
+
+		VAR __Threshold = [NPR Revenue Threshold Value]
+
+		VAR __CurrentCustomer       = MAX ( DIM_Customers[Customer_Name] )
+		VAR __Is_at_Customer_Level  = ISINSCOPE ( DIM_Customers[Customer_Name] )
+
+		VAR __BaseTable =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Customer_Name] ),
+		        "@TotalRev", 
+		            CALCULATE (
+		                [_Revenue AC],
+		                ALLSELECTED ( 'Dim Calendar'[Date] )
+		            )
+		    )
+
+		VAR __CustomerTotalRev =
+		    MAXX (
+		        FILTER ( __BaseTable, [Customer_Name] = __CurrentCustomer ),
+		        [@TotalRev]
+		    )
+
+		VAR __Result =
+		    IF (
+		        NOT ISBLANK ( __CustomerTotalRev ) && __Is_at_Customer_Level &&__CustomerTotalRev >= __Threshold,
+		        1,
+		        BLANK()
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 02. Supplemental Calculations\07. Highlighting
+		lineageTag: ddb89a04-7e65-43e3-95e1-087d596a557c
+
+	measure '_Customer Above Threshold | Basic | Based on Customer Table' = ```
+
+
+		VAR __Threshold             = [NPR Revenue Threshold Value]
+		VAR __CurrentCustomer       = MAX ( DIM_Customers[Customer_Name] )
+		VAR __Is_at_Customer_Level  = ISINSCOPE ( DIM_Customers[Customer_Name] )
+
+		// Build table of customers with their total revenue across all selected periods
+		VAR __CustomerTotals =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Customer_Name] ),
+		        "@TotalRev",
+		            CALCULATE (
+		                [_Revenue AC],
+		                ALLSELECTED ( 'Dim Calendar' )
+		            )
+		    )
+
+		// Filter to only customers above threshold
+		VAR __CustomersAbove =
+		    FILTER (
+		        __CustomerTotals,
+		        [@TotalRev] >= __Threshold
+		    )
+
+		// Check if current customer is in the list
+		VAR __IsAbove =
+		    COUNTROWS (
+		        FILTER ( __CustomersAbove, [Customer_Name] = __CurrentCustomer )
+		    ) > 0
+
+		VAR __Result =
+		    IF ( __IsAbove && __Is_at_Customer_Level, 1, BLANK() )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 02. Supplemental Calculations\07. Highlighting
+		lineageTag: 23212ff3-4f6a-44da-8d67-39874b08e676
+
+	measure '_Perc % of Grand Total | PY' = ```
+
+
+		DIVIDE (
+		    [_Revenue PY | Equalized],
+		    CALCULATE (
+		        [_Revenue PY | Equalized],
+		        ALLSELECTED()
+		    )
+		)
+		```
+		displayFolder: 02. Supplemental Calculations\01. % of Total & Share\01. Core
+		lineageTag: ff232d6a-824a-4260-8915-2791bd4d9f84
+
+	measure '_Revenue AC DataBar' = ```
+
+
+		[_Revenue AC]
+		```
+		formatString: ;;;
+		displayFolder: 01. Basic Calculations\01. Core
+		lineageTag: 2496d405-99ab-40fe-8235-f5d3417200f4
+
+	measure '_Revenue AC | 3M Moving Avg. | Monthly | Extended' = ```
+
+
+		VAR __MA_Months             = 3
+		VAR __Date_Context          = MAX ( 'Dim Calendar'[Date] )
+		VAR __Min_Anchor_Date       = [_First FCT Date (by nonblank)]
+		VAR __Max_Anchor_Date       = EDATE ( [_Last FCT Date (by nonblank)], 0 )
+
+		VAR __MinDate_Anchor        = EOMONTH ( __Min_Anchor_Date, -1 ) + 1
+		VAR __MinDate_Cutoff_Global = EDATE   (__MinDate_Anchor, ( __MA_Months ) )
+		VAR __MaxDate_Anchor        = EOMONTH ( MIN ( __Max_Anchor_Date, __Date_Context ) , 0 )
+
+		VAR __Window =
+		    DATESINPERIOD (
+		        'Dim Calendar'[Date],
+		        EOMONTH ( __Date_Context , 0 ),
+		        - __MA_Months,
+		        MONTH
+		    )
+
+		VAR __MonthsInWindow =
+		    CALCULATETABLE (
+		        SUMMARIZE ( 
+		            'Dim Calendar', 'Dim Calendar'[Start of Month],
+		             "@Metric", [_Revenue AC]
+		        ),
+		        __Window
+		    )
+
+		VAR __Value_Per_Period =
+		    AVERAGEX ( __MonthsInWindow, [@Metric] )
+
+		VAR __Result =
+		    IF (
+		        __Date_Context >= __MinDate_Cutoff_Global &&
+		        __Date_Context <= __MaxDate_Anchor ,   
+		        __Value_Per_Period
+		        )
+
+		RETURN __Result
+
+		```
+		displayFolder: 02. Supplemental Calculations\04. Error bar Techniques
+		lineageTag: 812d59a8-dc24-4c5a-a342-70152113e8a4
+
+	measure '_First FCT Date (by nonblank)' = ```
+
+		VAR __FirstDate =
+		    MINX (
+		        FILTER (
+		            ALL ( 'Dim Calendar'[Date] ),
+		            NOT ISBLANK ( [_Revenue AC]  )
+		        ),
+		        'Dim Calendar'[Date]
+		    )
+		RETURN __FirstDate
+		```
+		formatString: General Date
+		displayFolder: 09. Technical\09. Others\01. Min & Max Values
+		lineageTag: 6deea618-5443-451e-8580-0c5f7019bb5d
+
+	measure '_Customer % of Total | Basic | Based on Customer Table' = ```
+
+
+		VAR __ShareThreshold    = [NRP TopN Bin By Cumulative % Share Value]  // dynamic pareto threshold (e.g. 0.8 = 80%)
+		VAR __CurrentCustomer   = MAX ( DIM_Customers[Customer_Name] )
+		VAR __IsAtCustomerLevel = ISINSCOPE ( DIM_Customers[Customer_Name] )
+
+		//__________________________________________________________________________________________
+		// Build base table with total revenue per customer across all selected periods
+		VAR __BaseTable =
+		    FILTER (
+		        ADDCOLUMNS (
+		            ALLSELECTED ( DIM_Customers[Customer_Name] ),
+		            "@TotalRev",
+		                CALCULATE (
+		                    [_Revenue AC],
+		                    ALLSELECTED ( 'Dim Calendar' )
+		                )
+		        ),
+		        NOT ISBLANK ( [@TotalRev] )
+		    )
+
+		//__________________________________________________________________________________________
+		// Cumulative revenue ordered DESC by total — standard pareto ranking
+		VAR __TableWithCumulative =
+		    ADDCOLUMNS (
+		        __BaseTable,
+		        "@CumulativeRev",
+		            SUMX (
+		                WINDOW (
+		                    1, ABS,
+		                    0, REL,
+		                    __BaseTable,
+		                    ORDERBY ( [@TotalRev], DESC )
+		                ),
+		                [@TotalRev]
+		            )
+		    )
+
+		VAR __TotalRevenue =
+		    SUMX ( __BaseTable, [@TotalRev] )
+
+		//__________________________________________________________________________________________
+		// Cumulative share per customer
+		VAR __TableWithShare =
+		    ADDCOLUMNS (
+		        __TableWithCumulative,
+		        "@CumulativeShare",
+		            DIVIDE ( [@CumulativeRev], __TotalRevenue )
+		    )
+
+		// Customers within the pareto threshold
+		VAR __ParetoCustomers =
+		    FILTER (
+		        __TableWithShare,
+		        [@CumulativeShare] <= __ShareThreshold
+		    )
+
+		//__________________________________________________________________________________________
+		// Check if current customer falls within pareto group
+		VAR __IsInPareto =
+		    CONTAINS (
+		        __ParetoCustomers,
+		        DIM_Customers[Customer_Name], __CurrentCustomer
+		    )
+
+		VAR __Result =
+		    IF ( __IsInPareto && __IsAtCustomerLevel, 1, BLANK () )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 02. Supplemental Calculations\07. Highlighting
+		lineageTag: 1b51558b-eb76-4d95-9eab-686cbc5818a2
+
+	measure '_Revenue AC | Pareto Only' = ```
+
+
+		VAR __ShareThreshold    = [NRP TopN Bin By Cumulative % Share Value]
+		VAR __CurrentCustomer   = MAX ( DIM_Customers[Customer_Name] )
+		VAR __IsAtCustomerLevel = ISINSCOPE ( DIM_Customers[Customer_Name] )
+
+		//__________________________________________________________________________________________
+		VAR __BaseTable =
+		    FILTER (
+		        ADDCOLUMNS (
+		            ALLSELECTED ( DIM_Customers[Customer_Name] ),
+		            "@TotalRev",
+		                CALCULATE (
+		                    [_Revenue AC],
+		                    ALLSELECTED ( 'Dim Calendar' )
+		                )
+		        ),
+		        NOT ISBLANK ( [@TotalRev] )
+		    )
+
+		VAR __TableWithCumulative =
+		    ADDCOLUMNS (
+		        __BaseTable,
+		        "@CumulativeRev",
+		            SUMX (
+		                WINDOW (
+		                    1, ABS,
+		                    0, REL,
+		                    __BaseTable,
+		                    ORDERBY ( [@TotalRev], DESC )
+		                ),
+		                [@TotalRev]
+		            )
+		    )
+
+		VAR __TotalRevenue   = SUMX ( __BaseTable, [@TotalRev] )
+
+		VAR __TableWithShare =
+		    ADDCOLUMNS (
+		        __TableWithCumulative,
+		        "@CumulativeShare",
+		            DIVIDE ( [@CumulativeRev], __TotalRevenue )
+		    )
+
+		VAR __ParetoCustomers =
+		    FILTER (
+		        __TableWithShare,
+		        [@CumulativeShare] <= __ShareThreshold
+		    )
+
+		// List of pareto customer names for filtering
+		VAR __ParetoCustomerNames =
+		    SELECTCOLUMNS (
+		        __ParetoCustomers,
+		        "Customer_Name", DIM_Customers[Customer_Name]
+		    )
+
+		//__________________________________________________________________________________________
+		VAR __IsInPareto =
+		    CONTAINS (
+		        __ParetoCustomers,
+		        DIM_Customers[Customer_Name], __CurrentCustomer
+		    )
+
+		VAR __ParetoTotalInPeriod =
+		    CALCULATE (
+		        [_Revenue AC],
+		        KEEPFILTERS (
+		            DIM_Customers[Customer_Name] IN __ParetoCustomerNames
+		        )
+		    )
+
+		VAR __Result = __ParetoTotalInPeriod 
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\07. Highlighting
+		lineageTag: 365390b0-5f3f-4f16-9e65-0b8ba9771a03
+
+	measure '_Max value x Factor | Delta AC & PY' = ```
+
+
+		DIVIDE ( 
+		    [_Max value | AC & PY],
+		    2
+		)
+
+
+
+
+		```
+		displayFolder: 09. Technical\09. Others\02. Max Values x Factor
+		lineageTag: 69fa417e-1e35-4a66-8a61-79c3fabba4c5
+
+	measure '_Min value x Factor | Delta AC & PY' = ```
+
+
+		[_Max value x Factor | Delta AC & PY] * -1
+
+
+
+
+
+		```
+		displayFolder: 09. Technical\09. Others\02. Max Values x Factor
+		lineageTag: d8656f23-52a7-4a75-a709-9e4be3108ef9
+
+	measure '_Revenue | LTM Based on Offset | with zeros' = ```
+
+
+		VAR __Selected_Month = MAX ( 'Dim Calendar'[CurrMonthOffset]  )
+		VAR __Period_Window_ToDisplay =  12
+
+		VAR __StartMonth = ( __Selected_Month - __Period_Window_ToDisplay ) + 1
+
+		VAR __LTM_Calculation =
+		    CALCULATE (
+		        [_Revenue AC],
+		        REMOVEFILTERS ( 'Dim Calendar' ),
+		        'Dim Calendar'[CurrMonthOffset] >= __StartMonth &&
+		        'Dim Calendar'[CurrMonthOffset] <= __Selected_Month,
+		        USERELATIONSHIP( 'Dim Calendar'[Date], 'Dim Calendar Suppl'[Date] ) 
+		    )
+
+		VAR __xAxis_Offset = SELECTEDVALUE ( 'Dim Calendar Suppl'[CurrMonthOffset] )
+
+		VAR __Result = 
+		    SWITCH (
+		        TRUE(),
+		            __xAxis_Offset >= __StartMonth &&
+		            __xAxis_Offset <= __Selected_Month,
+		            COALESCE ( __LTM_Calculation, 0 ),
+		            __LTM_Calculation
+		    )
+
+		RETURN  __Result
+
+		```
+		displayFolder: 01. Basic Calculations\01. Core
+		lineageTag: 057a1d6a-8ac6-4492-83ed-48e59c81fe38
+
+	measure '_Revenue | LTM Based on Offset | With zeros | All' = ```
+
+
+		VAR __Selected_Month            = MAX ( 'Dim Calendar'[CurrMonthOffset] )
+		VAR __Period_Window_ToDisplay   = 12
+		VAR __StartMonth                = __Selected_Month - __Period_Window_ToDisplay + 1
+
+		VAR __xAxis_Offset              = SELECTEDVALUE ( 'Dim Calendar Suppl'[CurrMonthOffset] )
+		VAR __IsXAxisCell               = NOT ISBLANK ( __xAxis_Offset )
+
+		VAR __IsVisibleMonth            =
+		    __xAxis_Offset >= __StartMonth &&
+		    __xAxis_Offset <= __Selected_Month
+
+		VAR __HasAnyValueInLTM =
+		    NOT ISBLANK (
+		        CALCULATE (
+		            [_Revenue AC],
+		            REMOVEFILTERS ( 'Dim Calendar' ),
+		            REMOVEFILTERS ( 'Dim Calendar Suppl' ),
+		            'Dim Calendar'[CurrMonthOffset] >= __StartMonth,
+		            'Dim Calendar'[CurrMonthOffset] <= __Selected_Month
+		        )
+		    )
+
+		VAR __Value_CurrentContext =
+		    CALCULATE (
+		        [_Revenue AC],
+		        REMOVEFILTERS ( 'Dim Calendar' ),
+		        'Dim Calendar'[CurrMonthOffset] >= __StartMonth,
+		        'Dim Calendar'[CurrMonthOffset] <= __Selected_Month,
+		        USERELATIONSHIP ( 'Dim Calendar'[Date], 'Dim Calendar Suppl'[Date] )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE (),
+		        NOT __HasAnyValueInLTM,                 BLANK (),
+		        __IsXAxisCell && NOT __IsVisibleMonth,  BLANK (),
+		        __IsXAxisCell,                          COALESCE ( __Value_CurrentContext, 0 ),
+		        __Value_CurrentContext
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Basic Calculations\01. Core
+		lineageTag: 29d291a2-835d-4315-b6d7-8a5d8d232265
+
+	measure '_Customer Above Average | Flag' = ```
+
+
+		VAR __CurrentCustomer   = MAX ( DIM_Customers[Customer_Name] )
+		VAR __IsAtCustomerLevel = ISINSCOPE ( DIM_Customers[Customer_Name] )
+
+		VAR __BaseTable =
+		    FILTER (
+		        ADDCOLUMNS (
+		            ALLSELECTED ( DIM_Customers[Customer_Name] ),
+		            "@TotalRev",
+		                CALCULATE (
+		                    [_Revenue AC],
+		                    ALLSELECTED ( 'Dim Calendar' )
+		                )
+		        ),
+		        NOT ISBLANK ( [@TotalRev] )
+		    )
+
+		VAR __AvgTotalRev       = 
+		    AVERAGEX ( __BaseTable, [@TotalRev] )
+
+		VAR __AboveAvgCustomers = 
+		    FILTER ( __BaseTable, [@TotalRev] > __AvgTotalRev )
+
+		VAR __IsAboveAverage    = 
+		    CONTAINS ( __AboveAvgCustomers, DIM_Customers[Customer_Name], __CurrentCustomer )
+
+		VAR __Result =
+		    IF (
+		        __IsAtCustomerLevel && __IsAboveAverage,
+		        1,
+		        BLANK ()
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 02. Supplemental Calculations\07. Highlighting
+		lineageTag: 9819a0a0-699f-47ad-a4e2-d4c4d8145c9f
+
+	measure '_Revenue AC | Above Average Only' = ```
+
+
+		VAR __BaseTable =
+		    FILTER (
+		        ADDCOLUMNS (
+		            ALLSELECTED ( DIM_Customers[Customer_Name] ),
+		            "@TotalRev",
+		                CALCULATE (
+		                    [_Revenue AC],
+		                    ALLSELECTED ( 'Dim Calendar' )
+		                )
+		        ),
+		        NOT ISBLANK ( [@TotalRev] )
+		    )
+
+		VAR __AvgTotalRev =
+		    AVERAGEX (
+		        __BaseTable,
+		        [@TotalRev]
+		    )
+
+		VAR __AboveAvgCustomers =
+		    FILTER (
+		        __BaseTable,
+		        [@TotalRev] > __AvgTotalRev
+		    )
+
+		VAR __AboveAvgCustomerNames =
+		    SELECTCOLUMNS (
+		        __AboveAvgCustomers,
+		        "Customer_Name", DIM_Customers[Customer_Name]
+		    )
+
+		VAR __RevenueAboveAverage =
+		    CALCULATE (
+		        [_Revenue AC],
+		        KEEPFILTERS (
+		            TREATAS (
+		                __AboveAvgCustomerNames,
+		                DIM_Customers[Customer_Name]
+		            )
+		        )
+		    )
+
+		VAR __Result = __RevenueAboveAverage
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\07. Highlighting
+		lineageTag: 90896cca-f6ec-49f8-9179-141dcf10f10e
+
+	measure '_Revenue AC | Avg Per Customer on Total Lvl' = ```
+
+
+		VAR __BaseTable =
+		    FILTER (
+		        ADDCOLUMNS (
+		            ALLSELECTED ( DIM_Customers[Customer_Name] ),
+		            "@TotalRev",
+		                CALCULATE (
+		                    [_Revenue AC],
+		                    ALLSELECTED ( 'Dim Calendar' )
+		                )
+		        ),
+		        NOT ISBLANK ( [@TotalRev] )
+		    )
+
+		VAR __AvgTotalRev =
+		    AVERAGEX (
+		        __BaseTable,
+		        [@TotalRev]
+		    )
+
+		VAR __Result = __AvgTotalRev
+
+		RETURN __Result
+		```
+		displayFolder: 02. Supplemental Calculations\07. Highlighting
+		lineageTag: e63f90fe-8228-4a39-9875-6de7eb78ec80
+
+	measure '_Revenue PY Suppression | Extended | Column Width' = ```
+
+
+		VAR __Visible_Column_Width  = 80
+		VAR __Hidden_Column_Width   = 0
+		VAR __Scenario_Name         = "PY" // -> Manual Input
+		VAR __Is_Filtered           = ISCROSSFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Is_Selected = 
+		    NOT ISEMPTY ( 
+		        FILTER ( 
+		            'TBL Scenario Selection', 
+		            'TBL Scenario Selection'[Name] IN { __Scenario_Name } ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Is_Filtered && __Is_Selected,
+		        __Visible_Column_Width,
+		        __Hidden_Column_Width
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 02. Supplemental Calculations\03. Suppresion (hiding metrics)
+		lineageTag: dd40b3f9-9e9a-4b1a-9d32-9bf97b53d831
+
+	measure '_Revenue TG Suppression | Extended | Column Width' = ```
+
+
+		VAR __Visible_Column_Width  = 80
+		VAR __Hidden_Column_Width   = 0
+		VAR __Scenario_Name         = "TG" // -> Manual Input
+		VAR __Is_Filtered           = ISCROSSFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Is_Selected = 
+		    NOT ISEMPTY ( 
+		        FILTER ( 
+		            'TBL Scenario Selection', 
+		            'TBL Scenario Selection'[Name] IN { __Scenario_Name } ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Is_Filtered && __Is_Selected,
+		        __Visible_Column_Width,
+		        __Hidden_Column_Width
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: 02. Supplemental Calculations\03. Suppresion (hiding metrics)
+		lineageTag: 50a80ecb-9620-4aa4-8c79-40927139c3a8
+
+	measure '_Revenue AC | Total Normalized' = ```
+
+
+		VAR __Row_Breakdown_InScope    = 
+		    ISINSCOPE ( DIM_Customers[Segment] )
+
+		VAR __Column_Breakdown_InScope = 
+		    ISINSCOPE ( 'Dim Calendar'[mmm'yy] ) ||
+		    ISINSCOPE ( 'Dim Calendar'[qq'yy] )
+
+		VAR __IsGrand_Total  = 
+		    NOT ( __Column_Breakdown_InScope ) && 
+		    NOT __Row_Breakdown_InScope
+
+		VAR __IsHidden =
+		    ( __Column_Breakdown_InScope )  
+
+		//____________________________________________________________
+		VAR __MaxAbs =
+		    MAXX (
+		        ALLSELECTED ( DIM_Customers[Segment] ),
+		        ABS ( CALCULATE ( [_Revenue AC] ) )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE (),
+		        __IsHidden, BLANK (),
+		        __IsGrand_Total, 0,
+		        DIVIDE ( [_Revenue AC], __MaxAbs )
+		    )
+
+		RETURN __Result
+
+		```
+		formatStringDefinition = ```
+			// ";;;"
+			// """" & [_Perc % of Grand Total | AC] & """"
+
+			VAR __Percentage_Of_Total =
+			    DIVIDE (
+			        [_Revenue AC],
+			        CALCULATE (
+			            [_Revenue AC],
+			            ALLSELECTED()
+			        )
+			    )
+
+			VAR __Result =
+			    """" & FORMAT ( __Percentage_Of_Total, "0.0%" ) & """"
+
+			RETURN __Result
+			```
+		displayFolder: 09. Technical\09. Others
+		lineageTag: 7c3b0b00-4766-40ee-9d8f-cf26a6999ee9
+
+	measure '_Revenue Variance Target | Total Normalized' = ```
+
+
+		VAR __Row_Breakdown_InScope    = 
+		    ISINSCOPE ( DIM_Customers[Segment] )
+
+		VAR __Column_Breakdown_InScope = 
+		    ISINSCOPE ( 'Dim Calendar'[mmm'yy] ) ||
+		    ISINSCOPE ( 'Dim Calendar'[qq'yy] )
+
+		VAR __IsGrand_Total  = 
+		    NOT ( __Column_Breakdown_InScope ) && 
+		    NOT __Row_Breakdown_InScope
+
+		VAR __IsHidden =
+		    ( __Column_Breakdown_InScope )  
+
+		//____________________________________________________________
+		VAR __MaxAbs =
+		    MAXX (
+		        ALLSELECTED ( DIM_Customers[Segment] ),
+		        ABS ( CALCULATE ( [_Revenue Variance abs. Target] ) )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE (),
+		        __IsHidden, BLANK (),
+		        __IsGrand_Total, BLANK(),
+		        DIVIDE ( [_Revenue Variance abs. Target], __MaxAbs )
+		    )
+
+		RETURN __Result
+
+		```
+		formatString: ;;;
+		displayFolder: 09. Technical\09. Others
+		lineageTag: 37fcba68-0ad7-43c2-ba9f-8d681dd93119
+
+	measure '_Revenue Variance Target | Heatmap Font Color | Segment x qq''yy' = ```
+
+
+		VAR __Value              = [_Revenue Variance abs. Target]
+		VAR __Threshold          = 0.70
+		VAR __Default_Color      = "#30465F"
+		VAR __Highlighting_Color = "#FFFFFF"
+		VAR __Positive_Color     = "#308C9A"
+		VAR __Negative_Color     = "#B34E4E"
+
+		VAR __Row_InScope        = ISINSCOPE ( DIM_Customers[Segment] )
+		VAR __Column_InScope     = ISINSCOPE ( 'Dim Calendar'[qq'yy] )
+		VAR __IsTotal            = NOT __Row_InScope || NOT __Column_InScope
+
+		//__________________________________________________________________________________________
+
+		VAR __Table =
+		    CALCULATETABLE (
+		        SUMMARIZECOLUMNS (
+		            DIM_Customers[Segment],
+		            'Dim Calendar'[qq'yy],
+		            "@Value", [_Revenue Variance abs. Target]
+		        ),
+		        ALLSELECTED ()
+		    )
+
+		VAR __Max_Positive =
+		    MAXX ( FILTER ( __Table, [@Value] > 0 ), [@Value] )
+
+		VAR __Min_Negative =
+		    MINX ( FILTER ( __Table, [@Value] < 0 ), [@Value] )
+
+		VAR __NormalizedValue =
+		    SWITCH (
+		        TRUE (),
+		        __Value > 0, DIVIDE ( __Value, __Max_Positive ),
+		        __Value < 0, DIVIDE ( ABS ( __Value ), ABS ( __Min_Negative ) ),
+		        0
+		    )
+
+		//__________________________________________________________________________________________
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE (),
+		        ISBLANK ( __Value ),               BLANK (),
+		        __IsTotal && __Value > 0,          __Positive_Color,
+		        __IsTotal && __Value < 0,          __Negative_Color,
+		        __IsTotal,                         __Default_Color,
+		        __NormalizedValue >= __Threshold,  __Highlighting_Color,
+		        __Default_Color
+		    )
+
+		RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others
+		lineageTag: 9167e8d0-3411-4672-816f-8b9399262023
+
+	measure '_Dot plot | AC < FC' = ```
+
+
+		VAR __AC = [_Revenue AC]
+		VAR __FC = [_Revenue PY | Equalized]
+
+		VAR __Result =
+		        SWITCH(
+		            TRUE(),
+		                __AC < __FC,
+		                __FC,
+		                __AC
+		        )
+		RETURN
+		    __Result
+		```
+		formatStringDefinition = [_Dot Plot | Dynamic Data Label | Alt.] & ""
+		displayFolder: 09. Technical\09. Others
+		lineageTag: ac1aa041-4f69-4e62-95ef-be58c525ab93
+
+	measure '_Dot plot | AC > FC' = ```
+
+
+		VAR __AC = [_Revenue AC]
+		VAR __FC = [_Revenue PY | Equalized]
+
+		VAR __Result =
+		        SWITCH(
+		            TRUE(),
+		                __AC >= __FC,
+		                __FC,
+		                __FC
+		        )
+		RETURN
+		    __Result
+		```
+		formatStringDefinition = [_Dot Plot | Dynamic Data Label | Alt.] & ""
+		displayFolder: 09. Technical\09. Others
+		lineageTag: 7db06a16-9d11-4711-a9a1-e2696732ed8d
+
+	measure '_Dot plot | AC > FC | Error Bar' = ```
+
+
+		VAR __AC = [_Revenue AC]
+		VAR __FC = [_Revenue PY | Equalized]
+
+		VAR __Result =
+		        SWITCH(
+		            TRUE(),
+		                __AC >= __FC,
+		                __AC,
+		                BLANK()
+		        )
+		RETURN
+		    __Result
+		```
+		formatStringDefinition = [_Dot Plot | Dynamic Data Label] & ""
+		displayFolder: 09. Technical\09. Others
+		lineageTag: c2c0bef0-9518-47b5-afd9-971a209ddb72
+
+	measure '_Dot plot | AC < FC | Error Bar' = ```
+
+
+		VAR __AC = [_Revenue AC]
+		VAR __FC = [_Revenue PY | Equalized]
+
+		VAR __Result =
+		        SWITCH(
+		            TRUE(),
+		                __AC < __FC,
+		                __AC,
+		                BLANK()
+		        )
+		RETURN
+		    __Result
+		```
+		formatStringDefinition = [_Dot Plot | Dynamic Data Label] & ""
+		displayFolder: 09. Technical\09. Others
+		lineageTag: fd89117c-d7ad-4d6c-9bcb-f841c4f4e299
+
+	measure '_Dot Plot | Dynamic Data Label' = ```
+
+
+		VAR __AC           = [_Revenue AC]
+		VAR __PY           = [_Revenue PY | Equalized]
+		VAR __DeltaNominal = __AC - __PY
+
+		VAR __ValidRelative =
+		    NOT ISBLANK ( __AC ) &&
+		    NOT ISBLANK ( __PY ) &&
+		    __AC > 0 &&
+		    __PY > 0
+
+		VAR __DeltaRelative = IF ( __ValidRelative, DIVIDE ( __DeltaNominal, __PY ) )
+
+		VAR __SelectedMetrics = VALUES ( 'TBL Metric Display'[Name] )
+		VAR __ShowValue = CONTAINSROW ( __SelectedMetrics, "Value" )
+
+		VAR __DeltaOptions =
+		    FILTER (
+		        UNION (
+		            ROW (
+		                "@Metric", "Delta Nominal",
+		                "@Sort", 2,
+		                "@Value", __DeltaNominal,
+		                "@Format", [_Variance Format]
+		            ),
+		            ROW (
+		                "@Metric", "Delta Relative",
+		                "@Sort", 3,
+		                "@Value", __DeltaRelative,
+		                "@Format", "+0%;-0%;0%"
+		            )
+		        ),
+		        CONTAINSROW ( __SelectedMetrics, [@Metric] ) &&
+		        NOT ISBLANK ( [@Value] )
+		    )
+
+		VAR __DeltaText =
+		    CONCATENATEX (
+		        __DeltaOptions,
+		        FORMAT ( [@Value], [@Format] ),
+		        " | ",
+		        [@Sort],
+		        ASC
+		    )
+
+		VAR __Label =
+		    IF ( __ShowValue, "AC: " & FORMAT ( __AC, [_Value Format] ), "" ) &
+		    IF (
+		        __DeltaText <> "",
+		        IF ( __ShowValue, " ", "" ) & "(" & __DeltaText & ")",
+		        ""
+		    )
+
+		VAR __DisplayText =
+		    IF (
+		        NOT ISFILTERED ( 'TBL Metric Display'[Name] ),
+		        UNICHAR ( 8206 ),
+		        __Label
+		    )
+
+		VAR __Result = """" & __DisplayText & """"
+
+		RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others
+		lineageTag: f231db50-4158-4dae-ae27-817c3eb6ce4e
+
+	measure '_Dot plot | AC < FC | Placeholder' = ```
+
+
+		VAR __AC = [_Revenue AC]
+		VAR __FC = [_Revenue PY | Equalized]
+
+		VAR __Result =
+		        SWITCH(
+		            TRUE(),
+		                __AC < __FC,
+		                __FC,
+		                __AC
+		        )
+		RETURN
+		    __Result
+		```
+		displayFolder: 09. Technical\09. Others
+		lineageTag: 6a8ea5a1-3057-4af5-ba45-c94b2696f2e2
+
+	measure '_Dot plot | AC < FC | Factor' = ```
+
+
+		VAR __Base_Table =
+
+		CALCULATETABLE (
+		    ADDCOLUMNS (
+		        VALUES ( DIM_Customers[Segment] ),
+		        "@AC", [_Revenue AC],
+		        "@PY", [_Revenue PY | Equalized]
+		    ),
+		    ALLSELECTED ( DIM_Customers )
+		)
+
+		VAR __Max_Value =
+		    MAXX ( __Base_Table, MAX ( [@AC], [@PY] )  )
+
+		VAR __Result = __Max_Value * 1.6
+
+		RETURN  __Result 
+		```
+		displayFolder: 09. Technical\09. Others
+		lineageTag: ac53fb66-fa05-4623-a538-3e2f88600699
+
+	measure '_Dot Plot | Variance Layers' = ```
+
+
+		VAR __AC = [_Revenue AC]
+		VAR __PY = [_Revenue PY | Equalized]
+
+		VAR __Valid =
+		    NOT ISBLANK ( __AC ) &&
+		    NOT ISBLANK ( __PY ) &&
+		    __AC >= 0 &&
+		    __PY >= 0
+
+		VAR __Delta = __AC - __PY
+		VAR __Upper = MAX ( __AC, __PY )
+		VAR __Lower = MIN ( __AC, __PY )
+		VAR __Layer = SELECTEDVALUE ( 'TBL Dot Plot Layers'[Layer] )
+
+		VAR __Result =
+		    IF (
+		        __Valid,
+		        SWITCH (
+		            TRUE (),
+		            __Layer = "Increase" && __Delta > 0, __Upper,
+		            __Layer = "Decrease" && __Delta < 0, __Upper,
+		            __Layer = "Cover", __Lower,
+		            __Layer = "Label Increase" && __Delta >= 0, __AC,
+		            __Layer = "Label Decrease" && __Delta < 0, __AC,
+		            BLANK ()
+		        )
+		    )
+
+		RETURN __Result
+
+		```
+		formatStringDefinition = [_Dot Plot | Dynamic Data Label] & ""
+		displayFolder: 09. Technical\09. Others
+		lineageTag: 2b25b591-0cf4-4a4e-bffd-7a331f4daad5
+
+	measure '_Dot Plot | Data Label Color' = ```
+
+
+		VAR __AC    = [_Revenue AC]
+		VAR __PY    = [_Revenue PY | Equalized]
+		VAR __Layer = SELECTEDVALUE ( 'TBL Dot Plot Layers'[Layer] )
+
+		VAR __ShowLabel =
+		    SWITCH (
+		        TRUE (),
+		        __Layer = "Increase" && __AC > __PY, TRUE (),
+		        __Layer = "Cover" && __AC <= __PY, TRUE (),
+		        FALSE ()
+		    )
+
+		VAR __Result = IF ( __ShowLabel, "#30465F", "#FFFFFF00" )
+
+		RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others
+		lineageTag: d6a50daa-10c3-4719-92f4-a58b1a10a6c4
+
+	measure '_Dot Plot | Dynamic Data Label | Alt.' = ```
+
+
+		VAR __AC           = [_Revenue AC]
+		VAR __PY           = [_Revenue PY | Equalized]
+		VAR __DeltaNominal = __AC - __PY
+
+		VAR __ValidRelative =
+		    NOT ISBLANK ( __AC ) &&
+		    NOT ISBLANK ( __PY ) &&
+		    __AC > 0 &&
+		    __PY > 0
+
+		VAR __DeltaRelative = IF ( __ValidRelative, DIVIDE ( __DeltaNominal, __PY ) )
+
+		VAR __SelectedMetrics = VALUES ( 'TBL Metric Display'[Name] )
+
+		VAR __MetricOptions =
+		    UNION (
+		        ROW (
+		            "@Metric", "Value",
+		            "@Sort", 1,
+		            "@Value", __AC,
+		            "@Format", [_Value Format]
+		        ),
+		        ROW (
+		            "@Metric", "Delta Nominal",
+		            "@Sort", 2,
+		            "@Value", __DeltaNominal,
+		            "@Format", [_Variance Format]
+		        ),
+		        ROW (
+		            "@Metric", "Delta Relative",
+		            "@Sort", 3,
+		            "@Value", __DeltaRelative,
+		            "@Format", "+0%;-0%;0%"
+		        )
+		    )
+
+		VAR __SelectedOptions =
+		    FILTER (
+		        __MetricOptions,
+		        CONTAINSROW ( __SelectedMetrics, [@Metric] ) &&
+		        NOT ISBLANK ( [@Value] )
+		    )
+
+		VAR __Label =
+		    CONCATENATEX (
+		        __SelectedOptions,
+		        FORMAT ( [@Value], [@Format] ),
+		        " | ",
+		        [@Sort],
+		        ASC
+		    )
+
+		VAR __Result = """" & __Label & """"
+
+
+		RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others
+		lineageTag: b1683b88-2026-4bab-a907-22b8de0e9d04
+
+	measure '_Dot Plot | Dynamic Data Label | Alt. V2' = ```
+
+
+		VAR __AC           = [_Revenue AC]
+		VAR __PY           = [_Revenue PY | Equalized]
+		VAR __DeltaNominal = __AC - __PY
+
+		VAR __ValidRelative =
+		    NOT ISBLANK ( __AC ) &&
+		    NOT ISBLANK ( __PY ) &&
+		    __AC > 0 &&
+		    __PY > 0
+
+		VAR __DeltaRelative = IF ( __ValidRelative, DIVIDE ( __DeltaNominal, __PY ) )
+
+		VAR __SelectedMetrics = VALUES ( 'TBL Metric Display'[Name] )
+
+		VAR __MetricOptions =
+		    UNION (
+		        ROW (
+		            "@Metric", "Value",
+		            "@Sort", 1,
+		            "@Value", __AC,
+		            "@Format", [_Value Format]
+		        ),
+		        ROW (
+		            "@Metric", "Delta Nominal",
+		            "@Sort", 2,
+		            "@Value", __DeltaNominal,
+		            "@Format", [_Variance Format]
+		        ),
+		        ROW (
+		            "@Metric", "Delta Relative",
+		            "@Sort", 3,
+		            "@Value", __DeltaRelative,
+		            "@Format", "+0%;-0%;0%"
+		        )
+		    )
+
+		VAR __SelectedOptions =
+		    FILTER (
+		        __MetricOptions,
+		        CONTAINSROW ( __SelectedMetrics, [@Metric] ) &&
+		        NOT ISBLANK ( [@Value] )
+		    )
+
+		VAR __Label =
+		    CONCATENATEX (
+		        __SelectedOptions,
+		        FORMAT ( [@Value], [@Format] ),
+		        " | ",
+		        [@Sort],
+		        ASC
+		    )
+
+		VAR __Result = __Label
+
+
+		RETURN __Result
+
+		```
+		displayFolder: 09. Technical\09. Others
+		lineageTag: f5c39477-2705-434d-8fd3-5bb019a09e55
+
+	measure '_Dot Plot | Revenue Rank by Business Line' = ```
+
+
+		VAR __BaseTable =
+		    FILTER (
+		        ADDCOLUMNS (
+		            ALLSELECTED (
+		                DIM_Customers[Business_Line],
+		                DIM_Customers[Segment]
+		            ),
+		            "@Revenue", [_Revenue AC]
+		        ),
+		        NOT ISBLANK ( [@Revenue] )
+		    )
+
+		VAR __Rank =
+		    RANK (
+		        DENSE,
+		        __BaseTable,
+		        ORDERBY ( [@Revenue], DESC BLANKS LAST ),
+		        LAST,
+		        PARTITIONBY ( DIM_Customers[Business_Line] ),
+		        MATCHBY ( DIM_Customers[Segment] )
+		    )
+
+		VAR __Result =
+		    IF (
+		        ISINSCOPE ( DIM_Customers[Segment] ),
+		        __Rank
+		    )
+
+		RETURN __Result
+
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others
+		lineageTag: 335268e2-3ba8-42c4-90c8-0bb12a6faa43
+
+	measure '_Dot Plot | Revenue Rank by Business Line and Segment' = ```
+
+
+		VAR __SegmentTable =
+		    FILTER (
+		        ADDCOLUMNS (
+		            ALLSELECTED (
+		                DIM_Customers[Business_Line],
+		                DIM_Customers[Segment]
+		            ),
+		            "@Revenue", [_Revenue AC]
+		        ),
+		        NOT ISBLANK ( [@Revenue] )
+		    )
+
+		VAR __SegmentRank =
+		    RANK (
+		        DENSE,
+		        __SegmentTable,
+		        ORDERBY ( [@Revenue], DESC BLANKS LAST ),
+		        LAST,
+		        PARTITIONBY ( DIM_Customers[Business_Line] ),
+		        MATCHBY ( DIM_Customers[Segment] )
+		    )
+
+		VAR __BusinessLineTable =
+		    FILTER (
+		        ADDCOLUMNS (
+		            ALLSELECTED ( DIM_Customers[Business_Line] ),
+		            "@Revenue", [_Revenue AC]
+		        ),
+		        NOT ISBLANK ( [@Revenue] )
+		    )
+
+		VAR __BusinessLineRank =
+		    RANK (
+		        DENSE,
+		        __BusinessLineTable,
+		        ORDERBY ( [@Revenue], DESC BLANKS LAST ),
+		        LAST,
+		        ,
+		        MATCHBY ( DIM_Customers[Business_Line] )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE (),
+		        ISINSCOPE ( DIM_Customers[Segment] ), __SegmentRank,
+		        ISINSCOPE ( DIM_Customers[Business_Line] ), __BusinessLineRank,
+		        BLANK ()
+		    )
+
+		RETURN __Result
+
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others
+		lineageTag: 7bf767b2-2adb-4193-b130-624e2e257195
+
+	measure '_Dot Plot | Revenue Rank by Business Line | alt' = ```
+
+
+		VAR __BusinessLineTable =
+		    CALCULATETABLE (
+		        SUMMARIZECOLUMNS (
+		            DIM_Customers[Business_Line],
+		            "@BusinessMetric", [_Revenue AC]
+		        ),
+		        ALLSELECTED (
+		            DIM_Customers[Business_Line],
+		            DIM_Customers[Segment]
+		        )
+		    )
+
+		VAR __SegmentTable =
+		    CALCULATETABLE (
+		        SUMMARIZECOLUMNS (
+		            DIM_Customers[Business_Line],
+		            DIM_Customers[Segment],
+		            "@SegmentMetric", [_Revenue AC]
+		        ),
+		        ALLSELECTED (
+		            DIM_Customers[Business_Line],
+		            DIM_Customers[Segment]
+		        )
+		    )
+
+		VAR __RankingTable =
+		    NATURALLEFTOUTERJOIN (
+		        __SegmentTable,
+		        __BusinessLineTable
+		    )
+
+		VAR __SegmentRank =
+		    RANK (
+		        DENSE,
+		        __RankingTable,
+		        ORDERBY (
+		            [@BusinessMetric], DESC,
+		            [@SegmentMetric], DESC,
+		            DIM_Customers[Business_Line], ASC,
+		            DIM_Customers[Segment], ASC
+		        ),
+		        LAST,
+		        ,
+		        MATCHBY (
+		            DIM_Customers[Business_Line],
+		            DIM_Customers[Segment]
+		        )
+		    )
+
+		VAR __BusinessLineRank =
+		    RANK (
+		        DENSE,
+		        __BusinessLineTable,
+		        ORDERBY (
+		            [@BusinessMetric], DESC,
+		            DIM_Customers[Business_Line], ASC
+		        ),
+		        LAST,
+		        ,
+		        MATCHBY ( DIM_Customers[Business_Line] )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE (),
+		        ISINSCOPE ( DIM_Customers[Segment] ), __SegmentRank,
+		        ISINSCOPE ( DIM_Customers[Business_Line] ), __BusinessLineRank,
+		        BLANK ()
+		    )
+
+		RETURN __Result
+
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others
+		lineageTag: b1d65758-5657-4a33-9699-ec020b3bc9e7
+
+	measure '_Dot Plot | Revenue Rank by Top Segment' = ```
+
+
+		VAR __SegmentTable =
+		    CALCULATETABLE (
+		        SUMMARIZECOLUMNS (
+		            DIM_Customers[Business_Line],
+		            DIM_Customers[Segment],
+		            "@SegmentMetric", [_Revenue AC]
+		        ),
+		        ALLSELECTED (
+		            DIM_Customers[Business_Line],
+		            DIM_Customers[Segment]
+		        )
+		    )
+
+		VAR __BusinessLineTable =
+		    ADDCOLUMNS (
+		        ALLSELECTED ( DIM_Customers[Business_Line] ),
+		        "@TopSegmentMetric",
+		            VAR __BusinessLine = DIM_Customers[Business_Line]
+		            VAR __Result =
+		                MAXX (
+		                    FILTER (
+		                        __SegmentTable,
+		                        DIM_Customers[Business_Line] = __BusinessLine
+		                    ),
+		                    [@SegmentMetric]
+		                )
+		            RETURN __Result
+		    )
+
+		VAR __RankingTable =
+		    NATURALLEFTOUTERJOIN (
+		        __SegmentTable,
+		        __BusinessLineTable
+		    )
+
+		VAR __SegmentRank =
+		    RANK (
+		        DENSE,
+		        __RankingTable,
+		        ORDERBY (
+		            [@TopSegmentMetric], DESC,
+		            [@SegmentMetric], DESC,
+		            DIM_Customers[Business_Line], ASC,
+		            DIM_Customers[Segment], ASC
+		        ),
+		        LAST,
+		        ,
+		        MATCHBY (
+		            DIM_Customers[Business_Line],
+		            DIM_Customers[Segment]
+		        )
+		    )
+
+		VAR __BusinessLineRank =
+		    RANK (
+		        DENSE,
+		        __BusinessLineTable,
+		        ORDERBY (
+		            [@TopSegmentMetric], DESC,
+		            DIM_Customers[Business_Line], ASC
+		        ),
+		        LAST,
+		        ,
+		        MATCHBY ( DIM_Customers[Business_Line] )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE (),
+		        ISINSCOPE ( DIM_Customers[Segment] ), __SegmentRank,
+		        ISINSCOPE ( DIM_Customers[Business_Line] ), __BusinessLineRank,
+		        BLANK ()
+		    )
+
+		RETURN __Result
+
+		```
+		formatString: 0
+		displayFolder: 09. Technical\09. Others
+		lineageTag: 74c2cee0-2132-4a46-90fc-b3ef65aaee55
+
+	partition '_Measures Main' = m
+		mode: import
+		source = ```
+			let
+			    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlSKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t]),
+			    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}}),
+			    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"ID"})
+			in
+			    #"Removed Columns"
+			```

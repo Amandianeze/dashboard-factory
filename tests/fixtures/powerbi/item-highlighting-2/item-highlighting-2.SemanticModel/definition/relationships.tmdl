@@ -1,0 +1,145 @@
+relationship 'a1cf8ba2-8538-40de-9c53-f992a81913a3'
+	isActive: false
+	fromColumn: Dim_Calendar.Date
+	toColumn: 'Dim Calendar Suppl'.Date
+
+relationship '7d7382a4-921b-0913-6ac7-8c9eee1427f0'
+	fromColumn: Dim_Calendar.Date
+	toColumn: 'Dim Calendar  Suppl Short'.Date
+
+relationship '666b34bc-aac3-12ab-766c-fd85d268012c'
+	fromColumn: 'FP Granularity Basic Alt'.'Granularity ID'
+	toColumn: 'TBL Granularity'.ID
+
+relationship '48686ee2-f487-3982-492e-6ed7156a3a55'
+	fromColumn: FCT_Summarized_Data.Date
+	toColumn: Dim_Calendar.Date
+
+relationship '2fa4c02d-249b-79fb-6514-8f8964d4cc61'
+	fromColumn: 'FP Granularity Hybrid'.'Granularity ID'
+	toColumn: 'TBL Granularity'.ID
+
+relationship 'df67f55e-15a2-17e5-e39a-6fe79d480ff4'
+	fromColumn: 'TBL Segment | Ranking Top & Others | Extended'.'03. Top/bottom number - ID (selector)'
+	toColumn: 'NR Values 1-20 | Ranking 02'.'Parameter Top Bottom Extended'
+
+relationship '0033a605-3dd4-03f3-1373-08f6ca6f2aed'
+	fromColumn: 'TBL Pareto Levels'.BaseValue
+	toColumn: 'NR Values 1-20 | Ranking 01'.'Ranking Dynamic Parameter'
+
+relationship '93317ebf-17cb-794b-f9c7-ce5dec6e0a64'
+	fromColumn: DIM_Customers.Country
+	toColumn: DIM_Geo.'Country name - origin'
+
+relationship '2df98a35-724d-4a14-37bd-1ddba5f8784e'
+	fromColumn: FCT_Summarized_Data.Customer_ID
+	toColumn: DIM_Customers.Customer_ID
+
+relationship '18e85cd8-091d-182c-3eae-cb96cd556d09'
+	fromColumn: DIM_Customers.Customer_ID
+	toColumn: DIM_Customers_Supplemental.'Customer ID'
+
+relationship 'fa232ae5-a7ad-c997-6c40-0562b6a471da'
+	fromColumn: 'FP Granularity Suppl Date Text Space'.'Granularity ID'
+	toColumn: 'TBL Granularity'.ID
+
+relationship '6583259c-50b6-4793-3794-a0f04dd4b500'
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'FP Period YTD LTM Metric'.ID
+	toColumn: 'TBL Period Selector'.ID
+
+relationship '7112e9d5-e19e-814c-602b-6fc011549b77'
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'FP Scatter Scenario Y-axis'.'Scenario ID'
+	toColumn: 'TBL Scatter Chart Scenarios'.ID
+
+relationship 'f6e39cb6-2f93-ced8-8750-edc396ae6839'
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'FP Scatter Scenario X-axis'.'Scenario ID'
+	toColumn: 'TBL Scatter Chart Scenarios'.ID
+
+relationship '393f0886-852e-258e-475b-305575789093'
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'FP Metric Switch PY'.ID
+	toColumn: 'TBL Metric Switch Supplemental'.ID
+
+relationship '8b9bc851-d2a1-0fad-7b22-e3aa0c0762e7'
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'FP Metric Switch Abs. Var.'.ID
+	toColumn: 'TBL Metric Switch Supplemental'.ID
+
+relationship 'c9a7a412-b60f-f9b6-1f4a-643c600d4ec3'
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'TBL Metric Switch Supplemental'.ID
+	toColumn: 'FP Metric Switch AC'.ID
+
+relationship '73d27e8d-3698-ee0e-72a7-7e5e7958dc02'
+	isActive: false
+	fromColumn: DIM_Customers.Country
+	toColumn: 'DIM_Geo Suppl'.'Country name - origin'
+
+relationship '322b835d-9c8e-e43d-5170-ee13eb613c12'
+	fromColumn: 'FP Granularity Suppl Date Text'.'Granularity ID'
+	toColumn: 'TBL Granularity'.ID
+
+relationship 'af57763f-c92f-36a7-e876-21e247984aa6'
+	fromColumn: DIM_Customers.'Sales Manager'
+	toColumn: DIM_SalesManager.'Manager Full Name'
+
+relationship 'b104883e-cdf4-a78e-6da2-67193902e25f'
+	isActive: false
+	fromColumn: Dim_Calendar.qqyy
+	toColumn: CustomSlicerTable.'qq''yy'
+
+relationship 'cea8024a-dade-eea4-a6da-986aa4f685d2'
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'FP Metric Switch Abs. Var. Data Bar'.ID
+	toColumn: 'TBL Metric Switch Supplemental'.ID
+
+relationship '3b2d65dc-79d0-f5ac-dec2-f8147ecc4c24'
+	fromColumn: 'FP Granularity Text'.'Granularity ID'
+	toColumn: 'TBL Granularity'.ID
+
+relationship '5a385ca6-bd7d-53de-52ee-b092fc7a8637'
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'FP X-axis Category Type | Presets | Suppl'.'Preset ID'
+	toColumn: 'TBL Time Presets'.ID
+
+relationship '88a0964f-2ae9-49f1-576a-2f4706a9ce07'
+	fromColumn: 'FP Rev Vol Change Tabular'.'ID Metric Type'
+	toColumn: 'TBL Rev Vol Change'.ID
+
+relationship 'c22b0bcc-a3b6-1537-148f-395f8c6e15eb'
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'TBL Rev Vol Change'.ID
+	toColumn: 'FP Rev Vol Change Visuals'.'ID Metric Type'
+
+relationship '0e732255-e973-c539-7354-6e075f091313'
+	isActive: false
+	fromColumn: DIM_Customers.Customer_ID
+	toColumn: 'DIM_Customers_Supplemental alt'.Customer_ID
+
+relationship 'd6c606ad-8c2b-4fa8-a670-d04eb0d8b1b4'
+	fromColumn: 'FP Granularity Basic'.'Granularity ID'
+	toColumn: 'TBL Granularity'.ID
+
+relationship 'b9769615-ff32-408a-1610-a36a55b7ae3a'
+	fromColumn: 'FP Granularity Basic Suppl Date'.'Granularity ID'
+	toColumn: 'TBL Granularity'.ID
+
+relationship '10bf0520-2121-82c9-2ce8-0ce0ce613d5d'
+	fromColumn: 'FP Granularity Text Text Space'.'Granularity ID'
+	toColumn: 'TBL Granularity'.ID
+
+relationship 'f241f4da-e6f2-9de9-3ea0-4111770af157'
+	fromColumn: 'FP Granularity Hierarchy'.'ID Granularity Hierarchy'
+	toColumn: 'TBL Granularity - Hierarchy'.ID

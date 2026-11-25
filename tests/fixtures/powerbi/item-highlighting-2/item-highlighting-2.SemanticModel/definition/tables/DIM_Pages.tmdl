@@ -1,0 +1,135 @@
+table DIM_Pages
+	lineageTag: 9e4c97db-6563-4bef-b79f-3166a610c85e
+
+	measure '_Countrows Pages' = ```
+
+		    COUNTROWS ( DIM_Pages )
+		```
+		displayFolder: Page (List of exercises) - Navigation
+		lineageTag: ce98195f-64b8-4662-8892-0b69310ba514
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: bb50e7a6-45ab-4167-936e-96eb47d690d4
+		summarizeBy: count
+		sourceColumn: ID
+
+	column 'Page Name'
+		dataType: string
+		lineageTag: 716a326f-787a-4727-a9cc-b7a8907839c2
+		summarizeBy: none
+		sourceColumn: Page Name
+
+	column 'Short name'
+		dataType: string
+		lineageTag: 1f59311f-26d1-4a6f-85d0-1576a114df3b
+		summarizeBy: none
+		sourceColumn: Short name
+
+	column Header
+		dataType: string
+		lineageTag: 3045923b-ff18-4a6a-94a5-9b2c8c25c2e0
+		summarizeBy: none
+		sourceColumn: Header
+
+	column Subheader
+		dataType: string
+		lineageTag: aecc1c70-3ef8-4c86-b677-0fb1a93ac71b
+		summarizeBy: none
+		sourceColumn: Subheader
+
+	column Category
+		dataType: string
+		lineageTag: 193d4810-2164-4ef8-9574-01ebf893807f
+		summarizeBy: none
+		sortByColumn: 'Category Sort ID'
+		sourceColumn: Category
+
+	column 'Category Sort ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 84270957-fdd4-4e7f-becf-7f1121f8f4c4
+		summarizeBy: count
+		sourceColumn: Category Sort ID
+
+	column 'Category Image URL'
+		dataType: string
+		lineageTag: 88cafc47-d1de-40df-b3ee-f69624352997
+		summarizeBy: none
+		sourceColumn: Category Image URL
+
+	column Tags
+		dataType: string
+		lineageTag: 38b0c35d-17f7-4405-8ef3-b425018eaf1d
+		summarizeBy: none
+		sourceColumn: Tags
+
+	column 'Concatenated Search Tag'
+		dataType: string
+		lineageTag: 58dc8fa0-fc36-41bb-b76b-a82c6f8d2563
+		summarizeBy: none
+		sourceColumn: Concatenated Search Tag
+
+	column 'Level Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 57b9f1f7-7a9b-4869-a3d5-6c6050dd4f91
+		summarizeBy: sum
+		sourceColumn: Level Number
+
+	column 'Level Icon'
+		dataType: string
+		lineageTag: 9edb1cd7-d081-482a-984d-2c83c1c8497b
+		summarizeBy: none
+		sourceColumn: Level Icon
+
+	column 'All Tag'
+		dataType: string
+		lineageTag: 27949f6a-0977-4f97-ba4e-fff0a342dc12
+		summarizeBy: none
+		sourceColumn: All Tag
+
+	column 'All Tag Alt.'
+		dataType: string
+		lineageTag: 2abef595-6e33-42b1-b72e-c2faf3d32bd0
+		summarizeBy: none
+		sourceColumn: All Tag Alt.
+
+	column 'Category Image URL v2'
+		dataType: string
+		dataCategory: ImageUrl
+		lineageTag: fd19f585-9599-4188-a69d-763694ca58b2
+		summarizeBy: none
+		sourceColumn: Category Image URL v2
+
+	column 'Dataset Type'
+		dataType: string
+		lineageTag: 4dd31a8b-d69e-4661-8b33-75830e9a7aa8
+		summarizeBy: none
+		sourceColumn: Dataset Type
+
+	column 'Level Number - Text'
+		dataType: string
+		lineageTag: 24777d06-509d-4b6e-9eb0-4eb25f6b4562
+		summarizeBy: none
+		sourceColumn: Level Number - Text
+
+	partition DIM_Pages = m
+		mode: import
+		source = ```
+			let
+			    Source = Excel.Workbook(File.Contents("C:\Users\gusta\OneDrive\Pulpit\Pages - List of Analyses.xlsx"), null, true),
+			    DIM_Pages_Solutions001_Table = Source{[Item="DIM_Pages",Kind="Table"]}[Data],
+			    #"Duplicated Column" = Table.DuplicateColumn(DIM_Pages_Solutions001_Table, "Level Number", "Level Number - Copy"),
+			    #"Renamed Columns" = Table.RenameColumns(#"Duplicated Column",{{"Level Number - Copy", "Level Number - Text"}}),
+			    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"ID", Int64.Type}, {"Page Name", type text}, {"Short name", type text}, {"Header", type text}, {"Subheader", type text}, {"Category", type text}, {"Category Sort ID", Int64.Type}, {"Level Number", Int64.Type}, {"Level Number - Text", type text}, {"Level Icon", type text}}),
+			    #"Added Custom" = Table.AddColumn(#"Changed Type", "Concatenated Search Tag", each [Header] & " | " & 
+			[Subheader] & " | " & 
+			[Category] & " | " &
+			[Tags] & " | " &
+			[#"Level Number - Text"]),
+			    #"Filtered Rows" = Table.SelectRows(#"Added Custom", each ([Dataset Type] = "Dataset 001"))
+			in
+			    #"Filtered Rows"
+			```

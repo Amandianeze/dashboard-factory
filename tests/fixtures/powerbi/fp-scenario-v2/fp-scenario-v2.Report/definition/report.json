@@ -1,0 +1,169 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY24SU10",
+      "reportVersionAtImport": {
+        "visual": "1.8.101",
+        "report": "2.0.101",
+        "page": "1.3.101"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Main_Theme13674231170550633.json",
+      "reportVersionAtImport": {
+        "visual": "2.8.0",
+        "report": "3.2.0",
+        "page": "2.3.1"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "textSearchSlicerF85E2E78BE4A4D7D9F99ED75B5D71C85"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY24SU10",
+          "path": "BaseThemes/CY24SU10.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "arrow0734786498837876.png",
+          "path": "arrow0734786498837876.png",
+          "type": "Image"
+        },
+        {
+          "name": "arrow5720938445937335.png",
+          "path": "arrow5720938445937335.png",
+          "type": "Image"
+        },
+        {
+          "name": "arrow9974168930652997.png",
+          "path": "arrow9974168930652997.png",
+          "type": "Image"
+        },
+        {
+          "name": "Customer_64px22747763199851168.svg",
+          "path": "Customer_64px22747763199851168.svg",
+          "type": "Image"
+        },
+        {
+          "name": "loading024477968763916835.png",
+          "path": "loading024477968763916835.png",
+          "type": "Image"
+        },
+        {
+          "name": "Logo04231484317805467.png",
+          "path": "Logo04231484317805467.png",
+          "type": "Image"
+        },
+        {
+          "name": "Main_Theme13674231170550633.json",
+          "path": "Main_Theme13674231170550633.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "refresh-arrow_(4)7959620041700665.png",
+          "path": "refresh-arrow_(4)7959620041700665.png",
+          "type": "Image"
+        },
+        {
+          "name": "refresh-arrow_(5)49225553810086276.png",
+          "path": "refresh-arrow_(5)49225553810086276.png",
+          "type": "Image"
+        },
+        {
+          "name": "right_(3)6189556940719995.png",
+          "path": "right_(3)6189556940719995.png",
+          "type": "Image"
+        },
+        {
+          "name": "Screenshot_2025-12-22_1637477355557452024609.png",
+          "path": "Screenshot_2025-12-22_1637477355557452024609.png",
+          "type": "Image"
+        },
+        {
+          "name": "Screenshot_2026-04-19_1406396626284474595133.png",
+          "path": "Screenshot_2026-04-19_1406396626284474595133.png",
+          "type": "Image"
+        },
+        {
+          "name": "search_(2)5861905880034225.png",
+          "path": "search_(2)5861905880034225.png",
+          "type": "Image"
+        },
+        {
+          "name": "sort_(4)07977405759735623.png",
+          "path": "sort_(4)07977405759735623.png",
+          "type": "Image"
+        },
+        {
+          "name": "sort_(4)2469831869098671.png",
+          "path": "sort_(4)2469831869098671.png",
+          "type": "Image"
+        },
+        {
+          "name": "sort_(4)7511131497940418.png",
+          "path": "sort_(4)7511131497940418.png",
+          "type": "Image"
+        },
+        {
+          "name": "world-countries-dimgeo-soverei01777489933192089.topojson",
+          "path": "world-countries-dimgeo-soverei01777489933192089.topojson",
+          "type": "ShapeMap"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useScaledTooltips": true,
+    "useDefaultAggregateDisplayName": true,
+    "customMemoryLimit": "1048576",
+    "customTimeoutLimit": "225"
+  }
+}

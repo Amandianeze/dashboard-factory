@@ -1,0 +1,3 @@
+relationship sales_regions
+	fromColumn: Sales.RegionId
+	toColumn: Regions.RegionId

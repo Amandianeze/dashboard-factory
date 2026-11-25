@@ -21,6 +21,7 @@
     "spec:validate": "tsx scripts/validate-specs.ts",
     "spec:schema": "tsx scripts/export-schema.ts",
     "new:dashboard": "tsx scripts/new-dashboard.ts",
+    "import:powerbi": "tsx scripts/powerbi/cli.ts",
     "data:fixtures": "tsx scripts/generate-fixtures.ts",
     "data:yahoo": "tsx scripts/fetch-yahoo-sp500.ts",
     "panel:render": "tsx scripts/render-panel.ts",

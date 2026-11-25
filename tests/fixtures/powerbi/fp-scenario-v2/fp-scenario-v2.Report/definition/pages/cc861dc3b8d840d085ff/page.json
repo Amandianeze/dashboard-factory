@@ -1,0 +1,340 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "cc861dc3b8d840d085ff",
+  "displayName": "FP - Scenario Selection V2",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "940ab308ddaa3bd8e794",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim Calendar"
+              }
+            },
+            "Property": "Date"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "Dim Calendar",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 4,
+                  "Left": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "d"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  },
+                  "Right": {
+                    "DateSpan": {
+                      "Expression": {
+                        "Literal": {
+                          "Value": "datetime'2025-01-31T00:00:00'"
+                        }
+                      },
+                      "TimeUnit": 5
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "fb27ebfa182944d20def",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_Customers"
+              }
+            },
+            "Property": "Country"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_Customers",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Country"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'France'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Sweden'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "53c35eecf39ce8537278",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_Customers"
+              }
+            },
+            "Property": "Segment"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_Customers",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "Segment"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Penetration Testing'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "''"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "Literal": {
+                    "Value": "''"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "33d6e7132f746c0bac71",
+      "target": "51b75bbf17c1c9a5212e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "e8e5b57d29268b5105d8",
+      "target": "469d7dbca9af388c5759",
+      "type": "NoFilter"
+    },
+    {
+      "source": "469d7dbca9af388c5759",
+      "target": "e8e5b57d29268b5105d8",
+      "type": "NoFilter"
+    },
+    {
+      "source": "e8e5b57d29268b5105d8",
+      "target": "51b75bbf17c1c9a5212e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "e8e5b57d29268b5105d8",
+      "target": "c80997df317212bb37d7",
+      "type": "NoFilter"
+    },
+    {
+      "source": "e8e5b57d29268b5105d8",
+      "target": "698288c7eace8f2ef18d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "469d7dbca9af388c5759",
+      "target": "8325075642c03d30f853",
+      "type": "NoFilter"
+    },
+    {
+      "source": "469d7dbca9af388c5759",
+      "target": "e9f22ad72417f03297da",
+      "type": "NoFilter"
+    },
+    {
+      "source": "469d7dbca9af388c5759",
+      "target": "d353f517acdd8dfff80a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d353f517acdd8dfff80a",
+      "target": "698288c7eace8f2ef18d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d353f517acdd8dfff80a",
+      "target": "c80997df317212bb37d7",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d353f517acdd8dfff80a",
+      "target": "51b75bbf17c1c9a5212e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d353f517acdd8dfff80a",
+      "target": "8325075642c03d30f853",
+      "type": "DataFilter"
+    },
+    {
+      "source": "c80997df317212bb37d7",
+      "target": "8325075642c03d30f853",
+      "type": "NoFilter"
+    },
+    {
+      "source": "c80997df317212bb37d7",
+      "target": "d353f517acdd8dfff80a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "c80997df317212bb37d7",
+      "target": "e9f22ad72417f03297da",
+      "type": "NoFilter"
+    },
+    {
+      "source": "51b75bbf17c1c9a5212e",
+      "target": "d353f517acdd8dfff80a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "51b75bbf17c1c9a5212e",
+      "target": "8325075642c03d30f853",
+      "type": "NoFilter"
+    },
+    {
+      "source": "469d7dbca9af388c5759",
+      "target": "03f1675aeed67f3cdfcb",
+      "type": "NoFilter"
+    },
+    {
+      "source": "33d6e7132f746c0bac71",
+      "target": "03f1675aeed67f3cdfcb",
+      "type": "DataFilter"
+    },
+    {
+      "source": "33d6e7132f746c0bac71",
+      "target": "8325075642c03d30f853",
+      "type": "NoFilter"
+    }
+  ]
+}

@@ -1,0 +1,491 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY24SU06",
+      "reportVersionAtImport": {
+        "visual": "1.8.91",
+        "report": "2.0.91",
+        "page": "1.3.91"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Main_Theme6323942153217794.json",
+      "reportVersionAtImport": {
+        "visual": "2.4.0",
+        "report": "3.0.0",
+        "page": "2.3.0"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          },
+          "visible": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "ChicletSlicer1448559807354",
+    "textSearchSlicerF85E2E78BE4A4D7D9F99ED75B5D71C85"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY24SU06",
+          "path": "BaseThemes/CY24SU06.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "03._PBI_Template_Layouts_-_Mai7150285116710229.svg",
+          "path": "03._PBI_Template_Layouts_-_Mai7150285116710229.svg",
+          "type": "Image"
+        },
+        {
+          "name": "arrow10403553421569323.png",
+          "path": "arrow10403553421569323.png",
+          "type": "Image"
+        },
+        {
+          "name": "clear_(1)49702972885764307.png",
+          "path": "clear_(1)49702972885764307.png",
+          "type": "Image"
+        },
+        {
+          "name": "clear_(1)8935730452346728.png",
+          "path": "clear_(1)8935730452346728.png",
+          "type": "Image"
+        },
+        {
+          "name": "clear_(2)8910671557997955.png",
+          "path": "clear_(2)8910671557997955.png",
+          "type": "Image"
+        },
+        {
+          "name": "clear5552266216791205.png",
+          "path": "clear5552266216791205.png",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v201445963051627408.svg",
+          "path": "Data_Forge_Full_Left_Pane_v201445963051627408.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v202184448646245718.svg",
+          "path": "Data_Forge_Full_Left_Pane_v202184448646245718.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v2031289968698386406.svg",
+          "path": "Data_Forge_Full_Left_Pane_v2031289968698386406.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v2032535444443741235.svg",
+          "path": "Data_Forge_Full_Left_Pane_v2032535444443741235.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v206648062675106547.svg",
+          "path": "Data_Forge_Full_Left_Pane_v206648062675106547.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v20706706569768214.svg",
+          "path": "Data_Forge_Full_Left_Pane_v20706706569768214.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v207374219552433026.svg",
+          "path": "Data_Forge_Full_Left_Pane_v207374219552433026.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v208128439531827936.svg",
+          "path": "Data_Forge_Full_Left_Pane_v208128439531827936.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v208786872373736332.svg",
+          "path": "Data_Forge_Full_Left_Pane_v208786872373736332.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v210631204909496084.svg",
+          "path": "Data_Forge_Full_Left_Pane_v210631204909496084.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v210751637262293001.svg",
+          "path": "Data_Forge_Full_Left_Pane_v210751637262293001.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v212430989478535315.svg",
+          "path": "Data_Forge_Full_Left_Pane_v212430989478535315.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v212487627155910219.svg",
+          "path": "Data_Forge_Full_Left_Pane_v212487627155910219.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v21443300618809804.svg",
+          "path": "Data_Forge_Full_Left_Pane_v21443300618809804.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v21451455652352137.svg",
+          "path": "Data_Forge_Full_Left_Pane_v21451455652352137.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v21487319684671955.svg",
+          "path": "Data_Forge_Full_Left_Pane_v21487319684671955.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v221410612122387773.svg",
+          "path": "Data_Forge_Full_Left_Pane_v221410612122387773.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v222667242674224874.svg",
+          "path": "Data_Forge_Full_Left_Pane_v222667242674224874.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v22410219556000497.svg",
+          "path": "Data_Forge_Full_Left_Pane_v22410219556000497.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v230503405729401145.svg",
+          "path": "Data_Forge_Full_Left_Pane_v230503405729401145.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v233573439588781384.svg",
+          "path": "Data_Forge_Full_Left_Pane_v233573439588781384.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v23394848794788444.svg",
+          "path": "Data_Forge_Full_Left_Pane_v23394848794788444.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v23445301466065286.svg",
+          "path": "Data_Forge_Full_Left_Pane_v23445301466065286.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v23816157734953082.svg",
+          "path": "Data_Forge_Full_Left_Pane_v23816157734953082.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v238659479106177785.svg",
+          "path": "Data_Forge_Full_Left_Pane_v238659479106177785.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v23880716073647009.svg",
+          "path": "Data_Forge_Full_Left_Pane_v23880716073647009.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v239983995341026146.svg",
+          "path": "Data_Forge_Full_Left_Pane_v239983995341026146.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v24650316695205724.svg",
+          "path": "Data_Forge_Full_Left_Pane_v24650316695205724.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v247812505413927864.svg",
+          "path": "Data_Forge_Full_Left_Pane_v247812505413927864.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v248038339797942786.svg",
+          "path": "Data_Forge_Full_Left_Pane_v248038339797942786.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v24848053193947456.svg",
+          "path": "Data_Forge_Full_Left_Pane_v24848053193947456.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v249272463098474184.svg",
+          "path": "Data_Forge_Full_Left_Pane_v249272463098474184.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v24928435653382093.svg",
+          "path": "Data_Forge_Full_Left_Pane_v24928435653382093.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v25091896877245.svg",
+          "path": "Data_Forge_Full_Left_Pane_v25091896877245.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v25186956884411857.svg",
+          "path": "Data_Forge_Full_Left_Pane_v25186956884411857.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v26220978603400519.svg",
+          "path": "Data_Forge_Full_Left_Pane_v26220978603400519.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v26227331884959674.svg",
+          "path": "Data_Forge_Full_Left_Pane_v26227331884959674.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v26580039992403827.svg",
+          "path": "Data_Forge_Full_Left_Pane_v26580039992403827.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v26583919028620198.svg",
+          "path": "Data_Forge_Full_Left_Pane_v26583919028620198.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v26611127084514719.svg",
+          "path": "Data_Forge_Full_Left_Pane_v26611127084514719.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v26884983217868769.svg",
+          "path": "Data_Forge_Full_Left_Pane_v26884983217868769.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v2693645791746131.svg",
+          "path": "Data_Forge_Full_Left_Pane_v2693645791746131.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v27410025318325958.svg",
+          "path": "Data_Forge_Full_Left_Pane_v27410025318325958.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v27803036165846748.svg",
+          "path": "Data_Forge_Full_Left_Pane_v27803036165846748.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v27919834218509575.svg",
+          "path": "Data_Forge_Full_Left_Pane_v27919834218509575.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v28240349266861375.svg",
+          "path": "Data_Forge_Full_Left_Pane_v28240349266861375.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v28349308555794106.svg",
+          "path": "Data_Forge_Full_Left_Pane_v28349308555794106.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v28831915897531152.svg",
+          "path": "Data_Forge_Full_Left_Pane_v28831915897531152.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v28840831132782818.svg",
+          "path": "Data_Forge_Full_Left_Pane_v28840831132782818.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v28977008039466257.svg",
+          "path": "Data_Forge_Full_Left_Pane_v28977008039466257.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v29481088226704805.svg",
+          "path": "Data_Forge_Full_Left_Pane_v29481088226704805.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v29500606024756734.svg",
+          "path": "Data_Forge_Full_Left_Pane_v29500606024756734.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v29558278294472604.svg",
+          "path": "Data_Forge_Full_Left_Pane_v29558278294472604.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v29563142900612761.svg",
+          "path": "Data_Forge_Full_Left_Pane_v29563142900612761.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v29568342306646127.svg",
+          "path": "Data_Forge_Full_Left_Pane_v29568342306646127.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v29669128589860952.svg",
+          "path": "Data_Forge_Full_Left_Pane_v29669128589860952.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Forge_Full_Left_Pane_v29840952036159037.svg",
+          "path": "Data_Forge_Full_Left_Pane_v29840952036159037.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Data_Vis_Forge_Logo9469764821322953.png",
+          "path": "Data_Vis_Forge_Logo9469764821322953.png",
+          "type": "Image"
+        },
+        {
+          "name": "file_(1)6611938049594548.png",
+          "path": "file_(1)6611938049594548.png",
+          "type": "Image"
+        },
+        {
+          "name": "filter7598788053215921.png",
+          "path": "filter7598788053215921.png",
+          "type": "Image"
+        },
+        {
+          "name": "loading_(5)7129524900814443.png",
+          "path": "loading_(5)7129524900814443.png",
+          "type": "Image"
+        },
+        {
+          "name": "Main_Theme6323942153217794.json",
+          "path": "Main_Theme6323942153217794.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "off_-_inactive6267198588902726.svg",
+          "path": "off_-_inactive6267198588902726.svg",
+          "type": "Image"
+        },
+        {
+          "name": "off_-_on_hover112926135243819.svg",
+          "path": "off_-_on_hover112926135243819.svg",
+          "type": "Image"
+        },
+        {
+          "name": "off_-_on_hover4064606462886512.svg",
+          "path": "off_-_on_hover4064606462886512.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Screenshot_2026-07-25_1339588504646699255299.png",
+          "path": "Screenshot_2026-07-25_1339588504646699255299.png",
+          "type": "Image"
+        },
+        {
+          "name": "Screenshot_2026-07-25_1342165441783082324448.png",
+          "path": "Screenshot_2026-07-25_1342165441783082324448.png",
+          "type": "Image"
+        },
+        {
+          "name": "Screenshot_2026-07-25_13451415433938629678745.png",
+          "path": "Screenshot_2026-07-25_13451415433938629678745.png",
+          "type": "Image"
+        },
+        {
+          "name": "search2602152313151542.png",
+          "path": "search2602152313151542.png",
+          "type": "Image"
+        },
+        {
+          "name": "Turn_off_hover8979112651893222.svg",
+          "path": "Turn_off_hover8979112651893222.svg",
+          "type": "Image"
+        },
+        {
+          "name": "turn_off_press03251108577620432.svg",
+          "path": "turn_off_press03251108577620432.svg",
+          "type": "Image"
+        },
+        {
+          "name": "turn_on_active.png008336322042280297.svg",
+          "path": "turn_on_active.png008336322042280297.svg",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultFilterActionIsDataFilter": true,
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "allowInlineExploration": true,
+    "useEnhancedTooltips": true,
+    "useScaledTooltips": true,
+    "useDefaultAggregateDisplayName": true,
+    "customMemoryLimit": "1048576",
+    "customTimeoutLimit": "225"
+  },
+  "slowDataSourceSettings": {
+    "isCrossHighlightingDisabled": false,
+    "isSlicerSelectionsButtonEnabled": false,
+    "isFilterSelectionsButtonEnabled": false,
+    "isFieldWellButtonEnabled": false,
+    "isApplyAllButtonEnabled": false
+  }
+}

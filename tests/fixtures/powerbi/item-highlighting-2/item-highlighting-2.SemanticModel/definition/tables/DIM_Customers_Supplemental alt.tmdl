@@ -1,0 +1,320 @@
+table 'DIM_Customers_Supplemental alt'
+	lineageTag: 6b884652-eb35-448d-af76-09e651f749d0
+
+	measure '_Customer Highlighting I' = ```
+
+
+		VAR __Customer_Table =  VALUES ( 'DIM_Customers_Supplemental alt'[Customer_Name] )
+		VAR __Customer_Item =   SELECTEDVALUE ( DIM_Customers[Customer_Name] )
+
+		VAR __Customer_Table_is_filtered = ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_Name] )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            NOT ( __Customer_Table_is_filtered), 1,
+		            __Customer_Item IN __Customer_Table, 1,
+		            0
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		lineageTag: 386cd0cd-d1da-4402-a5f2-fea4eb0f97a8
+
+	measure '_Customer Highlighting II | Scatter' = ```
+
+		      
+		VAR __Customer_Dimension_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Is_Matched =
+		    NOT ISEMPTY (
+		        INTERSECT (
+		            VALUES ( 'DIM_Customers_Supplemental alt'[Customer_Name] ),
+		            VALUES ( DIM_Customers[Customer_Name] )
+		        )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		         TRUE(),
+		            __Customer_Dimension_Is_Filtered && __Is_Matched,         "#2372B7", --"#D23636", -- "#69748A", 
+		            __Customer_Dimension_Is_Filtered && NOT ( __Is_Matched ), "#CCCCCC80",
+		            "#47627F"
+		    )
+
+		RETURN __Result
+		```
+		lineageTag: 04c73ca9-d541-41d0-8da9-32f5925b3279
+
+	measure '_Period Highlighting | Color' = ```
+
+
+		VAR __Calendar_Is_Filtered =
+		    ISCROSSFILTERED ( 'Dim Calendar Suppl'[Date] )
+
+		VAR __Is_Matched =
+		    NOT ISEMPTY (
+		        INTERSECT (
+		            VALUES ( 'Dim Calendar Suppl'[Date] ),
+		            VALUES ( 'Dim_Calendar'[Date] )
+		        )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		         TRUE(),
+		            __Calendar_Is_Filtered && __Is_Matched,         "#4574BF", 
+		            __Calendar_Is_Filtered && NOT ( __Is_Matched ), "#DDDFE1",
+		            "#626D7F"
+		    )
+
+		RETURN __Result
+
+		// In this use-case: 
+		// Supplemental Calendar should be used within a slicer
+		// Main Calendar should be used as x-axis in timeseries charts
+		// This can be reversed, in that case:
+		// Main Calendar Table should be used in the variable: __Calendar_Is_Filtered 
+		// && Main Calendar should be used as a slicer, whereas Supplemental to be on x-axis
+		```
+		displayFolder: Markers & Data Points & Factors\05. Period Highlighting
+		lineageTag: cc922632-0e2a-44d8-9055-c71be1b52303
+
+	measure '_Period Highlight  | Values' = ```
+
+
+		VAR __Values = [_Revenue]
+
+		VAR __Calendar_Is_Filtered =
+		    ISCROSSFILTERED ( 'Dim Calendar Suppl'[Date] )
+
+		VAR __Is_Matched =
+		    NOT ISEMPTY (
+		        INTERSECT (
+		            VALUES ( 'Dim Calendar Suppl'[Date] ),
+		            VALUES ( 'Dim_Calendar'[Date] )
+		        )
+		    )
+
+		VAR __Result =
+		    IF ( 
+		        __Calendar_Is_Filtered && __Is_Matched, 
+		        __Values,
+		        BLANK()
+		    )
+
+		RETURN __Result
+
+		         
+		```
+		displayFolder: Markers & Data Points & Factors\05. Period Highlighting
+		lineageTag: 5ccf1316-998f-42ff-b43e-5e68c7cef1a1
+
+	measure '_Customer Highlighting | Filter Tag' = ```
+
+		      
+		VAR __Customer_Dimension_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Is_Matched =
+		    NOT ISEMPTY (
+		        INTERSECT (
+		            VALUES ( 'DIM_Customers_Supplemental alt'[Customer_Name] ),
+		            VALUES ( DIM_Customers[Customer_Name] )
+		        )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		         TRUE(),
+		            NOT ( __Customer_Dimension_Is_Filtered ), 0 , 
+		            __Customer_Dimension_Is_Filtered && __Is_Matched,         1, 
+		            __Customer_Dimension_Is_Filtered && NOT ( __Is_Matched ), 0,
+		            0
+		    )
+
+		RETURN __Result
+		```
+		lineageTag: 5d57e334-5420-4493-b74a-7c598a115d3d
+
+	measure '_Customer Highlighting III | Table' = ```
+
+		      
+		VAR __Customer_Dimension_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Is_Matched =
+		    NOT ISEMPTY (
+		        INTERSECT (
+		            VALUES ( 'DIM_Customers_Supplemental alt'[Customer_Name] ),
+		            VALUES ( DIM_Customers[Customer_Name] )
+		        )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		         TRUE(),
+		            __Customer_Dimension_Is_Filtered && __Is_Matched,         [_Highlighting_Blue],
+		            __Customer_Dimension_Is_Filtered && NOT ( __Is_Matched ), [_Transparent color],
+		            [_Transparent color]
+		    ) & ""
+
+		RETURN __Result
+		```
+		lineageTag: 9178bad6-d9a1-4106-8536-9909f631b171
+
+	measure '_Customer Highlighting III | Table | Font' = ```
+
+		      
+		VAR __Customer_Dimension_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Is_Matched =
+		    NOT ISEMPTY (
+		        INTERSECT (
+		            VALUES ( 'DIM_Customers_Supplemental alt'[Customer_Name] ),
+		            VALUES ( DIM_Customers[Customer_Name] )
+		        )
+		    )
+
+		VAR __Fallback_Color = "#3D5671"
+
+		VAR __Result =
+		    SWITCH (
+		         TRUE(),
+		            __Customer_Dimension_Is_Filtered && __Is_Matched,         "#ffffff",
+		            __Customer_Dimension_Is_Filtered && NOT ( __Is_Matched ), __Fallback_Color,
+		            __Fallback_Color
+		    ) 
+
+		RETURN __Result
+		```
+		lineageTag: f33afc3d-821d-4fc0-815e-320dd33e9af8
+
+	measure '_Customer Highlighting III | Table | Light' = ```
+
+		      
+		VAR __Customer_Dimension_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Is_Matched =
+		    NOT ISEMPTY (
+		        INTERSECT (
+		            VALUES ( 'DIM_Customers_Supplemental alt'[Customer_Name] ),
+		            VALUES ( DIM_Customers[Customer_Name] )
+		        )
+		    )
+
+		VAR __Result =
+		    SWITCH (
+		         TRUE(),
+		            __Customer_Dimension_Is_Filtered && __Is_Matched,         [_Highlighting_Blue_Light],
+		            __Customer_Dimension_Is_Filtered && NOT ( __Is_Matched ), [_Transparent color],
+		            [_Transparent color]
+		    ) & ""
+
+		RETURN __Result
+		```
+		lineageTag: dabf232f-9bfb-4402-a0f1-c605425b3121
+
+	measure '_Customer Highlighting III | Table | Light | Font' = ```
+
+		      
+		VAR __Customer_Dimension_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Is_Matched =
+		    NOT ISEMPTY (
+		        INTERSECT (
+		            VALUES ( 'DIM_Customers_Supplemental alt'[Customer_Name] ),
+		            VALUES ( DIM_Customers[Customer_Name] )
+		        )
+		    )
+
+		VAR __Fallback_Color = "#3D5671"
+
+		VAR __Result =
+		    SWITCH (
+		         TRUE(),
+		            __Customer_Dimension_Is_Filtered && __Is_Matched,         [_Highlighting_Blue],
+		            __Customer_Dimension_Is_Filtered && NOT ( __Is_Matched ), __Fallback_Color,
+		            __Fallback_Color
+		    ) & ""
+
+		RETURN __Result
+		```
+		lineageTag: 8bf09c6b-2124-49f9-a087-2202318f160c
+
+	measure '_Customer Highlighting | Filter Tag | Basic' = ```
+
+		      
+		VAR __Customer_Dimension_Is_Filtered =
+		    ISCROSSFILTERED ( 'DIM_Customers_Supplemental alt'[Customer_ID] )
+
+		VAR __Is_Matched =
+		    NOT ISEMPTY (
+		        INTERSECT (
+		            VALUES ( 'DIM_Customers_Supplemental alt'[Customer_Name] ),
+		            VALUES ( DIM_Customers[Customer_Name] )
+		        )
+		    )
+
+		VAR __Result =
+		    IF (
+		        __Is_Matched,
+		        1
+		    )
+
+		RETURN __Result
+		```
+		lineageTag: abade188-2d3f-4d76-8dd5-469663c51ff8
+
+	column Customer_Name
+		dataType: string
+		lineageTag: 7060b8b2-9c02-4541-91f1-66acc12585a0
+		summarizeBy: none
+		sortByColumn: Customer_ID
+		sourceColumn: DIM_Customers[Customer_Name]
+
+	column Business_Line
+		dataType: string
+		lineageTag: df3509fd-2f71-452a-8839-faf732949b0f
+		summarizeBy: none
+		sourceColumn: DIM_Customers[Business_Line]
+
+	column Country
+		dataType: string
+		lineageTag: e662eded-7da6-4183-8b9a-d689d640b9cd
+		summarizeBy: none
+		sourceColumn: DIM_Customers[Country]
+
+	column 'Sort ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: a7a913d5-c25c-4dc7-bc00-ab3138920af4
+		summarizeBy: count
+		sourceColumn: DIM_Customers[Sort ID]
+
+	column Segment
+		dataType: string
+		lineageTag: 01810cbe-5f15-4960-a222-effffa248acc
+		summarizeBy: none
+		sourceColumn: DIM_Customers[Segment]
+
+	column Customer_ID
+		dataType: string
+		lineageTag: 38a4668a-2656-4ee5-b309-a14d5dd18b47
+		summarizeBy: none
+		sourceColumn: DIM_Customers[Customer_ID]
+
+	column 'Sales Manager'
+		dataType: string
+		lineageTag: e6de3778-93a9-4e78-8969-c742b873ee5c
+		summarizeBy: none
+		sourceColumn: DIM_Customers[Sales Manager]
+
+	partition 'DIM_Customers_Supplemental alt' = calculated
+		mode: import
+		source = DIM_Customers

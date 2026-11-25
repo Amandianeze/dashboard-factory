@@ -1,0 +1,135 @@
+Customer_ID,Customer_Name,Business_Line,Country,Segment,Sales Manager,Region Business 4 Group
+C0001,QuantumMatrix,Cloud Providers,Germany,Managed Cloud Services,Logan Pierce,EMEA
+C0004,NeuralSync,Cloud Providers,Germany,Cloud Security,Logan Pierce,EMEA
+C0018,TechWave,Cybersecurity,Germany,Network Security,Logan Pierce,EMEA
+C0028,NetSystems,Cloud Providers,Germany,Cloud Infrastructure,Logan Pierce,EMEA
+C0040,QuantumStream,Cloud Providers,Germany,Managed Cloud Services,Logan Pierce,EMEA
+C0048,TechCore,Cybersecurity,Germany,Penetration Testing,Logan Pierce,EMEA
+C0052,CloudWave,Cloud Providers,Germany,Cloud Infrastructure,Logan Pierce,EMEA
+C0055,NextGenSecurity,Cloud Providers,Germany,Cloud Security,Logan Pierce,EMEA
+C0074,CodeTech,Software House,Germany,DevOps & Automation,Logan Pierce,EMEA
+C0082,NetForge,Cloud Providers,Germany,Edge Computing,Logan Pierce,EMEA
+C0091,SkyLink,Cloud Providers,Germany,Managed Cloud Services,Logan Pierce,EMEA
+C0092,ByteSphere,Software House,Germany,Game Development,Logan Pierce,EMEA
+C0095,NextGenWave,Software House,Germany,Game Development,Logan Pierce,EMEA
+C0099,CyberBridge,Cybersecurity,Germany,Network Security,Logan Pierce,EMEA
+C0100,CloudSolutions,Cloud Providers,Germany,Edge Computing,Logan Pierce,EMEA
+C0110,SkySphere,Software House,Germany,Custom Software Development,Logan Pierce,EMEA
+C0113,NeuralCore,Software House,Germany,Custom Software Development,Logan Pierce,EMEA
+C0129,DataMatrix,Cybersecurity,Germany,Identity Management,Logan Pierce,EMEA
+C0131,InfraSolutions,Software House,Germany,Mobile App Development,Logan Pierce,EMEA
+C0002,CyberSystems,Software House,France,Game Development,Logan Pierce,EMEA
+C0009,NexusGate,Cybersecurity,France,Identity Management,Logan Pierce,EMEA
+C0016,SecureBridge,Cloud Providers,France,Cloud Security,Logan Pierce,EMEA
+C0025,NeuralWave,Cloud Providers,France,Cloud Security,Logan Pierce,EMEA
+C0041,AILogic,Software House,France,Game Development,Logan Pierce,EMEA
+C0044,CodeStream,Software House,France,DevOps & Automation,Logan Pierce,EMEA
+C0053,SecureLink,Software House,France,Enterprise Software,Logan Pierce,EMEA
+C0063,DigitalMatrix,Cybersecurity,France,Network Security,Logan Pierce,EMEA
+C0069,NexusForge,Cybersecurity,France,Identity Management,Logan Pierce,EMEA
+C0089,CodeCore,Software House,France,Game Development,Logan Pierce,EMEA
+C0104,ByteLogic,Software House,France,Mobile App Development,Logan Pierce,EMEA
+C0124,ByteSystems,Cloud Providers,France,Managed Cloud Services,Logan Pierce,EMEA
+C0125,NetGate,Software House,France,Enterprise Software,Logan Pierce,EMEA
+C0132,DataSystems,Cybersecurity,France,Network Security,Logan Pierce,EMEA
+C0006,QuantumLogic,Cybersecurity,India,Penetration Testing,Daniel Kim,APAC
+C0011,DigitalSphere,Software House,India,Custom Software Development,Daniel Kim,APAC
+C0020,InfraTech,Software House,India,DevOps & Automation,Daniel Kim,APAC
+C0027,NeuralLink,Cybersecurity,India,Penetration Testing,Daniel Kim,APAC
+C0033,CloudVision,Cybersecurity,India,Threat Intelligence,Daniel Kim,APAC
+C0037,TechSystems,Cloud Providers,India,Cloud Infrastructure,Daniel Kim,APAC
+C0046,NetSphere,Cloud Providers,India,Serverless Computing,Daniel Kim,APAC
+C0059,CyberSphere,Software House,India,Enterprise Software,Daniel Kim,APAC
+C0071,InfraForge,Software House,India,Enterprise Software,Daniel Kim,APAC
+C0088,CyberWave,Cloud Providers,India,Cloud Security,Daniel Kim,APAC
+C0098,DataSync,Software House,India,Custom Software Development,Daniel Kim,APAC
+C0118,DigitalSolutions,Cloud Providers,India,Edge Computing,Daniel Kim,APAC
+C0120,QuantumTech,Cybersecurity,India,Endpoint Protection,Daniel Kim,APAC
+C0007,QuantumSecurity,Cloud Providers,South Korea,Serverless Computing,Daniel Kim,APAC
+C0012,AISync,Cybersecurity,South Korea,Threat Intelligence,Daniel Kim,APAC
+C0019,InfraLink,Cloud Providers,South Korea,Cloud Infrastructure,Daniel Kim,APAC
+C0030,NextGenLogic,Cybersecurity,South Korea,Threat Intelligence,Daniel Kim,APAC
+C0035,ByteSync,Software House,South Korea,Mobile App Development,Daniel Kim,APAC
+C0043,CodeMatrix,Cloud Providers,South Korea,Edge Computing,Daniel Kim,APAC
+C0051,NeuralStream,Cybersecurity,South Korea,Penetration Testing,Daniel Kim,APAC
+C0058,NextGenGate,Cloud Providers,South Korea,Cloud Security,Daniel Kim,APAC
+C0064,ByteSolutions,Cloud Providers,South Korea,Serverless Computing,Daniel Kim,APAC
+C0066,QuantumVision,Cybersecurity,South Korea,Threat Intelligence,Daniel Kim,APAC
+C0076,DataSecurity,Cloud Providers,South Korea,Serverless Computing,Daniel Kim,APAC
+C0077,NextGenForge,Software House,South Korea,DevOps & Automation,Daniel Kim,APAC
+C0084,AIGate,Cybersecurity,South Korea,Penetration Testing,Daniel Kim,APAC
+C0086,InfraSecurity,Software House,South Korea,Enterprise Software,Daniel Kim,APAC
+C0109,NexusWave,Cloud Providers,South Korea,Serverless Computing,Daniel Kim,APAC
+C0114,NextGenSolutions,Cybersecurity,South Korea,Penetration Testing,Daniel Kim,APAC
+C0123,QuantumForge,Cybersecurity,South Korea,Endpoint Protection,Daniel Kim,APAC
+C0010,DigitalSync,Cloud Providers,Ireland,Cloud Security,Logan Pierce,EMEA
+C0026,DigitalSystems,Software House,Ireland,Enterprise Software,Logan Pierce,EMEA
+C0054,NeuralBridge,Cybersecurity,Ireland,Network Security,Logan Pierce,EMEA
+C0070,ByteMatrix,Cloud Providers,Ireland,Edge Computing,Logan Pierce,EMEA
+C0075,CodeSystems,Cybersecurity,Ireland,Identity Management,Logan Pierce,EMEA
+C0111,CloudLink,Cybersecurity,Ireland,Penetration Testing,Logan Pierce,EMEA
+C0126,NetLogic,Cybersecurity,Ireland,Endpoint Protection,Logan Pierce,EMEA
+C0128,CyberSecurity,Software House,Ireland,Mobile App Development,Logan Pierce,EMEA
+C0014,NeuralSystems,Software House,Japan,Custom Software Development,Daniel Kim,APAC
+C0024,AIWave,Cybersecurity,Japan,Penetration Testing,Daniel Kim,APAC
+C0049,CloudSphere,Cloud Providers,Japan,Edge Computing,Daniel Kim,APAC
+C0062,CloudSync,Software House,Japan,Mobile App Development,Daniel Kim,APAC
+C0072,NeuralLogic,Cybersecurity,Japan,Network Security,Daniel Kim,APAC
+C0093,NeuralForge,Cybersecurity,Japan,Penetration Testing,Daniel Kim,APAC
+C0101,SecureLogic,Software House,Japan,Mobile App Development,Daniel Kim,APAC
+C0112,AIVision,Cloud Providers,Japan,Edge Computing,Daniel Kim,APAC
+C0119,SecureSecurity,Software House,Japan,DevOps & Automation,Daniel Kim,APAC
+C0121,CloudGate,Cloud Providers,Japan,Serverless Computing,Daniel Kim,APAC
+C0122,NeuralSolutions,Software House,Japan,Mobile App Development,Daniel Kim,APAC
+C0008,DataSphere,Software House,Sweden,Game Development,Logan Pierce,EMEA
+C0013,DigitalStream,Cloud Providers,Sweden,Edge Computing,Logan Pierce,EMEA
+C0038,NeuralMatrix,Software House,Sweden,Enterprise Software,Logan Pierce,EMEA
+C0047,CloudTech,Software House,Sweden,Mobile App Development,Logan Pierce,EMEA
+C0056,NetStream,Software House,Sweden,Enterprise Software,Logan Pierce,EMEA
+C0085,QuantumSync,Cloud Providers,Sweden,Managed Cloud Services,Logan Pierce,EMEA
+C0087,TechSolutions,Cybersecurity,Sweden,Endpoint Protection,Logan Pierce,EMEA
+C0090,DataTech,Cybersecurity,Sweden,Penetration Testing,Logan Pierce,EMEA
+C0094,QuantumSphere,Cloud Providers,Sweden,Managed Cloud Services,Logan Pierce,EMEA
+C0115,NexusSolutions,Cloud Providers,Sweden,Serverless Computing,Logan Pierce,EMEA
+C0003,SkyTech,Cybersecurity,United Kingdom,Penetration Testing,Logan Pierce,EMEA
+C0021,DataLink,Cybersecurity,United Kingdom,Threat Intelligence,Logan Pierce,EMEA
+C0022,ByteTech,Cloud Providers,United Kingdom,Serverless Computing,Logan Pierce,EMEA
+C0039,TechSphere,Cybersecurity,United Kingdom,Threat Intelligence,Logan Pierce,EMEA
+C0042,NextGenVision,Cybersecurity,United Kingdom,Penetration Testing,Logan Pierce,EMEA
+C0060,DataStream,Cybersecurity,United Kingdom,Endpoint Protection,Logan Pierce,EMEA
+C0061,InfraSphere,Cloud Providers,United Kingdom,Serverless Computing,Logan Pierce,EMEA
+C0068,NextGenSystems,Software House,United Kingdom,Game Development,Logan Pierce,EMEA
+C0081,DataLogic,Cybersecurity,United Kingdom,Endpoint Protection,Logan Pierce,EMEA
+C0105,NexusCore,Cybersecurity,United Kingdom,Endpoint Protection,Logan Pierce,EMEA
+C0106,DigitalForge,Cloud Providers,United Kingdom,Serverless Computing,Logan Pierce,EMEA
+C0015,NexusSystems,Cybersecurity,Canada,Network Security,Ava Johnson,NAM
+C0023,QuantumSystems,Software House,Canada,Enterprise Software,Ava Johnson,NAM
+C0031,SecureTech,Cloud Providers,Canada,Cloud Security,Ava Johnson,NAM
+C0034,CyberLink,Cloud Providers,Canada,Managed Cloud Services,Ava Johnson,NAM
+C0036,AIForge,Cybersecurity,Canada,Penetration Testing,Ava Johnson,NAM
+C0045,CodeLink,Cybersecurity,Canada,Penetration Testing,Ava Johnson,NAM
+C0050,AICore,Software House,Canada,Enterprise Software,Ava Johnson,NAM
+C0057,CodeGate,Cybersecurity,Canada,Identity Management,Ava Johnson,NAM
+C0067,DataGate,Cloud Providers,Canada,Serverless Computing,Ava Johnson,NAM
+C0073,SecureVision,Cloud Providers,Canada,Edge Computing,Ava Johnson,NAM
+C0080,AIMatrix,Software House,Canada,Enterprise Software,Ava Johnson,NAM
+C0096,TechGate,Cybersecurity,Canada,Network Security,Ava Johnson,NAM
+C0107,DataWave,Software House,Canada,DevOps & Automation,Ava Johnson,NAM
+C0116,InfraSync,Software House,Canada,Game Development,Ava Johnson,NAM
+C0117,AISystems,Cybersecurity,Canada,Threat Intelligence,Ava Johnson,NAM
+C0127,SecureGate,Cloud Providers,Canada,Edge Computing,Ava Johnson,NAM
+C0005,SecureSystems,Software House,United States,Mobile App Development,Ava Johnson,NAM
+C0017,NeuralSecurity,Software House,United States,Mobile App Development,Ava Johnson,NAM
+C0029,DataForge,Software House,United States,Game Development,Ava Johnson,NAM
+C0032,DigitalLink,Software House,United States,Mobile App Development,Ava Johnson,NAM
+C0065,InfraMatrix,Software House,United States,Game Development,Ava Johnson,NAM
+C0078,CodeForge,Cybersecurity,United States,Endpoint Protection,Ava Johnson,NAM
+C0079,NextGenSync,Cloud Providers,United States,Edge Computing,Ava Johnson,NAM
+C0083,NextGenSphere,Software House,United States,Custom Software Development,Ava Johnson,NAM
+C0097,NexusSecurity,Cloud Providers,United States,Serverless Computing,Ava Johnson,NAM
+C0102,CodeLogic,Cybersecurity,United States,Threat Intelligence,Ava Johnson,NAM
+C0103,AIBridge,Cloud Providers,United States,Serverless Computing,Ava Johnson,NAM
+C0108,TechTech,Cybersecurity,United States,Threat Intelligence,Ava Johnson,NAM
+C0130,CloudForge,Cloud Providers,United States,Managed Cloud Services,Ava Johnson,NAM
+C0133,SecureSync,Cloud Providers,United States,Cloud Infrastructure,Ava Johnson,NAM
+C0134,AILink,Software House,United States,Custom Software Development,Ava Johnson,NAM

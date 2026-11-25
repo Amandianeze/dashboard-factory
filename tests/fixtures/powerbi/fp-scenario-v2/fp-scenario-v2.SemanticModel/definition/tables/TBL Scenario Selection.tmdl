@@ -1,0 +1,279 @@
+table 'TBL Scenario Selection'
+	lineageTag: 256fa912-ecc9-4f58-9ab3-f915460f2e8f
+
+	measure '_Selected Scenario | Card Reference Title V1' = ```
+
+		VAR __Selected_Scenario = SELECTEDVALUE ( 'TBL Scenario Selection'[Display Name] ) 
+
+		VAR __Result =
+		    IF (
+		        NOT ISBLANK ( __Selected_Scenario ),
+		        __Selected_Scenario & ":",
+		        " "
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Text & Annotations
+		lineageTag: 71b34581-c014-4721-aff3-9c1dab904909
+
+	measure '_Selected Scenario | Card Reference Title V2' = ```
+
+
+		VAR __Selected_Scenario = SELECTEDVALUE ( 'TBL Scenario Selection'[Display Name] ) 
+
+		VAR __Result =
+		    "vs " & __Selected_Scenario & ":"
+
+		RETURN __Result
+		```
+		displayFolder: 01. Text & Annotations
+		lineageTag: a88a1cd0-14d4-4b56-a829-83e748042f3b
+
+	measure '_Selected Scenario (Multiple options) Title V1' = ```
+
+
+		VAR __Selected_Scenario = SELECTEDVALUE ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Concatenated_Scenarios =
+		    CONCATENATEX (
+		        'TBL Scenario Selection',
+		        'TBL Scenario Selection'[Name], ", ",
+		        'TBL Scenario Selection'[ID], ASC
+		    )
+
+		VAR __Result =
+		    IF (
+		        ISBLANK ( __Selected_Scenario ),
+		        __Concatenated_Scenarios,
+		        __Selected_Scenario
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Text & Annotations
+		lineageTag: 0a227fed-0f03-4708-aa6c-9dbccdeed6c2
+
+	measure '_Selected Scenario (Multiple options) Title V2' = ```
+
+
+		VAR __Selected_Scenario = SELECTEDVALUE ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Concatenated_Scenarios =
+		    CONCATENATEX (
+		        'TBL Scenario Selection',
+		        'TBL Scenario Selection'[Name], ", ",
+		        'TBL Scenario Selection'[ID], ASC
+		    )
+
+		VAR __Result =
+		"AC" & ", " &
+		    IF (
+		        ISBLANK ( __Selected_Scenario ),
+		        __Concatenated_Scenarios,
+		        __Selected_Scenario
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Text & Annotations
+		lineageTag: c990a53d-6e34-44b0-b087-5673e1606ac8
+
+	measure '_Scenario PY Suppression | Basic | Color' = ```
+
+
+		VAR __Scenario_Name     = "PY"
+		// VAR __Is_Filtered_Check = ISCROSSFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Scenario_Check = 
+		    COUNTROWS ( 
+		        FILTER ( 
+		            'TBL Scenario Selection', 'TBL Scenario Selection'[Name] IN { __Scenario_Name } 
+		        ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Scenario_Check = 0 || ISBLANK ( __Scenario_Check ),
+		        [_Transparent Color]
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Color
+		lineageTag: 3cb5524c-7e4e-4766-bdff-a7b34dac222d
+
+	measure '_Scenario PY Suppression | Basic | Name' = ```
+
+
+		VAR __Scenario_Name     = "PY"
+		// VAR __Is_Filtered_Check = ISCROSSFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Scenario_Check = 
+		    COUNTROWS ( 
+		        FILTER ( 
+		            'TBL Scenario Selection', 'TBL Scenario Selection'[Name] IN { __Scenario_Name } 
+		        ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Scenario_Check > 0,
+		        __Scenario_Name & ":" 
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Text & Annotations
+		lineageTag: a333c51e-f2bc-4907-a3f8-57b61eb41237
+
+	measure '_Scenario Target Suppression | Basic | Name' = ```
+
+
+		VAR __Scenario_Name     = "TG"
+		// VAR __Is_Filtered_Check = ISCROSSFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Scenario_Check = 
+		    COUNTROWS ( 
+		        FILTER ( 
+		            'TBL Scenario Selection', 'TBL Scenario Selection'[Name] IN { __Scenario_Name } 
+		        ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Scenario_Check > 0,
+		        __Scenario_Name & ":" 
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Text & Annotations
+		lineageTag: 61e48ff3-4076-4493-a364-c42afc8dee91
+
+	measure '_Scenario TG Suppression | Basic | Color' = ```
+
+
+		VAR __Scenario_Name     = "TG"
+		// VAR __Is_Filtered_Check = ISCROSSFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Scenario_Check = 
+		    COUNTROWS ( 
+		        FILTER ( 
+		            'TBL Scenario Selection', 'TBL Scenario Selection'[Name] IN { __Scenario_Name } 
+		        ) 
+		    )
+
+		VAR __Result = 
+		    IF (
+		        __Scenario_Check = 0 || ISBLANK ( __Scenario_Check ),
+		        [_Transparent Color]
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: 02. Color
+		lineageTag: 1454ecf8-5b6f-47f6-a544-76641217a2bf
+
+	measure '_Selected Scenario (Multiple options) Title' = ```
+
+
+		VAR __Concatenated_Scenarios =
+		    CONCATENATEX (
+		        'TBL Scenario Selection',
+		        'TBL Scenario Selection'[Name], ", ",
+		        'TBL Scenario Selection'[ID], ASC
+		    )
+
+		VAR __Result =
+		"AC" & ", " & __Concatenated_Scenarios
+
+		RETURN __Result
+		```
+		displayFolder: 01. Text & Annotations
+		lineageTag: 31d4b37f-2d4a-46b8-bdf3-7921edd6f15b
+
+	measure '_Selected Scenario (Single selection) Title' = ```
+
+
+		VAR __Selected_Scenario = SELECTEDVALUE ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Result =
+		    "AC" & 
+		        IF ( 
+		            NOT ISBLANK ( __Selected_Scenario  ), 
+		            " and " & __Selected_Scenario 
+		        )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Text & Annotations
+		lineageTag: 8316056f-a17a-4aab-a4e0-6da9579226ff
+
+	measure '_Selected Scenario (Multiple options) Title | Suppression' = ```
+
+
+		VAR __Is_Scenario_Filtered = ISFILTERED ( 'TBL Scenario Selection'[Name] )
+
+		VAR __Concatenated_Scenarios =
+		    CONCATENATEX (
+		        'TBL Scenario Selection',
+		        'TBL Scenario Selection'[Name], ", ",
+		        'TBL Scenario Selection'[ID], ASC
+		    )
+
+		VAR __Result =
+		    "AC" & 
+		        IF (
+		            __Is_Scenario_Filtered,  ", " & __Concatenated_Scenarios
+		        )
+
+		RETURN __Result
+		```
+		displayFolder: 01. Text & Annotations
+		lineageTag: 1d88c016-c4cd-465d-8e83-71a691e1ab3a
+
+	measure '_Actual | Scenario name' = ```
+
+
+		"AC:"
+		```
+		displayFolder: 01. Text & Annotations
+		lineageTag: 75d875f1-6212-4904-ba8e-b97e09025471
+
+	column ID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 37f342cb-3c37-4dd3-b9de-d99d7c308783
+		summarizeBy: count
+		sourceColumn: ID
+
+	column Name
+		dataType: string
+		lineageTag: c906f490-48ac-4860-87a8-389cbc1a336e
+		summarizeBy: none
+		sourceColumn: Name
+
+	column 'Display Name'
+		dataType: string
+		lineageTag: dfdf4a1d-0561-4cf2-88c7-45599d34801d
+		summarizeBy: none
+		sortByColumn: ID
+		sourceColumn: Display Name
+
+	column 'Display Name Alt.'
+		dataType: string
+		lineageTag: b921c5a2-bca8-4188-82f8-b26dfe83e147
+		summarizeBy: none
+		sourceColumn: Display Name Alt.
+
+	partition 'TBL Scenario Selection' = m
+		mode: import
+		source = ```
+			let
+			    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUQqIhBNFqWWZ+aXFCpGpiUVKsTrRSkZA0RB3OJFYlJ5aohQbCwA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, Name = _t, #"Display Name" = _t, #"Display Name Alt." = _t]),
+			    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}, {"Name", type text}, {"Display Name", type text}, {"Display Name Alt.", type text}})
+			in
+			    #"Changed Type"
+			```

@@ -20,8 +20,8 @@ export const listSpecFiles = () =>
     .filter((f) => f.endsWith('.dashboard.yaml'))
     .map((f) => join(DASHBOARD_DIR, f));
 
-export function loadFixture(path: string): Row[] | string {
-  const file = join(FIXTURE_DIR, path);
+export function loadFixture(path: string, fixtureDir = FIXTURE_DIR): Row[] | string {
+  const file = join(fixtureDir, path);
   if (!existsSync(file))
     return `fixture public/data/${path} not found (run npm run data:fixtures?)`;
   const rows: unknown = JSON.parse(readFileSync(file, 'utf8'));
@@ -33,7 +33,10 @@ export function loadFixture(path: string): Row[] | string {
  * fixture rows contain every declared field, Flint semantic types exist, then every Vega-Lite
  * panel compiles and every Flint panel passes Flint's validator and compiles.
  */
-export function checkSpecFile(file: string): { spec?: DashboardSpec; errors: string[] } {
+export function checkSpecFile(
+  file: string,
+  fixtureDir = FIXTURE_DIR,
+): { spec?: DashboardSpec; errors: string[] } {
   const name = basename(file);
   const result = parseDashboardYaml(readFileSync(file, 'utf8'));
   if (!result.ok) return { errors: result.errors };
@@ -46,7 +49,7 @@ export function checkSpecFile(file: string): { spec?: DashboardSpec; errors: str
   const data: Record<string, Row[]> = {};
   for (const [id, ds] of Object.entries(spec.datasets)) {
     if (ds.source !== 'fixture') continue; // api datasets are checked by contract tests (phase 3)
-    const rows = loadFixture(ds.path);
+    const rows = loadFixture(ds.path, fixtureDir);
     if (typeof rows === 'string') {
       errors.push(`datasets.${id}: ${rows}`);
       continue;

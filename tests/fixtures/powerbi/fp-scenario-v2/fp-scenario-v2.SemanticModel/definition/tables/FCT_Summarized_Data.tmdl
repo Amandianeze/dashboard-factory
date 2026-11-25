@@ -1,0 +1,53 @@
+table FCT_Summarized_Data
+	lineageTag: cbf79acd-b5b8-4edb-9bac-11a370c8cc4b
+
+	column Customer_ID
+		dataType: string
+		isHidden
+		lineageTag: 4a733d00-c64b-4bdc-88db-9aaea75f534a
+		summarizeBy: none
+		sourceColumn: Customer_ID
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: cc0e3d7a-42c0-4d3d-b9a4-9211663bddc6
+		summarizeBy: none
+		sourceColumn: Date
+
+	column Revenue
+		dataType: double
+		lineageTag: 18748b8d-e021-422d-bc2e-1d72bfa83711
+		summarizeBy: sum
+		sourceColumn: Revenue
+
+	column Volume
+		dataType: int64
+		formatString: 0
+		lineageTag: 53d34204-3ccb-4d12-9090-53189121c9f5
+		summarizeBy: sum
+		sourceColumn: Volume
+
+	column Costs
+		dataType: double
+		lineageTag: 3a17debf-09e9-46bc-9d0c-568e97ac9655
+		summarizeBy: sum
+		sourceColumn: Costs
+
+	column Gross_Profit
+		dataType: double
+		lineageTag: 671f9736-a81e-4aa8-88e0-b7f902730449
+		summarizeBy: sum
+		sourceColumn: Gross_Profit
+
+	partition FCT_Summarized_Data = m
+		mode: import
+		source = ```
+			let
+			    Source = Excel.Workbook(File.Contents("C:\Users\gusta\OneDrive\Pulpit\Technology,  Revenue Analysis.xlsx"), null, true),
+			    FCT_Summarized_Data_Table = Source{[Item="FCT_Summarized_Data",Kind="Table"]}[Data],
+			    #"Changed Type" = Table.TransformColumnTypes(FCT_Summarized_Data_Table,{{"Customer_ID", type text}, {"Date", type date}, {"Revenue", type number}, {"Volume", Int64.Type}, {"Costs", type number}, {"Gross_Profit", type number}})
+			in
+			    #"Changed Type"
+			```

@@ -1,0 +1,1459 @@
+table '_Measures Supplemental'
+	lineageTag: 2454c324-3c8f-49e1-a5c8-8aba240aa8fe
+
+	measure '_Max Date as Today' = TODAY()
+		formatString: General Date
+		displayFolder: Texts\Date Ranges\General & Supplemental
+		lineageTag: 338a066c-7621-42e2-b74a-8d6a109e7dad
+
+	measure '_Transparent color' = "#00000000"
+		displayFolder: Colors\09. Others
+		lineageTag: 0be93c37-4c62-4822-9456-15c79220c87c
+
+	measure '_Blank v1' = BLANK()
+		formatString: 0
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: 44ff89aa-5386-488f-a3d6-62b1cac504dc
+
+	measure '_Number of Unique days' = ```
+
+		DISTINCTCOUNT ( 'Dim_Calendar'[Date] )
+		```
+		formatString: 0
+		displayFolder: Texts\Date Ranges\General & Supplemental
+		lineageTag: c75a26e0-ccb5-4e8f-ba37-90dedf45dfea
+
+	measure '_Blank v2' = BLANK()
+		formatString: 0
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: 64f71704-f733-472b-8527-bd1efd9f32f4
+
+	measure '_Positive Variance color' = ```
+
+
+		VAR __Sentiment_Mode = SELECTEDVALUE ( 'TBL Sentiment Color Variant'[Mode] )
+
+		VAR __Result =
+		    SWITCH (
+		        __Sentiment_Mode,
+		            "Red/Green",        "#308C9A",
+		            "Red/Blue",         "#2B89CF",
+		            "Red/Green(IBCS)",  "#8CB400",
+		            "#308C9A"
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\01. Main
+		lineageTag: 5b4113cf-b9a0-4fc3-840d-962e5335685e
+
+	measure '_Negative Variance color' = ```
+
+
+		VAR __Sentiment_Mode = SELECTEDVALUE ( 'TBL Sentiment Color Variant'[Mode] )
+
+		VAR __Result =
+		    SWITCH (
+		        __Sentiment_Mode,
+		            "Red/Green",        "#B34E4E",
+		            "Red/Blue",         "#C64A4A", // "#CC0000", //"#B34E4E",
+		            "Red/Green(IBCS)",  "#CC0000", // "#FF0000",
+		            "#B34E4E"
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\01. Main
+		lineageTag: 3c9013f2-fe37-454a-be5d-5799cbad668d
+
+	measure '_Neutral Variance color' = "#858D9A"
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\01. Main
+		lineageTag: 0e8556ec-c303-4950-bf71-b4c3c82ded9e
+
+	measure '_Blank v3' = BLANK()
+		formatString: 0
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: 3369cecc-4108-4a41-a391-f2ab4370f09a
+
+	measure '_Placeholder v1' = ```
+
+		BLANK()
+		```
+		formatString: 0
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: a9e7f2cb-651b-47b0-bcd7-1793b56a462c
+
+	measure '_Blank v4' = BLANK()
+		formatString: 0
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: f70d8f92-87d1-4498-9060-c6e5e3af0f1c
+
+	measure '_Blank v5' = BLANK()
+		formatString: 0
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: 474e41a4-660a-44b2-a2ef-5b9215a19cb9
+
+	measure '_Date Range Basic' = ```
+
+		VAR __MinDate = MIN('Dim_Calendar'[Date])
+		VAR __MaxDate = MAX('Dim_Calendar'[Date])
+
+		VAR __MinDateFormatted = FORMAT(__MinDate, "mmm'yy")
+		VAR __MaxDateFormatted = FORMAT(__MaxDate, "mmm'yy")
+
+		VAR __Result = 
+		    SWITCH(
+		        TRUE(),
+		        __MinDateFormatted = __MaxDateFormatted, __MinDateFormatted,  
+		        __MinDateFormatted & " - " & __MaxDateFormatted  
+		    )
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\01.Multi-Select Ranges
+		lineageTag: 43e7ca9b-8d82-4939-90eb-d08216677ecc
+
+	measure '_Max Date' = MAX ( 'Dim_Calendar'[Date] )
+		formatString: Short Date
+		displayFolder: Texts\Date Ranges\General & Supplemental
+		lineageTag: 62119615-e8f6-4ccb-ac08-0b04b867992a
+
+	measure '_Max Date Format' = FORMAT ( MAX ( 'Dim_Calendar'[Date] ), "dd-mmm-yyyy" )
+		displayFolder: Texts\Date Ranges\General & Supplemental
+		lineageTag: 2f563ca6-ceff-43ee-84ea-c11ad34927f9
+
+	measure '_Placeholder v2' = BLANK()
+		formatString: 0
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: d6948b4a-613a-4af8-bae7-28a22a110288
+
+	measure '_Placeholder v3' = ```
+
+		BLANK()
+		```
+		formatString: 0
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: c987c1e3-c663-4366-87e7-d31148cb4011
+
+	measure '_Max Date Format Month' = FORMAT ( MAX ( 'Dim_Calendar'[Date] ), "mmm-yyyy" )
+		displayFolder: Texts\Date Ranges\General & Supplemental
+		lineageTag: 6b675a5d-41c7-405d-b7ef-e8fc72ed42c6
+
+	measure '_Icon Empty Checkbox' = ```
+
+
+		VAR __Icon_ID = 3
+
+		VAR __Result = 
+		    CALCULATE ( 
+		        MAX ( 'TBL Icons 01'[ImageURL] ),
+		        'TBL Icons 01'[ID] = __Icon_ID
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Icons\TBL 01
+		dataCategory: ImageUrl
+		lineageTag: a5f0e565-bafd-4c78-a2ab-c8738d0d2814
+
+	measure '_Icon Empty Radio Button' = ```
+
+
+		VAR __Icon_ID = 5
+
+		VAR __Result = 
+		    CALCULATE ( 
+		        MAX ( 'TBL Icons 01'[ImageURL] ),
+		        'TBL Icons 01'[ID] = __Icon_ID
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Icons\TBL 01
+		dataCategory: ImageUrl
+		lineageTag: 6e08c3c3-3955-4096-9ae1-24c6da79c4ec
+
+	measure '_Icon Marked Checkbox' = ```
+
+
+		VAR __Icon_ID = 4
+
+		VAR __Result = 
+		    CALCULATE ( 
+		        MAX ( 'TBL Icons 01'[ImageURL] ),
+		        'TBL Icons 01'[ID] = __Icon_ID
+		    )
+
+		RETURN __Result
+
+
+		// VAR __IconID  = 4
+		// VAR __Colour  = "blue"                               
+		// VAR __Png     =
+		//     CALCULATE (
+		//         MAX ( 'TBL Icons 01'[ImageURL] ),               
+		//         'TBL Icons 01'[ID] = __IconID
+		//     )
+
+		// VAR __Svg =
+		//     "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'>" &
+		//         "<defs>" &
+		//             "<mask id='m' maskUnits='userSpaceOnUse'>" &
+		//                 "<image href='" & __Png & "' width='16' height='16'/>" &
+		//             "</mask>" &
+		//         "</defs>" &
+		//         "<rect width='16' height='16' fill='" & __Colour & "' mask='url(#m)'/>" &
+		//     "</svg>"
+
+		// VAR __SvgUrl =
+		//     "data:image/svg+xml;utf8," &
+		//         SUBSTITUTE ( SUBSTITUTE ( SUBSTITUTE ( __Svg, "#", "%23" ), "<", "%3C" ), ">", "%3E" )
+
+		// VAR __Result = __SvgUrl
+		```
+		displayFolder: Icons\TBL 01
+		dataCategory: ImageUrl
+		lineageTag: 546b55db-1da7-48e9-9458-5f0f6bcfd31e
+
+	measure '_Icon Marked Empty Checkbox' = ```
+
+
+		VAR __Icon_ID = 7
+
+		VAR __Result = 
+		    CALCULATE ( 
+		        MAX ( 'TBL Icons 01'[ImageURL] ),
+		        'TBL Icons 01'[ID] = __Icon_ID
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Icons\TBL 01
+		dataCategory: ImageUrl
+		lineageTag: c09b6692-4023-49dc-9b1d-199ae2cee86b
+
+	measure '_Icon Marked Empty Radio Button' = ```
+
+
+		VAR __Icon_ID = 8
+
+		VAR __Result = 
+		    CALCULATE ( 
+		        MAX ( 'TBL Icons 01'[ImageURL] ),
+		        'TBL Icons 01'[ID] = __Icon_ID
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Icons\TBL 01
+		dataCategory: ImageUrl
+		lineageTag: 33163366-9b50-44c9-952c-ff88dcb6d39b
+
+	measure '_Icon Marked Item' = ```
+
+
+		VAR __Icon_ID = 2
+
+		VAR __Result = 
+		    CALCULATE ( 
+		        MAX ( 'TBL Icons 01'[ImageURL] ),
+		        'TBL Icons 01'[ID] = __Icon_ID
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Icons\TBL 01
+		dataCategory: ImageUrl
+		lineageTag: 45ffd064-a5c5-4bdb-93c6-f731c466416a
+
+	measure '_Icon Marked Radio Button' = ```
+
+
+		VAR __Icon_ID = 6
+
+		VAR __Result = 
+		    CALCULATE ( 
+		        MAX ( 'TBL Icons 01'[ImageURL] ),
+		        'TBL Icons 01'[ID] = __Icon_ID
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Icons\TBL 01
+		dataCategory: ImageUrl
+		lineageTag: 4bbc97fa-fa88-497a-bad8-75815cf16755
+
+	measure 'Invisible sign' = "‎ "
+		displayFolder: Miscellaneous
+		lineageTag: d9b3487f-b4b6-4bf5-ba2d-3b180cc291cc
+
+	measure '_Waterfall Dynamic Zero Baseline Y-axis' = ```
+
+
+		VAR __Selected_Type = SELECTEDVALUE ( 'TBL Y-axis Scale | 0 Baseline'[ID] )
+
+		VAR __Result =
+		    SWITCH (
+		        __Selected_Type,
+		            1, 0, 
+		            2, BLANK()
+		    )
+
+		RETURN __Result
+		```
+		formatString: 0
+		displayFolder: Miscellaneous
+		lineageTag: 333d724d-314c-47a3-9efb-388eb2f9c380
+
+	measure '_CF Date Days Higlighting' = ```
+
+
+		VAR __Day_of_week = SELECTEDVALUE ( 'Dim_Calendar'[Day of Week Alt.] )
+
+		VAR __InScope_check = 
+		    ISINSCOPE ( 'Dim_Calendar'[Day Name Short] ) ||  ISINSCOPE ( 'Dim_Calendar'[Day of Month] )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __Day_of_week IN {6,7},
+		            "#DACDAC",
+		            "#8AB0D3"
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Date related
+		lineageTag: 500e2f64-4aed-48f9-9df3-de89ef470100
+
+	measure '_Date Curr Month Offset max' = ```
+
+		MAX ( 'Dim_Calendar'[CurrMonthOffset] )
+		```
+		formatString: 0
+		displayFolder: Date related
+		lineageTag: e2927a45-a75b-4da3-9c8a-cadd4f2281ab
+
+	measure '_Text KPI Section Switch Short V2' = ```
+
+
+		VAR __Selected_Metric = SELECTEDVALUE ('TBL Period Selector'[Name])
+		VAR __Default_Metric = [_Text KPI Section Header Per Period Short V2]
+
+		VAR __Result =
+		    SWITCH (
+		        __Selected_Metric,
+		            "In Period",  __Default_Metric,
+		            "YTD",        [_Text KPI Section Header YTD Short V2],
+		            "LTM",        [_Text KPI Section Header LTM Short V2],
+		            __Default_Metric
+		    ) & ""
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\Dynamic Selector
+		lineageTag: 6adaf9e7-f61e-44a2-aa78-0df72449f6aa
+
+	measure '_Text KPI Section Switch Short' = ```
+
+
+		VAR __Selected_Metric = SELECTEDVALUE ('TBL Period Selector'[Name])
+		VAR __Default_Metric = [_Text KPI Section Header Per Period Short]
+
+		VAR __Result =
+		    SWITCH (
+		        __Selected_Metric,
+		            "In Period",  __Default_Metric,
+		            "YTD",        [_Text KPI Section Header YTD Short],
+		            "LTM",        [_Text KPI Section Header LTM Short],
+		            __Default_Metric
+		    ) & ""
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\Dynamic Selector
+		lineageTag: a47f08ce-9785-4408-8754-97ad4f4dd64f
+
+	measure '_Text KPI Section Switch' = ```
+
+
+		VAR __Selected_Metric = SELECTEDVALUE ('TBL Period Selector'[Name])
+		VAR __Default_Metric = [_Text KPI Section Header Per Period]
+
+		VAR __Result =
+		    SWITCH (
+		        __Selected_Metric,
+		            "In Period",  __Default_Metric,
+		            "YTD",        [_Text KPI Section Header YTD],
+		            "LTM",        [_Text KPI Section Header LTM],
+		            __Default_Metric
+		    ) & ""
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\Dynamic Selector
+		lineageTag: 153b03b5-8652-4b27-9632-fc721355da74
+
+	measure '_Text KPI Section Header YTD Short V2' = ```
+
+
+		VAR __SelectedDate =    MAX ( 'Dim_Calendar'[Start of Month] ) 
+		VAR __StartYTD =        MINX ( DATESYTD ( 'Dim_Calendar'[Start of Month] ) , 'Dim_Calendar'[Start of Month] ) 
+		VAR __EndYTD =          __SelectedDate 
+
+		VAR __YTD_SingleMonth =  __StartYTD = __EndYTD 
+
+		VAR __YTD_Current = 
+		    SWITCH ( 
+		        TRUE (),  
+		            __YTD_SingleMonth, FORMAT ( __EndYTD, "mmm'yy" ),  
+		            FORMAT ( __StartYTD, "mmm'yy" ) & " - " & FORMAT ( __EndYTD, "mmm'yy" )  
+		    ) 
+
+		VAR __Result =  __YTD_Current 
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\YTD
+		lineageTag: c2e137a8-1082-42c9-a216-336a6719f672
+
+	measure '_Text KPI Section Header YTD Short' = ```
+
+
+		VAR __SelectedDate =    MAX ( 'Dim_Calendar'[Start of Month] ) 
+		VAR __StartYTD =        MINX ( DATESYTD ( 'Dim_Calendar'[Start of Month] ) , 'Dim_Calendar'[Start of Month] ) 
+		VAR __EndYTD =          __SelectedDate 
+
+		VAR __YTD_SingleMonth =  __StartYTD = __EndYTD 
+
+		VAR __YTD_Current = 
+		    SWITCH ( 
+		        TRUE (),  
+		            __YTD_SingleMonth, FORMAT ( __EndYTD, "mmm'yy" ),  
+		            FORMAT ( __StartYTD, "mmm'yy" ) & " - " & FORMAT ( __EndYTD, "mmm'yy" )  
+		    ) 
+
+		VAR __Result =  "𝗬𝗧𝗗 | " & __YTD_Current 
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\YTD
+		lineageTag: c2cfb9d8-1606-4412-b6e0-ce6533ade6c8
+
+	measure '_Text KPI Section Header YTD' = ```
+
+
+		VAR __SelectedDate = MAX ( 'Dim_Calendar'[Start of Month] ) 
+		VAR __StartYTD =     MINX ( DATESYTD ( 'Dim_Calendar'[Start of Month] ) , 'Dim_Calendar'[Start of Month] ) 
+		VAR __EndYTD =       __SelectedDate 
+
+		VAR __StartYTD_Previous = EOMONTH ( __StartYTD, -12 ) 
+		VAR __EndYTD_Previous =   EOMONTH ( __EndYTD, -12 ) 
+
+		VAR __YTD_SingleMonth =         __StartYTD = __EndYTD 
+		VAR __YTD_PreviousSingleMonth = __StartYTD_Previous = __EndYTD_Previous 
+
+		VAR __YTD_Current = 
+		    SWITCH ( 
+		        TRUE (),  
+		            __YTD_SingleMonth, FORMAT ( __EndYTD, "mmm'yy" ),  
+		            FORMAT ( __StartYTD, "mmm'yy" ) & " - " & FORMAT ( __EndYTD, "mmm'yy" )  
+		    ) 
+
+		VAR __YTD_Previous = 
+		    SWITCH ( 
+		        TRUE (),  
+		            __YTD_PreviousSingleMonth, FORMAT ( __EndYTD_Previous, "mmm'yy" ),  
+		            FORMAT ( __StartYTD_Previous, "mmm'yy" ) & " - " & FORMAT ( __EndYTD_Previous, "mmm'yy" )  
+		    ) 
+
+		VAR __Result = 
+		    "𝗬𝗧𝗗 | " & __YTD_Current 
+		    & " vs " & __YTD_Previous 
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\YTD
+		lineageTag: 8837c54b-aed3-4285-9b61-a2530dd0259b
+
+	measure '_Text KPI Section Header Per Period Short V2' = ```
+
+
+		VAR __SelectedDate =          MAX ( 'Dim_Calendar'[Start of Month] ) 
+		VAR __SelectedDate_Format =   FORMAT ( __SelectedDate, "mmm'yy" ) 
+
+		VAR __Result =  __SelectedDate_Format 
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\In Period
+		lineageTag: 705b1180-0173-4fde-9317-ba3696ee950f
+
+	measure '_Text KPI Section Header Per Period Short' = ```
+
+
+		VAR __SelectedDate =          MAX ( 'Dim_Calendar'[Start of Month] ) 
+		VAR __SelectedDate_Format =   FORMAT ( __SelectedDate, "mmm'yy" ) 
+
+		VAR __Result =  "𝗣𝗲𝗿 𝗣𝗲𝗿𝗶𝗼𝗱 | " & __SelectedDate_Format 
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\In Period
+		lineageTag: d1f82086-b2d7-4f59-9c41-9c0159e7ef68
+
+	measure '_Text KPI Section Header Per Period' = ```
+
+
+		VAR __SelectedDate =          MAX ( 'Dim_Calendar'[Start of Month] ) 
+		VAR __SelectedDate_Format =   FORMAT ( __SelectedDate, "mmm'yy" ) 
+
+		VAR __PreviousYearDate =      EOMONTH ( __SelectedDate, -12 ) 
+		VAR __PreviousYearMonthYear = FORMAT ( __PreviousYearDate, "mmm'yy" ) 
+
+		VAR __Result = 
+		    "𝗣𝗲𝗿 𝗣𝗲𝗿𝗶𝗼𝗱 | " & __SelectedDate_Format 
+		    & " vs " & __PreviousYearMonthYear 
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\In Period
+		lineageTag: 7be886f0-afdd-4386-ba4b-071ea5bae39a
+
+	measure '_Text KPI Section Header LTM Short V2' = ```
+
+
+		VAR __SelectedDate =            MAX ( 'Dim_Calendar'[Start of Month] ) 
+		VAR __LTM_Start_Date =          EOMONTH ( __SelectedDate, -12 ) + 1
+		VAR __LTM_Start =               FORMAT ( __LTM_Start_Date, "mmm'yy" ) 
+		VAR __LTM_End =                 FORMAT ( __SelectedDate, "mmm'yy" ) 
+
+		VAR __Result =  __LTM_Start & " - " & __LTM_End 
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\LTM
+		lineageTag: fed271f9-0ed5-4b89-a802-3e7597a7dc57
+
+	measure '_Text KPI Section Header LTM Short' = ```
+
+
+		VAR __SelectedDate =            MAX ( 'Dim_Calendar'[Start of Month] ) 
+		VAR __LTM_Start_Date =          EOMONTH ( __SelectedDate, -12 ) + 1
+		VAR __LTM_Start =               FORMAT ( __LTM_Start_Date, "mmm'yy" ) 
+		VAR __LTM_End =                 FORMAT ( __SelectedDate, "mmm'yy" ) 
+
+		VAR __Result = 
+		    "𝗟𝗧𝗠 | " &  __LTM_Start & " - " & __LTM_End 
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\LTM
+		lineageTag: 0410c28e-1ce1-43a7-ba1c-d4be74f49aba
+
+	measure '_Text KPI Section Header LTM' = ```
+
+
+		VAR __SelectedDate =            MAX ( 'Dim_Calendar'[Start of Month] ) 
+
+		VAR __LTM_Start_Date =          EOMONTH ( __SelectedDate, -12 ) + 1
+		VAR __LTM_Start =               FORMAT ( __LTM_Start_Date, "mmm'yy" ) 
+		VAR __LTM_End =                 FORMAT ( __SelectedDate, "mmm'yy" ) 
+
+		VAR __LTM_Previous_Start_Date = EOMONTH ( __SelectedDate, -24 ) + 1
+		VAR __LTM_Previous_End_Date =   EOMONTH ( __SelectedDate, -13 ) + 1
+
+		VAR __LTM_Previous_Start =      FORMAT ( __LTM_Previous_Start_Date, "mmm'yy" ) 
+		VAR __LTM_Previous_End =        FORMAT ( __LTM_Previous_End_Date, "mmm'yy" ) 
+
+		VAR __Result = 
+		    "𝗟𝗧𝗠 | " & 
+		    __LTM_Start & " - " & __LTM_End & " vs " & 
+		    __LTM_Previous_Start & " - " & __LTM_Previous_End 
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\LTM
+		lineageTag: 80336337-d32a-4c05-a531-2f3f12ebe0a1
+
+	measure '909. Subheader Text - Date Range Month' = ```
+
+
+		VAR __Current_month_offset = 
+		    MAX ( 'Dim_Calendar'[CurrMonthOffset] )
+
+		VAR __LatestMonth = 
+		    CALCULATE ( 
+		        MAX ( 'Dim_Calendar'[mmm'yy] ),
+		        REMOVEFILTERS ( 'Dim_Calendar' ),
+		        'Dim_Calendar'[CurrMonthOffset] = __Current_month_offset
+		    )
+
+		VAR __PreviousMonth = 
+		    CALCULATE ( 
+		        MAX ( 'Dim_Calendar'[mmm'yy] ),
+		        REMOVEFILTERS ( 'Dim_Calendar' ),
+		        'Dim_Calendar'[CurrMonthOffset] = __Current_month_offset - 1
+		    )
+
+		VAR __Result =
+		    "Latest month: " & __LatestMonth & " | " & "Prev. month: " & IF ( ISBLANK ( __PreviousMonth ), "N/A", __PreviousMonth )
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\MoM & QoQ & YoY
+		lineageTag: 2611716b-5790-451c-9b61-ffabd2398a5f
+
+	measure '909. Subheader Text - Date Range Quarter' = ```
+
+
+		VAR __Current_Quarter_offset = 
+		    MAX ( 'Dim_Calendar'[CurrQuarterOffset] )
+
+		VAR __LatestQuarter = 
+		    CALCULATE ( 
+		        MAX ( 'Dim_Calendar'[qqyy] ),
+		        REMOVEFILTERS ( 'Dim_Calendar' ),
+		        'Dim_Calendar'[CurrQuarterOffset] = __Current_Quarter_offset
+		    )
+
+		VAR __PreviousQuarter = 
+		    CALCULATE ( 
+		        MAX ( 'Dim_Calendar'[qqyy] ),
+		        REMOVEFILTERS ( 'Dim_Calendar' ),
+		        'Dim_Calendar'[CurrQuarterOffset] = __Current_Quarter_offset - 1
+		    )
+
+		VAR __Result =
+		    "Current  Quarter: " & __LatestQuarter & " | " & "Prev. Quarter: " & IF ( ISBLANK ( __PreviousQuarter ), "N/A", __PreviousQuarter )
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\MoM & QoQ & YoY
+		lineageTag: 30562cbb-a574-4ca8-b69c-4429509060cc
+
+	measure '909. Subheader Text - Date Range Year' = ```
+
+
+		VAR __Current_Year_offset = 
+		    MAX ( 'Dim_Calendar'[CurrYearOffset] )
+
+		VAR __LatestYear = 
+		    CALCULATE ( 
+		        MAX ( 'Dim_Calendar'[year] ),
+		        REMOVEFILTERS ( 'Dim_Calendar' ),
+		        'Dim_Calendar'[CurrYearOffset] = __Current_Year_offset
+		    )
+
+		VAR __PreviousYear = 
+		    CALCULATE ( 
+		        MAX ( 'Dim_Calendar'[year] ),
+		        REMOVEFILTERS ( 'Dim_Calendar' ),
+		        'Dim_Calendar'[CurrYearOffset] = __Current_Year_offset - 1
+		    )
+
+		VAR __Result =
+		    "Current Year: " & __LatestYear & " | " & "Prev. Year: " & IF ( ISBLANK ( __PreviousYear ), "N/A", __PreviousYear )
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\MoM & QoQ & YoY
+		lineageTag: 41303924-119e-4c3a-b9c8-f95af5b26760
+
+	measure '_Placeholder v4' = ```
+
+		BLANK()
+		```
+		formatString: 0
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: 19a33c3f-903d-4eda-b72d-18c42e8bb856
+
+	measure '_Date Range | Multiple periods Incl. FCT table' = ```
+
+
+		VAR __Min_date_cal =  MIN ('Dim_Calendar'[Date])
+		VAR __Max_date_cal =  MAX ('Dim_Calendar'[Date])
+		VAR __Min_date_fct =  MIN ( FCT_Summarized_Data[Date] )
+		VAR __Max_date_fct =  MAX ( FCT_Summarized_Data[Date] )
+
+		VAR __Min_Date =      MAX ( __Min_Date_Cal, __Min_Date_Fct )
+		VAR __Max_date =      MIN ( __Max_date_cal, __Max_date_fct )
+		VAR __Min_date_F =    FORMAT ( __Min_date , "mmm'yy")
+		VAR __Max_date_F =    FORMAT ( __Max_date, "mmm'yy")
+
+		VAR __Total_months =  DATEDIFF ( __Min_date_cal, __Max_date, MONTH) + 1
+
+		VAR __Selected_Months_Count =    
+		    CALCULATE ( 
+		        DISTINCTCOUNT ( 'Dim_Calendar'[MonthnYear] ), 
+		        KEEPFILTERS ( 'Dim_Calendar'[Date] <= __Max_date )
+		    )
+		        
+		VAR __Selected_Year_Count =    
+		    CALCULATE ( 
+		        DISTINCTCOUNT ( 'Dim_Calendar'[Year] ) , 
+		        KEEPFILTERS ( 'Dim_Calendar'[Date] <= __Max_date )
+		    )
+
+		VAR __Result =
+		        SWITCH(
+		            TRUE(),
+		                __Max_date_F = __Min_date_F, __Max_date_F,
+		                __Total_months <> __Selected_Months_Count, "Multiple periods",
+		                __Min_date_F & " - " & __Max_date_F
+		        )
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\01.Multi-Select Ranges
+		lineageTag: 3cb9488d-d09e-4eab-9436-af07616b7d1a
+
+	measure '_Text KPI Section Header Per Period Basic' = ```
+
+
+		VAR __SelectedDate =          MAX ( 'Dim_Calendar'[Start of Month] ) 
+		VAR __SelectedDate_Format =   FORMAT ( __SelectedDate, "mmm'yy" ) 
+
+		VAR __PreviousYearDate =      EOMONTH ( __SelectedDate, -12 ) 
+		VAR __PreviousYearMonthYear = FORMAT ( __PreviousYearDate, "mmm'yy" ) 
+
+		VAR __Result = 
+		    "Per Period | " & __SelectedDate_Format 
+		    & " vs " & __PreviousYearMonthYear 
+
+		RETURN __Result
+
+		```
+		displayFolder: Texts\Date Ranges\02.Single-Select-Slicer\In Period
+		lineageTag: c5354da4-ff50-49b7-9b94-9eb1d66a73d7
+
+	measure '_Date Range | Multiple periods Incl. FCT table Monthly' = ```
+
+
+		[_Date Range | Multiple periods Incl. FCT table] & " | " & "Monthly"
+
+
+		```
+		displayFolder: Texts\Date Ranges\01.Multi-Select Ranges
+		lineageTag: 21f897dc-c7a0-427b-8d95-e3de788eeb7a
+
+	measure _Additional_Blue = "#5C96CC"
+		displayFolder: Colors\09. Others
+		lineageTag: 5f446187-fbb1-41cd-bcf4-3d28c3876ce0
+
+	measure '_Date Information - Max Month' = ```
+
+
+		VAR __MonthNumber =
+		        MAX ( 'Dim_Calendar'[Month] )
+
+		VAR __Result =
+		    CALCULATE (
+		        MAX ( 'Dim_Calendar'[Month Short] ),
+		        REMOVEFILTERS ( 'Dim_Calendar' ),
+		        'Dim_Calendar'[Month] = __MonthNumber
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\General & Supplemental
+		lineageTag: e8512158-771d-494e-b9f8-0f7e9ec15893
+
+	measure '_Date Information - Min Month' = ```
+
+
+		VAR __MonthNumber =
+		        MIN ( 'Dim_Calendar'[Month] )
+
+		VAR __Result =
+		    CALCULATE (
+		        MAX ( 'Dim_Calendar'[Month Short] ),
+		        REMOVEFILTERS ( 'Dim_Calendar' ),
+		        'Dim_Calendar'[Month] = __MonthNumber
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\General & Supplemental
+		lineageTag: 7751000d-dfb6-463a-bcc3-c73379e7afe2
+
+	measure '_Date Information - Selected Range' = ```
+
+
+		VAR __FmtShort =                "mmm'yy" 
+		VAR __FmtLong  =                "dd mmm yy"
+
+		VAR __MinDate =                 MIN ( 'Dim_Calendar'[Date] )
+		VAR __MaxDate =                 MAX ( 'Dim_Calendar'[Date] )
+
+		VAR __MinDate_F =               FORMAT ( __MinDate, __FmtLong  )
+		VAR __MaxDate_F =               FORMAT ( __MaxDate, __FmtLong  )
+
+		VAR __ShortMinDate_F =          FORMAT ( __MinDate, __FmtShort )
+		VAR __ShortMaxDate_F =          FORMAT ( __MaxDate, __FmtShort )
+
+		VAR __TotalDays =               DATEDIFF ( __MinDate, __MaxDate, DAY ) + 1
+		VAR __SelectedDays =            COUNTROWS ( VALUES ( 'Dim_Calendar'[Date] ) )
+
+		VAR __MinDateMonthStart =       EOMONTH ( __MinDate, -1 ) + 1
+		VAR __MaxDateMonthEnd =         EOMONTH ( __MaxDate, 0 )
+
+		VAR __CG_Period_Select =        SELECTEDVALUE ( 'CG Period Selector'[Period Selector Item] )
+		VAR __Is_Supplemental_Cal =     ISCROSSFILTERED ( 'Dim Calendar Suppl'[Date] )
+
+		VAR __MaxDate_Suppl =           MAX ( 'Dim Calendar Suppl'[Date] )
+		VAR __ShortMaxDate_Suppl_F =    FORMAT ( __MaxDate_Suppl, __FmtShort )
+
+		VAR __Result = 
+		    SWITCH (
+		        TRUE(),
+		        __CG_Period_Select = "In Period",                                   __ShortMaxDate_F,
+		        __Is_Supplemental_Cal,                                              __ShortMaxDate_Suppl_F,
+		        __MaxDate = __MinDate,                                              __MaxDate_F,
+		        __TotalDays <> __SelectedDays,                                      "Multiple Date Ranges",
+		        __MinDate = __MinDateMonthStart && __MaxDate = __MaxDateMonthEnd,   __ShortMinDate_F & " - " & __ShortMaxDate_F,
+		        __MinDate_F & " - " & __MaxDate_F
+		    )
+
+		RETURN __RESULT
+
+		```
+		displayFolder: Texts\Date Ranges\01.Multi-Select Ranges
+		lineageTag: 1a10611f-eaeb-46dc-8c18-c0838304bb02
+
+	measure '_Rank Page ID | Hierarchy' = ```
+
+
+		VAR __TableToRank_1st =
+		    ALLSELECTED ( DIM_Pages[Category], DIM_Pages[Category Sort ID] )
+
+		VAR __TableToRank_2nd =
+		    ALLSELECTED ( DIM_Pages[Page Name], DIM_Pages[ID] )
+
+		VAR __TableToRank_Overall =
+		    ALLSELECTED ( DIM_Pages )
+
+
+
+		VAR __Rank_1st_Level =
+		    RANK (
+		        DENSE,
+		        __TableToRank_1st,
+		        ORDERBY ( 
+		            [_Page Category ID], ASC BLANKS LAST
+		        ),
+		        LAST,,
+		    )
+
+		VAR __Rank_2nd_Level =
+		    RANK (
+		        DENSE,
+		        __TableToRank_2nd,
+		        ORDERBY ( 
+		            [_Page ID], ASC BLANKS LAST
+		        ),
+		        LAST
+		    )
+
+		VAR __Rank_Overall =
+		    RANK (
+		        DENSE,
+		        __TableToRank_Overall ,
+		        ORDERBY ( 
+		            [_Page Category ID], ASC BLANKS LAST,
+		            [_Page ID], ASC BLANKS LAST
+		        ),
+		        LAST
+		    )
+
+		VAR __1st_Level_Inscope = ISINSCOPE ( DIM_Pages[Category] )
+		VAR __2nd_Level_Inscope = ISINSCOPE ( DIM_Pages[Page Name] )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            __1st_Level_Inscope && __2nd_Level_Inscope, __Rank_Overall ,
+		            __2nd_Level_Inscope, __Rank_2nd_Level,
+		            __1st_Level_Inscope, __Rank_1st_Level,
+		            [_Page ID]
+		    )
+
+		RETURN __Result
+
+		```
+		formatString: 0
+		displayFolder: Pages (List of exercises) - Navigation\02. Supplemental
+		lineageTag: 25c25334-9359-4130-b6af-d3b2d06431a3
+
+	measure '_Page subheader' = ```
+
+
+		MAX ( DIM_Pages[Subheader] )
+		```
+		displayFolder: Pages (List of exercises) - Navigation\01. Core
+		lineageTag: b550fd1d-019c-4781-a1e9-94d62a73da32
+
+	measure '_Page Slicer Dynamic Sort' = ```
+
+
+		VAR __Selected_Sort_Order = SELECTEDVALUE ( 'TBL Page Sort Order'[Name] )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		        __Selected_Sort_Order = "Oldest",           MIN ( DIM_Pages[ID] ),
+		        __Selected_Sort_Order = "Newest",           -MAX ( DIM_Pages[ID] ),
+		        __Selected_Sort_Order = "Chronologically",  MIN ( DIM_Pages[ID] ),
+		        [_Page Category ID]
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Pages (List of exercises) - Navigation\02. Supplemental
+		lineageTag: fc34c46b-4a2b-44a5-87ec-7d2af1d79371
+
+	measure '_Page Name' = ```
+
+
+		SELECTEDVALUE ( DIM_Pages[Page Name], "Not Found" )
+		```
+		displayFolder: Pages (List of exercises) - Navigation\01. Core
+		lineageTag: 6a640eb3-85a3-45b6-9936-fd6becd5676d
+
+	measure '_Page Item Complexity Level Number' = ```
+
+
+		MIN ( DIM_Pages[Level Number] )
+		```
+		displayFolder: Pages (List of exercises) - Navigation\02. Supplemental
+		lineageTag: a1f0cb62-09ec-4ee6-8f4f-8ef500498613
+
+	measure '_Page ID' = ```
+
+
+		MIN ( DIM_Pages[ID] )
+		```
+		displayFolder: Pages (List of exercises) - Navigation\01. Core
+		lineageTag: 5405e5cf-f267-4078-bb14-4f447d5e24d8
+
+	measure '_Page header' = ```
+
+
+		MAX ( DIM_Pages[Header] )
+		```
+		displayFolder: Pages (List of exercises) - Navigation\01. Core
+		lineageTag: 5c55a8b5-08c1-448e-8586-4b0e201560f0
+
+	measure '_Page Category Image URL' = ```
+
+
+		MAX ( DIM_Pages[Category Image URL] )
+		```
+		displayFolder: Pages (List of exercises) - Navigation\01. Core
+		dataCategory: ImageUrl
+		lineageTag: 994d5232-5ccb-4964-9f85-f64a23bdc5e9
+
+	measure '_Page Category ID' = ```
+
+
+		MIN ( DIM_Pages[Category Sort ID] )
+		```
+		displayFolder: Pages (List of exercises) - Navigation\01. Core
+		lineageTag: 97166673-a489-440e-97ff-5e6442c9894f
+
+	measure '_Check ImageURL Placeholder' = ```
+
+		SWITCH (
+		    TRUE(),
+		        NOT ISBLANK ( [_Revenue Value | Dynamic Switch] ),
+		        "",
+		        BLANK()
+		)
+		```
+		displayFolder: Blanks and Placeholders\09.Others
+		dataCategory: ImageUrl
+		lineageTag: 5da05c18-2e62-42c1-9c46-d3549f29a6d8
+
+	measure '_Check ImageURL Placeholder Basic' = ```
+
+		SWITCH (
+		    TRUE(),
+		        NOT ISBLANK ( [_Revenue] ),
+		        "",
+		        BLANK()
+		)
+		```
+		displayFolder: Blanks and Placeholders\09.Others
+		dataCategory: ImageUrl
+		lineageTag: 8c955cc3-4942-4e55-8984-b4f5d7ce5c31
+
+	measure '_Negative Variance color alt.' = "#E25757"
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: ecee65ae-992d-4f4f-ae7d-011a55ab048f
+
+	measure '_Positive Variance color alt.' = "#2D9B4A"
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: 323652e1-d0f4-4172-923f-aaf0696c6127
+
+	measure '_Date Information - Min to Max Month' = ```
+
+
+		VAR __Min_Month = [_Date Information - Min Month]
+		VAR __Max_Month = [_Date Information - Max Month]
+
+		VAR __Range =
+		    SWITCH (
+		        TRUE(),
+		           __Min_Month =  __Max_Month,
+		           __Max_Month,
+		           __Min_Month & " - " & __Max_Month
+		    )
+
+		VAR __Result =
+		    "Months: " & __Range
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\General & Supplemental
+		lineageTag: 975401e2-3e38-426b-9fbb-03e90fe6e277
+
+	measure '_Invisible Space' = "‎ "
+		displayFolder: Blanks and Placeholders\09.Others
+		lineageTag: 771cd848-ed26-4579-9a6e-a8c4ee73d7f0
+
+	measure '_Icon Checkbox / Marked / Outline / Light' = ```
+
+
+		VAR __Icon_ID = 19
+
+		VAR __Result = 
+		    CALCULATE ( 
+		        MAX ( 'TBL Icons 01'[ImageURL] ),
+		        'TBL Icons 01'[ID] = __Icon_ID
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Icons\TBL 01
+		lineageTag: 62129286-f36b-479e-9fe4-7b458c2b0874
+
+	measure '_Matrix Totals check' = ```
+
+
+		VAR __Is_In_Scope_Date = ISINSCOPE ( 'Dim_Calendar'[qq'yy with space] )
+		VAR __Is_in_Scope_Country = ISINSCOPE ( DIM_Customers[Country] )
+
+		VAR __Result =
+		    SWITCH (
+		        TRUE(),
+		            (__Is_in_Scope_Country && NOT ( __Is_In_Scope_Date ) ) ||
+		            (__Is_in_Scope_Date && NOT __Is_in_Scope_Country) ||
+		            (NOT __Is_in_Scope_Country && NOT __Is_in_Scope_Date),
+		            "#,0"
+		    )
+
+		RETURN __Result
+
+		```
+		formatStringDefinition = [_Matrix Totals check] & ""
+		displayFolder: Miscellaneous
+		lineageTag: 39b55057-a2a3-46c5-8866-95c5cb4baf79
+
+	measure '_Matrix Table' = ```
+
+		VAR __Current_Country = SELECTEDVALUE ( DIM_Customers[Country] )
+		VAR __Current_Date =    SELECTEDVALUE ( 'Dim_Calendar'[qq'yy with space] )
+
+		VAR __Table =
+		    CALCULATETABLE (
+		        ADDCOLUMNS ( 
+		            CROSSJOIN (
+		                VALUES ( DIM_Customers[Country] ),
+		                VALUES ( 'Dim_Calendar'[qq'yy with space] )
+		            ),
+		            "@Revenue", [_Revenue]
+		        ),
+		        ALLSELECTED()
+		    )
+		        
+		VAR __MinVal =  MIN ( MINX ( __Table, [@Revenue] ), 0 )
+		VAR __MaxVal =  MAXX ( __Table, [@Revenue] )
+		VAR __Span   =  __MaxVal - __MinVal
+
+		VAR __Cost_Curr_Customer = 
+		    SUMX ( 
+		        FILTER ( 
+		            __Table,  
+		            DIM_Customers[Country]  = __Current_Country  && 
+		            'Dim_Calendar'[qq'yy with space] = __Current_Date
+		        ),
+		        [@Revenue]
+		    )
+
+		VAR __NormValue = 
+		    IF (
+		        ISBLANK ( __Cost_Curr_Customer ),
+		        BLANK(),
+		        DIVIDE ( 
+		            __Cost_Curr_Customer - __MinVal, 
+		            __Span 
+		        )
+		    )
+
+		VAR __Result =__NormValue
+
+		RETURN __Result
+		```
+		displayFolder: Miscellaneous
+		lineageTag: f7682e56-7b34-47d9-abd0-762e22f5690c
+
+	measure '_Page Category Image URL v2' = ```
+
+
+		MAX ( DIM_Pages[Category Image URL v2] )
+		```
+		displayFolder: Pages (List of exercises) - Navigation\01. Core
+		lineageTag: b6f115c8-725e-4803-ab7f-e2f26506c38e
+
+	measure '_Neutral Color alt.' = "#DBDDE3"
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: 8d5c46d2-f716-41a7-9083-78bf382aa54d
+
+	measure '_Page Suppl Header' = ```
+
+		MAX ( DIM_Pages_Suppl[Header] )
+		```
+		displayFolder: Pages (List of exercises) - Navigation\04. Dynamic Text
+		lineageTag: 8db93685-afc0-45bd-961b-47d9bee9f640
+
+	measure '_Page Suppl SubHeader' = ```
+
+		MAX ( DIM_Pages_Suppl[Subheader] )
+		```
+		displayFolder: Pages (List of exercises) - Navigation\04. Dynamic Text
+		lineageTag: 1709b73c-c0ea-4997-b1c5-be7b28e37f8c
+
+	measure _Navigation_First_Page = ```
+
+
+		VAR __MinID =
+		    MIN ( DIM_Pages[ID] )
+		    
+		VAR __Result =
+		    CALCULATE (
+		        SELECTEDVALUE ( DIM_Pages[Page Name] ),
+		        KEEPFILTERS ( DIM_Pages[ID] = __MinID )
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Pages (List of exercises) - Navigation\05. Navigation Buttons\Actions
+		lineageTag: 2286bfb8-bc85-45c3-8d2d-03c732f4cf4e
+
+	measure _Navigation_Last_Page = ```
+
+
+		VAR __MaxID =
+		    MAX ( DIM_Pages[ID] )
+		    
+		VAR __Result =
+		    CALCULATE (
+		        SELECTEDVALUE ( DIM_Pages[Page Name] ),
+		        KEEPFILTERS ( DIM_Pages[ID] = __MaxID )
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Pages (List of exercises) - Navigation\05. Navigation Buttons\Actions
+		lineageTag: cf6a2af9-71ba-437b-9106-16d5d4164d2a
+
+	measure _Navigation_Next_Page = ```
+
+
+		VAR __CurrentID =
+		    SELECTEDVALUE ( DIM_Pages_Suppl[ID] )
+
+		VAR __Prev_ID = 
+		   CALCULATE (
+		            MIN ( DIM_Pages_Suppl[ID] ),
+		            ALL ( DIM_Pages_Suppl[ID] ),
+		            KEEPFILTERS ( DIM_Pages_Suppl[ID] > __CurrentID  )
+		        )
+
+		VAR __Result =
+		    CALCULATE ( 
+		        SELECTEDVALUE ( DIM_Pages_Suppl[Page Name] ),
+		        DIM_Pages_Suppl[ID] = __Prev_ID 
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Pages (List of exercises) - Navigation\05. Navigation Buttons\Actions
+		lineageTag: 826fa000-e86e-4049-9e8d-897748a05924
+
+	measure _Navigation_Prev_Page = ```
+
+
+		VAR __CurrentID =
+		    SELECTEDVALUE ( DIM_Pages_Suppl[ID] )
+
+		VAR __Prev_ID = 
+		   CALCULATE (
+		            MAX ( DIM_Pages_Suppl[ID] ),
+		            ALL ( DIM_Pages_Suppl[ID] ),
+		            KEEPFILTERS ( DIM_Pages_Suppl[ID] < __CurrentID  )
+		        )
+
+		VAR __Result =
+		    CALCULATE ( 
+		        SELECTEDVALUE ( DIM_Pages_Suppl[Page Name] ),
+		        DIM_Pages_Suppl[ID] = __Prev_ID 
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Pages (List of exercises) - Navigation\05. Navigation Buttons\Actions
+		lineageTag: 44ec613a-676e-4fbc-b67b-b0834db60505
+
+	measure '_Navigation Button Border Color' = ```
+
+
+		VAR __Selected_Page = ISCROSSFILTERED ( DIM_Pages[ID] )
+
+		VAR __Result =
+		    IF ( 
+		        __Selected_Page, 
+		        "#91CEF9",// "#E1E7EC",//"#ffffff",
+		        "#00000000"
+		    )
+
+		RETURN __Result
+
+		```
+		displayFolder: Pages (List of exercises) - Navigation\05. Navigation Buttons\Design
+		lineageTag: a9d678d4-f390-4317-9fb3-b0cc70663e51
+
+	measure '_Navigation Button Fill Color' = ```
+
+
+		VAR __Selected_Page = ISCROSSFILTERED ( DIM_Pages[ID] )
+
+		VAR __Result =
+		    IF ( 
+		        __Selected_Page, 
+		        "#2D68B4",
+		        "#00000000"
+		    )
+
+		RETURN __Result
+
+		```
+		displayFolder: Pages (List of exercises) - Navigation\05. Navigation Buttons\Design
+		lineageTag: 76ff81af-f88f-4091-aed8-61cc3eeaed43
+
+	measure '_Navigation Button Font Color' = ```
+
+
+		VAR __Selected_Page = ISCROSSFILTERED ( DIM_Pages[ID] )
+
+		VAR __Result =
+		    IF ( 
+		        __Selected_Page, 
+		        "#91CEF9", //"#E1E7EC",//"#ffffff",
+		        "#83909F"
+		    )
+
+		RETURN __Result
+
+		```
+		displayFolder: Pages (List of exercises) - Navigation\05. Navigation Buttons\Design
+		lineageTag: 3fb84638-6366-4ca6-b2eb-ffe6dd4db59f
+
+	measure '_Navigation Button Text' = ```
+
+
+		VAR __Selected_Page = ISCROSSFILTERED ( DIM_Pages[ID] )
+
+		VAR __Result =
+		    IF ( 
+		        __Selected_Page, 
+		        "Go to: " & MAX ( DIM_Pages[Short name] ) & "⏵",  //"Navigate to Selected Page ⏵",
+		        "Select Given Page 🛈"
+		    )
+
+		RETURN __Result
+
+		```
+		displayFolder: Pages (List of exercises) - Navigation\05. Navigation Buttons\Design
+		lineageTag: ec2cf79c-a6eb-4c38-af73-ef934e475031
+
+	measure '_Standard Cal. Date Range | Multiple periods' = ```
+
+
+		VAR __Min_date      =  MIN ( 'Dim_Calendar'[Date] )
+		VAR __Max_date      =  MAX ( 'Dim_Calendar'[Date] )
+
+		VAR __Min_date_F    =  FORMAT ( __Min_date , "mmm'yy")
+		VAR __Max_date_F    =  FORMAT ( __Max_date, "mmm'yy")
+
+		VAR __Total_months  =  DATEDIFF ( __Min_date, __Max_date, MONTH) + 1
+
+		VAR __Selected_Months_Count =    
+		    CALCULATE ( 
+		        DISTINCTCOUNT ( 'Dim_Calendar'[CurrMonthOffset] ), 
+		        KEEPFILTERS ( 'Dim_Calendar'[Date] <= __Max_date )
+		    )
+		        
+		VAR __Result =
+		        SWITCH(
+		            TRUE(),
+		                __Max_date_F = __Min_date_F, __Max_date_F,
+		                __Total_months <> __Selected_Months_Count, "Multiple periods",
+		                __Min_date_F & " - " & __Max_date_F
+		        )
+
+		RETURN __Result
+
+
+
+		// VAR __Max_date      =  CALCULATE ( MAX ( 'Dim Calendar'[Date] ), KEEPFILTERS ( 'Dim Calendar'[_Is Closed Period] = 1 ) )
+		// VAR __Max_date      =  [_Standard Cal. Max Date] -- Based on the Last Invoice Date // Optionally change to -> MAX ( 'Dim Calendar'[Date] )
+		```
+		displayFolder: Texts\Date Ranges\01.Multi-Select Ranges
+		lineageTag: f5ae4798-cb84-44bb-b206-d0315473a5ab
+
+	measure '_Suppl Cal. Date Range | Multiple periods' = ```
+
+
+		VAR __Min_date      =  MIN ( 'Dim Calendar Suppl'[Date] )
+		VAR __Max_date      =  MAX ( 'Dim Calendar Suppl'[Date] )
+		// VAR __Max_date      =  CALCULATE ( MAX ( 'Dim Calendar Suppl'[Date] ), KEEPFILTERS ( 'Dim Calendar Suppl'[_Is Closed Period] = 1 ) )
+		// VAR __Max_date      =  [_Standard Cal. Max Date] -- Based on the Last Invoice Date // Optionally change to -> MAX ( 'Dim Calendar Suppl'[Date] )
+
+		VAR __Min_date_F    =  FORMAT ( __Min_date , "mmm'yy")
+		VAR __Max_date_F    =  FORMAT ( __Max_date, "mmm'yy")
+
+		VAR __Total_months  =  DATEDIFF ( __Min_date, __Max_date, MONTH) + 1
+
+		VAR __Selected_Months_Count =    
+		    CALCULATE ( 
+		        DISTINCTCOUNT ( 'Dim Calendar Suppl'[CurrMonthOffset] ), 
+		        KEEPFILTERS ( 'Dim Calendar Suppl'[Date] <= __Max_date )
+		    )
+		        
+		VAR __Result =
+		        SWITCH(
+		            TRUE(),
+		                __Max_date_F = __Min_date_F, __Max_date_F,
+		                __Total_months <> __Selected_Months_Count, "Multiple periods",
+		                __Min_date_F & " - " & __Max_date_F
+		        )
+
+		RETURN __Result
+		```
+		displayFolder: Texts\Date Ranges\01.Multi-Select Ranges
+		lineageTag: f3807953-8366-4fc1-ae3e-40f1dbcc1b54
+
+	measure _Highlighting_Blue = "#3B71A0"--"#2372B7"
+		displayFolder: Colors\09. Others
+		lineageTag: 95cd8c8f-ccac-4a81-9faa-7e52f61c3b15
+
+	measure _Highlighting_Blue_Light = "#DDF0FF" --"#C4E1F9"--"#2372B7"
+		displayFolder: Colors\09. Others
+		lineageTag: 6b4dba26-11f6-4130-b0e6-c30bdbce51cf
+
+	measure '_Positive Variance color alt. v2' = "#60B78A" // "#71B01C" // Light-green
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: fe1a5fe8-26a2-497c-b8df-ba9ef1685321
+
+	measure '_Positive Variance color alt. v3' = "#2B89CF" // "#0181E1" //"#018CF9" // Blue
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: dce46ad5-bbab-423a-af80-1f7bab295d2c
+
+	measure '_Negative Variance color alt. v2' = "#C64A4A" // "#B24242" // "#DD3939" // bright-red
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: fe4aaa9b-4ea7-40cf-b396-aeb84d99e7cc
+
+	measure '_Negative Variance color alt. v3' = "#E3A54E" // "#F0A032" // orange
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: 6cd12c04-d592-47b8-acf8-7f36b0334a1e
+
+	measure '_Negative Variance color alt. v4' = "#D22424" // bright-red (darker)
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: ced38d19-a718-4842-b2e9-0d86b1b9ceb2
+
+	measure '_Positive Variance color alt. v4' = "#C2C8D0" // Blue
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: 5a52a4c0-4da7-42ad-a3ec-e775d5fddd49
+
+	measure '_Positive Variance color alt. v4.1 Font' = "#7E899A" // Grey/Dark
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: b6edfffc-14e1-40c9-a5ea-531d6513cdd8
+
+	measure '_Negative Variance color alt. v3.1 Font' = "#BE730E" // orange/darker
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: 6f4b4e9c-8081-4a10-8416-1c2ac362024c
+
+	measure '_Positive Variance color alt. v2.1 Font' = "#4E9972" // "#5A8D17" // Light-green/Darker
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\02. Alternative
+		lineageTag: 164c982f-1870-46a8-a979-84f90f8d8e2d
+
+	measure '_Matrix Totals check | Country | Alt.' = BLANK()
+		displayFolder: Miscellaneous
+		lineageTag: ba32c7f3-149e-4fe9-8d13-abe4ae8b6ad3
+
+	measure '_Positive Variance color | Light' = ```
+
+
+		VAR __Sentiment_Mode = SELECTEDVALUE ( 'TBL Sentiment Color Variant'[Mode] )
+
+		VAR __Result =
+		    SWITCH (
+		        __Sentiment_Mode,
+		            "Red/Green",        "#63D17F",
+		            "Red/Blue",         "#89CDFF",
+		            "Red/Green(IBCS)",  "#8CB400",
+		            "#308C9A"
+		    )
+
+		RETURN __Result
+		```
+		displayFolder: Colors\01. Sentiment (Favorable, Neutral, Adverse)\01. Main
+		lineageTag: 8d8998cd-de77-472d-a47f-04e90b7ea266
+
+	measure '_Instert row UNICHAR' = ```
+
+
+		REPT(UNICHAR(10),3)
+		```
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: 4410e2a8-1cb8-4c22-91b6-9da0ecf76804
+
+	measure '_Instert row UNICHAR Dash Line' = ```
+
+
+		REPT("‾",30)
+		```
+		displayFolder: Blanks and Placeholders\01.Basic
+		lineageTag: 21bb6d0a-dd1e-4943-8b35-c82e1afc423b
+
+	partition '_Measures Supplemental' = m
+		mode: import
+		source = ```
+			let
+			    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlSKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t]),
+			    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}}),
+			    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"ID"})
+			in
+			    #"Removed Columns"
+			```
